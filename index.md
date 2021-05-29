@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+![SymForce Logo](img/symforce_horizontal.png)
 
 Foobar.
 
