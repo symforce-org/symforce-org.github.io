@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/symforce-org/symforce-org.github.io/main/img/symforce_horizontal.png" width="50%">
+<img src="https://raw.githubusercontent.com/symforce-org/symforce-org.github.io/main/img/symforce_horizontal.png" width="70%">
 <hr>
 
 SymForce is a library for applied symbolic computation.
