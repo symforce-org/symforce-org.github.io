@@ -1,3 +1,4 @@
-# Homepage for SymForce
+<img src="img/symforce_horizontal.png" width="50%">
+<hr>
 
-![Symforce Logo](img/symforce_horizontal.png)
+Website for SymForce.
