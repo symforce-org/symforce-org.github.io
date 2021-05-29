@@ -1,12 +1,15 @@
-<img src="https://raw.githubusercontent.com/symforce-org/symforce-org.github.io/main/img/symforce_horizontal.png" width="70%">
+<p align="center">
+  <img src="https://raw.githubusercontent.com/symforce-org/symforce-org.github.io/main/img/symforce_horizontal.png" width="70%">
+</p>
+
+<b>Applied symbolic computation</b>
+
 <hr>
 
-SymForce is a library for applied symbolic computation.
-
-### Goals
+## Goals
 Lorem ipsum.
 
-### Resources
+## Resources
 Lorem ipsum.
 
 ```python
