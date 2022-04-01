@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>symforce.opt.optimizer module &mdash; symforce 0.20 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="symforce.opt.residual_block module" href="symforce.opt.residual_block.html" />
+    <link rel="prev" title="symforce.opt.optimization_problem module" href="symforce.opt.optimization_problem.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> symforce
+          </a>
+              <div class="version">
+                0.20
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Pages</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">SymForce Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/ops_tutorial.html">Concepts Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/optimization_tutorial.html">Optimization Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="symforce.html">symforce package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="symforce.benchmarks.html">symforce.benchmarks package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.benchmarks.inverse_compose_jacobian.html">symforce.benchmarks.inverse_compose_jacobian package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.benchmarks.inverse_compose_jacobian.generate_inverse_compose_jacobian.html">symforce.benchmarks.inverse_compose_jacobian.generate_inverse_compose_jacobian module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.benchmarks.matrix_multiplication.html">symforce.benchmarks.matrix_multiplication package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.benchmarks.matrix_multiplication.generate_matrix_multiplication_benchmark.html">symforce.benchmarks.matrix_multiplication.generate_matrix_multiplication_benchmark module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.benchmarks.robot_3d_localization.html">symforce.benchmarks.robot_3d_localization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.benchmarks.run_benchmarks.html">symforce.benchmarks.run_benchmarks module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cam.html">symforce.cam package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.atan_camera_cal.html">symforce.cam.atan_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.camera.html">symforce.cam.camera module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.camera_cal.html">symforce.cam.camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.camera_util.html">symforce.cam.camera_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.double_sphere_camera_cal.html">symforce.cam.double_sphere_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.equirectangular_camera_cal.html">symforce.cam.equirectangular_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.linear_camera_cal.html">symforce.cam.linear_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.polynomial_camera_cal.html">symforce.cam.polynomial_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.posed_camera.html">symforce.cam.posed_camera module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cam.spherical_camera_cal.html">symforce.cam.spherical_camera_cal module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.codegen.html">symforce.codegen package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.printers.html">symforce.codegen.printers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.printers.cpp_code_printer.html">symforce.codegen.printers.cpp_code_printer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.printers.python_code_printer.html">symforce.codegen.printers.python_code_printer module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.cam_package_codegen.html">symforce.codegen.cam_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.codegen.html">symforce.codegen.codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.codegen_config.html">symforce.codegen.codegen_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.codegen_util.html">symforce.codegen.codegen_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.format_util.html">symforce.codegen.format_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html">symforce.codegen.geo_factors_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.geo_package_codegen.html">symforce.codegen.geo_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.lcm_types_codegen.html">symforce.codegen.lcm_types_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.ops_codegen_util.html">symforce.codegen.ops_codegen_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.similarity_index.html">symforce.codegen.similarity_index module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.slam_factors_codegen.html">symforce.codegen.slam_factors_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.sym_util_package_codegen.html">symforce.codegen.sym_util_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.template_util.html">symforce.codegen.template_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.types_package_codegen.html">symforce.codegen.types_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.codegen.values_codegen.html">symforce.codegen.values_codegen module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.examples.html">symforce.examples package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.examples.bundle_adjustment.html">symforce.examples.bundle_adjustment package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.examples.bundle_adjustment_fixed_size.html">symforce.examples.bundle_adjustment_fixed_size package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.bundle_adjustment_fixed_size.build_values.html">symforce.examples.bundle_adjustment_fixed_size.build_values module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html">symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.examples.custom_factor_generation.html">symforce.examples.custom_factor_generation package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.custom_factor_generation.factor_residuals.html">symforce.examples.custom_factor_generation.factor_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.custom_factor_generation.generate_factors.html">symforce.examples.custom_factor_generation.generate_factors module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.examples.robot_2d_triangulation.html">symforce.examples.robot_2d_triangulation package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.robot_2d_triangulation.plotting.html">symforce.examples.robot_2d_triangulation.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.robot_2d_triangulation.robot_2d_triangulation.html">symforce.examples.robot_2d_triangulation.robot_2d_triangulation module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.examples.robot_3d_localization.html">symforce.examples.robot_3d_localization package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.robot_3d_localization.plotting.html">symforce.examples.robot_3d_localization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.robot_3d_localization.robot_3d_localization.html">symforce.examples.robot_3d_localization.robot_3d_localization module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.geo.html">symforce.geo package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.complex.html">symforce.geo.complex module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.dual_quaternion.html">symforce.geo.dual_quaternion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.matrix.html">symforce.geo.matrix module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.pose2.html">symforce.geo.pose2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.pose2_se2.html">symforce.geo.pose2_se2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.pose3.html">symforce.geo.pose3 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.pose3_se3.html">symforce.geo.pose3_se3 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.quaternion.html">symforce.geo.quaternion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.rot2.html">symforce.geo.rot2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.geo.rot3.html">symforce.geo.rot3 module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.ops.html">symforce.ops package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.ops.impl.html">symforce.ops.impl package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.nonetype_lie_group_ops.html">symforce.ops.impl.nonetype_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.scalar_lie_group_ops.html">symforce.ops.impl.scalar_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.sequence_group_ops.html">symforce.ops.impl.sequence_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.sequence_lie_group_ops.html">symforce.ops.impl.sequence_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.sequence_storage_ops.html">symforce.ops.impl.sequence_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.vector_class_lie_group_ops.html">symforce.ops.impl.vector_class_lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.ops.interfaces.html">symforce.ops.interfaces package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.interfaces.group.html">symforce.ops.interfaces.group module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.interfaces.lie_group.html">symforce.ops.interfaces.lie_group module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.interfaces.storage.html">symforce.ops.interfaces.storage module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.ops.group_ops.html">symforce.ops.group_ops module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.ops.lie_group_ops.html">symforce.ops.lie_group_ops module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.ops.ops.html">symforce.ops.ops module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.ops.storage_ops.html">symforce.ops.storage_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.factor.html">symforce.opt.factor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.objective.html">symforce.opt.objective module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">symforce.opt.optimizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.residual_block.html">symforce.opt.residual_block module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.sub_problem.html">symforce.opt.sub_problem module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.timestep_sub_problem.html">symforce.opt.timestep_sub_problem module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.test_util.html">symforce.test_util package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.random_expressions.html">symforce.test_util.random_expressions package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.test_util.random_expressions.op_probabilities.html">symforce.test_util.random_expressions.op_probabilities module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.test_util.random_expressions.unary_binary_expression_gen.html">symforce.test_util.random_expressions.unary_binary_expression_gen module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.cam_cal_test_mixin.html">symforce.test_util.cam_cal_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.cam_test_mixin.html">symforce.test_util.cam_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.epsilon_handling.html">symforce.test_util.epsilon_handling module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.group_ops_test_mixin.html">symforce.test_util.group_ops_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.lie_group_ops_test_mixin.html">symforce.test_util.lie_group_ops_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.storage_ops_test_mixin.html">symforce.test_util.storage_ops_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.test_case.html">symforce.test_util.test_case module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.test_util.test_case_mixin.html">symforce.test_util.test_case_mixin module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.values.html">symforce.values package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.values.attr_accessor.html">symforce.values.attr_accessor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.values.generated_key_selection.html">symforce.values.generated_key_selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.values.index_entry.html">symforce.values.index_entry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.values.values.html">symforce.values.values module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.initialization.html">symforce.initialization module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-py/sym.html">sym package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.ops.html">sym.ops package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.atan_camera_cal.html">sym.ops.atan_camera_cal package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.atan_camera_cal.camera_ops.html">sym.ops.atan_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.atan_camera_cal.group_ops.html">sym.ops.atan_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.atan_camera_cal.lie_group_ops.html">sym.ops.atan_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.double_sphere_camera_cal.html">sym.ops.double_sphere_camera_cal package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.double_sphere_camera_cal.camera_ops.html">sym.ops.double_sphere_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.double_sphere_camera_cal.group_ops.html">sym.ops.double_sphere_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.double_sphere_camera_cal.lie_group_ops.html">sym.ops.double_sphere_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.equirectangular_camera_cal.html">sym.ops.equirectangular_camera_cal package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.equirectangular_camera_cal.camera_ops.html">sym.ops.equirectangular_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.equirectangular_camera_cal.group_ops.html">sym.ops.equirectangular_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.equirectangular_camera_cal.lie_group_ops.html">sym.ops.equirectangular_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.linear_camera_cal.html">sym.ops.linear_camera_cal package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.linear_camera_cal.camera_ops.html">sym.ops.linear_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.linear_camera_cal.group_ops.html">sym.ops.linear_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.linear_camera_cal.lie_group_ops.html">sym.ops.linear_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.polynomial_camera_cal.html">sym.ops.polynomial_camera_cal package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.polynomial_camera_cal.camera_ops.html">sym.ops.polynomial_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.polynomial_camera_cal.group_ops.html">sym.ops.polynomial_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.polynomial_camera_cal.lie_group_ops.html">sym.ops.polynomial_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.pose2.html">sym.ops.pose2 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.pose2.group_ops.html">sym.ops.pose2.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.pose2.lie_group_ops.html">sym.ops.pose2.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.pose3.html">sym.ops.pose3 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.pose3.group_ops.html">sym.ops.pose3.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.pose3.lie_group_ops.html">sym.ops.pose3.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.rot2.html">sym.ops.rot2 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.rot2.group_ops.html">sym.ops.rot2.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.rot2.lie_group_ops.html">sym.ops.rot2.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.rot3.html">sym.ops.rot3 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.rot3.group_ops.html">sym.ops.rot3.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.rot3.lie_group_ops.html">sym.ops.rot3.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-gen-py/sym.ops.spherical_camera_cal.html">sym.ops.spherical_camera_cal package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.spherical_camera_cal.camera_ops.html">sym.ops.spherical_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.spherical_camera_cal.group_ops.html">sym.ops.spherical_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api-gen-py/sym.ops.spherical_camera_cal.lie_group_ops.html">sym.ops.spherical_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.atan_camera_cal.html">sym.atan_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.double_sphere_camera_cal.html">sym.double_sphere_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.equirectangular_camera_cal.html">sym.equirectangular_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.linear_camera_cal.html">sym.linear_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.polynomial_camera_cal.html">sym.polynomial_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.pose2.html">sym.pose2 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.pose3.html">sym.pose3 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.rot2.html">sym.rot2 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.rot3.html">sym.rot3 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-py/sym.spherical_camera_cal.html">sym.spherical_camera_cal module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/classlist.html">Class list</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1ATANCameraCal.html">Class sym::ATANCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1Camera.html">Class sym::Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1DoubleSphereCameraCal.html">Class sym::DoubleSphereCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1EquirectangularCameraCal.html">Class sym::EquirectangularCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1LinearCameraCal.html">Class sym::LinearCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1PolynomialCameraCal.html">Class sym::PolynomialCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1Pose2.html">Class sym::Pose2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1Pose3.html">Class sym::Pose3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1PosedCamera.html">Class sym::PosedCamera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1Rot2.html">Class sym::Rot2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1Rot3.html">Class sym::Rot3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/class/classsym_1_1SphericalCameraCal.html">Class sym::SphericalCameraCal</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/filelist.html">File list</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_8cc.html">File atan_camera_cal.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__camera__cal_8h.html">File atan_camera_cal.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/atan__reprojection__delta_8h.html">File atan_reprojection_delta.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__matrix31_8h.html">File between_factor_matrix31.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__pose2_8h.html">File between_factor_pose2.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__pose3_8h.html">File between_factor_pose3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__pose3__position_8h.html">File between_factor_pose3_position.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__pose3__rotation_8h.html">File between_factor_pose3_rotation.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__pose3__translation__norm_8h.html">File between_factor_pose3_translation_norm.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_8cc.html">File double_sphere_camera_cal.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_8h.html">File double_sphere_camera_cal.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__reprojection__delta_8h.html">File double_sphere_reprojection_delta.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/epsilon_8cc.html">File epsilon.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/epsilon_8h.html">File epsilon.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_8cc.html">File equirectangular_camera_cal.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__camera__cal_8h.html">File equirectangular_camera_cal.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/equirectangular__reprojection__delta_8h.html">File equirectangular_reprojection_delta.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__atan__reprojection__error__factor_8h.html">File inverse_range_landmark_atan_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__double__sphere__reprojection__error__factor_8h.html">File inverse_range_landmark_double_sphere_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__equirectangular__reprojection__error__factor_8h.html">File inverse_range_landmark_equirectangular_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__linear__reprojection__error__factor_8h.html">File inverse_range_landmark_linear_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__polynomial__reprojection__error__factor_8h.html">File inverse_range_landmark_polynomial_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__prior__factor_8h.html">File inverse_range_landmark_prior_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__spherical__reprojection__error__factor_8h.html">File inverse_range_landmark_spherical_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_8cc.html">File linear_camera_cal.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_8h.html">File linear_camera_cal.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__reprojection__delta_8h.html">File linear_reprojection_delta.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/matrix_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/matrix_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/matrix_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/matrix_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/matrix_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/matrix_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_8cc.html">File polynomial_camera_cal.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__camera__cal_8h.html">File polynomial_camera_cal.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/polynomial__reprojection__delta_8h.html">File polynomial_reprojection_delta.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_8cc.html">File pose2.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose2_8h.html">File pose2.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_8cc.html">File pose3.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/pose3_8h.html">File pose3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/posed__camera_8h.html">File posed_camera.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__matrix31_8h.html">File prior_factor_matrix31.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__pose2_8h.html">File prior_factor_pose2.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__pose3_8h.html">File prior_factor_pose3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__pose3__position_8h.html">File prior_factor_pose3_position.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_8cc.html">File rot2.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_8h.html">File rot2.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_8cc.html">File rot3.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot3_8h.html">File rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/scalar_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/scalar_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/scalar_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/scalar_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/scalar_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/scalar_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_2storage__ops_8cc.html">File storage_ops.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_2storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_8cc.html">File spherical_camera_cal.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__camera__cal_8h.html">File spherical_camera_cal.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/spherical__reprojection__delta_8h.html">File spherical_reprojection_delta.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/storage__ops_8h.html">File storage_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/type__ops_8h.html">File type_ops.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/typedefs_8h.html">File typedefs.h</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/classlist.html">Class list</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Linearizer.html">Class sym::Linearizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Optimizer.html">Class sym::Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1SparseCholeskySolver.html">Class sym::SparseCholeskySolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1SparseSchurSolver.html">Class sym::SparseSchurSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Values.html">Class sym::Values</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/filelist.html">File list</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/assert_8cc.html">File assert.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/cholesky_2assert_8cc.html">File assert.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/cholesky_2assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/covariance__utils_8h.html">File covariance_utils.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/derivative__checker_8h.html">File derivative_checker.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/epsilon_8cc.html">File epsilon.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/epsilon_8h.html">File epsilon.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8cc.html">File factor.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8tcc.html">File factor.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor__utils_8h.html">File factor_utils.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/hash__combine_8h.html">File hash_combine.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/internal_2tic__toc_8h.html">File tic_toc.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/key_8cc.html">File key.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/key_8h.html">File key.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/levenberg__marquardt__solver_8tcc.html">File levenberg_marquardt_solver.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/levenberg__marquardt__state_8h.html">File levenberg_marquardt_state.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearizer_8cc.html">File linearizer.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearizer_8h.html">File linearizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearizer_8tcc.html">File linearizer.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearizer__utils_8h.html">File linearizer_utils.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/logging__configure_8cc.html">File logging_configure.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/logging__configure_8h.html">File logging_configure.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8cc.html">File optimizer.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8tcc.html">File optimizer.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8cc.html">File sparse_cholesky_solver.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8tcc.html">File sparse_cholesky_solver.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8tcc.html">File sparse_schur_solver.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/templates_8h.html">File templates.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/tic__toc_8cc.html">File tic_toc.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/tic__toc_8h.html">File tic_toc.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/util_8h.html">File util.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/values_8cc.html">File values.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/values_8h.html">File values.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/values_8tcc.html">File values.tcc</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">symforce</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="symforce.html">symforce package</a> &raquo;</li>
+          <li><a href="symforce.opt.html">symforce.opt package</a> &raquo;</li>
+      <li>symforce.opt.optimizer module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/symforce.opt.optimizer.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="module-symforce.opt.optimizer">
+<span id="symforce-opt-optimizer-module"></span><h1>symforce.opt.optimizer module<a class="headerlink" href="#module-symforce.opt.optimizer" title="Permalink to this headline"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A nonlinear least-squares optimizer</p>
+<p>Typical usage is to construct an Optimizer from a set of factors and keys to optimize, and then
+call <cite>optimize</cite> repeatedly with a <cite>Values</cite>.</p>
+<p>Example creation with an <cite>OptimizationProblem</cite>:</p>
+<blockquote>
+<div><p>problem = OptimizationProblem(subproblems=[…], residual_blocks=…)
+factors = problem.make_factors(“my_problem”)
+optimized_keys = set(problem.optimized_keys())</p>
+<p>optimizer = Optimizer(factors, optimized_keys)</p>
+</div></blockquote>
+<p>Example creation with a single <cite>Factor</cite>:</p>
+<blockquote>
+<div><p>factor = Factor([my_key_0, my_key_1, my_key_2], my_residual_function)</p>
+<dl class="simple">
+<dt>optimizer = Optimizer(</dt><dd><p>factors=[factor],
+optimized_keys={my_key_0, my_key_1},</p>
+</dd>
+</dl>
+<p>)</p>
+</div></blockquote>
+<p>And usage:</p>
+<blockquote>
+<div><p>initial_guess = Values(…)
+result = optimizer.optimize(initial_guess)
+print(result.optimized_values)</p>
+</div></blockquote>
+<p>Wraps the C++ <cite>sym::Optimizer</cite> class in <cite>opt/optimizer.h</cite>, so the API is mostly the same and
+optimization results will be identical.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<a class="reference internal" href="symforce.opt.factor.html#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factor</span></code></a>]) – A sequence of Factor objects representing the residuals in the problem</p></li>
+<li><p><strong>optimized_keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – A set of the keys to be optimized</p></li>
+<li><p><strong>params</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params" title="symforce.opt.optimizer.Optimizer.Params"><code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code></a>]) – Params for the optimizer</p></li>
+<li><p><strong>debug_stats</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_up_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_down_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_lower_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_upper_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_unit_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_max_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagonal_damping_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exit_min_reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_bold_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parameters for the Python Optimizer</p>
+<p>Mirrors the optimizer_params_t LCM type, see documentation there for information on each
+parameter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>verbose</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>initial_lambda</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_up_factor</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_down_factor</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_lower_bound</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_upper_bound</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>use_diagonal_damping</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>use_unit_damping</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>keep_max_diagonal_damping</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>diagonal_damping_min</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>iterations</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>early_exit_min_reduction</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>enable_bold_updates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.verbose">
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.verbose" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.initial_lambda">
+<span class="sig-name descname"><span class="pre">initial_lambda</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.initial_lambda" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.lambda_up_factor">
+<span class="sig-name descname"><span class="pre">lambda_up_factor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4.0</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.lambda_up_factor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.lambda_down_factor">
+<span class="sig-name descname"><span class="pre">lambda_down_factor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.25</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.lambda_down_factor" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.lambda_lower_bound">
+<span class="sig-name descname"><span class="pre">lambda_lower_bound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.lambda_lower_bound" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.lambda_upper_bound">
+<span class="sig-name descname"><span class="pre">lambda_upper_bound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000000.0</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.lambda_upper_bound" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.use_diagonal_damping">
+<span class="sig-name descname"><span class="pre">use_diagonal_damping</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.use_diagonal_damping" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.use_unit_damping">
+<span class="sig-name descname"><span class="pre">use_unit_damping</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.use_unit_damping" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.keep_max_diagonal_damping">
+<span class="sig-name descname"><span class="pre">keep_max_diagonal_damping</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.keep_max_diagonal_damping" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.diagonal_damping_min">
+<span class="sig-name descname"><span class="pre">diagonal_damping_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-06</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.diagonal_damping_min" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.iterations">
+<span class="sig-name descname"><span class="pre">iterations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">50</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.iterations" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.early_exit_min_reduction">
+<span class="sig-name descname"><span class="pre">early_exit_min_reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1e-06</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.early_exit_min_reduction" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.enable_bold_updates">
+<span class="sig-name descname"><span class="pre">enable_bold_updates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.enable_bold_updates" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_up_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_down_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_lower_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_upper_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_unit_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_max_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagonal_damping_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exit_min_reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_bold_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>verbose</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>initial_lambda</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_up_factor</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_down_factor</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_lower_bound</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>lambda_upper_bound</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>use_diagonal_damping</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>use_unit_damping</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>keep_max_diagonal_damping</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>diagonal_damping_min</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>iterations</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>early_exit_min_reduction</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>enable_bold_updates</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration_stats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exited</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The result of an optimization, with additional stats and debug information</p>
+<dl class="simple">
+<dt>initial_values:</dt><dd><p>The initial guess used for this optimization</p>
+</dd>
+<dt>optimized_values:</dt><dd><p>The best Values achieved during the optimization (Values with the smallest error)</p>
+</dd>
+<dt>iteration_stats:</dt><dd><p>Per-iteration stats, if requested, like the error per iteration.  If debug stats are
+turned on, also the Values and linearization per iteration.</p>
+</dd>
+<dt>early_exited:</dt><dd><p>Did the optimization early exit?  This can happen because it converged successfully,
+of because it was unable to make progress</p>
+</dd>
+<dt>best_index:</dt><dd><p>The index into iteration_stats for the iteration that produced the smallest error.  I.e.
+<cite>result.iteration_stats[best_index].values == optimized_values</cite>.  This is not guaranteed
+to be the last iteration, if the optimizer tried additional steps which did not reduce
+the error</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
+<li><p><strong>optimized_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
+<li><p><strong>iteration_stats</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">optimization_iteration_t</span></code>]) – </p></li>
+<li><p><strong>early_exited</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>best_index</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.initial_values">
+<span class="sig-name descname"><span class="pre">initial_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><span class="pre">symforce.values.values.Values</span></a></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.initial_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.optimized_values">
+<span class="sig-name descname"><span class="pre">optimized_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><span class="pre">symforce.values.values.Values</span></a></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.optimized_values" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.iteration_stats">
+<span class="sig-name descname"><span class="pre">iteration_stats</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">lcmtypes.sym._optimization_iteration_t.optimization_iteration_t</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.iteration_stats" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.early_exited">
+<span class="sig-name descname"><span class="pre">early_exited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.early_exited" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.best_index">
+<span class="sig-name descname"><span class="pre">best_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.best_index" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.error">
+<span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Result.error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.error" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration_stats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exited</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
+<li><p><strong>optimized_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
+<li><p><strong>iteration_stats</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">optimization_iteration_t</span></code>]) – </p></li>
+<li><p><strong>early_exited</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>best_index</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>factors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<a class="reference internal" href="symforce.opt.factor.html#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factor</span></code></a>]) – </p></li>
+<li><p><strong>optimized_keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – </p></li>
+<li><p><strong>params</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params" title="symforce.opt.optimizer.Optimizer.Params"><code class="xref py py-class docutils literal notranslate"><span class="pre">Params</span></code></a>]) – </p></li>
+<li><p><strong>debug_stats</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_guess</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.optimize" title="Permalink to this definition"></a></dt>
+<dd><p>Optimize from the given initial guess, and return the optimized Values and stats</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>initial_guess</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – A Values containing the initial guess, should contain at least all the
+keys required by the <cite>factors</cite> passed to the constructor</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Result" title="symforce.opt.optimizer.Optimizer.Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The optimization results, with additional stats and debug information.  See the
+<cite>Optimizer.Result</cite> documentation for more information</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.linearize">
+<span class="sig-name descname"><span class="pre">linearize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.linearize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.linearize" title="Permalink to this definition"></a></dt>
+<dd><p>Compute and return the linearization at the given Values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><code class="xref py py-class docutils literal notranslate"><span class="pre">Linearization</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.load_iteration_values">
+<span class="sig-name descname"><span class="pre">load_iteration_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values_msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.load_iteration_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.load_iteration_values" title="Permalink to this definition"></a></dt>
+<dd><p>Load a values_t message into a Python Values by first creating a C++ Values, then
+converting back to the python key names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values_msg</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">values_t</span></code>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.linearization_index">
+<span class="sig-name descname"><span class="pre">linearization_index</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.linearization_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.linearization_index" title="Permalink to this definition"></a></dt>
+<dd><p>Get the index mapping keys to their positions in the linearized state vector.  Useful for
+extracting blocks from the problem jacobian, hessian, or RHS</p>
+<p>Returns: The index for the Optimizer’s problem linearization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">index_entry_t</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.linearization_index_entry">
+<span class="sig-name descname"><span class="pre">linearization_index_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.linearization_index_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.linearization_index_entry" title="Permalink to this definition"></a></dt>
+<dd><p>Get the index entry for a given key in the linearized state vector.  Useful for extracting
+blocks from the problem jacobian, hessian, or RHS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The string key for a variable in the Python Values</p>
+</dd>
+</dl>
+<p>Returns: The index entry for the variable in the Optimizer’s problem linearization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">index_entry_t</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="symforce.opt.optimization_problem.html" class="btn btn-neutral float-left" title="symforce.opt.optimization_problem module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="symforce.opt.residual_block.html" class="btn btn-neutral float-right" title="symforce.opt.residual_block module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Skydio, Inc.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
