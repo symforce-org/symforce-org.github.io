@@ -6,7 +6,8 @@
   <title>symforce.codegen.codegen &mdash; symforce 0.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -145,12 +146,12 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
@@ -175,9 +176,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.opt.html">symforce.opt package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.objectives.html">symforce.opt.objectives package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.factor.html">symforce.opt.factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
@@ -210,6 +218,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.databuffer.html">symforce.databuffer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.logic.html">symforce.logic module</a></li>
@@ -630,8 +639,11 @@
 
         <span class="c1"># All symbols in outputs must be present in inputs.  Convert to Matrix before calling</span>
         <span class="c1"># free_symbols because it&#39;s much faster to call once</span>
-        <span class="n">input_symbols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())</span>
-        <span class="k">assert</span> <span class="n">sm</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span><span class="o">.</span><span class="n">free_symbols</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
+        <span class="n">input_symbols_list</span> <span class="o">=</span> <span class="n">codegen_util</span><span class="o">.</span><span class="n">flat_symbols_from_values</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">input_symbols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">input_symbols_list</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">sm</span><span class="o">.</span><span class="n">S</span><span class="p">(</span>
+            <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">codegen_util</span><span class="o">.</span><span class="n">flat_symbols_from_values</span><span class="p">(</span><span class="n">outputs</span><span class="p">))</span><span class="o">.</span><span class="n">mat</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">free_symbols</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
             <span class="n">input_symbols</span>
         <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;A symbol in the output expression is missing from inputs. inputs=</span><span class="si">{</span><span class="n">input_symbols</span><span class="si">}</span><span class="s2">&quot;</span>
 
@@ -641,10 +653,10 @@
         <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">outputs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
         <span class="c1"># Symbols in inputs must be unique</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()))</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-            <span class="n">inputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_symbols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="n">input_symbols_list</span>
         <span class="p">),</span> <span class="s2">&quot;Symbols in inputs must be unique. Duplicate symbols = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span> <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">input_symbols_list</span> <span class="k">if</span> <span class="n">input_symbols_list</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
         <span class="p">)</span>
 
         <span class="c1"># Outputs must not have same variable names/keys as inputs</span>
@@ -720,6 +732,9 @@
         <span class="c1"># Run the symbolic arguments through the function and get the symbolic output expression(s)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">inputs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
+        <span class="c1"># at this point replace all dataclasses in the inputs with values</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="c1"># Function returns multiple objects</span>
             <span class="n">output_terms</span> <span class="o">=</span> <span class="n">res</span>
@@ -770,6 +785,7 @@
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;ops&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ops</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Symbol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Matrix&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;DataBuffer&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;Values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Values</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pathlib&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pathlib</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;path_to_codegen&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CURRENT_DIR</span>

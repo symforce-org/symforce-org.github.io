@@ -6,7 +6,8 @@
   <title>symforce.opt.optimization_problem &mdash; symforce 0.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -145,12 +146,12 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
@@ -175,9 +176,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.opt.html">symforce.opt package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.objectives.html">symforce.opt.objectives package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.factor.html">symforce.opt.factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
@@ -210,6 +218,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.databuffer.html">symforce.databuffer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.logic.html">symforce.logic module</a></li>
@@ -542,15 +551,17 @@
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">geo</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.factor</span> <span class="kn">import</span> <span class="n">Factor</span>
+<span class="kn">from</span> <span class="nn">symforce.opt.numeric_factor</span> <span class="kn">import</span> <span class="n">NumericFactor</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.sub_problem</span> <span class="kn">import</span> <span class="n">SubProblem</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_config</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 
 
 <div class="viewcode-block" id="OptimizationProblem"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem">[docs]</a><span class="k">class</span> <span class="nc">OptimizationProblem</span><span class="p">:</span>
@@ -604,6 +615,12 @@
 
         <span class="k">return</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">extra_values</span></div>
 
+<div class="viewcode-block" id="OptimizationProblem.keys"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the set of all keys specified by the subproblems</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">()</span></div>
+
 <div class="viewcode-block" id="OptimizationProblem.optimized_keys"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.optimized_keys">[docs]</a>    <span class="k">def</span> <span class="nf">optimized_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the set of optimized keys, as specified by the subproblems</span>
@@ -623,16 +640,45 @@
             <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">optimized_values</span>
         <span class="p">]</span></div>
 
-<div class="viewcode-block" id="OptimizationProblem.generate"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="OptimizationProblem.generate"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate everything needed to optimize `problem` in C++</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+<span class="sd">        Generate everything needed to optimize `problem` in C++. This currently assumes there is</span>
+<span class="sd">        only one factor generated for the optimization problem.</span>
 
-<div class="viewcode-block" id="OptimizationProblem.make_factors"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.make_factors">[docs]</a>    <span class="k">def</span> <span class="nf">make_factors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Factor</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of `Factor`s for this problem, for example to pass to `Optimizer`</span>
+<span class="sd">        Args:</span>
+<span class="sd">            output_dir: Directory in which to output the generated files.</span>
+<span class="sd">            namespace: Namespace used in each generated file.</span>
+<span class="sd">            name: Name of the generated factor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_symbolic_factors</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
+            <span class="n">output_data</span> <span class="o">=</span> <span class="n">factor</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+                <span class="n">optimized_keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">(),</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">namespace</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Generated function `</span><span class="si">{}</span><span class="s2">` in directory `</span><span class="si">{}</span><span class="s2">`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">output_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">output_data</span><span class="p">[</span><span class="s2">&quot;cpp_function_dir&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="OptimizationProblem.make_symbolic_factors"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.make_symbolic_factors">[docs]</a>    <span class="k">def</span> <span class="nf">make_symbolic_factors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Factor</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of symbolic factors for this problem for analysis purposes. If the factors</span>
+<span class="sd">        are to be passed to an optimizer, use `make_numeric_factors` instead.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Name of factors. Note that the generated linearization functions will have</span>
+<span class="sd">                &quot;_factor&quot; appended to the function name (see</span>
+<span class="sd">                Codegen._pick_name_for_function_with_derivatives for details).</span>
+<span class="sd">            config: Language the factors will be generated in when `.generate()` is called.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">PythonConfig</span><span class="p">()</span>
+
         <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
 
         <span class="n">leading_trailing_dots_and_brackets_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[\.\[\]]+|[\.\[\]]+$&quot;</span><span class="p">)</span>
@@ -653,9 +699,9 @@
             <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Functor that computes the jacobians of the residual with respect to a set of keys</span>
 
-<span class="sd">            The set of keys is not known when make_factors is called, because we may want to create</span>
-<span class="sd">            a Factor and then compute derivatives with respect to different sets of optimized</span>
-<span class="sd">            variables.</span>
+<span class="sd">            The set of keys is not known when make_symbolic_factors is called, because we may want</span>
+<span class="sd">            to create a NumericFactor which computes derivatives with respect to different sets of</span>
+<span class="sd">            optimized variables.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">jacobians</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">residual_block</span><span class="o">.</span><span class="n">compute_jacobians</span><span class="p">(</span>
@@ -666,19 +712,45 @@
             <span class="k">return</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span><span class="n">jacobians</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">[</span>
-            <span class="n">Factor</span><span class="p">(</span>
-                <span class="n">keys</span><span class="o">=</span><span class="n">inputs</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">(),</span>
-                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_factor&quot;</span><span class="p">,</span>
+            <span class="n">Factor</span><span class="o">.</span><span class="n">from_inputs_and_residual</span><span class="p">(</span>
+                <span class="n">keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
                 <span class="n">inputs</span><span class="o">=</span><span class="n">Values</span><span class="p">(</span>
                     <span class="o">**</span><span class="p">{</span>
                         <span class="n">dots_and_brackets_to_underscores</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="n">value</span>
                         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
                     <span class="p">}</span>
                 <span class="p">),</span>
-                <span class="n">outputs</span><span class="o">=</span><span class="n">Values</span><span class="p">(</span><span class="n">residual</span><span class="o">=</span><span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">residuals</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())),</span>
+                <span class="n">residual</span><span class="o">=</span><span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">residuals</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()),</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
                 <span class="n">custom_jacobian_func</span><span class="o">=</span><span class="n">compute_jacobians</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="p">]</span></div></div>
+        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="OptimizationProblem.make_numeric_factors"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.make_numeric_factors">[docs]</a>    <span class="k">def</span> <span class="nf">make_numeric_factors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optimized_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">NumericFactor</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of `NumericFactor`s for this problem, for example to pass to `Optimizer`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Name of factors. Note that the generated linearization functions will have</span>
+<span class="sd">                &quot;_factor&quot; appended to the function name (see</span>
+<span class="sd">                Codegen._pick_name_for_function_with_derivatives for details).</span>
+<span class="sd">            optimized_keys: List of keys to optimize with respect to. Defaults to the optimized keys</span>
+<span class="sd">                specified by the subproblems of this optimization problem.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">optimized_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">optimized_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">()</span>
+        <span class="n">numeric_factors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># we temp generate the factors, so skip formating to save time</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">PythonConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_symbolic_factors</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">):</span>
+            <span class="n">factor_optimized_keys</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">opt_key</span> <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">optimized_keys</span> <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">keys</span>
+            <span class="p">]</span>
+            <span class="n">numeric_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor</span><span class="o">.</span><span class="n">to_numeric_factor</span><span class="p">(</span><span class="n">factor_optimized_keys</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">numeric_factors</span></div></div>
 
 
 <div class="viewcode-block" id="build_inputs"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.build_inputs">[docs]</a><span class="k">def</span> <span class="nf">build_inputs</span><span class="p">(</span>

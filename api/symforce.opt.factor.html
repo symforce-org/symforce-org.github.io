@@ -7,7 +7,8 @@
   <title>symforce.opt.factor module &mdash; symforce 0.3.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -148,12 +149,12 @@
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
@@ -178,9 +179,16 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.objectives.html">symforce.opt.objectives package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">symforce.opt.factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
@@ -213,6 +221,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
@@ -566,105 +575,121 @@
 <section id="module-symforce.opt.factor">
 <span id="symforce-opt-factor-module"></span><h1>symforce.opt.factor module<a class="headerlink" href="#module-symforce.opt.factor" title="Permalink to this headline"></a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="symforce.opt.factor.FactorCodegenLanguage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">FactorCodegenLanguage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#FactorCodegenLanguage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.FactorCodegenLanguage" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
-<p>An enumeration.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="symforce.opt.factor.FactorCodegenLanguage.PYTHON">
-<span class="sig-name descname"><span class="pre">PYTHON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#symforce.opt.factor.FactorCodegenLanguage.PYTHON" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="symforce.opt.factor.FactorCodegenLanguage.CPP">
-<span class="sig-name descname"><span class="pre">CPP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#symforce.opt.factor.FactorCodegenLanguage.CPP" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.factor.Factor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codegen_language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">FactorCodegenLanguage.PYTHON</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobian_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobian_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>A symbolic Factor, representing a residual function applied to a set of keys.</p>
-<p>Can be used to generate numerical code for efficiently evaluating the factor in Python or C++</p>
-<p>Can be constructed from either a residual function, or inputs and outputs Values</p>
+<p>A class used to represent symbolic factors as used in a factor graph. The factor is typically
+constructed from either a function or from a symbolic expression using
+<cite>Factor.from_inputs_and_residual()</cite>. A linearization function can be generated from the factor
+using <cite>generate()</cite> which can be used in a larger optimization.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The set of variables that are inputs to the factor.  These should be in order of
-the residual function arguments or input Values entries (whichever is applicable)</p></li>
-<li><p><strong>name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The name of the factor - optional for residual function Factors (will be deduced from
-the function name if not provided)</p></li>
-<li><p><strong>residual</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[…, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]]) – The residual function for the factor.  Either this, or both <cite>inputs</cite> and <cite>outputs</cite>
-must be provided</p></li>
-<li><p><strong>inputs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>]) – The inputs Values for the factor.  Either this and <cite>outputs</cite>, or just <cite>residual</cite>,
-must be provided</p></li>
-<li><p><strong>outputs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>]) – The outputs Values for the factor.  Either this and <cite>inputs</cite>, or just <cite>residual</cite>,
-must be provided</p></li>
-<li><p><strong>codegen_language</strong> (<a class="reference internal" href="#symforce.opt.factor.FactorCodegenLanguage" title="symforce.opt.factor.FactorCodegenLanguage"><code class="xref py py-class docutils literal notranslate"><span class="pre">FactorCodegenLanguage</span></code></a>) – The language in which to generate numerical code to evaluate the factor,
-if needed.  Defaults to PYTHON, which does not require any compilation</p></li>
-<li><p><strong>custom_jacobian_func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]], <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]]) – A functor that computes the jacobian, typically unnecessary unless you
-want to override the jacobian computed by SymForce, e.g. to stop
-derivatives with respect to certain variables or directions, or
-because the jacobian can be analytically simplified in a way that
-SymForce won’t do automatically. If not provided, the jacobian will be
-computed automatically.  If provided, this should be a function that
-takes the set of optimized keys, and returns the jacobian of the
-residual with respect to those keys</p></li>
+<li><p><strong>keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The set of variables that are inputs to the factor. These should be in order of
+the residual function arguments.</p></li>
+<li><p><strong>residual</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[…, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]) – The residual function for the factor. When passed symbolic inputs, this should
+return a symbolic expression for the residual.</p></li>
+<li><p><strong>config</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a>]) – The language the numeric factor will be generated in. Defaults to Python, which
+does not require any compilation. Also does not autoformat by default in order to
+speed up code generation.</p></li>
+<li><p><strong>custom_jacobian_func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]], <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]]) – A functor that computes the jacobian, typically unnecessary unless
+you want to override the jacobian computed by SymForce, e.g. to stop derivatives
+with respect to certain variables or directions, or because the jacobian can be
+analytically simplified in a way that SymForce won’t do automatically. If not
+provided, the jacobian will be computed automatically.  If provided, this should be
+a function that takes the set of optimized keys, and returns the jacobian of the
+residual with respect to those keys.</p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – Any other arguments to be passed to the codegen object used to generate the
+numeric factor. See <cite>Codegen.function()</cite> for details.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.opt.factor.Factor.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">codegen_language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">FactorCodegenLanguage.PYTHON</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobian_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor.__init__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobian_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor.__init__" title="Permalink to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – </p></li>
-<li><p><strong>name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – </p></li>
-<li><p><strong>residual</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[…, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]]) – </p></li>
-<li><p><strong>inputs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>]) – </p></li>
-<li><p><strong>outputs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>]) – </p></li>
-<li><p><strong>codegen_language</strong> (<a class="reference internal" href="#symforce.opt.factor.FactorCodegenLanguage" title="symforce.opt.factor.FactorCodegenLanguage"><code class="xref py py-class docutils literal notranslate"><span class="pre">FactorCodegenLanguage</span></code></a>) – </p></li>
+<li><p><strong>residual</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[…, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]) – </p></li>
+<li><p><strong>config</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a>]) – </p></li>
 <li><p><strong>custom_jacobian_func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]], <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]]) – </p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="symforce.opt.factor.Factor.__repr__">
-<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor.__repr__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor.__repr__" title="Permalink to this definition"></a></dt>
-<dd><p>Return a string representation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="symforce.opt.factor.Factor.cc_factor">
-<span class="sig-name descname"><span class="pre">cc_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cc_key_map</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor.cc_factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor.cc_factor" title="Permalink to this definition"></a></dt>
-<dd><p>Create a C++ Factor from this symbolic Factor, for use with the C++ Optimizer</p>
-<p>Note that while this is a C++ Factor object, the residual function may be a compiled C++
-function or a Python function passed into C++ through pybind, depending on
-self.codegen_language</p>
+<dt class="sig sig-object py" id="symforce.opt.factor.Factor.from_inputs_and_residual">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_inputs_and_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobian_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor.from_inputs_and_residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor.from_inputs_and_residual" title="Permalink to this definition"></a></dt>
+<dd><p>Constructs a Factor from a set of inputs and a residual vector that consists of
+symbolic expressions composed from the symbolic variables in the inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>optimized_keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The set of keys which are optimized (keys which we need derivatives with
-respect to).  Must be a subset of self.keys.</p></li>
-<li><p><strong>cc_key_map</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Key" title="cc_sym.Key"><code class="xref py py-class docutils literal notranslate"><span class="pre">Key</span></code></a>]) – Mapping from Python keys (strings, like returned by
-<cite>Values.keys_recursive()</cite>) to C++ keys</p></li>
+<li><p><strong>keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The set of variables that are inputs to the factor. These should be in order of
+input Values entries (computed using inputs.keys_recursive()), and are the keys used
+in the overall optimization problem.</p></li>
+<li><p><strong>inputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – The inputs Values for the factor.</p></li>
+<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – An expression representing the residual of the factor.</p></li>
+<li><p><strong>config</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a>]) – The language the numeric factor will be generated in. Defaults to Python, which
+does not require any compilation. Also does not autoformat by default in order to
+speed up code generation.</p></li>
+<li><p><strong>custom_jacobian_func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]], <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]]) – A functor that computes the jacobian, typically unnecessary unless
+you want to override the jacobian computed by SymForce, e.g. to stop derivatives
+with respect to certain variables or directions, or because the jacobian can be
+analytically simplified in a way that SymForce won’t do automatically. If not
+provided, the jacobian will be computed automatically.  If provided, this should be
+a function that takes the set of optimized keys, and returns the jacobian of the
+residual with respect to those keys.</p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – Any other arguments to be passed to the codegen object used to generate the
+numeric factor. See <cite>Codegen.__init__()</cite> for details.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Factor" title="cc_sym.Factor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factor</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factor</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.factor.Factor.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor.generate" title="Permalink to this definition"></a></dt>
+<dd><p>Generates the code needed to construct a NumericFactor from this Factor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>optimized_keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Keys which we compute the linearization of the residual with respect to.</p></li>
+<li><p><strong>output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Where the generated linearization function will be output.</p></li>
+<li><p><strong>namespace</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Namespace of the generated linearization function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A C++ wrapped Factor object</p>
+<dd class="field-odd"><p>Dict containing locations where the code was generated (e.g. “output_dir” and
+“python_function_dir” or “cpp_function_dir”) and the name of the generated function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.factor.Factor.to_numeric_factor">
+<span class="sig-name descname"><span class="pre">to_numeric_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor.to_numeric_factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor.to_numeric_factor" title="Permalink to this definition"></a></dt>
+<dd><p>Constructs a NumericFactor from this Factor, including generating a linearization
+function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>optimized_keys</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Keys which we compute the linearization of the residual with respect to.</p></li>
+<li><p><strong>output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Where the generated linearization function will be output</p></li>
+<li><p><strong>namespace</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Namespace of the generated linearization function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="symforce.opt.numeric_factor.html#symforce.opt.numeric_factor.NumericFactor" title="symforce.opt.numeric_factor.NumericFactor"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericFactor</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>

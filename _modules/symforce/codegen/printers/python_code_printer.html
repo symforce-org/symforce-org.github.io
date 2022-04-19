@@ -6,7 +6,8 @@
   <title>symforce.codegen.printers.python_code_printer &mdash; symforce 0.3.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-    <link rel="shortcut icon" href="../../../../_static/favicon.png"/>
+      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -145,12 +146,12 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
@@ -175,9 +176,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api/symforce.opt.html">symforce.opt package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.objectives.html">symforce.opt.objectives package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../api/symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.factor.html">symforce.opt.factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../../api/symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
@@ -210,6 +218,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api/symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/symforce.databuffer.html">symforce.databuffer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api/symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api/symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api/symforce.logic.html">symforce.logic module</a></li>
@@ -543,7 +552,8 @@
 
 <span class="kn">from</span> <span class="nn">sympy.printing.pycode</span> <span class="kn">import</span> <span class="n">PythonCodePrinter</span> <span class="k">as</span> <span class="n">_PythonCodePrinter</span>
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">sympy</span> <span class="k">as</span> <span class="n">sm</span>
+<span class="c1"># Everything in this file is SymPy, not SymEngine (even when SymForce is on the SymEngine backend)</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
 
 
 <div class="viewcode-block" id="PythonCodePrinter"><a class="viewcode-back" href="../../../../api/symforce.codegen.printers.python_code_printer.html#symforce.codegen.printers.python_code_printer.PythonCodePrinter">[docs]</a><span class="k">class</span> <span class="nc">PythonCodePrinter</span><span class="p">(</span><span class="n">_PythonCodePrinter</span><span class="p">):</span>
@@ -552,16 +562,14 @@
 <span class="sd">    behavior for codegen compatibility and efficiency.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_print_Rational</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sm</span><span class="o">.</span><span class="n">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_print_Rational</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Decimal points for Python2 support, doesn&#39;t exist in some sympy versions.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">standard</span> <span class="o">==</span> <span class="s2">&quot;python2&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">./</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">q</span><span class="si">}</span><span class="s2">.&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">./</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">q</span><span class="si">}</span><span class="s2">.&quot;</span>
 
-    <span class="k">def</span> <span class="nf">_print_Max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sm</span><span class="o">.</span><span class="n">Max</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_print_Max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Max</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Max is not supported by default, so we add a version here.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -570,7 +578,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;max(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">]))</span>
 
-    <span class="k">def</span> <span class="nf">_print_Min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sm</span><span class="o">.</span><span class="n">Min</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_print_Min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Min</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Min is not supported by default, so we add a version here.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -579,11 +587,27 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;min(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">]))</span>
 
-    <span class="k">def</span> <span class="nf">_print_Heaviside</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="s2">&quot;sm.Heaviside&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="c1"># NOTE(brad): We type ignore the signature because mypy complains that it</span>
+    <span class="c1"># does not match that of the sympy base class CodePrinter. This is because the base class</span>
+    <span class="c1"># defines _print_Heaviside with: _print_Heaviside = None (see</span>
+    <span class="c1"># https://github.com/sympy/sympy/blob/95f0228c033d27731f8707cdbb5bb672e500847d/sympy/printing/codeprinter.py#L446</span>
+    <span class="c1"># ).</span>
+    <span class="c1"># Despite this, our signature here matches the signatures of the sympy defined subclasses</span>
+    <span class="c1"># of CodePrinter. I don&#39;t know of any other way to resolve this issue other than to</span>
+    <span class="c1"># to type ignore.</span>
+    <span class="k">def</span> <span class="nf">_print_Heaviside</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="s2">&quot;sympy.Heaviside&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Heaviside is not supported by default, so we add a version here.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(0.0 if (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">) &lt; 0 else 1.0)&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(0.0 if (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">) &lt; 0 else 1.0)&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_print_MatrixElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">matexpr</span><span class="o">.</span><span class="n">MatrixElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        default printer doesn&#39;t cast to int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">[int(</span><span class="si">{}</span><span class="s2">)]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">expr</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">j</span> <span class="o">+</span> <span class="n">expr</span><span class="o">.</span><span class="n">i</span> <span class="o">*</span> <span class="n">expr</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">)</span></div>
 </pre></div>
 
            </div>

@@ -6,7 +6,8 @@
   <title>symforce.values.index_entry &mdash; symforce 0.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="shortcut icon" href="../../../_static/favicon.png"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -145,12 +146,12 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
@@ -175,9 +176,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.opt.html">symforce.opt package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.objectives.html">symforce.opt.objectives package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.factor.html">symforce.opt.factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
@@ -210,6 +218,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.databuffer.html">symforce.databuffer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/symforce.logic.html">symforce.logic module</a></li>
@@ -609,8 +618,9 @@
 <span class="sd">            do this. For example, the geo.Matrix types with more than 10 rows or columns)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="s2">&quot;&lt;locals&gt;&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qualname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">),</span> <span class="p">(</span>
-            <span class="s2">&quot;The datatype must be accesible from the module; (dynamically created types do not&quot;</span>
-            <span class="o">+</span> <span class="s2">&quot; do this. For example, the geo.Matrix types with more than 10 rows or columns)&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Datatype </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_qualname</span><span class="si">}</span><span class="s2"> must be accesible from the module: dynamically created&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot; types do not do this. For example, the geo.Matrix types with more than 10 rows or&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot; or columns.&quot;</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">python_util</span><span class="o">.</span><span class="n">getattr_recursive</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qualname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))</span></div></div>
 </pre></div>

@@ -6,7 +6,8 @@
   <title>symforce.initialization &mdash; symforce 0.3.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-    <link rel="shortcut icon" href="../../_static/favicon.png"/>
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -145,12 +146,12 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
@@ -175,9 +176,16 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/symforce.opt.html">symforce.opt package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.objectives.html">symforce.opt.objectives package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.factor.html">symforce.opt.factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
@@ -210,6 +218,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.databuffer.html">symforce.databuffer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/symforce.logic.html">symforce.logic module</a></li>
@@ -568,7 +577,8 @@
     <span class="n">add_scoping</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
     <span class="n">add_custom_methods</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
     <span class="n">override_solve</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
-    <span class="n">override_count_ops</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span></div>
+    <span class="n">override_count_ops</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
+    <span class="n">override_matrix_symbol</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="override_symbol_new"><a class="viewcode-back" href="../../api/symforce.initialization.html#symforce.initialization.override_symbol_new">[docs]</a><span class="k">def</span> <span class="nf">override_symbol_new</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -639,7 +649,7 @@
 
     <span class="kn">import</span> <span class="nn">sympy</span>
 
-    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Basic</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Converting to sympy to use .simplify&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sympy_module</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
@@ -660,7 +670,7 @@
 
     <span class="k">def</span> <span class="nf">limit</span><span class="p">(</span>
         <span class="n">e</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">z0</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="nb">dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span>  <span class="c1"># pylint: disable=redefined-builtin</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Basic</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Converting to sympy to use .limit&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sympy_module</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">z0</span><span class="p">),</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">))</span>
 
@@ -709,13 +719,20 @@
 <span class="sd">    Replace storage types with their scalar counterparts</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">new_subs_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Import these lazily, since initialization.py is imported from symforce/__init__.py</span>
+    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>  <span class="c1"># pylint: disable=cyclic-import</span>
+    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>  <span class="c1"># pylint: disable=cyclic-import</span>
+    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">sympy</span> <span class="k">as</span> <span class="n">sm</span>
+
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">subs_pairs</span><span class="p">:</span>
-        <span class="c1"># Import these lazily, since initialization.py is imported from symforce/__init__.py</span>
-        <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>  <span class="c1"># pylint: disable=cyclic-import</span>
-        <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>  <span class="c1"># pylint: disable=cyclic-import</span>
 
         <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">assert</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">new_subs_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
             <span class="n">new_subs_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
             <span class="k">continue</span>
 
@@ -725,8 +742,8 @@
         <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
             <span class="n">new_subs_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">error_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;key type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not the same as value type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">error_msg</span>  <span class="c1"># pylint: disable=unidiomatic-typecheck</span>
+            <span class="n">error_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;value type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not an instance of key type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)),</span> <span class="n">error_msg</span>
             <span class="k">for</span> <span class="n">new_key</span><span class="p">,</span> <span class="n">new_value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">new_keys</span><span class="p">,</span> <span class="n">new_values</span><span class="p">):</span>
                 <span class="n">new_subs_dict</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_value</span>
     <span class="k">return</span> <span class="n">new_subs_dict</span>
@@ -914,6 +931,19 @@
     <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logic</span>
 
     <span class="n">logic</span><span class="o">.</span><span class="n">add_logic_methods</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="override_matrix_symbol"><a class="viewcode-back" href="../../api/symforce.initialization.html#symforce.initialization.override_matrix_symbol">[docs]</a><span class="k">def</span> <span class="nf">override_matrix_symbol</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Patch to make sympy MatrixSymbol consistent with symforce&#39;s custom Databuffer for symengine</span>
+<span class="sd">    We want to force Databuffers to be 1-D since otherwise CSE will (rightfully) treat each index</span>
+<span class="sd">    as a separate expression.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sympy_module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">symforce.databuffer</span> <span class="kn">import</span> <span class="n">DataBuffer</span>
+
+        <span class="n">DataBuffer</span><span class="o">.</span><span class="n">__sympy_module__</span> <span class="o">=</span> <span class="n">sympy_module</span>
+        <span class="n">sympy_module</span><span class="o">.</span><span class="n">DataBuffer</span> <span class="o">=</span> <span class="n">DataBuffer</span></div>
 </pre></div>
 
            </div>

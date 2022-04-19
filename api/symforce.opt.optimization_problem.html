@@ -7,7 +7,8 @@
   <title>symforce.opt.optimization_problem module &mdash; symforce 0.3.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-    <link rel="shortcut icon" href="../_static/favicon.png"/>
+      <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -148,12 +149,12 @@
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_group_ops.html">symforce.ops.impl.array_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
@@ -178,9 +179,16 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.objectives.html">symforce.opt.objectives package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.factor.html">symforce.opt.factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
@@ -213,6 +221,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
@@ -642,6 +651,17 @@ subproblem.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.keys" title="Permalink to this definition"></a></dt>
+<dd><p>Compute the set of all keys specified by the subproblems</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.optimized_keys">
 <span class="sig-name descname"><span class="pre">optimized_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.optimized_keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.optimized_keys" title="Permalink to this definition"></a></dt>
 <dd><p>Compute the set of optimized keys, as specified by the subproblems</p>
@@ -654,11 +674,16 @@ subproblem.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.generate">
-<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.generate" title="Permalink to this definition"></a></dt>
-<dd><p>Generate everything needed to optimize <cite>problem</cite> in C++</p>
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.generate" title="Permalink to this definition"></a></dt>
+<dd><p>Generate everything needed to optimize <cite>problem</cite> in C++. This currently assumes there is
+only one factor generated for the optimization problem.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>output_dir</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – Directory in which to output the generated files.</p></li>
+<li><p><strong>namespace</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Namespace used in each generated file.</p></li>
+<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of the generated factor.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
@@ -667,15 +692,41 @@ subproblem.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.make_factors">
-<span class="sig-name descname"><span class="pre">make_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.make_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.make_factors" title="Permalink to this definition"></a></dt>
-<dd><p>Return a list of <cite>Factor`s for this problem, for example to pass to `Optimizer</cite></p>
+<dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.make_symbolic_factors">
+<span class="sig-name descname"><span class="pre">make_symbolic_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.make_symbolic_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.make_symbolic_factors" title="Permalink to this definition"></a></dt>
+<dd><p>Return a list of symbolic factors for this problem for analysis purposes. If the factors
+are to be passed to an optimizer, use <cite>make_numeric_factors</cite> instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of factors. Note that the generated linearization functions will have
+“_factor” appended to the function name (see
+Codegen._pick_name_for_function_with_derivatives for details).</p></li>
+<li><p><strong>config</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a>]) – Language the factors will be generated in when <cite>.generate()</cite> is called.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="symforce.opt.factor.html#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factor</span></code></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.make_numeric_factors">
+<span class="sig-name descname"><span class="pre">make_numeric_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.make_numeric_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.make_numeric_factors" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of <cite>NumericFactor`s for this problem, for example to pass to `Optimizer</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of factors. Note that the generated linearization functions will have
+“_factor” appended to the function name (see
+Codegen._pick_name_for_function_with_derivatives for details).</p></li>
+<li><p><strong>optimized_keys</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – List of keys to optimize with respect to. Defaults to the optimized keys
+specified by the subproblems of this optimization problem.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="symforce.opt.numeric_factor.html#symforce.opt.numeric_factor.NumericFactor" title="symforce.opt.numeric_factor.NumericFactor"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumericFactor</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
