@@ -637,6 +637,10 @@
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">Values</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">Values</span><span class="p">)</span>
 
+        <span class="c1"># Convert any dataclasses to Values so we can more easily recurse through them</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
+
         <span class="c1"># All symbols in outputs must be present in inputs.  Convert to Matrix before calling</span>
         <span class="c1"># free_symbols because it&#39;s much faster to call once</span>
         <span class="n">input_symbols_list</span> <span class="o">=</span> <span class="n">codegen_util</span><span class="o">.</span><span class="n">flat_symbols_from_values</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
@@ -672,12 +676,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">return_key</span> <span class="o">=</span> <span class="n">return_key</span>
 
         <span class="c1"># Mapping between sparse matrix keys and constants needed for static CSC construction</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sparse_mat_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sparse_mat_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">codegen_util</span><span class="o">.</span><span class="n">CSCFormat</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">sparse_matrices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">key</span> <span class="ow">in</span> <span class="n">outputs</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sparse_matrices</span><span class="p">)</span>
             <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sparse_matrices</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sparse_matrices</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">sparse_mat_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">codegen_util</span><span class="o">.</span><span class="n">get_sparse_mat_data</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sparse_mat_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">codegen_util</span><span class="o">.</span><span class="n">CSCFormat</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">docstring</span> <span class="ow">or</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">default_docstring</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">)</span>
@@ -936,7 +940,7 @@
             <span class="k">if</span> <span class="n">skip_directory_nesting</span><span class="p">:</span>
                 <span class="n">python_function_dir</span> <span class="o">=</span> <span class="n">output_dir</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">python_function_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;python2.7&quot;</span> <span class="o">/</span> <span class="s2">&quot;symforce&quot;</span> <span class="o">/</span> <span class="n">namespace</span>
+                <span class="n">python_function_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;python&quot;</span> <span class="o">/</span> <span class="s2">&quot;symforce&quot;</span> <span class="o">/</span> <span class="n">namespace</span>
 
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating python function &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot; at &quot;</span><span class="si">{</span><span class="n">python_function_dir</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
@@ -967,6 +971,13 @@
                 <span class="n">cpp_function_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">generated_file_name</span><span class="si">}</span><span class="s2">.h&quot;</span><span class="p">,</span>
                 <span class="n">template_data</span><span class="p">,</span>
             <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">use_explicit_template_instantiation</span><span class="p">:</span>
+                <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">Path</span><span class="p">(</span><span class="n">template_util</span><span class="o">.</span><span class="n">CPP_TEMPLATE_DIR</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;function&quot;</span> <span class="o">/</span> <span class="s2">&quot;FUNCTION.cc.jinja&quot;</span><span class="p">,</span>
+                    <span class="n">cpp_function_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">generated_file_name</span><span class="si">}</span><span class="s2">.cc&quot;</span><span class="p">,</span>
+                    <span class="n">template_data</span><span class="p">,</span>
+                <span class="p">)</span>
 
             <span class="n">output_data</span><span class="p">[</span><span class="s2">&quot;cpp_function_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpp_function_dir</span>
         <span class="k">else</span><span class="p">:</span>

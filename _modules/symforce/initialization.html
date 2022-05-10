@@ -749,13 +749,23 @@
     <span class="k">return</span> <span class="n">new_subs_dict</span>
 
 
-<span class="k">def</span> <span class="nf">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">dont_flatten_args</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Handle args to subs being a single key-value pair or a dict.</span>
+
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        dont_flatten_args (bool): if true and args is a single argument, assume that args is a</span>
+<span class="sd">            dict mapping scalar expressions to other scalar expressions. i.e. StorageOps flattening</span>
+<span class="sd">            will *not* occur. This is significantly faster.</span>
+
+<span class="sd">        **kwargs is unused but needed for sympy compatibility</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">subs_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dont_flatten_args</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Mapping</span><span class="p">):</span>
             <span class="n">subs_pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
@@ -777,11 +787,13 @@
         <span class="kn">import</span> <span class="nn">symengine.lib.symengine_wrapper</span> <span class="k">as</span> <span class="nn">wrapper</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
 
         <span class="n">original_get_dict</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_dict</span>
-        <span class="n">wrapper</span><span class="o">.</span><span class="n">get_dict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">original_get_dict</span><span class="p">(</span><span class="n">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">get_dict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">original_get_dict</span><span class="p">(</span>
+            <span class="n">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">elif</span> <span class="n">sympy_module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
         <span class="n">original_subs</span> <span class="o">=</span> <span class="n">sympy_module</span><span class="o">.</span><span class="n">Basic</span><span class="o">.</span><span class="n">subs</span>
         <span class="n">sympy_module</span><span class="o">.</span><span class="n">Basic</span><span class="o">.</span><span class="n">subs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">original_subs</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown backend: &#39;</span><span class="si">{</span><span class="n">sympy_module</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span></div>

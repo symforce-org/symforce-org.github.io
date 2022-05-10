@@ -554,6 +554,9 @@
 <span class="sd">Shared helper code between codegen of all languages.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">dataclasses</span>
 <span class="kn">import</span> <span class="nn">importlib.abc</span>
 <span class="kn">import</span> <span class="nn">importlib.util</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
@@ -593,15 +596,62 @@
 
 <div class="viewcode-block" id="PrintCodeResult"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.PrintCodeResult">[docs]</a><span class="k">class</span> <span class="nc">PrintCodeResult</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">intermediate_terms</span><span class="p">:</span> <span class="n">T_terms_printed</span>
-    <span class="n">output_terms</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">OutputWithTerms</span><span class="p">]</span>
+    <span class="n">dense_terms</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">OutputWithTerms</span><span class="p">]</span>
     <span class="n">sparse_terms</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">OutputWithTerms</span><span class="p">]</span>
     <span class="n">total_ops</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+<div class="viewcode-block" id="CSCFormat"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.CSCFormat">[docs]</a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span> <span class="nc">CSCFormat</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A matrix written in Compressed Sparse Column format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">kRows</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># Number of rows</span>
+    <span class="n">kCols</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># Number of columns</span>
+    <span class="n">kNumNonZero</span><span class="p">:</span> <span class="nb">int</span>  <span class="c1"># Number of nonzero entries</span>
+    <span class="n">kColPtrs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># nonzero_elements[kColPtrs[col]] is the first nonzero entry of col</span>
+    <span class="n">kRowIndices</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>  <span class="c1"># row indices of nonzero entries written in column-major order</span>
+    <span class="n">nonzero_elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]</span>  <span class="c1"># nonzero entries written in column-major order</span>
+
+<div class="viewcode-block" id="CSCFormat.from_matrix"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.CSCFormat.from_matrix">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_matrix</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CSCFormat</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary with the metadata required to represent a matrix as a sparse matrix</span>
+<span class="sd">        in CSC form.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sparse_matrix: A symbolic geo.Matrix where sparsity is given by exact zero equality.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kColPtrs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">kRowIndices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nonzero_elements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">data_inx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Loop through columns because we assume CSC form</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">kColPtrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_inx</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">sparse_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">kRowIndices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">nonzero_elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+                <span class="n">data_inx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">kColPtrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_inx</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">CSCFormat</span><span class="p">(</span>
+            <span class="n">kRows</span><span class="o">=</span><span class="n">sparse_matrix</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span>
+            <span class="n">kCols</span><span class="o">=</span><span class="n">sparse_matrix</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span>
+            <span class="n">kNumNonZero</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">nonzero_elements</span><span class="p">),</span>
+            <span class="n">kColPtrs</span><span class="o">=</span><span class="n">kColPtrs</span><span class="p">,</span>
+            <span class="n">kRowIndices</span><span class="o">=</span><span class="n">kRowIndices</span><span class="p">,</span>
+            <span class="n">nonzero_elements</span><span class="o">=</span><span class="n">nonzero_elements</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="print_code"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.print_code">[docs]</a><span class="k">def</span> <span class="nf">print_code</span><span class="p">(</span>
     <span class="n">inputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span>
     <span class="n">outputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span>
-    <span class="n">sparse_mat_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]],</span>
+    <span class="n">sparse_mat_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CSCFormat</span><span class="p">],</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">,</span>
     <span class="n">cse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">substitute_inputs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -630,7 +680,7 @@
     <span class="n">sparse_outputs</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">outputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sparse_mat_data</span><span class="p">:</span>
-            <span class="n">sparse_outputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sparse_mat_data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;nonzero_elements&quot;</span><span class="p">]</span>
+            <span class="n">sparse_outputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sparse_mat_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">nonzero_elements</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">dense_outputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -653,7 +703,7 @@
         <span class="n">simplified_outputs</span> <span class="o">=</span> <span class="n">output_exprs</span>
 
     <span class="c1"># Replace default symbols with vector notation (e.g. &quot;R_re&quot; -&gt; &quot;_R[0]&quot;)</span>
-    <span class="n">temps_formatted</span><span class="p">,</span> <span class="n">simplified_outputs_formatted</span><span class="p">,</span> <span class="n">sparse_terms_formatted</span> <span class="o">=</span> <span class="n">format_symbols</span><span class="p">(</span>
+    <span class="n">temps_formatted</span><span class="p">,</span> <span class="n">dense_outputs_formatted</span><span class="p">,</span> <span class="n">sparse_outputs_formatted</span> <span class="o">=</span> <span class="n">format_symbols</span><span class="p">(</span>
         <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
         <span class="n">dense_outputs</span><span class="o">=</span><span class="n">dense_outputs</span><span class="p">,</span>
         <span class="n">sparse_outputs</span><span class="o">=</span><span class="n">sparse_outputs</span><span class="p">,</span>
@@ -666,8 +716,8 @@
     <span class="n">simpify_nested_lists</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">nested_lsts</span><span class="p">:</span> <span class="p">[</span><span class="n">simpify_list</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span> <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="n">nested_lsts</span><span class="p">]</span>
 
     <span class="n">temps_formatted</span> <span class="o">=</span> <span class="n">simpify_list</span><span class="p">(</span><span class="n">temps_formatted</span><span class="p">)</span>
-    <span class="n">simplified_outputs_formatted</span> <span class="o">=</span> <span class="n">simpify_nested_lists</span><span class="p">(</span><span class="n">simplified_outputs_formatted</span><span class="p">)</span>
-    <span class="n">sparse_terms_formatted</span> <span class="o">=</span> <span class="n">simpify_nested_lists</span><span class="p">(</span><span class="n">sparse_terms_formatted</span><span class="p">)</span>
+    <span class="n">dense_outputs_formatted</span> <span class="o">=</span> <span class="n">simpify_nested_lists</span><span class="p">(</span><span class="n">dense_outputs_formatted</span><span class="p">)</span>
+    <span class="n">sparse_outputs_formatted</span> <span class="o">=</span> <span class="n">simpify_nested_lists</span><span class="p">(</span><span class="n">sparse_outputs_formatted</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">count_ops</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">sm</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">op_count</span> <span class="o">=</span> <span class="n">_sympy_count_ops</span><span class="o">.</span><span class="n">count_ops</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
@@ -676,8 +726,8 @@
 
     <span class="n">total_ops</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">count_ops</span><span class="p">(</span><span class="n">temps_formatted</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">count_ops</span><span class="p">(</span><span class="n">simplified_outputs_formatted</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">count_ops</span><span class="p">(</span><span class="n">sparse_terms_formatted</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">count_ops</span><span class="p">(</span><span class="n">dense_outputs_formatted</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">count_ops</span><span class="p">(</span><span class="n">sparse_outputs_formatted</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># Get printer</span>
@@ -685,19 +735,21 @@
 
     <span class="c1"># Print code</span>
     <span class="n">intermediate_terms</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">printer</span><span class="o">.</span><span class="n">doprint</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">temps_formatted</span><span class="p">]</span>
-    <span class="n">outputs_code_no_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">dense_outputs_code_no_names</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">printer</span><span class="o">.</span><span class="n">doprint</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">single_output_terms</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">single_output_terms</span> <span class="ow">in</span> <span class="n">simplified_outputs_formatted</span>
+        <span class="k">for</span> <span class="n">single_output_terms</span> <span class="ow">in</span> <span class="n">dense_outputs_formatted</span>
     <span class="p">]</span>
     <span class="n">sparse_outputs_code_no_names</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">),</span> <span class="n">printer</span><span class="o">.</span><span class="n">doprint</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">single_output_terms</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">single_output_terms</span> <span class="ow">in</span> <span class="n">sparse_terms_formatted</span>
+        <span class="k">for</span> <span class="n">single_output_terms</span> <span class="ow">in</span> <span class="n">sparse_outputs_formatted</span>
     <span class="p">]</span>
 
     <span class="c1"># Pack names and types with outputs</span>
-    <span class="n">output_terms</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">dense_terms</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">OutputWithTerms</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">output_code_no_name</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">output_code_no_name</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outputs_code_no_names</span><span class="p">,</span> <span class="n">dense_outputs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">output_code_no_name</span><span class="p">,</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">dense_outputs_code_no_names</span><span class="p">,</span> <span class="n">dense_outputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">)</span>
     <span class="p">]</span>
     <span class="n">sparse_terms</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">OutputWithTerms</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">sparse_output_code_no_name</span><span class="p">)</span>
@@ -708,7 +760,7 @@
 
     <span class="k">return</span> <span class="n">PrintCodeResult</span><span class="p">(</span>
         <span class="n">intermediate_terms</span><span class="o">=</span><span class="n">intermediate_terms</span><span class="p">,</span>
-        <span class="n">output_terms</span><span class="o">=</span><span class="n">output_terms</span><span class="p">,</span>
+        <span class="n">dense_terms</span><span class="o">=</span><span class="n">dense_terms</span><span class="p">,</span>
         <span class="n">sparse_terms</span><span class="o">=</span><span class="n">sparse_terms</span><span class="p">,</span>
         <span class="n">total_ops</span><span class="o">=</span><span class="n">total_ops</span><span class="p">,</span>
     <span class="p">)</span></div>
@@ -799,18 +851,19 @@
     <span class="p">)</span>
     <span class="n">input_subs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">flat_symbols_from_values</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">symbolic_args</span><span class="p">))</span>
     <span class="n">intermediate_terms_formatted</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">))</span> <span class="k">for</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="ow">in</span> <span class="n">intermediate_terms</span>
+        <span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">,</span> <span class="n">dont_flatten_args</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="ow">in</span> <span class="n">intermediate_terms</span>
     <span class="p">]</span>
 
     <span class="n">dense_output_lhs_formatted</span> <span class="o">=</span> <span class="n">get_formatted_list</span><span class="p">(</span><span class="n">dense_outputs</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">format_as_inputs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">dense_output_terms_formatted</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">)))</span>
+        <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">,</span> <span class="n">dont_flatten_args</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">storage</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dense_output_lhs_formatted</span><span class="p">,</span> <span class="n">output_terms</span><span class="o">.</span><span class="n">dense</span><span class="p">)</span>
     <span class="p">]</span>
 
     <span class="n">sparse_output_lhs_formatted</span> <span class="o">=</span> <span class="n">get_formatted_sparse_list</span><span class="p">(</span><span class="n">sparse_outputs</span><span class="p">)</span>
     <span class="n">sparse_output_terms_formatted</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">)))</span>
+        <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">,</span> <span class="n">dont_flatten_args</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">storage</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sparse_output_lhs_formatted</span><span class="p">,</span> <span class="n">output_terms</span><span class="o">.</span><span class="n">sparse</span><span class="p">)</span>
     <span class="p">]</span>
 
@@ -849,8 +902,12 @@
                 <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">storage_dim</span><span class="p">)]</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">):</span>
                 <span class="n">symbols</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="c1"># NOTE(brad): The order of the symbols must match the storage order of geo.Matrix</span>
+                <span class="c1"># (as returned by geo.Matrix.to_storage). Hence, if there storage order were</span>
+                <span class="c1"># changed to, say, row major, the below for loops would have to be swapped to</span>
+                <span class="c1"># reflect that.</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
                         <span class="n">symbols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
@@ -968,37 +1025,6 @@
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">vec</span>
-
-
-<div class="viewcode-block" id="get_sparse_mat_data"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_sparse_mat_data">[docs]</a><span class="k">def</span> <span class="nf">get_sparse_mat_data</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a dictionary with the metadata required to represent a matrix as a sparse matrix</span>
-<span class="sd">    in CSC form.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        sparse_matrix: A symbolic geo.Matrix where sparsity is given by exact zero equality.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">sparse_mat_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kRows&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sparse_matrix</span><span class="o">.</span><span class="n">rows</span>
-    <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kCols&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sparse_matrix</span><span class="o">.</span><span class="n">cols</span>
-    <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kNumNonZero&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kColPtrs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kRowIndices&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;nonzero_elements&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">data_inx</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="c1"># Loop through columns because we assume CSC form</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kColPtrs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_inx</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="n">sparse_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">continue</span>
-            <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kNumNonZero&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kRowIndices&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;nonzero_elements&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
-            <span class="n">data_inx</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">sparse_mat_data</span><span class="p">[</span><span class="s2">&quot;kColPtrs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_inx</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">sparse_mat_data</span></div>
 
 
 <div class="viewcode-block" id="get_formatted_sparse_list"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_formatted_sparse_list">[docs]</a><span class="k">def</span> <span class="nf">get_formatted_sparse_list</span><span class="p">(</span><span class="n">sparse_outputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]:</span>
@@ -1164,7 +1190,7 @@
     <span class="k">if</span> <span class="n">lcm_output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">lcm_output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lcm_type_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
 
-    <span class="n">python_types_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lcm_output_dir</span><span class="p">,</span> <span class="s2">&quot;python2.7&quot;</span><span class="p">)</span>
+    <span class="n">python_types_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lcm_output_dir</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">)</span>
     <span class="n">cpp_types_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lcm_output_dir</span><span class="p">,</span> <span class="s2">&quot;cpp&quot;</span><span class="p">,</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">)</span>
     <span class="n">lcm_include_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;lcmtypes&quot;</span><span class="p">)</span>
 
@@ -1207,9 +1233,6 @@
 <span class="sd">    Returns a flat list of unique symbols in the object for codegen</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symbols_list</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
-
-    <span class="c1"># convert dataclasses to values so we can recurse through field to look for DataBuffers</span>
-    <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">values_recursive</span><span class="p">():</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">):</span>

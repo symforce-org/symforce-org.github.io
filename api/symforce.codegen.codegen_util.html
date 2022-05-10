@@ -619,7 +619,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.PrintCodeResult">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PrintCodeResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intermediate_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_ops</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#PrintCodeResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.PrintCodeResult" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PrintCodeResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intermediate_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dense_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_ops</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#PrintCodeResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.PrintCodeResult" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.PrintCodeResult.intermediate_terms">
@@ -628,8 +628,8 @@
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="symforce.codegen.codegen_util.PrintCodeResult.output_terms">
-<span class="sig-name descname"><span class="pre">output_terms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#symforce.codegen.codegen_util.OutputWithTerms" title="symforce.codegen.codegen_util.OutputWithTerms"><span class="pre">symforce.codegen.codegen_util.OutputWithTerms</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.codegen_util.PrintCodeResult.output_terms" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.PrintCodeResult.dense_terms">
+<span class="sig-name descname"><span class="pre">dense_terms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#symforce.codegen.codegen_util.OutputWithTerms" title="symforce.codegen.codegen_util.OutputWithTerms"><span class="pre">symforce.codegen.codegen_util.OutputWithTerms</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.codegen_util.PrintCodeResult.dense_terms" title="Permalink to this definition"></a></dt>
 <dd><p>Alias for field number 1</p>
 </dd></dl>
 
@@ -647,6 +647,87 @@
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CSCFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kRows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kCols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kNumNonZero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kColPtrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kRowIndices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonzero_elements</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#CSCFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A matrix written in Compressed Sparse Column format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kRows</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>kCols</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>kNumNonZero</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>kColPtrs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – </p></li>
+<li><p><strong>kRowIndices</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – </p></li>
+<li><p><strong>nonzero_elements</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.kRows">
+<span class="sig-name descname"><span class="pre">kRows</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.kRows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.kCols">
+<span class="sig-name descname"><span class="pre">kCols</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.kCols" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.kNumNonZero">
+<span class="sig-name descname"><span class="pre">kNumNonZero</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.kNumNonZero" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.kColPtrs">
+<span class="sig-name descname"><span class="pre">kColPtrs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.kColPtrs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.kRowIndices">
+<span class="sig-name descname"><span class="pre">kRowIndices</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.kRowIndices" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.nonzero_elements">
+<span class="sig-name descname"><span class="pre">nonzero_elements</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.nonzero_elements" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.from_matrix">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sparse_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#CSCFormat.from_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.from_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a dictionary with the metadata required to represent a matrix as a sparse matrix
+in CSC form.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sparse_matrix</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – A symbolic geo.Matrix where sparsity is given by exact zero equality.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.codegen.codegen_util.CSCFormat" title="symforce.codegen.codegen_util.CSCFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSCFormat</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_util.CSCFormat.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kRows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kCols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kNumNonZero</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kColPtrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kRowIndices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nonzero_elements</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#symforce.codegen.codegen_util.CSCFormat.__init__" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kRows</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>kCols</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>kNumNonZero</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>kColPtrs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – </p></li>
+<li><p><strong>kRowIndices</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – </p></li>
+<li><p><strong>nonzero_elements</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.print_code">
 <span class="sig-name descname"><span class="pre">print_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_mat_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substitute_inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#print_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.print_code" title="Permalink to this definition"></a></dt>
@@ -657,7 +738,7 @@
 <li><p><strong>inputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – Values object specifying names and symbolic inputs</p></li>
 <li><p><strong>outputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – Values object specifying names and output expressions (written in terms
 of the symbolic inputs)</p></li>
-<li><p><strong>sparse_mat_data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]) – Data associated with sparse matrices. sparse_mat_data[“keys”] stores
+<li><p><strong>sparse_mat_data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="#symforce.codegen.codegen_util.CSCFormat" title="symforce.codegen.codegen_util.CSCFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSCFormat</span></code></a>]) – Data associated with sparse matrices. sparse_mat_data[“keys”] stores
 a list of the keys in outputs which should be treated as sparse matrices</p></li>
 <li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a>) – Programming language and configuration in which the expressions are to be generated</p></li>
 <li><p><strong>cse</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Perform common sub-expression elimination</p></li>
@@ -739,21 +820,6 @@ expressions.</p></li>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.codegen.codegen_util.get_sparse_mat_data">
-<span class="sig-name descname"><span class="pre">get_sparse_mat_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sparse_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#get_sparse_mat_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.get_sparse_mat_data" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a dictionary with the metadata required to represent a matrix as a sparse matrix
-in CSC form.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sparse_matrix</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – A symbolic geo.Matrix where sparsity is given by exact zero equality.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</p>
 </dd>
 </dl>
 </dd></dl>

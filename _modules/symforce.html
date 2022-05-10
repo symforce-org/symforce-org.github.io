@@ -701,6 +701,24 @@
     <span class="nb">setattr</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Mod</span><span class="p">,</span> <span class="s2">&quot;_eval_derivative&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="set_symengine_eval_on_sympify"><a class="viewcode-back" href="../api/symforce.html#symforce.set_symengine_eval_on_sympify">[docs]</a><span class="k">def</span> <span class="nf">set_symengine_eval_on_sympify</span><span class="p">(</span><span class="n">eval_on_sympy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    When using the symengine backed, set whether we should eval args when converting objects to</span>
+<span class="sd">    sympy.</span>
+
+<span class="sd">    By default, this is enabled since this is the implicit behavior with stock symengine.</span>
+<span class="sd">    Disabling eval results in more slightly ops, but greatly speeds up codegen time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">sympy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">symengine.lib.symengine_wrapper</span> <span class="k">as</span> <span class="nn">wrapper</span>
+
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">__EVAL_ON_SYMPY__</span> <span class="o">=</span> <span class="n">eval_on_sympy</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;set_symengine_fast_sympify has no effect when not using symengine&quot;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="set_backend"><a class="viewcode-back" href="../api/symforce.html#symforce.set_backend">[docs]</a><span class="k">def</span> <span class="nf">set_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the symbolic backend for symforce. The sympy backend is the default and pure python,</span>

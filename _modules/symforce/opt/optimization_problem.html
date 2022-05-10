@@ -635,12 +635,27 @@
             <span class="nb">tuple</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">)):</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
         <span class="p">}</span>
 
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">content_addressible_inputs</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">))]</span>
-            <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">optimized_values</span>
-        <span class="p">]</span></div>
+        <span class="n">optimized_keys</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">optimized_values</span><span class="p">:</span>
+            <span class="n">optimized_key</span> <span class="o">=</span> <span class="n">content_addressible_inputs</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">))]</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">optimized_key</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Variable returned by `optimized_values()` (</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">) in &quot;</span>
+                    <span class="o">+</span> <span class="s2">&quot;subproblem does not match variable in `Inputs` of subproblem &quot;</span>
+                    <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">inputs</span><span class="p">[</span><span class="n">optimized_key</span><span class="p">]</span><span class="si">}</span><span class="s2">) for key </span><span class="si">{</span><span class="n">optimized_key</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">optimized_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">optimized_key</span><span class="p">)</span>
 
-<div class="viewcode-block" id="OptimizationProblem.generate"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">namespace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">optimized_keys</span></div>
+
+<div class="viewcode-block" id="OptimizationProblem.generate"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span>
+        <span class="n">namespace</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">sparse_linearization</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CppConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate everything needed to optimize `problem` in C++. This currently assumes there is</span>
 <span class="sd">        only one factor generated for the optimization problem.</span>
@@ -649,11 +664,21 @@
 <span class="sd">            output_dir: Directory in which to output the generated files.</span>
 <span class="sd">            namespace: Namespace used in each generated file.</span>
 <span class="sd">            name: Name of the generated factor.</span>
+<span class="sd">            sparse_linearization: Whether the generated factors should use sparse jacobians/hessians</span>
+<span class="sd">            config: C++ code configuration used with the linearization functions generated for each</span>
+<span class="sd">                factor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_symbolic_factors</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">()</span>
+
+        <span class="c1"># Generate the C++ code for the residual linearization function</span>
+        <span class="n">factors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_symbolic_factors</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
             <span class="n">output_data</span> <span class="o">=</span> <span class="n">factor</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-                <span class="n">optimized_keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">(),</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">namespace</span>
+                <span class="n">optimized_keys</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">(),</span>
+                <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+                <span class="n">namespace</span><span class="o">=</span><span class="n">namespace</span><span class="p">,</span>
+                <span class="n">sparse_linearization</span><span class="o">=</span><span class="n">sparse_linearization</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">&quot;Generated function `</span><span class="si">{}</span><span class="s2">` in directory `</span><span class="si">{}</span><span class="s2">`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>

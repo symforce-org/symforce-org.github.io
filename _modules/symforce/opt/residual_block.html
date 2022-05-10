@@ -634,7 +634,10 @@
                 <span class="c1"># wants to provide custom jacobians for all the variables if they</span>
                 <span class="c1"># provided one</span>
                 <span class="n">residual_input_jacobian</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">residual</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">input_element</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">residual_input_jacobian</span> <span class="o">!=</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">residual_input_jacobian</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">zero</span><span class="p">():</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">residual_input_jacobian</span>
+                    <span class="o">!=</span> <span class="n">geo</span><span class="o">.</span><span class="n">fixed_type_from_shape</span><span class="p">(</span><span class="n">residual_input_jacobian</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+                <span class="p">):</span>
                     <span class="n">residual_name</span> <span class="o">=</span> <span class="n">residual_name</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">key_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
