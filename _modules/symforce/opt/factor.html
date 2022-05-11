@@ -471,10 +471,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api-cpp/filelist.html">File list</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/assert_8cc.html">File assert.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/assert_8h.html">File assert.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/cholesky_2assert_8cc.html">File assert.cc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/cholesky_2assert_8h.html">File assert.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/covariance__utils_8h.html">File covariance_utils.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/derivative__checker_8h.html">File derivative_checker.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/epsilon_8cc.html">File epsilon.cc</a></li>
@@ -692,6 +689,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">codegen</span> <span class="o">=</span> <span class="n">codegen_obj</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">custom_jacobian_func</span> <span class="o">=</span> <span class="n">custom_jacobian_func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">codegen</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generated_jacobians</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="Factor.generate"><a class="viewcode-back" href="../../../api/symforce.opt.factor.html#symforce.opt.factor.Factor.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -723,6 +721,11 @@
             <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">sparse_linearization</span><span class="o">=</span><span class="n">sparse_linearization</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="c1"># Ignore false positive because we define `self.jacobian` in `_initialize()`</span>
+        <span class="c1"># pylint: disable=attribute-defined-outside-init</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generated_jacobians</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">optimized_keys</span><span class="p">)]</span> <span class="o">=</span> <span class="n">codegen_with_linearization</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span>
+            <span class="s2">&quot;jacobian&quot;</span>
+        <span class="p">]</span>
 
         <span class="n">output_data</span> <span class="o">=</span> <span class="n">codegen_with_linearization</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
             <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">namespace</span>

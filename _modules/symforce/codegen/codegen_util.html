@@ -471,10 +471,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api-cpp/filelist.html">File list</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/assert_8cc.html">File assert.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/assert_8h.html">File assert.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/cholesky_2assert_8cc.html">File assert.cc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/cholesky_2assert_8h.html">File assert.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/covariance__utils_8h.html">File covariance_utils.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/derivative__checker_8h.html">File derivative_checker.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/epsilon_8cc.html">File epsilon.cc</a></li>
@@ -654,7 +651,6 @@
     <span class="n">sparse_mat_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CSCFormat</span><span class="p">],</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">,</span>
     <span class="n">cse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">substitute_inputs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PrintCodeResult</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return executable code lines from the given input/output values.</span>
@@ -667,7 +663,6 @@
 <span class="sd">            a list of the keys in outputs which should be treated as sparse matrices</span>
 <span class="sd">        config: Programming language and configuration in which the expressions are to be generated</span>
 <span class="sd">        cse: Perform common sub-expression elimination</span>
-<span class="sd">        substitute_inputs: If True, replace all input symbols with a uniform array.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        T.List[T.Tuple[str, str]]: Line of code per temporary variable</span>
@@ -675,7 +670,7 @@
 <span class="sd">        T.List[OutputWithTerms]: Collection of lines of code per sparse output variable</span>
 <span class="sd">        int: Total number of ops</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Split outputs into dense and sparse outputs, since we treate them differently when doing codegen</span>
+    <span class="c1"># Split outputs into dense and sparse outputs, since we treat them differently when doing codegen</span>
     <span class="n">dense_outputs</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
     <span class="n">sparse_outputs</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">outputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -684,7 +679,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">dense_outputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    <span class="n">input_symbols</span> <span class="o">=</span> <span class="n">flat_symbols_from_values</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
     <span class="n">output_exprs</span> <span class="o">=</span> <span class="n">DenseAndSparseOutputTerms</span><span class="p">(</span>
         <span class="n">dense</span><span class="o">=</span><span class="p">[</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">dense_outputs</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
         <span class="n">sparse</span><span class="o">=</span><span class="p">[</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">sparse_outputs</span><span class="o">.</span><span class="n">items</span><span class="p">()],</span>
@@ -693,9 +687,7 @@
     <span class="c1"># CSE If needed</span>
     <span class="k">if</span> <span class="n">cse</span><span class="p">:</span>
         <span class="n">temps</span><span class="p">,</span> <span class="n">simplified_outputs</span> <span class="o">=</span> <span class="n">perform_cse</span><span class="p">(</span>
-            <span class="n">input_symbols</span><span class="o">=</span><span class="n">input_symbols</span><span class="p">,</span>
             <span class="n">output_exprs</span><span class="o">=</span><span class="n">output_exprs</span><span class="p">,</span>
-            <span class="n">substitute_inputs</span><span class="o">=</span><span class="n">substitute_inputs</span><span class="p">,</span>
             <span class="n">cse_optimizations</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">cse_optimizations</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -767,9 +759,7 @@
 
 
 <div class="viewcode-block" id="perform_cse"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.perform_cse">[docs]</a><span class="k">def</span> <span class="nf">perform_cse</span><span class="p">(</span>
-    <span class="n">input_symbols</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
     <span class="n">output_exprs</span><span class="p">:</span> <span class="n">DenseAndSparseOutputTerms</span><span class="p">,</span>
-    <span class="n">substitute_inputs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">cse_optimizations</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span>
         <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;basic&quot;</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">]]</span>
     <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -778,13 +768,12 @@
 <span class="sd">    Run common sub-expression elimination on the given input/output values.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        input_symbols: AKA inputs.values_recursive()</span>
-<span class="sd">        output_exprs: AKA outputs.values_recursive()</span>
-<span class="sd">        substitute_inputs: If True, replace all input symbols with a uniform array.</span>
+<span class="sd">        output_exprs: expressions on which to perform cse</span>
+<span class="sd">        cse_optimizations: optimizations to be forwarded to sm.cse</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        T_terms: Temporary variables and their expressions</span>
-<span class="sd">        T.Sequence[T.Scalar]: Output expressions based on temporaries</span>
+<span class="sd">        T_terms: Temporary variables holding the common sub-expressions found within output_exprs</span>
+<span class="sd">        DenseAndSparseOutputTerms: output_exprs, but in terms of the returned temporaries.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Perform CSE</span>
     <span class="n">flat_output_exprs</span> <span class="o">=</span> <span class="p">[</span>
@@ -815,19 +804,6 @@
         <span class="n">simplified_outputs</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flat_simplified_outputs</span><span class="p">[</span><span class="n">flat_i</span> <span class="p">:</span> <span class="n">flat_i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">storage</span><span class="p">)])</span>
         <span class="n">flat_i</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
 
-    <span class="c1"># Substitute symbols to an input array</span>
-    <span class="c1"># Rather than having the code contain the names of each symbol, we convert the</span>
-    <span class="c1"># inputs to elements of an array to make generation more uniform.</span>
-    <span class="k">if</span> <span class="n">substitute_inputs</span><span class="p">:</span>
-        <span class="n">input_name</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;inp[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">]&quot;</span>
-        <span class="n">input_array</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">input_name</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_symbols</span><span class="p">))]</span>
-        <span class="n">input_subs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">input_symbols</span><span class="p">,</span> <span class="n">input_array</span><span class="p">))</span>
-        <span class="n">temps</span> <span class="o">=</span> <span class="p">[(</span><span class="n">var</span><span class="p">,</span> <span class="n">term</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">input_subs</span><span class="p">))</span> <span class="k">for</span> <span class="n">var</span><span class="p">,</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">temps</span><span class="p">]</span>
-        <span class="n">simplified_outputs</span> <span class="o">=</span> <span class="n">DenseAndSparseOutputTerms</span><span class="p">(</span>
-            <span class="n">dense</span><span class="o">=</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">input_subs</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">storage</span><span class="p">]</span> <span class="k">for</span> <span class="n">storage</span> <span class="ow">in</span> <span class="n">simplified_outputs</span><span class="o">.</span><span class="n">dense</span><span class="p">],</span>
-            <span class="n">sparse</span><span class="o">=</span><span class="p">[[</span><span class="n">t</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">input_subs</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">storage</span><span class="p">]</span> <span class="k">for</span> <span class="n">storage</span> <span class="ow">in</span> <span class="n">simplified_outputs</span><span class="o">.</span><span class="n">sparse</span><span class="p">],</span>
-        <span class="p">)</span>
-
     <span class="k">return</span> <span class="n">temps</span><span class="p">,</span> <span class="n">simplified_outputs</span></div>
 
 
@@ -846,16 +822,22 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Rename the symbolic inputs so that they match the code we generate</span>
 
-    <span class="n">symbolic_args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-        <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">get_formatted_list</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">format_as_inputs</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">formatted_input_args</span><span class="p">,</span> <span class="n">original_args</span> <span class="o">=</span> <span class="n">get_formatted_list</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">format_as_inputs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">input_subs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">original_args</span><span class="p">),</span>
+            <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">formatted_input_args</span><span class="p">),</span>
+        <span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">input_subs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">flat_symbols_from_values</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span> <span class="n">symbolic_args</span><span class="p">))</span>
+
     <span class="n">intermediate_terms_formatted</span> <span class="o">=</span> <span class="p">[</span>
         <span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">,</span> <span class="n">dont_flatten_args</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="ow">in</span> <span class="n">intermediate_terms</span>
     <span class="p">]</span>
 
-    <span class="n">dense_output_lhs_formatted</span> <span class="o">=</span> <span class="n">get_formatted_list</span><span class="p">(</span><span class="n">dense_outputs</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">format_as_inputs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">dense_output_lhs_formatted</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_formatted_list</span><span class="p">(</span>
+        <span class="n">dense_outputs</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">format_as_inputs</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
     <span class="n">dense_output_terms_formatted</span> <span class="o">=</span> <span class="p">[</span>
         <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">input_subs</span><span class="p">,</span> <span class="n">dont_flatten_args</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
         <span class="k">for</span> <span class="n">lhs_formatted</span><span class="p">,</span> <span class="n">storage</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">dense_output_lhs_formatted</span><span class="p">,</span> <span class="n">output_terms</span><span class="o">.</span><span class="n">dense</span><span class="p">)</span>
@@ -872,9 +854,10 @@
 
 <div class="viewcode-block" id="get_formatted_list"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_formatted_list">[docs]</a><span class="k">def</span> <span class="nf">get_formatted_list</span><span class="p">(</span>
     <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">format_as_inputs</span><span class="p">:</span> <span class="nb">bool</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">]]],</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a nested list of symbols for use in generated functions.</span>
+<span class="sd">    Returns a nested list of formatted symbols, as well as a nested list of the corresponding</span>
+<span class="sd">    original scalar values. For use in generated functions.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        values: Values object mapping keys to different objects. Here we only</span>
@@ -883,8 +866,12 @@
 <span class="sd">                required</span>
 <span class="sd">        format_as_inputs: True if values defines the input symbols, false if values defines output</span>
 <span class="sd">                          expressions.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        flattened_formatted_symbolic_values: nested list of formatted scalar symbols</span>
+<span class="sd">        flattened_original_values: nested list of original scalar values</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">symbolic_args</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">flattened_formatted_symbolic_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">flattened_original_values</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">arg_cls</span> <span class="o">=</span> <span class="n">python_util</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="n">storage_dim</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -893,50 +880,57 @@
         <span class="c1"># to access the scalar elements of the object. These symbols will later be matched up</span>
         <span class="c1"># with the flattened Values object symbols.</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">arg_cls</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">):</span>
-            <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+            <span class="n">flattened_value</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">)):</span>
-            <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+            <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+            <span class="n">flattened_value</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">arg_cls</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">PythonConfig</span><span class="p">):</span>
                 <span class="c1"># TODO(nathan): Not sure this works for 2D matrices</span>
-                <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">storage_dim</span><span class="p">)]</span>
+                <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">storage_dim</span><span class="p">)]</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">):</span>
-                <span class="n">symbols</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="c1"># NOTE(brad): The order of the symbols must match the storage order of geo.Matrix</span>
                 <span class="c1"># (as returned by geo.Matrix.to_storage). Hence, if there storage order were</span>
                 <span class="c1"># changed to, say, row major, the below for loops would have to be swapped to</span>
                 <span class="c1"># reflect that.</span>
                 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-                        <span class="n">symbols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">))</span>
+                        <span class="n">formatted_symbols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+            <span class="n">flattened_value</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">arg_cls</span><span class="p">,</span> <span class="n">Values</span><span class="p">):</span>
             <span class="c1"># Term is a Values object, so we must flatten it. Here we loop over the index so that</span>
             <span class="c1"># we can use the same code with lists.</span>
-            <span class="n">symbols</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">flattened_value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">index_value</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">index</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="c1"># Elements of a Values object are accessed with the &quot;.&quot; operator</span>
-                <span class="n">symbols</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="n">formatted_symbols</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
                     <span class="n">_get_scalar_keys_recursive</span><span class="p">(</span>
                         <span class="n">index_value</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">use_data</span><span class="o">=</span><span class="kc">False</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
 
-            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)),</span> <span class="s2">&quot;Non-unique keys:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">symbols</span> <span class="k">if</span> <span class="n">symbols</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">formatted_symbols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="nb">set</span><span class="p">(</span><span class="n">formatted_symbols</span><span class="p">)</span>
+            <span class="p">),</span> <span class="s2">&quot;Non-unique keys:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">formatted_symbols</span> <span class="k">if</span> <span class="n">formatted_symbols</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">arg_cls</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="c1"># Term is a list, so we loop over the index of the list, i.e.</span>
             <span class="c1"># &quot;values.index()[key].item_index&quot;.</span>
-            <span class="n">symbols</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">flattened_value</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
             <span class="n">sub_index</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">index</span><span class="p">()[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">item_index</span>
             <span class="k">assert</span> <span class="n">sub_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sub_index_val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sub_index</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
                 <span class="c1"># Elements of a list are accessed with the &quot;[]&quot; operator.</span>
-                <span class="n">symbols</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="n">formatted_symbols</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
                     <span class="n">_get_scalar_keys_recursive</span><span class="p">(</span>
                         <span class="n">sub_index_val</span><span class="p">,</span>
                         <span class="n">prefix</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">,</span>
@@ -945,27 +939,31 @@
                     <span class="p">)</span>
                 <span class="p">)</span>
 
-            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">symbols</span><span class="p">)),</span> <span class="s2">&quot;Non-unique keys:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">symbols</span> <span class="k">if</span> <span class="n">symbols</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">formatted_symbols</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
+                <span class="nb">set</span><span class="p">(</span><span class="n">formatted_symbols</span><span class="p">)</span>
+            <span class="p">),</span> <span class="s2">&quot;Non-unique keys:</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">symbol</span> <span class="ow">in</span> <span class="n">formatted_symbols</span> <span class="k">if</span> <span class="n">formatted_symbols</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">symbol</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">]</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">format_as_inputs</span><span class="p">:</span>
                 <span class="c1"># For readability, we will store the data of geo/cam objects in a temp vector named &quot;_key&quot;</span>
                 <span class="c1"># where &quot;key&quot; is the name of the given input variable (can be &quot;self&quot; for member functions accessing</span>
                 <span class="c1"># object data)</span>
-                <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">storage_dim</span><span class="p">)]</span>
+                <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">storage_dim</span><span class="p">)]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># For geo/cam objects being output, we can&#39;t access &quot;data&quot; directly, so in the</span>
                 <span class="c1"># jinja template we will construct a new object from a vector</span>
-                <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">storage_dim</span><span class="p">)]</span>
+                <span class="n">formatted_symbols</span> <span class="o">=</span> <span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">storage_dim</span><span class="p">)]</span>
+            <span class="n">flattened_value</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-        <span class="n">symbolic_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">symbolic_args</span></div>
+        <span class="n">flattened_formatted_symbolic_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">formatted_symbols</span><span class="p">)</span>
+        <span class="n">flattened_original_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flattened_value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">flattened_formatted_symbolic_values</span><span class="p">,</span> <span class="n">flattened_original_values</span></div>
 
 
 <span class="k">def</span> <span class="nf">_get_scalar_keys_recursive</span><span class="p">(</span>
     <span class="n">index_value</span><span class="p">:</span> <span class="n">IndexEntry</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">use_data</span><span class="p">:</span> <span class="nb">bool</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sm</span><span class="o">.</span><span class="n">Symbol</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a vector of keys, recursing on Values or List objects to get sub-elements.</span>
 
@@ -1231,6 +1229,7 @@
 <div class="viewcode-block" id="flat_symbols_from_values"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.flat_symbols_from_values">[docs]</a><span class="k">def</span> <span class="nf">flat_symbols_from_values</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a flat list of unique symbols in the object for codegen</span>
+<span class="sd">    Note that this *does not* respect storage ordering</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symbols_list</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
 

@@ -474,10 +474,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api-cpp/filelist.html">File list</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/assert_8cc.html">File assert.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/assert_8h.html">File assert.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/cholesky_2assert_8cc.html">File assert.cc</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/cholesky_2assert_8h.html">File assert.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/covariance__utils_8h.html">File covariance_utils.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/derivative__checker_8h.html">File derivative_checker.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/epsilon_8cc.html">File epsilon.cc</a></li>
@@ -730,7 +727,7 @@ in CSC form.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.print_code">
-<span class="sig-name descname"><span class="pre">print_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_mat_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substitute_inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#print_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.print_code" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">print_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_mat_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#print_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.print_code" title="Permalink to this definition"></a></dt>
 <dd><p>Return executable code lines from the given input/output values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -742,7 +739,6 @@ of the symbolic inputs)</p></li>
 a list of the keys in outputs which should be treated as sparse matrices</p></li>
 <li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a>) – Programming language and configuration in which the expressions are to be generated</p></li>
 <li><p><strong>cse</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Perform common sub-expression elimination</p></li>
-<li><p><strong>substitute_inputs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, replace all input symbols with a uniform array.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -759,20 +755,18 @@ int: Total number of ops</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.perform_cse">
-<span class="sig-name descname"><span class="pre">perform_cse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_symbols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_exprs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">substitute_inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse_optimizations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#perform_cse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.perform_cse" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">perform_cse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_exprs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse_optimizations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#perform_cse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.perform_cse" title="Permalink to this definition"></a></dt>
 <dd><p>Run common sub-expression elimination on the given input/output values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>input_symbols</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – AKA inputs.values_recursive()</p></li>
-<li><p><strong>output_exprs</strong> (<a class="reference internal" href="#symforce.codegen.codegen_util.DenseAndSparseOutputTerms" title="symforce.codegen.codegen_util.DenseAndSparseOutputTerms"><code class="xref py py-class docutils literal notranslate"><span class="pre">DenseAndSparseOutputTerms</span></code></a>) – AKA outputs.values_recursive()</p></li>
-<li><p><strong>substitute_inputs</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, replace all input symbols with a uniform array.</p></li>
-<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – </p></li>
+<li><p><strong>output_exprs</strong> (<a class="reference internal" href="#symforce.codegen.codegen_util.DenseAndSparseOutputTerms" title="symforce.codegen.codegen_util.DenseAndSparseOutputTerms"><code class="xref py py-class docutils literal notranslate"><span class="pre">DenseAndSparseOutputTerms</span></code></a>) – expressions on which to perform cse</p></li>
+<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – optimizations to be forwarded to sm.cse</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Temporary variables and their expressions
-T.Sequence[T.Scalar]: Output expressions based on temporaries</p>
+<dd class="field-even"><p>Temporary variables holding the common sub-expressions found within output_exprs
+DenseAndSparseOutputTerms: output_exprs, but in terms of the returned temporaries.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>T_terms</p>
@@ -806,7 +800,8 @@ we will remap symbol “arr0” to “arr[0]” and symbol “arr1” to “arr[
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.get_formatted_list">
 <span class="sig-name descname"><span class="pre">get_formatted_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_as_inputs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#get_formatted_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.get_formatted_list" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a nested list of symbols for use in generated functions.</p>
+<dd><p>Returns a nested list of formatted symbols, as well as a nested list of the corresponding
+original scalar values. For use in generated functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -818,8 +813,12 @@ required</p></li>
 expressions.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]]</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>nested list of formatted scalar symbols
+flattened_original_values: nested list of original scalar values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>flattened_formatted_symbolic_values</p>
 </dd>
 </dl>
 </dd></dl>
@@ -931,7 +930,8 @@ elements are of the same type/shape.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.flat_symbols_from_values">
 <span class="sig-name descname"><span class="pre">flat_symbols_from_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#flat_symbols_from_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.flat_symbols_from_values" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a flat list of unique symbols in the object for codegen</p>
+<dd><p>Returns a flat list of unique symbols in the object for codegen
+Note that this <em>does not</em> respect storage ordering</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p>
