@@ -114,6 +114,11 @@
 <li class="toctree-l4"><a class="reference internal" href="symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html">symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.examples.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.examples.bundle_adjustment_in_the_large.download_dataset.html">symforce.examples.bundle_adjustment_in_the_large.download_dataset module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.examples.custom_factor_generation.html">symforce.examples.custom_factor_generation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="symforce.examples.custom_factor_generation.factor_residuals.html">symforce.examples.custom_factor_generation.factor_residuals module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.examples.custom_factor_generation.generate_factors.html">symforce.examples.custom_factor_generation.generate_factors module</a></li>
@@ -570,88 +575,8 @@
     text-align: unset;
 }
 </style>
-<section id="module-symforce.examples.robot_2d_triangulation.robot_2d_triangulation">
-<span id="symforce-examples-robot-2d-triangulation-robot-2d-triangulation-module"></span><h1>symforce.examples.robot_2d_triangulation.robot_2d_triangulation module<a class="headerlink" href="#module-symforce.examples.robot_2d_triangulation.robot_2d_triangulation" title="Permalink to this headline"></a></h1>
-<p>Demonstrates solving a 2D triangulation problem with SymForce. The goal is for a robot
-in a 2D plane to compute its trajectory given distance measurements from wheel odometry
-and relative bearing angle measurements to known landmarks in the environment.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_triangulation.robot_2d_triangulation.bearing_residual">
-<span class="sig-name descname"><span class="pre">bearing_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">landmark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_triangulation/robot_2d_triangulation.html#bearing_residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_triangulation.robot_2d_triangulation.bearing_residual" title="Permalink to this definition"></a></dt>
-<dd><p>Residual from a relative bearing mesurement of a 2D pose to a landmark.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pose</strong> (<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a>) – </p></li>
-<li><p><strong>landmark</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix21</span></code></a>) – </p></li>
-<li><p><strong>angle</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
-<li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix11" title="symforce.geo.matrix.Matrix11"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix11</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_triangulation.robot_2d_triangulation.odometry_residual">
-<span class="sig-name descname"><span class="pre">odometry_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_triangulation/robot_2d_triangulation.html#odometry_residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_triangulation.robot_2d_triangulation.odometry_residual" title="Permalink to this definition"></a></dt>
-<dd><p>Residual from the scalar distance between two poses.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pose_a</strong> (<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a>) – </p></li>
-<li><p><strong>pose_b</strong> (<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a>) – </p></li>
-<li><p><strong>dist</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
-<li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix11" title="symforce.geo.matrix.Matrix11"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix11</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_triangulation.robot_2d_triangulation.build_factors">
-<span class="sig-name descname"><span class="pre">build_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_poses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_landmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_triangulation/robot_2d_triangulation.html#build_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_triangulation.robot_2d_triangulation.build_factors" title="Permalink to this definition"></a></dt>
-<dd><p>Build factors for a problem of the given dimensionality.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>num_poses</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
-<li><p><strong>num_landmarks</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Iterator</span></code>[<a class="reference internal" href="symforce.opt.factor.html#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Factor</span></code></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_triangulation.robot_2d_triangulation.main">
-<span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_triangulation/robot_2d_triangulation.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_triangulation.robot_2d_triangulation.main" title="Permalink to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_triangulation.robot_2d_triangulation.generate_bearing_residual_code">
-<span class="sig-name descname"><span class="pre">generate_bearing_residual_code</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_triangulation/robot_2d_triangulation.html#generate_bearing_residual_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_triangulation.robot_2d_triangulation.generate_bearing_residual_code" title="Permalink to this definition"></a></dt>
-<dd><p>Generate C++ code for the bearing residual function. A C++ Factor can then be
-constructed and optimized from this function without any Python dependency.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="symforce-examples-robot-2d-triangulation-robot-2d-triangulation-module">
+<h1>symforce.examples.robot_2d_triangulation.robot_2d_triangulation module<a class="headerlink" href="#symforce-examples-robot-2d-triangulation-robot-2d-triangulation-module" title="Permalink to this headline"></a></h1>
 </section>
 
 

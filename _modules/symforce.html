@@ -111,6 +111,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html">symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../api/symforce.examples.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/symforce.examples.bundle_adjustment_in_the_large.download_dataset.html">symforce.examples.bundle_adjustment_in_the_large.download_dataset module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../api/symforce.examples.custom_factor_generation.html">symforce.examples.custom_factor_generation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../api/symforce.examples.custom_factor_generation.factor_residuals.html">symforce.examples.custom_factor_generation.factor_residuals module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/symforce.examples.custom_factor_generation.generate_factors.html">symforce.examples.custom_factor_generation.generate_factors module</a></li>
@@ -649,8 +654,13 @@
 
     <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">path_util</span>
 
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">symengine_install_dir</span> <span class="o">=</span> <span class="n">path_util</span><span class="o">.</span><span class="n">symenginepy_install_dir</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">path_util</span><span class="o">.</span><span class="n">MissingManifestException</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span> <span class="kn">from</span> <span class="nn">ex</span>
+
     <span class="n">symengine_path_candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-        <span class="n">path_util</span><span class="o">.</span><span class="n">symenginepy_install_dir</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;lib/python3*/site-packages/symengine/__init__.py&quot;</span><span class="p">)</span>
+        <span class="n">symengine_install_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;lib/python3*/site-packages/symengine/__init__.py&quot;</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">symengine_path_candidates</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>

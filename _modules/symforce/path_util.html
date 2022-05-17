@@ -111,6 +111,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html">symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_in_the_large.download_dataset.html">symforce.examples.bundle_adjustment_in_the_large.download_dataset module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/symforce.examples.custom_factor_generation.html">symforce.examples.custom_factor_generation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.custom_factor_generation.factor_residuals.html">symforce.examples.custom_factor_generation.factor_residuals module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.custom_factor_generation.generate_factors.html">symforce.examples.custom_factor_generation.generate_factors module</a></li>
@@ -552,6 +557,10 @@
 <span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
 
 
+<div class="viewcode-block" id="MissingManifestException"><a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.MissingManifestException">[docs]</a><span class="k">class</span> <span class="nc">MissingManifestException</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
 <span class="k">class</span> <span class="nc">_Manifest</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Internal class to manage loading data from the build manifest and caching that data.  Not</span>
@@ -563,8 +572,12 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_ensure_loaded</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_manifest</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;build&quot;</span> <span class="o">/</span> <span class="s2">&quot;manifest.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="bp">cls</span><span class="o">.</span><span class="n">_manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">manifest_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;build&quot;</span> <span class="o">/</span> <span class="s2">&quot;manifest.json&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">manifest_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="n">_manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">MissingManifestException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Manifest not found at </span><span class="si">{</span><span class="n">manifest_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">get_entry</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>

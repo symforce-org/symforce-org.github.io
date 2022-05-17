@@ -111,6 +111,11 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html">symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.examples.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.examples.bundle_adjustment_in_the_large.download_dataset.html">symforce.examples.bundle_adjustment_in_the_large.download_dataset module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.examples.custom_factor_generation.html">symforce.examples.custom_factor_generation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.examples.custom_factor_generation.factor_residuals.html">symforce.examples.custom_factor_generation.factor_residuals module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/symforce.examples.custom_factor_generation.generate_factors.html">symforce.examples.custom_factor_generation.generate_factors module</a></li>
@@ -1385,6 +1390,10 @@
                     <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">sym_attr</span><span class="p">)</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span>
                         <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()]</span>
                     <span class="p">)</span>
+
+            <span class="c1"># Evaluate matrices</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
             <span class="c1"># Evaluate scalars</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">sm</span><span class="o">.</span><span class="n">Expr</span><span class="p">):</span>

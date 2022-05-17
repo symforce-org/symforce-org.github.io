@@ -113,6 +113,11 @@
 <li class="toctree-l4"><a class="reference internal" href="api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html">symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem module</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api/symforce.examples.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/symforce.examples.bundle_adjustment_in_the_large.download_dataset.html">symforce.examples.bundle_adjustment_in_the_large.download_dataset module</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="api/symforce.examples.custom_factor_generation.html">symforce.examples.custom_factor_generation package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/symforce.examples.custom_factor_generation.factor_residuals.html">symforce.examples.custom_factor_generation.factor_residuals module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/symforce.examples.custom_factor_generation.generate_factors.html">symforce.examples.custom_factor_generation.generate_factors module</a></li>
@@ -625,13 +630,29 @@
 </ul>
 <p><a class="reference external" href="https://symforce.org"><strong>Read the docs!</strong></a></p>
 </section>
-<section id="build-from-source">
-<h2>Build from source<a class="headerlink" href="#build-from-source" title="Permalink to this headline"></a></h2>
-<p>SymForce requires Python 3.8 or later. We suggest using conda or virtualenv:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">--</span><span class="n">name</span> <span class="n">symforce</span> <span class="s2">&quot;python&gt;=3.8&quot;</span>
-<span class="n">conda</span> <span class="n">activate</span> <span class="n">symforce</span>
+<section id="build-from-pip">
+<h2>Build from pip<a class="headerlink" href="#build-from-pip" title="Permalink to this headline"></a></h2>
+<p>SymForce requires Python 3.8 or later. We suggest creating a virtual python environment.</p>
+<p>Install the <code class="docutils literal notranslate"><span class="pre">gmp</span></code> package with one of:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="n">libgmp</span><span class="o">-</span><span class="n">dev</span>            <span class="c1"># Linux</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">gmp</span>                  <span class="c1"># Mac</span>
+<span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">gmp</span>  <span class="c1"># Conda</span>
 </pre></div>
 </div>
+<p>Install SymForce</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Verify the installation in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">geo</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">geo</span><span class="o">.</span><span class="n">Rot3</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><span style="color:blue">TODO: Create wheels for <code style="color:blue"><b>pip install symforce</b></code></span></p>
+</section>
+<section id="build-cmake-yourself-todo-deconflict">
+<h2>Build CMake yourself (TODO deconflict)<a class="headerlink" href="#build-cmake-yourself-todo-deconflict" title="Permalink to this headline"></a></h2>
+<p>SymForce requires Python 3.8 or later. We suggest creating a virtual python environment.</p>
 <p>Install packages:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux</span>
 <span class="n">apt</span> <span class="n">install</span> <span class="n">doxygen</span> <span class="n">libgmp</span><span class="o">-</span><span class="n">dev</span> <span class="n">pandoc</span>
@@ -648,7 +669,7 @@
 </pre></div>
 </div>
 <p>Install CMake if you don’t already have a recent version:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="s2">&quot;cmake&gt;=3.17&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="s2">&quot;cmake&gt;=3.19&quot;</span>
 </pre></div>
 </div>
 <p>Build SymForce (requires C++14 or later):</p>
