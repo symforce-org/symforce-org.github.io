@@ -77,6 +77,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">focal_length</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">intrinsics</span>
 
+    <span class="c1"># Here we&#39;re writing the projection ourselves because this isn&#39;t a camera model provided by</span>
+    <span class="c1"># SymForce.  For cameras in `symforce.cam` we could just create a `cam.PosedCamera` and call</span>
+    <span class="c1"># `camera.pixel_from_global_point` instead, or we could create a subclass of `cam.CameraCal` and</span>
+    <span class="c1"># do that.</span>
     <span class="n">point_cam</span> <span class="o">=</span> <span class="n">cam_T_world</span> <span class="o">*</span> <span class="n">point</span>
 
     <span class="n">p</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="n">point_cam</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="n">sm</span><span class="o">.</span><span class="n">Max</span><span class="p">(</span><span class="o">-</span><span class="n">point_cam</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">)</span>
@@ -89,10 +93,20 @@
 
 
 <div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../../api/symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.html#symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates the snavely_reprojection_factor into C++, as well as a set of Keys to help construct</span>
+<span class="sd">    the optimization problem in C++, and puts them into `output_dir`.  This is called by</span>
+<span class="sd">    `symforce/test/symforce_examples_bundle_adjustment_in_the_large_codegen_test.py` to generate the</span>
+<span class="sd">    contents of the `gen` folder inside this directory.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Generate the residual function (see `gen/snavely_reprojection_factor.h`)</span>
     <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">snavely_reprojection_residual</span><span class="p">,</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">())</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
         <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cam_T_world&quot;</span><span class="p">,</span> <span class="s2">&quot;intrinsics&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">]</span>
     <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+    <span class="c1"># Make a `Values` with variables used in the C++ problem, and generate C++ Keys for them (see</span>
+    <span class="c1"># `gen/keys.h`)</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span>
         <span class="n">cam_T_world</span><span class="o">=</span><span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">(),</span>
         <span class="n">intrinsics</span><span class="o">=</span><span class="n">geo</span><span class="o">.</span><span class="n">V3</span><span class="p">(),</span>
@@ -129,21 +143,28 @@
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Pages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../index.html">SymForce Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../development.html">Development Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/sympy_tutorial.html">SymPy Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/geometry_tutorial.html">Geometry Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/ops_tutorial.html">Ops Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/cameras_tutorial.html">Cameras Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/values_tutorial.html">Values Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/codegen_tutorial.html">Codegen Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/optimization_tutorial.html">Optimization Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../../notebooks/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
 <ul>

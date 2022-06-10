@@ -49,7 +49,6 @@
 <span class="kn">import</span> <span class="nn">importlib.abc</span>
 <span class="kn">import</span> <span class="nn">importlib.util</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">sympy</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -669,7 +668,7 @@
 
 <div class="viewcode-block" id="generate_lcm_types"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.generate_lcm_types">[docs]</a><span class="k">def</span> <span class="nf">generate_lcm_types</span><span class="p">(</span>
     <span class="n">lcm_type_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">lcm_files</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">lcm_output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates the language-specific type files for all symforce generated &quot;.lcm&quot; files.</span>
 
@@ -677,15 +676,20 @@
 <span class="sd">        lcm_type_dir: Directory containing symforce-generated .lcm files</span>
 <span class="sd">        lcm_files: List of .lcm files to process</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">lcm_output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">lcm_output_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lcm_type_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
+    <span class="n">lcm_type_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">lcm_type_dir</span><span class="p">)</span>
 
-    <span class="n">python_types_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lcm_output_dir</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">)</span>
-    <span class="n">cpp_types_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lcm_output_dir</span><span class="p">,</span> <span class="s2">&quot;cpp&quot;</span><span class="p">,</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">)</span>
-    <span class="n">lcm_include_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;lcmtypes&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">lcm_output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lcm_output_dir</span> <span class="o">=</span> <span class="n">lcm_type_dir</span> <span class="o">/</span> <span class="s2">&quot;..&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">lcm_output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">lcm_output_dir</span><span class="p">)</span>
+
+    <span class="n">python_types_dir</span> <span class="o">=</span> <span class="n">lcm_output_dir</span> <span class="o">/</span> <span class="s2">&quot;python&quot;</span>
+    <span class="n">cpp_types_dir</span> <span class="o">=</span> <span class="n">lcm_output_dir</span> <span class="o">/</span> <span class="s2">&quot;cpp&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span>
+    <span class="n">lcm_include_dir</span> <span class="o">=</span> <span class="s2">&quot;lcmtypes&quot;</span>
 
     <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;python_types_dir&quot;</span><span class="p">:</span> <span class="n">python_types_dir</span><span class="p">,</span> <span class="s2">&quot;cpp_types_dir&quot;</span><span class="p">:</span> <span class="n">cpp_types_dir</span><span class="p">}</span>
 
+    <span class="c1"># TODO(brad, aaron): Do something reasonable with lcm_files other than returning early</span>
     <span class="c1"># If no LCM files provided, do nothing</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">lcm_files</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">result</span>
@@ -697,23 +701,23 @@
     <span class="n">skymarshal</span><span class="o">.</span><span class="n">main</span><span class="p">(</span>
         <span class="p">[</span><span class="n">SkymarshalPython</span><span class="p">,</span> <span class="n">SkymarshalCpp</span><span class="p">],</span>
         <span class="n">args</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">lcm_type_dir</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">lcm_type_dir</span><span class="p">),</span>
             <span class="s2">&quot;--python&quot;</span><span class="p">,</span>
             <span class="s2">&quot;--python-path&quot;</span><span class="p">,</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">python_types_dir</span><span class="p">,</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">python_types_dir</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">),</span>
             <span class="s2">&quot;--python-namespace-packages&quot;</span><span class="p">,</span>
             <span class="s2">&quot;--python-package-prefix&quot;</span><span class="p">,</span>
             <span class="s2">&quot;lcmtypes&quot;</span><span class="p">,</span>
             <span class="s2">&quot;--cpp&quot;</span><span class="p">,</span>
             <span class="s2">&quot;--cpp-hpath&quot;</span><span class="p">,</span>
-            <span class="n">cpp_types_dir</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">cpp_types_dir</span><span class="p">),</span>
             <span class="s2">&quot;--cpp-include&quot;</span><span class="p">,</span>
             <span class="n">lcm_include_dir</span><span class="p">,</span>
         <span class="p">],</span>
     <span class="p">)</span>
 
     <span class="c1"># Autoformat generated python files</span>
-    <span class="n">format_util</span><span class="o">.</span><span class="n">format_py_dir</span><span class="p">(</span><span class="n">python_types_dir</span><span class="p">)</span>
+    <span class="n">format_util</span><span class="o">.</span><span class="n">format_py_dir</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">python_types_dir</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">result</span></div>
 
@@ -756,21 +760,28 @@
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Pages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../index.html">SymForce Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/sympy_tutorial.html">SymPy Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/geometry_tutorial.html">Geometry Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/ops_tutorial.html">Ops Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/cameras_tutorial.html">Cameras Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/values_tutorial.html">Values Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/codegen_tutorial.html">Codegen Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/optimization_tutorial.html">Optimization Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
 <ul>

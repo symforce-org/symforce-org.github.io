@@ -51,21 +51,27 @@ point, generates a linear approximation to the residual function.</p>
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cc_sym.Factor.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic">
-<li><p>__init__(self: cc_sym.Factor, hessian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys: List[cc_sym.Key]) -&gt; None</p>
+<li><p>__init__(self: cc_sym.Factor, hessian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys: List[cc_sym.Key], sparse: bool = False) -&gt; None</p>
 <blockquote>
-<div><p>Create directly from a (dense) hessian functor. This is the lowest-level constructor.</p>
+<div><p>Create directly from a hessian functor. This is the lowest-level constructor.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>keys: The set of input arguments, in order, accepted by func.</p>
+<dt>Args:</dt><dd><p>keys: The set of input arguments, in order, accepted by func.
+sparse: Create a sparse factor if True, dense factor if false. Defaults to dense.</p>
+</dd>
+<dt>Precondition:</dt><dd><p>The jacobian and hessian returned by hessian_func have type scipy.sparse.csc_matrix if and only if sparse = True.</p>
 </dd>
 </dl>
 </div></blockquote>
 </li>
-<li><p>__init__(self: cc_sym.Factor, hessian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys_to_func: List[cc_sym.Key], keys_to_optimize: List[cc_sym.Key]) -&gt; None</p>
+<li><p>__init__(self: cc_sym.Factor, hessian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys_to_func: List[cc_sym.Key], keys_to_optimize: List[cc_sym.Key], sparse: bool = False) -&gt; None</p>
 <blockquote>
-<div><p>Create directly from a (sparse) hessian functor. This is the lowest-level constructor.</p>
+<div><p>Create directly from a hessian functor. This is the lowest-level constructor.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>keys_to_func: The set of input arguments, in order, accepted by func.
-keys_to_optimize: The set of input arguments that correspond to the derivative in func. Must be a subset of keys_to_func.</p>
+keys_to_optimize: The set of input arguments that correspond to the derivative in func. Must be a subset of keys_to_func.
+sparse: Create a sparse factor if True, dense factor if false. Defaults to dense.</p>
+</dd>
+<dt>Precondition:</dt><dd><p>The jacobian and hessian returned by hessian_func have type scipy.sparse.csc_matrix if and only if sparse = True.</p>
 </dd>
 </dl>
 </div></blockquote>
@@ -90,7 +96,7 @@ keys_to_optimize: The set of input arguments that correspond to the derivative i
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cc_sym.Factor.jacobian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic">
-<li><p>jacobian(jacobian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys: List[cc_sym.Key]) -&gt; cc_sym.Factor</p>
+<li><p>jacobian(jacobian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys: List[cc_sym.Key], sparse: bool = False) -&gt; cc_sym.Factor</p>
 <blockquote>
 <div><p>Create from a function that computes the jacobian. The hessian will be computed using the
 Gauss Newton approximation:</p>
@@ -99,12 +105,15 @@ Gauss Newton approximation:</p>
 rhs = J.T * b</p>
 </div></blockquote>
 <dl class="simple">
-<dt>Args:</dt><dd><p>keys: The set of input arguments, in order, accepted by func.</p>
+<dt>Args:</dt><dd><p>keys: The set of input arguments, in order, accepted by func.
+sparse: Create a sparse factor if True, dense factor if false. Defaults to dense.</p>
+</dd>
+<dt>Precondition:</dt><dd><p>The jacobian returned by jacobian_func has type scipy.sparse.csc_matrix if and only if sparse = True.</p>
 </dd>
 </dl>
 </div></blockquote>
 </li>
-<li><p>jacobian(jacobian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys_to_func: List[cc_sym.Key], keys_to_optimize: List[cc_sym.Key]) -&gt; cc_sym.Factor</p>
+<li><p>jacobian(jacobian_func: Callable[[cc_sym.Values, List[index_entry_t]], tuple], keys_to_func: List[cc_sym.Key], keys_to_optimize: List[cc_sym.Key], sparse: bool = False) -&gt; cc_sym.Factor</p>
 <blockquote>
 <div><p>Create from a function that computes the jacobian. The hessian will be computed using the
 Gauss Newton approximation:</p>
@@ -112,9 +121,14 @@ Gauss Newton approximation:</p>
 <div><p>H   = J.T * J
 rhs = J.T * b</p>
 </div></blockquote>
-<dl class="simple">
+<dl>
 <dt>Args:</dt><dd><p>keys_to_func: The set of input arguments, in order, accepted by func.
-keys_to_optimize: The set of input arguments that correspond to the derivative in func. Must be a subset of keys_to_func.</p>
+keys_to_optimize: The set of input arguments that correspond to the derivative in func. Must be a subset of keys_to_func.
+sparse: Create a sparse factor if True, dense factor if false. Defaults to dense.</p>
+<dl class="simple">
+<dt>Precondition:</dt><dd><p>The jacobian returned by jacobian_func has type scipy.sparse.csc_matrix if and only if sparse = True.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </div></blockquote>
@@ -1399,21 +1413,28 @@ index MUST be valid for other.</p>
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Pages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">SymForce Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/sympy_tutorial.html">SymPy Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/geometry_tutorial.html">Geometry Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/ops_tutorial.html">Ops Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/cameras_tutorial.html">Cameras Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/values_tutorial.html">Values Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/codegen_tutorial.html">Codegen Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/optimization_tutorial.html">Optimization Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../notebooks/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
 <ul class="current">

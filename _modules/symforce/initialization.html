@@ -67,7 +67,8 @@
     <span class="n">add_custom_methods</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
     <span class="n">override_solve</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
     <span class="n">override_count_ops</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
-    <span class="n">override_matrix_symbol</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span></div>
+    <span class="n">override_matrix_symbol</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span>
+    <span class="n">add_derivatives</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="override_symbol_new"><a class="viewcode-back" href="../../api/symforce.initialization.html#symforce.initialization.override_symbol_new">[docs]</a><span class="k">def</span> <span class="nf">override_symbol_new</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -427,7 +428,7 @@
 <span class="sd">        Precondition:</span>
 <span class="sd">            vals has at least one element</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">i</span> <span class="o">*</span> <span class="n">val</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">argmax_onehot</span><span class="p">(</span><span class="n">vals</span><span class="p">))])</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">val</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">argmax_onehot</span><span class="p">(</span><span class="n">vals</span><span class="p">)))</span>
 
     <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logic</span>
 
@@ -445,6 +446,26 @@
 
         <span class="n">DataBuffer</span><span class="o">.</span><span class="n">__sympy_module__</span> <span class="o">=</span> <span class="n">sympy_module</span>
         <span class="n">sympy_module</span><span class="o">.</span><span class="n">DataBuffer</span> <span class="o">=</span> <span class="n">DataBuffer</span></div>
+
+
+<div class="viewcode-block" id="add_derivatives"><a class="viewcode-back" href="../../api/symforce.initialization.html#symforce.initialization.add_derivatives">[docs]</a><span class="k">def</span> <span class="nf">add_derivatives</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add derivatives for floor, sign, and mod</span>
+
+<span class="sd">    Only necessary on sympy</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sympy_module</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
+        <span class="c1"># Hack in some key derivatives that sympy doesn&#39;t do. For all these cases the derivatives</span>
+        <span class="c1"># here are correct except at the discrete switching point, which is correct for our</span>
+        <span class="c1"># numerical purposes.</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">sympy_module</span><span class="o">.</span><span class="n">floor</span><span class="p">,</span> <span class="s2">&quot;_eval_derivative&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">sympy_module</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">sympy_module</span><span class="o">.</span><span class="n">sign</span><span class="p">,</span> <span class="s2">&quot;_eval_derivative&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">sympy_module</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">mod_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+            <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_rewrite_as_floor</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># pylint: disable=protected-access</span>
+
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">sympy_module</span><span class="o">.</span><span class="n">Mod</span><span class="p">,</span> <span class="s2">&quot;_eval_derivative&quot;</span><span class="p">,</span> <span class="n">mod_derivative</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -472,21 +493,28 @@
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Pages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">SymForce Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/sympy_tutorial.html">SymPy Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/geometry_tutorial.html">Geometry Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/ops_tutorial.html">Ops Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/cameras_tutorial.html">Cameras Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/values_tutorial.html">Values Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/codegen_tutorial.html">Codegen Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/optimization_tutorial.html">Optimization Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../notebooks/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
 <ul>

@@ -413,9 +413,9 @@
 <span class="sd">        [[Matrix22(...), Matrix23(...)], [Matrix11(...), Matrix14(...)]] -&gt; Matrix35 with elements equal to given blocks</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Sum rows of matrices in the first column</span>
-        <span class="n">rows</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">mat_row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">mat_row</span> <span class="ow">in</span> <span class="n">array</span><span class="p">])</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mat_row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">mat_row</span> <span class="ow">in</span> <span class="n">array</span><span class="p">)</span>
         <span class="c1"># Sum columns of matrices in the first row</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">mat</span> <span class="ow">in</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">mat</span> <span class="ow">in</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="c1"># Check for size consistency</span>
         <span class="k">for</span> <span class="n">mat_row</span> <span class="ow">in</span> <span class="n">array</span><span class="p">:</span>
@@ -835,7 +835,7 @@
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
             <span class="c1"># assert that each column is a vector</span>
             <span class="k">assert</span> <span class="n">col</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
-            <span class="k">assert</span> <span class="nb">sum</span><span class="p">([</span><span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">shape</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+            <span class="k">assert</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dim</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">([</span><span class="n">col</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">])</span><span class="o">.</span><span class="n">T</span></div>
 
@@ -1230,21 +1230,28 @@
 
 
 <h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Pages</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../index.html">SymForce Home</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../development.html">Development Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/sympy_tutorial.html">SymPy Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/geometry_tutorial.html">Geometry Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/ops_tutorial.html">Ops Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/cameras_tutorial.html">Cameras Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/values_tutorial.html">Values Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/codegen_tutorial.html">Codegen Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/optimization_tutorial.html">Optimization Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../notebooks/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
 <ul>
