@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>symforce.logic module &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.logic module &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
@@ -38,18 +38,124 @@
             
   <section id="module-symforce.logic">
 <span id="symforce-logic-module"></span><h1>symforce.logic module<a class="headerlink" href="#module-symforce.logic" title="Permalink to this headline">¶</a></h1>
-<p>Internal initialization code for logic methods.  Should not be called by users</p>
-<p>TODO(aaron): Make these methods show up in the API docs?</p>
+<p>Functions for dealing with logical operations represented by scalars</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="symforce.logic.add_logic_methods">
-<span class="sig-name descname"><span class="pre">add_logic_methods</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sympy_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#add_logic_methods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.add_logic_methods" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add logical helper methods to the symbolic API</p>
+<dt class="sig sig-object py" id="symforce.logic.is_positive">
+<span class="sig-name descname"><span class="pre">is_positive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#is_positive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.is_positive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 1 if x is positive, 0 otherwise</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>sympy_module</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code>) – </p>
+<dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.logic.is_negative">
+<span class="sig-name descname"><span class="pre">is_negative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#is_negative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.is_negative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 1 if x is negative, 0 otherwise</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.logic.is_nonnegative">
+<span class="sig-name descname"><span class="pre">is_nonnegative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#is_nonnegative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.is_nonnegative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 1 if x is &gt;= 0, 0 if x is negative</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.logic.is_nonpositive">
+<span class="sig-name descname"><span class="pre">is_nonpositive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#is_nonpositive"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.is_nonpositive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 1 if x is &lt;= 0, 0 if x is positive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.logic.logical_and">
+<span class="sig-name descname"><span class="pre">logical_and</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsafe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#logical_and"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.logical_and" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical and of two Scalars</p>
+<p>Input values are treated as true if they are positive, false if they are 0 or negative.
+The returned value is 1 for true, 0 for false.</p>
+<p>If unsafe is True, the resulting expression is fewer ops but assumes the inputs are exactly
+0 or 1; results for other (finite) inputs will be finite, but are otherwise undefined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>b</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>unsafe</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.logic.logical_or">
+<span class="sig-name descname"><span class="pre">logical_or</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsafe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#logical_or"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.logical_or" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical or of two Scalars</p>
+<p>Input values are treated as true if they are positive, false if they are 0 or negative.
+The returned value is 1 for true, 0 for false.</p>
+<p>If unsafe is True, the resulting expression is fewer ops but assumes the inputs are exactly
+0 or 1; results for other (finite) inputs will be finite, but are otherwise undefined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>b</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>unsafe</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.logic.logical_not">
+<span class="sig-name descname"><span class="pre">logical_not</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsafe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/logic.html#logical_not"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.logic.logical_not" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical not of a Scalar</p>
+<p>Input value is treated as true if it is positive, false if it is 0 or negative. The
+returned value is 1 for true, 0 for false.</p>
+<p>If unsafe is True, the resulting expression is fewer ops but assumes the inputs are exactly
+0 or 1; results for other (finite) inputs will be finite, but are otherwise undefined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>unsafe</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -113,18 +219,19 @@
 <li class="toctree-l2"><a class="reference internal" href="symforce.codegen.html">symforce.codegen package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.examples.html">symforce.examples package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.geo.html">symforce.geo package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.internal.html">symforce.internal package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.ops.html">symforce.ops package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.test_util.html">symforce.test_util package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.values.html">symforce.values package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">symforce.logic module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html">symforce.symbolic module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a></li>
 </ul>

@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>symforce.ops.interfaces.lie_group module &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.ops.interfaces.lie_group module &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
@@ -68,7 +68,7 @@ StorageOps (assuming the necessary functions are implemented).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.ops.interfaces.lie_group.LieGroup.from_tangent">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.from_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.from_tangent" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.from_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.from_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping from the tangent space vector about identity into a group element.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -86,7 +86,7 @@ StorageOps (assuming the necessary functions are implemented).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.ops.interfaces.lie_group.LieGroup.to_tangent">
-<span class="sig-name descname"><span class="pre">to_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.to_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.to_tangent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.to_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.to_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping from this element to the tangent space vector about identity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -103,8 +103,8 @@ StorageOps (assuming the necessary functions are implemented).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.ops.interfaces.lie_group.LieGroup.retract">
-<span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.retract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a tangent space pertubation vec to this. Often used in optimization
+<span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.retract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a tangent space perturbation vec to this. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
 <p>Implementation is simply <cite>compose(this, from_tangent(vec))</cite>.
 Conceptually represents “this + vec”.</p>
@@ -124,11 +124,11 @@ Conceptually represents “this + vec”.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.ops.interfaces.lie_group.LieGroup.local_coordinates">
-<span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.local_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes a tangent space pertubation around this to produce b. Often used in optimization
+<span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.local_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a tangent space perturbation around this to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
 <p>Implementation is simply <cite>to_tangent(between(this, b))</cite>.
-Tangent space pertubation that conceptually represents “this - a”.</p>
+Tangent space perturbation that conceptually represents “this - a”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -204,18 +204,19 @@ Tangent space pertubation that conceptually represents “this - a”.</p>
 <li class="toctree-l2"><a class="reference internal" href="symforce.codegen.html">symforce.codegen package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.examples.html">symforce.examples package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.geo.html">symforce.geo package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.internal.html">symforce.internal package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="symforce.ops.html">symforce.ops package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.test_util.html">symforce.test_util package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.values.html">symforce.values package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="symforce.initialization.html">symforce.initialization module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html">symforce.symbolic module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a></li>
 </ul>

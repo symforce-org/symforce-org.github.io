@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>symforce.jacobian_helpers &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.jacobian_helpers &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
@@ -39,18 +39,18 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">geo</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce.ops</span> <span class="kn">import</span> <span class="n">StorageOps</span>
 <span class="kn">from</span> <span class="nn">symforce.ops</span> <span class="kn">import</span> <span class="n">LieGroupOps</span>
 
 
-<div class="viewcode-block" id="tangent_jacobians"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
+<div class="viewcode-block" id="tangent_jacobians"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute jacobians of expr, a Lie Group element which is a function of the Lie Group elements in</span>
 <span class="sd">    args.  Jacobians are derivatives in the tangent space of expr with respect to changes in the</span>
 <span class="sd">    tangent space of the arg, as opposed to jacobians of the storage of either which could be</span>
-<span class="sd">    trivially computed with geo.Matrix.jacobian or sm.Expr.diff</span>
+<span class="sd">    trivially computed with sf.Matrix.jacobian or sf.Expr.diff</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        expr: The final expression that should be differentiated</span>
@@ -65,7 +65,7 @@
 
 <div class="viewcode-block" id="tangent_jacobians_first_order"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians_first_order">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians_first_order</span><span class="p">(</span>
     <span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An implementation of tangent_jacobians (so imagine tangent_jacobian&#39;s doc-string is cut and</span>
 <span class="sd">    pasted here).</span>
@@ -85,21 +85,21 @@
     <span class="c1"># returns expressions which require fewer ops after cse.</span>
     <span class="n">jacobians</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">infinitesimal_retract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">infinitesimal_retract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a first order approximation to LieGroupOps.retract(v)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span>
             <span class="n">a</span><span class="p">,</span>
-            <span class="p">(</span><span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
+            <span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">+</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">infinitesimal_local_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">infinitesimal_local_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a first order (in b - a) approximation to LieGroupOps.local_coordinates(a, b)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_D_storage</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
-            <span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">b</span><span class="p">))</span> <span class="o">-</span> <span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+            <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">b</span><span class="p">))</span> <span class="o">-</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">safe_subs</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">old</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
@@ -108,12 +108,12 @@
 <span class="sd">        components of new contain symbols in old that we are replacing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">intermediate</span> <span class="o">=</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span>
-            <span class="n">old</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(</span><span class="n">old</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;intermediate&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()</span>
+            <span class="n">old</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(</span><span class="n">old</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;intermediate&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">expr</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">intermediate</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">intermediate</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-        <span class="n">xi</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">arg</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">)</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">arg</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">)</span>
         <span class="n">arg_perturbed</span> <span class="o">=</span> <span class="n">infinitesimal_retract</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">xi</span><span class="p">)</span>
 
         <span class="n">expr_perturbed</span> <span class="o">=</span> <span class="n">safe_subs</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">arg_perturbed</span><span class="p">)</span>
@@ -126,9 +126,7 @@
     <span class="k">return</span> <span class="n">jacobians</span></div>
 
 
-<div class="viewcode-block" id="tangent_jacobians_chain_rule"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians_chain_rule">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians_chain_rule</span><span class="p">(</span>
-    <span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
+<div class="viewcode-block" id="tangent_jacobians_chain_rule"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians_chain_rule">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians_chain_rule</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An implementation of tangent_jacobians (so imagine tangent_jacobian&#39;s doc-string is cut and</span>
 <span class="sd">    pasted here).</span>
@@ -147,7 +145,7 @@
 
     <span class="c1"># Compute jacobians in the space of the storage, then chain rule on the left and right sides</span>
     <span class="c1"># to get jacobian wrt the tangent space of both the arg and the result</span>
-    <span class="n">expr_storage</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
+    <span class="n">expr_storage</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
     <span class="n">expr_tangent_D_storage</span> <span class="o">=</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_D_storage</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>

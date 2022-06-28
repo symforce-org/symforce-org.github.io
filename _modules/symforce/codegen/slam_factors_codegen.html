@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>symforce.codegen.slam_factors_codegen &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.codegen.slam_factors_codegen &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
@@ -51,22 +51,20 @@
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">cam</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">codegen</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">geo</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">sympy</span> <span class="k">as</span> <span class="n">sm</span>
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.noise_models</span> <span class="kn">import</span> <span class="n">BarronNoiseModel</span>
 
 
 <div class="viewcode-block" id="inverse_range_landmark_prior_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_prior_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_prior_residual</span><span class="p">(</span>
-    <span class="n">landmark_inverse_range</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">inverse_range_prior</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">weight</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">sigma</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector1</span><span class="p">:</span>
+    <span class="n">landmark_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">inverse_range_prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector1</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Factor representing a Gaussian prior on the inverse range of a landmark</span>
 
@@ -82,20 +80,20 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">prior_diff</span> <span class="o">=</span> <span class="n">landmark_inverse_range</span> <span class="o">-</span> <span class="n">inverse_range_prior</span>
     <span class="n">prior_whitened_diff</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">prior_diff</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">geo</span><span class="o">.</span><span class="n">V1</span><span class="p">(</span><span class="n">prior_whitened_diff</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">V1</span><span class="p">(</span><span class="n">prior_whitened_diff</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="reprojection_delta"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.reprojection_delta">[docs]</a><span class="k">def</span> <span class="nf">reprojection_delta</span><span class="p">(</span>
-    <span class="n">source_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">source_calibration_storage</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
-    <span class="n">target_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
-    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">cam</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">source_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reprojects the landmark into the target camera and returns the delta from the correspondence to</span>
 <span class="sd">    the reprojection.</span>
@@ -123,8 +121,8 @@
     <span class="n">target_calibration</span> <span class="o">=</span> <span class="n">camera_model_class</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">target_calibration_storage</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">())</span>
 
     <span class="c1"># Warp source coords into target</span>
-    <span class="n">source_cam</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">source_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">source_calibration</span><span class="p">)</span>
-    <span class="n">target_cam</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">target_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">target_calibration</span><span class="p">)</span>
+    <span class="n">source_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">source_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">source_calibration</span><span class="p">)</span>
+    <span class="n">target_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">target_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">target_calibration</span><span class="p">)</span>
 
     <span class="n">target_pixel_warped</span><span class="p">,</span> <span class="n">warp_is_valid</span> <span class="o">=</span> <span class="n">source_cam</span><span class="o">.</span><span class="n">warp_pixel</span><span class="p">(</span>
         <span class="n">pixel</span><span class="o">=</span><span class="n">source_pixel</span><span class="p">,</span>
@@ -138,19 +136,19 @@
 
 
 <div class="viewcode-block" id="inverse_range_landmark_reprojection_error_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_reprojection_error_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_reprojection_error_residual</span><span class="p">(</span>
-    <span class="n">source_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">source_calibration_storage</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
-    <span class="n">target_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
-    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-    <span class="n">weight</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">cam</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">source_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the 2dof residual of reprojecting the landmark into the target camera and comparing</span>
 <span class="sd">    against the correspondence in the target camera.</span>
@@ -201,22 +199,22 @@
     <span class="p">)</span>
 
     <span class="n">whitened_residual</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">warp_is_valid</span> <span class="o">*</span> <span class="n">sm</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+        <span class="n">warp_is_valid</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">whitened_residual</span></div>
 
 
 <div class="viewcode-block" id="ray_reprojection_delta"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.ray_reprojection_delta">[docs]</a><span class="k">def</span> <span class="nf">ray_reprojection_delta</span><span class="p">(</span>
-    <span class="n">source_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">target_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
-    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
-    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">target_camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">cam</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">target_camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reprojects the landmark ray into the target camera and returns the delta between the</span>
 <span class="sd">    correspondence and the reprojection.</span>
@@ -258,18 +256,18 @@
 
 
 <div class="viewcode-block" id="inverse_range_landmark_ray_reprojection_error_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_ray_reprojection_error_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_ray_reprojection_error_residual</span><span class="p">(</span>
-    <span class="n">source_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">target_pose</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
-    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
-    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-    <span class="n">weight</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">target_camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">cam</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">target_camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the 2dof residual of reprojecting the landmark ray into the target spherical camera and comparing</span>
 <span class="sd">    it against the correspondence.</span>
@@ -318,7 +316,7 @@
     <span class="p">)</span>
 
     <span class="n">whitened_residual</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">is_valid</span> <span class="o">*</span> <span class="n">sm</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+        <span class="n">is_valid</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">whitened_residual</span></div>
@@ -340,7 +338,7 @@
         <span class="n">config</span> <span class="o">=</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">()</span>
 
     <span class="c1"># Default cam types to generate</span>
-    <span class="n">cam_types</span> <span class="o">=</span> <span class="n">cam</span><span class="o">.</span><span class="n">CameraCal</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
+    <span class="n">cam_types</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
 
     <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">inverse_range_landmark_prior_residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span>
@@ -361,17 +359,17 @@
                 <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;inverse_range_landmark_</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_error_residual&quot;</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
                 <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">fixed_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">fixed_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
                 <span class="p">],</span>
             <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
                 <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
@@ -384,14 +382,14 @@
                 <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_delta&quot;</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
                 <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">fixed_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">fixed_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
                 <span class="p">],</span>
                 <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reprojection_delta&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
             <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -406,16 +404,16 @@
                 <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;inverse_range_landmark_</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_error_residual&quot;</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
                 <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">fixed_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
                 <span class="p">],</span>
             <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
                 <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
@@ -428,13 +426,13 @@
                 <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_delta&quot;</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
                 <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">matrix</span><span class="o">.</span><span class="n">fixed_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
-                    <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
-                    <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
                 <span class="p">],</span>
                 <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reprojection_delta&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
             <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>

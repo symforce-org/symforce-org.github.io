@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>symforce.examples.custom_factor_generation.factor_residuals &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.examples.custom_factor_generation.factor_residuals &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
@@ -39,20 +39,18 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">geo</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">sympy</span> <span class="k">as</span> <span class="n">sm</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">geo_factors_codegen</span>
 
 
 <div class="viewcode-block" id="custom_between_factor_residual"><a class="viewcode-back" href="../../../../api/symforce.examples.custom_factor_generation.factor_residuals.html#symforce.examples.custom_factor_generation.factor_residuals.custom_between_factor_residual">[docs]</a><span class="k">def</span> <span class="nf">custom_between_factor_residual</span><span class="p">(</span>
-    <span class="n">nav_T_src</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">nav_T_target</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">target_T_src_prior</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
-    <span class="n">prior_weight</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-    <span class="n">prior_sigmas</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector6</span><span class="p">,</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector6</span><span class="p">:</span>
+    <span class="n">nav_T_src</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">nav_T_target</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_T_src_prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">prior_weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">prior_sigmas</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector6</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector6</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the 6dof residual on the relative pose between the given two views. Compares</span>
 <span class="sd">    the relative pose between the optimized poses to the relative pose between the priors.</span>
@@ -74,11 +72,11 @@
     <span class="c1"># Note: sqrt(weight) is safe and does not need to be pushed away from 0 by epsilon because</span>
     <span class="c1"># weight is a hyperparameter, so we don&#39;t need to differentiate with respect to weight or worry</span>
     <span class="c1"># about it being slightly negative.  Plus, adding epsilon would break the weight==0 case</span>
-    <span class="n">sqrt_info</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prior_weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix66</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+    <span class="n">sqrt_info</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">prior_weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix66</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
         <span class="n">prior_sigmas</span><span class="o">.</span><span class="n">applyfunc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">))</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()</span>
     <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector6</span><span class="p">(</span>
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector6</span><span class="p">(</span>
         <span class="n">geo_factors_codegen</span><span class="o">.</span><span class="n">between_factor</span><span class="p">(</span>
             <span class="n">nav_T_target</span><span class="p">,</span> <span class="n">nav_T_src</span><span class="p">,</span> <span class="n">target_T_src_prior</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">,</span> <span class="n">epsilon</span>
         <span class="p">)</span>

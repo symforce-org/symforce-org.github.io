@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>symforce.ops.lie_group_ops &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.ops.lie_group_ops &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
@@ -41,6 +41,7 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span> <span class="nn">symforce.internal.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">symforce.python_util</span> <span class="kn">import</span> <span class="n">get_type</span>
@@ -89,7 +90,7 @@
 
 <div class="viewcode-block" id="LieGroupOps.from_tangent"><a class="viewcode-back" href="../../../api/symforce.ops.lie_group_ops.html#symforce.ops.lie_group_ops.LieGroupOps.from_tangent">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span>
-        <span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">ElementOrType</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">ElementOrType</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mapping from the tangent space approximation at identity into a group element of type a.</span>
@@ -99,7 +100,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            a:</span>
-<span class="sd">            vec: Tangent space pertubation</span>
+<span class="sd">            vec: Tangent space perturbation</span>
 <span class="sd">            epsilon: Small number to avoid singularity</span>
 
 <span class="sd">        Returns:</span>
@@ -108,7 +109,7 @@
         <span class="k">return</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.to_tangent"><a class="viewcode-back" href="../../../api/symforce.ops.lie_group_ops.html#symforce.ops.lie_group_ops.LieGroupOps.to_tangent">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mapping from this element to the tangent space approximation at identity.</span>
 
@@ -117,15 +118,17 @@
 <span class="sd">            epsilon: Small number to avoid singularity</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list: Tangent space pertubation around identity that approximates a.</span>
+<span class="sd">            list: Tangent space perturbation around identity that approximates a.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">type_a</span> <span class="o">=</span> <span class="n">get_type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">type_a</span><span class="p">)</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.retract"><a class="viewcode-back" href="../../../api/symforce.ops.lie_group_ops.html#symforce.ops.lie_group_ops.LieGroupOps.retract">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply a tangent space pertubation vec to the group element a. Often used in optimization</span>
+<span class="sd">        Apply a tangent space perturbation vec to the group element a. Often used in optimization</span>
 <span class="sd">        to update nonlinear values from an update step in the tangent space.</span>
 
 <span class="sd">        Implementation is simply `compose(a, from_tangent(vec))`.</span>
@@ -141,9 +144,11 @@
         <span class="k">return</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.local_coordinates"><a class="viewcode-back" href="../../../api/symforce.ops.lie_group_ops.html#symforce.ops.lie_group_ops.LieGroupOps.local_coordinates">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes a tangent space pertubation around a to produce b. Often used in optimization</span>
+<span class="sd">        Computes a tangent space perturbation around a to produce b. Often used in optimization</span>
 <span class="sd">        to minimize the distance between two group elements.</span>
 
 <span class="sd">        Implementation is simply `to_tangent(between(a, b))`.</span>
@@ -154,7 +159,7 @@
 <span class="sd">            epsilon: Small number to avoid singularity</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list: Tangent space pertubation that conceptually represents &quot;b - a&quot;</span>
+<span class="sd">            list: Tangent space perturbation that conceptually represents &quot;b - a&quot;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 

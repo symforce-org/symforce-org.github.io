@@ -24,7 +24,7 @@
     "# Configuration (optional)\n",
     "import symforce\n",
     "\n",
-    "symforce.set_backend(\"sympy\")\n",
+    "symforce.set_symbolic_api(\"sympy\")\n",
     "symforce.set_log_level(\"warning\")\n",
     "from symforce.notebook_util import display, print_expression_tree"
    ]
@@ -33,7 +33,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Always import the SymPy API through SymForce, because symforce can switch out the backend implementation of the API and adds a few minor but important augmentations. Let's define some algebraic symbols:"
+    "Always import the SymPy API through SymForce, because symforce can switch out the symbolic implementation of the API and adds a few minor but important augmentations. Let's define some algebraic symbols:"
    ]
   },
   {
@@ -42,10 +42,10 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "from symforce import sympy as sm\n",
+    "import symforce.symbolic as sf\n",
     "\n",
-    "x = sm.Symbol(\"x\")\n",
-    "y = sm.Symbol(\"y\")"
+    "x = sf.Symbol(\"x\")\n",
+    "y = sf.Symbol(\"y\")"
    ]
   },
   {
@@ -61,7 +61,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "expr = x ** 2 + sm.sin(y) / x ** 2\n",
+    "expr = x ** 2 + sf.sin(y) / x ** 2\n",
     "display(expr)"
    ]
   },
@@ -119,7 +119,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "display(sm.series(expr, y))"
+    "display(sf.series(expr, y))"
    ]
   }
  ],

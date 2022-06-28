@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>symforce.codegen.template_util &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.codegen.template_util &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
@@ -54,10 +54,8 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">format_util</span>
 
-<span class="n">CURRENT_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
-<span class="n">CPP_TEMPLATE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CURRENT_DIR</span><span class="p">,</span> <span class="s2">&quot;cpp_templates&quot;</span><span class="p">)</span>
-<span class="n">PYTHON_TEMPLATE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CURRENT_DIR</span><span class="p">,</span> <span class="s2">&quot;python_templates&quot;</span><span class="p">)</span>
-<span class="n">LCM_TEMPLATE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CURRENT_DIR</span><span class="p">,</span> <span class="s2">&quot;lcm_templates&quot;</span><span class="p">)</span>
+<span class="n">CURRENT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">LCM_TEMPLATE_DIR</span> <span class="o">=</span> <span class="n">CURRENT_DIR</span> <span class="o">/</span> <span class="s2">&quot;lcm_templates&quot;</span>
 
 
 <div class="viewcode-block" id="FileType"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.FileType">[docs]</a><span class="k">class</span> <span class="nc">FileType</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
@@ -95,7 +93,48 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;template must be of the form path/to/file.ext.jinja, got </span><span class="si">{</span><span class="n">template_path</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">FileType</span><span class="o">.</span><span class="n">from_extension</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span></div></div>
+        <span class="k">return</span> <span class="n">FileType</span><span class="o">.</span><span class="n">from_extension</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="FileType.comment_prefix"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.FileType.comment_prefix">[docs]</a>    <span class="k">def</span> <span class="nf">comment_prefix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the comment prefix for this file type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">CPP</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">CUDA</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">LCM</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;//&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON_INTERFACE</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;#&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown comment prefix for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileType.autoformat"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.FileType.autoformat">[docs]</a>    <span class="k">def</span> <span class="nf">autoformat</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">file_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_name</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format code of this file type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO(hayk): Move up to language-specific config or printer. This is quite an awkward</span>
+        <span class="c1"># place for auto-format logic, but I thought it was better centralized here than down below</span>
+        <span class="c1"># hidden in a function. We might want to somehow pass the config through to render a</span>
+        <span class="c1"># template so we can move things into the backend code. (tag=centralize-language-diffs)</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">CPP</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">CUDA</span><span class="p">):</span>
+            <span class="c1"># Come up with a fake filename to give to the formatter just for formatting purposes,</span>
+            <span class="c1"># even if this isn&#39;t being written to disk</span>
+            <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">format_cpp_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">format_cpp_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jinja&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">format_util</span><span class="o">.</span><span class="n">format_cpp</span><span class="p">(</span>
+                <span class="n">file_contents</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">CURRENT_DIR</span> <span class="o">/</span> <span class="n">format_cpp_filename</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">format_util</span><span class="o">.</span><span class="n">format_py</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON_INTERFACE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">format_util</span><span class="o">.</span><span class="n">format_pyi</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">FileType</span><span class="o">.</span><span class="n">LCM</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">file_contents</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown autoformatter for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="RelEnvironment"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.RelEnvironment">[docs]</a><span class="k">class</span> <span class="nc">RelEnvironment</span><span class="p">(</span><span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">):</span>
@@ -109,21 +148,16 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">parent</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">template</span><span class="p">)))</span></div></div>
 
 
-<div class="viewcode-block" id="add_preamble"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.add_preamble">[docs]</a><span class="k">def</span> <span class="nf">add_preamble</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">filetype</span><span class="p">:</span> <span class="n">FileType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">prefix</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;//&quot;</span>
-        <span class="k">if</span> <span class="n">filetype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">CPP</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">CUDA</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">LCM</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">TYPESCRIPT</span><span class="p">)</span>
-        <span class="k">else</span> <span class="s2">&quot;#&quot;</span>
-    <span class="p">)</span>
+<div class="viewcode-block" id="add_preamble"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.add_preamble">[docs]</a><span class="k">def</span> <span class="nf">add_preamble</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">comment_prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">dashes</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">77</span>
     <span class="k">return</span> <span class="p">(</span>
         <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">            </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dashes</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">            </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> This file was autogenerated by symforce from template:</span>
-<span class="s2">            </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">     </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"></span>
-<span class="s2">            </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> Do NOT modify by hand.</span>
-<span class="s2">            </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dashes</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{</span><span class="n">comment_prefix</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dashes</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{</span><span class="n">comment_prefix</span><span class="si">}</span><span class="s2"> This file was autogenerated by symforce from template:</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">comment_prefix</span><span class="si">}</span><span class="s2">     </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            </span><span class="si">{</span><span class="n">comment_prefix</span><span class="si">}</span><span class="s2"> Do NOT modify by hand.</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">comment_prefix</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dashes</span><span class="si">}</span><span class="s2"></span>
 
 <span class="s2">            &quot;&quot;&quot;</span>
         <span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
@@ -179,24 +213,14 @@
     <span class="n">filetype</span> <span class="o">=</span> <span class="n">FileType</span><span class="o">.</span><span class="n">from_template_path</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">template_name</span><span class="p">))</span>
 
     <span class="n">template</span> <span class="o">=</span> <span class="n">jinja_env</span><span class="p">(</span><span class="n">template_dir</span><span class="p">)</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template_name</span><span class="p">))</span>
-    <span class="n">rendered_str</span> <span class="o">=</span> <span class="n">add_preamble</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)),</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">filetype</span><span class="p">)</span>
+    <span class="n">rendered_str</span> <span class="o">=</span> <span class="n">add_preamble</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)),</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">comment_prefix</span><span class="o">=</span><span class="n">filetype</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">()</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">autoformat</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">filetype</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">CPP</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">CUDA</span><span class="p">):</span>
-            <span class="c1"># Come up with a fake filename to give to the formatter just for formatting purposes, even</span>
-            <span class="c1"># if this isn&#39;t being written to disk</span>
-            <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">format_cpp_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">format_cpp_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jinja&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-
-            <span class="n">rendered_str</span> <span class="o">=</span> <span class="n">format_util</span><span class="o">.</span><span class="n">format_cpp</span><span class="p">(</span>
-                <span class="n">rendered_str</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">CURRENT_DIR</span><span class="p">,</span> <span class="n">format_cpp_filename</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">filetype</span> <span class="o">==</span> <span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON</span><span class="p">:</span>
-            <span class="n">rendered_str</span> <span class="o">=</span> <span class="n">format_util</span><span class="o">.</span><span class="n">format_py</span><span class="p">(</span><span class="n">rendered_str</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">filetype</span> <span class="o">==</span> <span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON_INTERFACE</span><span class="p">:</span>
-            <span class="n">rendered_str</span> <span class="o">=</span> <span class="n">format_util</span><span class="o">.</span><span class="n">format_pyi</span><span class="p">(</span><span class="n">rendered_str</span><span class="p">)</span>
+        <span class="n">rendered_str</span> <span class="o">=</span> <span class="n">filetype</span><span class="o">.</span><span class="n">autoformat</span><span class="p">(</span>
+            <span class="n">file_contents</span><span class="o">=</span><span class="n">rendered_str</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="n">template_name</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">output_path</span><span class="p">:</span>
         <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>

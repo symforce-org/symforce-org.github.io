@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>symforce.codegen.codegen_config &#8212; symforce 0.4.0 documentation</title>
+    <title>symforce.codegen.codegen_config &#8212; symforce 0.5.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css" />
@@ -38,16 +38,21 @@
 <span class="c1"># SymForce - Copyright 2022, Skydio, Inc.</span>
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
-
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">sympy.printing.codeprinter</span> <span class="kn">import</span> <span class="n">CodePrinter</span>
 
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
+<span class="n">CURRENT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
 
-<div class="viewcode-block" id="CodegenConfig"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig">[docs]</a><span class="nd">@dataclass</span>
+
+<span class="c1"># TODO(hayk): Address this type ignore, which comes from having abstract methods on a dataclass.</span>
+<div class="viewcode-block" id="CodegenConfig"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig">[docs]</a><span class="nd">@dataclass</span>  <span class="c1"># type: ignore</span>
 <span class="k">class</span> <span class="nc">CodegenConfig</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Base class for language-specific arguments for code generation</span>
+<span class="sd">    Base class for backend-specific arguments for code generation.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        doc_comment_line_prefix: Prefix applied to each line in a docstring, e.g. &quot; * &quot; for C++</span>
@@ -55,7 +60,8 @@
 <span class="sd">        line_length: Maximum allowed line length in docstrings; used for formatting docstrings.</span>
 <span class="sd">        use_eigen_types: Use eigen_lcm types for vectors instead of lists</span>
 <span class="sd">        autoformat: Run a code formatter on the generated code</span>
-<span class="sd">        cse_optimizations: Optimizations argument to pass to sm.cse</span>
+<span class="sd">        cse_optimizations: Optimizations argument to pass to sf.cse</span>
+<span class="sd">        matrix_is_1d: Whether sf.Matrix symbols get formatted as 1D</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">doc_comment_line_prefix</span><span class="p">:</span> <span class="nb">str</span>
@@ -64,62 +70,49 @@
     <span class="n">autoformat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">cse_optimizations</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span>
         <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;basic&quot;</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">]]]</span>
-    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># TODO(hayk): Remove this parameter (by making everything 2D?)</span>
+    <span class="n">matrix_is_1d</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
+<div class="viewcode-block" id="CodegenConfig.backend_name"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.backend_name">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">backend_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        String name for the backend. This should match the directory name in codegen/backends</span>
+<span class="sd">        and will be used to namespace by backend in generated code.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="CppConfig"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CppConfig">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">CppConfig</span><span class="p">(</span><span class="n">CodegenConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    C++ Codegen configuration</span>
+<div class="viewcode-block" id="CodegenConfig.template_dir"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.template_dir">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">template_dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Directory for jinja templates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
-<span class="sd">    Args:</span>
-<span class="sd">        doc_comment_line_prefix: Prefix applied to each line in a docstring</span>
-<span class="sd">        line_length: Maximum allowed line length in docstrings; used for formatting docstrings.</span>
-<span class="sd">        use_eigen_types: Use eigen_lcm types for vectors instead of lists</span>
-<span class="sd">        autoformat: Run a code formatter on the generated code</span>
-<span class="sd">        cse_optimizations: Optimizations argument to pass to sm.cse</span>
-<span class="sd">        support_complex: Generate code that can work with std::complex or with regular float types</span>
-<span class="sd">        force_no_inline: Mark generated functions as `__attribute__((noinline))`</span>
-<span class="sd">        zero_initialization_sparsity_threshold: Threshold between 0 and 1 for the sparsity below</span>
-<span class="sd">                                                which we&#39;ll initialize an output matrix to 0, so we</span>
-<span class="sd">                                                don&#39;t have to generate a line to set each zero</span>
-<span class="sd">                                                element to 0 individually</span>
-<span class="sd">        explicit_template_instantiation_types: Explicity instantiates templated functions in a `.cc`</span>
-<span class="sd">            file for each given type. This allows the generated function to be compiled in its own</span>
-<span class="sd">            translation unit. Useful for large functions which take a long time to compile.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="CodegenConfig.templates_to_render"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.templates_to_render">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">templates_to_render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generated_file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a single symbolic function&#39;s filename, provide one or more Jinja templates to</span>
+<span class="sd">        render and the relative output paths where they should go.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
-    <span class="n">doc_comment_line_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot; * &quot;</span>
-    <span class="n">line_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
-    <span class="n">use_eigen_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">support_complex</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">force_no_inline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">zero_initialization_sparsity_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
-    <span class="n">explicit_template_instantiation_types</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span></div>
+<div class="viewcode-block" id="CodegenConfig.printer"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.printer">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodePrinter</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an instance of the code printer to use for this language.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
-
-<div class="viewcode-block" id="PythonConfig"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.PythonConfig">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">PythonConfig</span><span class="p">(</span><span class="n">CodegenConfig</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Python Codegen configuration</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        doc_comment_line_prefix: Prefix applied to each line in a docstring</span>
-<span class="sd">        line_length: Maximum allowed line length in docstrings; used for formatting docstrings.</span>
-<span class="sd">        use_eigen_types: Use eigen_lcm types for vectors instead of lists</span>
-<span class="sd">        autoformat: Run a code formatter on the generated code</span>
-<span class="sd">        cse_optimizations: Optimizations argument to pass to sm.cse</span>
-<span class="sd">        use_numba: Add the `@numba.njit` decorator to generated functions.  This will greatly</span>
-<span class="sd">                   speed up functions by compiling them to machine code, but has large overhead</span>
-<span class="sd">                   on the first call and some overhead on subsequent calls, so it should not be</span>
-<span class="sd">                   used for small functions or functions that are only called a handfull of</span>
-<span class="sd">                   times.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">doc_comment_line_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">line_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
-    <span class="n">use_eigen_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">use_numba</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+    <span class="c1"># TODO(hayk): Move this into code printer.</span>
+<div class="viewcode-block" id="CodegenConfig.format_data_accessor"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.format_data_accessor">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">format_data_accessor</span><span class="p">(</span><span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format data for accessing a data array in code.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.data[</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">]&quot;</span></div></div>
 </pre></div>
 
           </div>
