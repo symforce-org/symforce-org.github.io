@@ -140,7 +140,7 @@
 
     <span class="n">symengine_path_candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
         <span class="n">symengine_install_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;lib/python3*/site-packages/symengine/__init__.py&quot;</span><span class="p">)</span>
-    <span class="p">)</span>
+    <span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">symengine_install_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;local/lib/python3*/dist-packages/symengine/__init__.py&quot;</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">symengine_path_candidates</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;Should be exactly one symengine package, found candidates </span><span class="si">{</span><span class="n">symengine_path_candidates</span><span class="si">}</span><span class="s2"> in directory </span><span class="si">{</span><span class="n">path_util</span><span class="o">.</span><span class="n">symenginepy_install_dir</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
