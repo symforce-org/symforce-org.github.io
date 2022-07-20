@@ -49,7 +49,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
-<div class="viewcode-block" id="ATANCameraCal"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.ATANCameraCal">[docs]</a><span class="k">class</span> <span class="nc">ATANCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
+<div class="viewcode-block" id="ATANCameraCal"><a class="viewcode-back" href="../../../api/symforce.cam.atan_camera_cal.html#symforce.cam.atan_camera_cal.ATANCameraCal">[docs]</a><span class="k">class</span> <span class="nc">ATANCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ATAN camera with 5 parameters [fx, fy, cx, cy, omega].</span>
 <span class="sd">    (fx, fy) representing focal length, (cx, cy) representing principal point,</span>
@@ -61,7 +61,7 @@
 
     <span class="n">NUM_DISTORTION_COEFFS</span> <span class="o">=</span> <span class="mi">1</span>
 
-<div class="viewcode-block" id="ATANCameraCal.__init__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.ATANCameraCal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="ATANCameraCal.__init__"><a class="viewcode-back" href="../../../api/symforce.cam.atan_camera_cal.html#symforce.cam.atan_camera_cal.ATANCameraCal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
         <span class="n">principal_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
@@ -77,7 +77,7 @@
     <span class="k">def</span> <span class="nf">omega</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-<div class="viewcode-block" id="ATANCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.ATANCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ATANCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.cam.atan_camera_cal.html#symforce.cam.atan_camera_cal.ATANCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ATANCameraCal</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -86,11 +86,11 @@
                 <span class="n">omega</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">),</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="ATANCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.ATANCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ATANCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.cam.atan_camera_cal.html#symforce.cam.atan_camera_cal.ATANCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_order</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;focal_length&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;principal_point&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;omega&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ATANCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.ATANCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
+<div class="viewcode-block" id="ATANCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.cam.atan_camera_cal.html#symforce.cam.atan_camera_cal.ATANCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 
@@ -112,7 +112,7 @@
         <span class="n">pixel</span> <span class="o">=</span> <span class="n">linear_camera_cal</span><span class="o">.</span><span class="n">pixel_from_unit_depth</span><span class="p">(</span><span class="n">distorted_unit_depth_coords</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span></div>
 
-<div class="viewcode-block" id="ATANCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.ATANCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
+<div class="viewcode-block" id="ATANCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.atan_camera_cal.html#symforce.cam.atan_camera_cal.ATANCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 

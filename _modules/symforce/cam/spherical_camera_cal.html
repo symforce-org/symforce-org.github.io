@@ -52,7 +52,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
-<div class="viewcode-block" id="SphericalCameraCal"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal">[docs]</a><span class="k">class</span> <span class="nc">SphericalCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
+<div class="viewcode-block" id="SphericalCameraCal"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal">[docs]</a><span class="k">class</span> <span class="nc">SphericalCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Kannala-Brandt camera model, where radial distortion is modeled relative to the 3D angle theta</span>
 <span class="sd">    off the optical axis as opposed to radius within the image plane (i.e. ATANCamera)</span>
@@ -85,7 +85,7 @@
 
     <span class="n">NUM_DISTORTION_COEFFS</span> <span class="o">=</span> <span class="mi">4</span>
 
-<div class="viewcode-block" id="SphericalCameraCal.__init__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="SphericalCameraCal.__init__"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
         <span class="n">principal_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
@@ -119,7 +119,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">critical_theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_critical_theta</span><span class="p">(</span><span class="n">max_theta</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SphericalCameraCal.from_distortion_coeffs"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.from_distortion_coeffs">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalCameraCal.from_distortion_coeffs"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.from_distortion_coeffs">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_distortion_coeffs</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
@@ -141,7 +141,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="SphericalCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_order</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">(</span><span class="s2">&quot;focal_length&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
@@ -154,12 +154,12 @@
     <span class="c1"># Storage concept - see symforce.ops.storage_ops</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="SphericalCameraCal.storage_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalCameraCal.storage_dim"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="c1"># Contains the standard intrinsics, plus the critical_theta</span>
         <span class="k">return</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NUM_DISTORTION_COEFFS</span></div>
 
-<div class="viewcode-block" id="SphericalCameraCal.to_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="SphericalCameraCal.to_storage"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">focal_length</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">principal_point</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
@@ -167,7 +167,7 @@
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="SphericalCameraCal.from_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalCameraCal.from_storage"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SphericalCameraCal</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -177,7 +177,7 @@
             <span class="n">distortion_coeffs</span><span class="o">=</span><span class="n">vec</span><span class="p">[</span><span class="mi">5</span><span class="p">:],</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="SphericalCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SphericalCameraCal</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -221,7 +221,7 @@
 
         <span class="k">return</span> <span class="n">acc</span>
 
-<div class="viewcode-block" id="SphericalCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
+<div class="viewcode-block" id="SphericalCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix31</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix21</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 
@@ -246,7 +246,7 @@
 
         <span class="k">return</span> <span class="n">point_pix</span><span class="p">,</span> <span class="n">is_valid</span></div>
 
-<div class="viewcode-block" id="SphericalCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.SphericalCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
+<div class="viewcode-block" id="SphericalCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix21</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix31</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>

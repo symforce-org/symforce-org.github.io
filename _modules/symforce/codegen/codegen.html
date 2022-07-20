@@ -644,9 +644,21 @@
         <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;jacobian&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">jacobian</span>
 
         <span class="k">if</span> <span class="n">linearization_mode</span> <span class="o">==</span> <span class="n">LinearizationMode</span><span class="o">.</span><span class="n">FULL_LINEARIZATION</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="p">(</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">cols</span> <span class="o">==</span> <span class="mi">1</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;The output must be a vector (the residual), got </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2"> instead&quot;</span>
+            <span class="n">result_is_vector</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">cols</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">result_is_vector</span><span class="p">:</span>
+                <span class="n">common_msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;The output of a factor must be a column vector representing the residual &quot;</span>
+                    <span class="sa">f</span><span class="s1">&#39;(of shape Nx1).  For factor &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;, &#39;</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="n">common_msg</span> <span class="o">+</span> <span class="s2">&quot;got a scalar expression instead.  Did you mean to wrap it in &quot;</span>
+                        <span class="s2">&quot;`sf.V1(expr)`?&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">common_msg</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;got a matrix of shape </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> instead&quot;</span><span class="p">)</span>
+
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">common_msg</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;got an object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="si">}</span><span class="s2"> instead&quot;</span><span class="p">)</span>
 
             <span class="n">hessian</span> <span class="o">=</span> <span class="n">jacobian</span><span class="o">.</span><span class="n">compute_AtA</span><span class="p">(</span><span class="n">lower_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;hessian&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hessian</span>

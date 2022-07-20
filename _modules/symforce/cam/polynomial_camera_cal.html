@@ -52,7 +52,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
-<div class="viewcode-block" id="PolynomialCameraCal"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal">[docs]</a><span class="k">class</span> <span class="nc">PolynomialCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
+<div class="viewcode-block" id="PolynomialCameraCal"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal">[docs]</a><span class="k">class</span> <span class="nc">PolynomialCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Polynomial camera model in the style of OpenCV.</span>
 <span class="sd">    Distortion is a multiplicitive factor applied to the image plane coordinates in the camera</span>
@@ -70,7 +70,7 @@
     <span class="n">NUM_DISTORTION_COEFFS</span> <span class="o">=</span> <span class="mi">3</span>
     <span class="n">DEFAULT_MAX_FOV</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
 
-<div class="viewcode-block" id="PolynomialCameraCal.__init__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<div class="viewcode-block" id="PolynomialCameraCal.__init__"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
         <span class="n">principal_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
@@ -106,7 +106,7 @@
                     <span class="n">max_fov</span>
                 <span class="p">)</span></div>
 
-<div class="viewcode-block" id="PolynomialCameraCal.from_distortion_coeffs"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.from_distortion_coeffs">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PolynomialCameraCal.from_distortion_coeffs"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.from_distortion_coeffs">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_distortion_coeffs</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
@@ -128,7 +128,7 @@
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="PolynomialCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PolynomialCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_order</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">(</span><span class="s2">&quot;focal_length&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
@@ -149,7 +149,7 @@
             <span class="n">total</span> <span class="o">+=</span> <span class="n">radius_term</span> <span class="o">*</span> <span class="n">coef</span>
         <span class="k">return</span> <span class="n">total</span>
 
-<div class="viewcode-block" id="PolynomialCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
+<div class="viewcode-block" id="PolynomialCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix31</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix21</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="n">p_img</span><span class="p">,</span> <span class="n">project_is_valid</span> <span class="o">=</span> <span class="n">LinearCameraCal</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
@@ -167,7 +167,7 @@
 
         <span class="k">return</span> <span class="n">uv</span><span class="p">,</span> <span class="n">is_valid</span></div>
 
-<div class="viewcode-block" id="PolynomialCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
+<div class="viewcode-block" id="PolynomialCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix21</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Matrix31</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
@@ -190,12 +190,12 @@
     <span class="c1"># Storage concept - see symforce.ops.storage_ops</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="PolynomialCameraCal.storage_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PolynomialCameraCal.storage_dim"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="c1"># Contains the standard intrinsics, plus the critical_undistorted_radius</span>
         <span class="k">return</span> <span class="mi">4</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NUM_DISTORTION_COEFFS</span></div>
 
-<div class="viewcode-block" id="PolynomialCameraCal.to_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="PolynomialCameraCal.to_storage"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">focal_length</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">principal_point</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
@@ -203,7 +203,7 @@
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="PolynomialCameraCal.from_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PolynomialCameraCal.from_storage"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PolynomialCameraCal</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -213,7 +213,7 @@
             <span class="n">distortion_coeffs</span><span class="o">=</span><span class="n">vec</span><span class="p">[</span><span class="mi">5</span><span class="p">:],</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="PolynomialCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="PolynomialCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PolynomialCameraCal</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>

@@ -51,7 +51,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 
 
-<div class="viewcode-block" id="Matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix">[docs]</a><span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix">[docs]</a><span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Matrix type that wraps the Sympy Matrix class. Care has been taken to allow this class</span>
 <span class="sd">    to create fixed-size child classes like Matrix31. Anytime __new__ is called, the appropriate</span>
@@ -81,7 +81,7 @@
     <span class="c1"># this class variable as a strong internal consistency check.</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Matrix.__new__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.__new__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Beast of a method for creating a Matrix. Handles a variety of construction use cases</span>
 <span class="sd">        and *always* returns a fixed size child class of Matrix rather than Matrix itself. The</span>
@@ -197,7 +197,7 @@
 
         <span class="k">return</span> <span class="n">instance</span></div>
 
-<div class="viewcode-block" id="Matrix.__init__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.__init__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">_T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
@@ -229,42 +229,42 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Matrix.storage_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.storage_dim"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_is_fixed_size</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Type has no size info: </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Matrix.from_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.from_storage"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_is_fixed_size</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Type has no size info: </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span>
         <span class="k">return</span> <span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">))(</span><span class="n">vec</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Matrix.to_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="Matrix.to_storage"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Matrix.tangent_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.tangent_dim"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Matrix.from_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.from_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.to_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="Matrix.to_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Matrix.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Matrix.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">())</span></div>
 
     <span class="c1"># -------------------------------------------------------------------------</span>
     <span class="c1"># Helper methods</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Matrix.zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.zero">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.zero"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.zero">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">zero</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Matrix of zeros.</span>
@@ -272,14 +272,14 @@
         <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_is_fixed_size</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Type has no size info: </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="o">*</span><span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
 
-<div class="viewcode-block" id="Matrix.zeros"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.zeros">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.zeros"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.zeros">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">zeros</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>  <span class="c1"># pylint: disable=signature-differs</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Matrix of zeros.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">([[</span><span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span><span class="p">]</span> <span class="o">*</span> <span class="n">cols</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">)])</span></div>
 
-<div class="viewcode-block" id="Matrix.one"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.one">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.one"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.one">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">one</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Matrix of ones.</span>
@@ -287,14 +287,14 @@
         <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_is_fixed_size</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Type has no size info: </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="o">*</span><span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
 
-<div class="viewcode-block" id="Matrix.ones"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.ones">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.ones"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.ones">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">ones</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>  <span class="c1"># pylint: disable=signature-differs</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Matrix of ones.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">([[</span><span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">One</span><span class="p">]</span> <span class="o">*</span> <span class="n">cols</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">)])</span></div>
 
-<div class="viewcode-block" id="Matrix.diag"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.diag">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.diag"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.diag">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">diag</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">diagonal</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a square matrix from the diagonal.</span>
@@ -329,7 +329,7 @@
     <span class="c1"># def eye(cls: _T.Type[Matrix], rows: int, cols: int) -&gt; Matrix:  # pragma: no cover</span>
     <span class="c1">#     pass</span>
 
-<div class="viewcode-block" id="Matrix.eye"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.eye">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.eye"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.eye">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">eye</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">],</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct an identity matrix</span>
@@ -355,13 +355,13 @@
             <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">One</span>
         <span class="k">return</span> <span class="n">mat</span>  <span class="c1"># type: ignore</span></div>
 
-<div class="viewcode-block" id="Matrix.inv"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LU&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.inv"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.inv">[docs]</a>    <span class="k">def</span> <span class="nf">inv</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LU&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Inverse of the matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.symbolic"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create with symbols.</span>
@@ -395,19 +395,19 @@
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">symbols</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.row_join"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.row_join">[docs]</a>    <span class="k">def</span> <span class="nf">row_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.row_join"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.row_join">[docs]</a>    <span class="k">def</span> <span class="nf">row_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Concatenates self with another matrix on the right</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">row_join</span><span class="p">(</span><span class="n">right</span><span class="o">.</span><span class="n">mat</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.col_join"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.col_join">[docs]</a>    <span class="k">def</span> <span class="nf">col_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bottom</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.col_join"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.col_join">[docs]</a>    <span class="k">def</span> <span class="nf">col_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bottom</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Concatenates self with another matrix below</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">col_join</span><span class="p">(</span><span class="n">bottom</span><span class="o">.</span><span class="n">mat</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.block_matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.block_matrix">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.block_matrix"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.block_matrix">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">block_matrix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Matrix</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs a matrix from block elements. For example:</span>
@@ -447,7 +447,7 @@
 
         <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">flat_list</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.simplify"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.simplify"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Simplify this expression.</span>
 
@@ -455,7 +455,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.limit"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.limit">[docs]</a>    <span class="k">def</span> <span class="nf">limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.limit"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.limit">[docs]</a>    <span class="k">def</span> <span class="nf">limit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Take the limit at z = z0</span>
 
@@ -463,7 +463,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_flat_list</span><span class="p">([</span><span class="n">sf</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()])</span></div>
 
-<div class="viewcode-block" id="Matrix.jacobian"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.jacobian">[docs]</a>    <span class="k">def</span> <span class="nf">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.jacobian"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.jacobian">[docs]</a>    <span class="k">def</span> <span class="nf">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the jacobian with respect to the tangent space of X if tangent_space = True,</span>
 <span class="sd">        otherwise returns the jacobian wih respect to the storage elements of X.</span>
@@ -482,7 +482,7 @@
                 <span class="p">[[</span><span class="n">vi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">X</span><span class="p">)]</span> <span class="k">for</span> <span class="n">vi</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)]</span>  <span class="c1"># type: ignore[call-overload]  # fixed by python/typeshed#7817</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.diff"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.diff">[docs]</a>    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.diff"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.diff">[docs]</a>    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Differentiate wrt a scalar.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -495,16 +495,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Matrix.transpose"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.transpose">[docs]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.transpose"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.transpose">[docs]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Matrix Transpose</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Matrix.reshape"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.reshape">[docs]</a>    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.reshape"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.reshape">[docs]</a>    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.dot"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.dot"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dot product, also known as inner product.</span>
 <span class="sd">        dot only supports mapping 1 x n or n x 1 Matrices to scalars. Note that both matrices must have the same shape.</span>
@@ -525,7 +525,7 @@
     <span class="c1"># mypy getting mad about calling this on a Matrix instead of the Vector3 subclass.  So just</span>
     <span class="c1"># check the shape at runtime like we do for those other methods until mypy supports shapes</span>
     <span class="c1"># nicely</span>
-<div class="viewcode-block" id="Matrix.cross"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.cross">[docs]</a>    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.cross"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.cross">[docs]</a>    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Cross product.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -538,26 +538,26 @@
 
         <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">mat</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.squared_norm"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.squared_norm">[docs]</a>    <span class="k">def</span> <span class="nf">squared_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.squared_norm"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.squared_norm">[docs]</a>    <span class="k">def</span> <span class="nf">squared_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Squared norm of a vector, equivalent to the dot product with itself.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_assert_is_vector</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.norm"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.norm">[docs]</a>    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.norm"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.norm">[docs]</a>    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Norm of a vector (square root of magnitude).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.normalized"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.normalized"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.normalized">[docs]</a>    <span class="k">def</span> <span class="nf">normalized</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a unit vector in this direction (divide by norm).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.clamp_norm"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.clamp_norm">[docs]</a>    <span class="k">def</span> <span class="nf">clamp_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">max_norm</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.clamp_norm"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.clamp_norm">[docs]</a>    <span class="k">def</span> <span class="nf">clamp_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">max_norm</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clamp a vector to the given norm in a safe/differentiable way.</span>
 
@@ -579,7 +579,7 @@
         <span class="c1"># This sqrt can be near 0, if max_norm can be exactly 0</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">max_squared_norm</span> <span class="o">/</span> <span class="n">squared_norm</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.multiply_elementwise"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.multiply_elementwise">[docs]</a>    <span class="k">def</span> <span class="nf">multiply_elementwise</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.multiply_elementwise"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.multiply_elementwise">[docs]</a>    <span class="k">def</span> <span class="nf">multiply_elementwise</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">rhs</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Do the elementwise multiplication between self and rhs, and return the result as a new</span>
 <span class="sd">        Matrix</span>
@@ -587,7 +587,7 @@
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">rhs</span><span class="o">.</span><span class="n">shape</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">multiply_elementwise</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">mat</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.applyfunc"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.applyfunc">[docs]</a>    <span class="k">def</span> <span class="nf">applyfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.applyfunc"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.applyfunc">[docs]</a>    <span class="k">def</span> <span class="nf">applyfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply a unary operation to every scalar.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -601,7 +601,7 @@
         <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Matrix.__getitem__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.__getitem__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a scalar value or submatrix slice.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -620,25 +620,25 @@
             <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
 
-<div class="viewcode-block" id="Matrix.row"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.row">[docs]</a>    <span class="k">def</span> <span class="nf">row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.row"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.row">[docs]</a>    <span class="k">def</span> <span class="nf">row</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extract a row of the matrix</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">row</span><span class="p">(</span><span class="n">r</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.col"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.col">[docs]</a>    <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.col"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.col">[docs]</a>    <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Extract a column of the matrix</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">c</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Matrix.__neg__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__neg__">[docs]</a>    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.__neg__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__neg__">[docs]</a>    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Negate matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.__add__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">MatrixT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.__add__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">MatrixT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a scalar or matrix to this matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -649,7 +649,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">+</span> <span class="n">right</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.__sub__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">MatrixT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.__sub__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__sub__">[docs]</a>    <span class="k">def</span> <span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">MatrixT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Subtract a scalar or matrix from this matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -670,7 +670,7 @@
     <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Matrix.__mul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span>
+<div class="viewcode-block" id="Matrix.__mul__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -693,7 +693,7 @@
     <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Matrix.__rmul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__rmul__">[docs]</a>    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span>
+<div class="viewcode-block" id="Matrix.__rmul__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__rmul__">[docs]</a>    <span class="k">def</span> <span class="fm">__rmul__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -716,7 +716,7 @@
     <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Matrix.__div__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.__div__">[docs]</a>    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span>
+<div class="viewcode-block" id="Matrix.__div__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__div__">[docs]</a>    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -729,7 +729,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">*</span> <span class="n">_T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="n">inv</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Matrix.compute_AtA"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.compute_AtA">[docs]</a>    <span class="k">def</span> <span class="nf">compute_AtA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.compute_AtA"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.compute_AtA">[docs]</a>    <span class="k">def</span> <span class="nf">compute_AtA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute a symmetric product A.transpose() * A faster by respecting symmetry of the output.</span>
 
@@ -751,7 +751,7 @@
                     <span class="n">AtA</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">lower_only</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">AtA</span></div>
 
-<div class="viewcode-block" id="Matrix.LU"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.LU">[docs]</a>    <span class="k">def</span> <span class="nf">LU</span><span class="p">(</span>
+<div class="viewcode-block" id="Matrix.LU"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.LU">[docs]</a>    <span class="k">def</span> <span class="nf">LU</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">],</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -766,7 +766,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Matrix.LDL"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.LDL">[docs]</a>    <span class="k">def</span> <span class="nf">LDL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
+<div class="viewcode-block" id="Matrix.LDL"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.LDL">[docs]</a>    <span class="k">def</span> <span class="nf">LDL</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        LDL matrix decomposition (stable cholesky)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -778,7 +778,7 @@
             <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">())</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">L</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">D</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.FFLU"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.FFLU">[docs]</a>    <span class="k">def</span> <span class="nf">FFLU</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
+<div class="viewcode-block" id="Matrix.FFLU"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.FFLU">[docs]</a>    <span class="k">def</span> <span class="nf">FFLU</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fraction-free LU matrix decomposition</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -792,7 +792,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Matrix.FFLDU"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.FFLDU">[docs]</a>    <span class="k">def</span> <span class="nf">FFLDU</span><span class="p">(</span>
+<div class="viewcode-block" id="Matrix.FFLDU"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.FFLDU">[docs]</a>    <span class="k">def</span> <span class="nf">FFLDU</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">],</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -807,7 +807,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Matrix.solve"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LU&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.solve"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;LU&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Solve a linear system using the given method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -815,50 +815,50 @@
 
     <span class="fm">__truediv__</span> <span class="o">=</span> <span class="n">__div__</span>
 
-<div class="viewcode-block" id="Matrix.are_parallel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.are_parallel">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Matrix.are_parallel"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.are_parallel">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">are_parallel</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns 1 if a and b are parallel within epsilon, and 0 otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sf</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span></div>
 
-<div class="viewcode-block" id="Matrix.skew_symmetric"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.skew_symmetric">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Matrix.skew_symmetric"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.skew_symmetric">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">skew_symmetric</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix33</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute a skew-symmetric matrix of given a 3-vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Matrix33</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">]])</span></div>
 
-<div class="viewcode-block" id="Matrix.evalf"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.evalf">[docs]</a>    <span class="k">def</span> <span class="nf">evalf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.evalf"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.evalf">[docs]</a>    <span class="k">def</span> <span class="nf">evalf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Perform numerical evaluation of each element in the matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_flat_list</span><span class="p">([</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()])</span></div>
 
-<div class="viewcode-block" id="Matrix.to_list"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.to_list">[docs]</a>    <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]:</span>
+<div class="viewcode-block" id="Matrix.to_list"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.to_list">[docs]</a>    <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert to a nested list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Matrix.to_flat_list"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.to_flat_list">[docs]</a>    <span class="k">def</span> <span class="nf">to_flat_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="Matrix.to_flat_list"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.to_flat_list">[docs]</a>    <span class="k">def</span> <span class="nf">to_flat_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert to a flattened list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">))</span>  <span class="c1"># type: ignore[call-overload]  # fixed by python/typeshed#7817</span></div>
 
-<div class="viewcode-block" id="Matrix.from_flat_list"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.from_flat_list">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.from_flat_list"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.from_flat_list">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_flat_list</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="k">assert</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_is_fixed_size</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">&quot;Type has no size info: </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.to_numpy"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.to_numpy">[docs]</a>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar_type</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.to_numpy"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.to_numpy">[docs]</a>    <span class="k">def</span> <span class="nf">to_numpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar_type</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert to a numpy array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">evalf</span><span class="p">()</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">scalar_type</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.column_stack"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.column_stack">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Matrix.column_stack"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.column_stack">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">column_stack</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">columns</span><span class="p">:</span> <span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Take a sequence of 1-D vectors and stack them as columns to make a single 2-D Matrix.</span>
 
@@ -878,7 +878,7 @@
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">([</span><span class="n">col</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">])</span><span class="o">.</span><span class="n">T</span></div>
 
-<div class="viewcode-block" id="Matrix.is_vector"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.is_vector">[docs]</a>    <span class="k">def</span> <span class="nf">is_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.is_vector"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.is_vector">[docs]</a>    <span class="k">def</span> <span class="nf">is_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_assert_is_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -905,7 +905,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">display</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>  <span class="c1"># type: ignore # pylint: disable=undefined-variable # not defined outside of ipython</span>
 
-<div class="viewcode-block" id="Matrix.init_printing"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.init_printing">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Matrix.init_printing"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.init_printing">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">init_printing</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize SymPy pretty printing</span>
@@ -945,159 +945,159 @@
 <span class="c1"># TODO(hayk): It could be nice to put these in another file but there&#39;s a circular dependency..</span>
 
 
-<div class="viewcode-block" id="Matrix11"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix11">[docs]</a><span class="k">class</span> <span class="nc">Matrix11</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix11"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix11">[docs]</a><span class="k">class</span> <span class="nc">Matrix11</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix21"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix21">[docs]</a><span class="k">class</span> <span class="nc">Matrix21</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix21"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix21">[docs]</a><span class="k">class</span> <span class="nc">Matrix21</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix31"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix31">[docs]</a><span class="k">class</span> <span class="nc">Matrix31</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix31"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix31">[docs]</a><span class="k">class</span> <span class="nc">Matrix31</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix41"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix41">[docs]</a><span class="k">class</span> <span class="nc">Matrix41</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix41"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix41">[docs]</a><span class="k">class</span> <span class="nc">Matrix41</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix51"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix51">[docs]</a><span class="k">class</span> <span class="nc">Matrix51</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix51"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix51">[docs]</a><span class="k">class</span> <span class="nc">Matrix51</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix61"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix61">[docs]</a><span class="k">class</span> <span class="nc">Matrix61</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix61"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix61">[docs]</a><span class="k">class</span> <span class="nc">Matrix61</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix71"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix71">[docs]</a><span class="k">class</span> <span class="nc">Matrix71</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix71"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix71">[docs]</a><span class="k">class</span> <span class="nc">Matrix71</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix81"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix81">[docs]</a><span class="k">class</span> <span class="nc">Matrix81</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix81"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix81">[docs]</a><span class="k">class</span> <span class="nc">Matrix81</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix91"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix91">[docs]</a><span class="k">class</span> <span class="nc">Matrix91</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix91"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix91">[docs]</a><span class="k">class</span> <span class="nc">Matrix91</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix12"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix12">[docs]</a><span class="k">class</span> <span class="nc">Matrix12</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix12"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix12">[docs]</a><span class="k">class</span> <span class="nc">Matrix12</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix22"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix22">[docs]</a><span class="k">class</span> <span class="nc">Matrix22</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix22"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix22">[docs]</a><span class="k">class</span> <span class="nc">Matrix22</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix32"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix32">[docs]</a><span class="k">class</span> <span class="nc">Matrix32</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix32"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix32">[docs]</a><span class="k">class</span> <span class="nc">Matrix32</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix42"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix42">[docs]</a><span class="k">class</span> <span class="nc">Matrix42</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix42"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix42">[docs]</a><span class="k">class</span> <span class="nc">Matrix42</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix52"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix52">[docs]</a><span class="k">class</span> <span class="nc">Matrix52</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix52"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix52">[docs]</a><span class="k">class</span> <span class="nc">Matrix52</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix62"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix62">[docs]</a><span class="k">class</span> <span class="nc">Matrix62</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix62"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix62">[docs]</a><span class="k">class</span> <span class="nc">Matrix62</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix13"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix13">[docs]</a><span class="k">class</span> <span class="nc">Matrix13</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix13"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix13">[docs]</a><span class="k">class</span> <span class="nc">Matrix13</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix23"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix23">[docs]</a><span class="k">class</span> <span class="nc">Matrix23</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix23"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix23">[docs]</a><span class="k">class</span> <span class="nc">Matrix23</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix33"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix33">[docs]</a><span class="k">class</span> <span class="nc">Matrix33</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix33"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix33">[docs]</a><span class="k">class</span> <span class="nc">Matrix33</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix43"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix43">[docs]</a><span class="k">class</span> <span class="nc">Matrix43</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix43"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix43">[docs]</a><span class="k">class</span> <span class="nc">Matrix43</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix53"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix53">[docs]</a><span class="k">class</span> <span class="nc">Matrix53</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix53"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix53">[docs]</a><span class="k">class</span> <span class="nc">Matrix53</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix63"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix63">[docs]</a><span class="k">class</span> <span class="nc">Matrix63</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix63"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix63">[docs]</a><span class="k">class</span> <span class="nc">Matrix63</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix14"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix14">[docs]</a><span class="k">class</span> <span class="nc">Matrix14</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix14"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix14">[docs]</a><span class="k">class</span> <span class="nc">Matrix14</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix24"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix24">[docs]</a><span class="k">class</span> <span class="nc">Matrix24</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix24"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix24">[docs]</a><span class="k">class</span> <span class="nc">Matrix24</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix34"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix34">[docs]</a><span class="k">class</span> <span class="nc">Matrix34</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix34"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix34">[docs]</a><span class="k">class</span> <span class="nc">Matrix34</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix44"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix44">[docs]</a><span class="k">class</span> <span class="nc">Matrix44</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix44"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix44">[docs]</a><span class="k">class</span> <span class="nc">Matrix44</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix54"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix54">[docs]</a><span class="k">class</span> <span class="nc">Matrix54</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix54"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix54">[docs]</a><span class="k">class</span> <span class="nc">Matrix54</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix64"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix64">[docs]</a><span class="k">class</span> <span class="nc">Matrix64</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix64"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix64">[docs]</a><span class="k">class</span> <span class="nc">Matrix64</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix15"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix15">[docs]</a><span class="k">class</span> <span class="nc">Matrix15</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix15"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix15">[docs]</a><span class="k">class</span> <span class="nc">Matrix15</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix25"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix25">[docs]</a><span class="k">class</span> <span class="nc">Matrix25</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix25"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix25">[docs]</a><span class="k">class</span> <span class="nc">Matrix25</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix35"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix35">[docs]</a><span class="k">class</span> <span class="nc">Matrix35</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix35"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix35">[docs]</a><span class="k">class</span> <span class="nc">Matrix35</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix45"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix45">[docs]</a><span class="k">class</span> <span class="nc">Matrix45</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix45"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix45">[docs]</a><span class="k">class</span> <span class="nc">Matrix45</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix55"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix55">[docs]</a><span class="k">class</span> <span class="nc">Matrix55</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix55"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix55">[docs]</a><span class="k">class</span> <span class="nc">Matrix55</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix65"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix65">[docs]</a><span class="k">class</span> <span class="nc">Matrix65</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix65"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix65">[docs]</a><span class="k">class</span> <span class="nc">Matrix65</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix16"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix16">[docs]</a><span class="k">class</span> <span class="nc">Matrix16</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix16"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix16">[docs]</a><span class="k">class</span> <span class="nc">Matrix16</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix26"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix26">[docs]</a><span class="k">class</span> <span class="nc">Matrix26</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix26"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix26">[docs]</a><span class="k">class</span> <span class="nc">Matrix26</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix36"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix36">[docs]</a><span class="k">class</span> <span class="nc">Matrix36</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix36"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix36">[docs]</a><span class="k">class</span> <span class="nc">Matrix36</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix46"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix46">[docs]</a><span class="k">class</span> <span class="nc">Matrix46</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix46"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix46">[docs]</a><span class="k">class</span> <span class="nc">Matrix46</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix56"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix56">[docs]</a><span class="k">class</span> <span class="nc">Matrix56</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix56"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix56">[docs]</a><span class="k">class</span> <span class="nc">Matrix56</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Matrix66"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix66">[docs]</a><span class="k">class</span> <span class="nc">Matrix66</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix66"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix66">[docs]</a><span class="k">class</span> <span class="nc">Matrix66</span><span class="p">(</span><span class="n">Matrix</span><span class="p">):</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></div>
 
 
@@ -1148,7 +1148,7 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="matrix_type_from_shape"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.matrix_type_from_shape">[docs]</a><span class="k">def</span> <span class="nf">matrix_type_from_shape</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Matrix</span><span class="p">]:</span>
+<div class="viewcode-block" id="matrix_type_from_shape"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.matrix_type_from_shape">[docs]</a><span class="k">def</span> <span class="nf">matrix_type_from_shape</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Matrix</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a fixed size matrix type (like Matrix32) given a shape. Either use the statically</span>
 <span class="sd">    defined ones or dynamically create a new one if not available.</span>
