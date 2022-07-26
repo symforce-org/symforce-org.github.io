@@ -48,7 +48,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
-<div class="viewcode-block" id="Complex"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex">[docs]</a><span class="k">class</span> <span class="nc">Complex</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
+<div class="viewcode-block" id="Complex"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex">[docs]</a><span class="k">class</span> <span class="nc">Complex</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A complex number is a number that can be expressed in the form a + bi, where a and b are real</span>
 <span class="sd">    numbers, and i is a solution of the equation x**2 = -1. Because no real number satisfies this</span>
@@ -64,7 +64,7 @@
 <span class="sd">        https://en.wikipedia.org/wiki/Complex_number</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Complex.__init__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">imag</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.__init__"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">imag</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from a real and imaginary scalar.</span>
 
@@ -82,19 +82,19 @@
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;C real=</span><span class="si">{}</span><span class="s2">, imag=</span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Complex.storage_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.storage_dim"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">2</span></div>
 
-<div class="viewcode-block" id="Complex.to_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="Complex.to_storage"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Complex.from_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.from_storage"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">real</span><span class="o">=</span><span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">imag</span><span class="o">=</span><span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Complex.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.symbolic"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_storage</span><span class="p">([</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;re&quot;</span><span class="p">,</span> <span class="s2">&quot;im&quot;</span><span class="p">]])</span></div>
 
@@ -102,24 +102,24 @@
     <span class="c1"># Group concept - see symforce.ops.group_ops</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Complex.identity"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.identity">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.identity"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.identity">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.compose"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.compose"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
             <span class="n">real</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">real</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span>
             <span class="n">imag</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">real</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">real</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.inverse"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.inverse"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span></div>
 
     <span class="c1"># -------------------------------------------------------------------------</span>
     <span class="c1"># Helper methods</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Complex.zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.zero">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.zero"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.zero">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">zero</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Zero value.</span>
@@ -129,7 +129,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.conj"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.conj">[docs]</a>    <span class="k">def</span> <span class="nf">conj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.conj"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.conj">[docs]</a>    <span class="k">def</span> <span class="nf">conj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Complex conjugate (real, -imag).</span>
 
@@ -138,7 +138,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.squared_norm"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.squared_norm">[docs]</a>    <span class="k">def</span> <span class="nf">squared_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.squared_norm"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.squared_norm">[docs]</a>    <span class="k">def</span> <span class="nf">squared_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Squared norm of the two-vector.</span>
 
@@ -147,7 +147,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">real</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span> <span class="o">**</span> <span class="mi">2</span></div>
 
-<div class="viewcode-block" id="Complex.__mul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.__mul__"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Complex multiplication (composition).</span>
 
@@ -159,7 +159,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">right</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.__add__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.__add__"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.__add__">[docs]</a>    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Complex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Element-wise addition.</span>
 
@@ -171,7 +171,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span> <span class="o">+</span> <span class="n">right</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span> <span class="o">+</span> <span class="n">right</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.__neg__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.__neg__">[docs]</a>    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.__neg__"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.__neg__">[docs]</a>    <span class="k">def</span> <span class="fm">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Element-wise negation.</span>
 
@@ -180,7 +180,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.__div__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.__div__">[docs]</a>    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
+<div class="viewcode-block" id="Complex.__div__"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.__div__">[docs]</a>    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Scalar element-wise division.</span>
 
@@ -194,7 +194,7 @@
 
     <span class="fm">__truediv__</span> <span class="o">=</span> <span class="n">__div__</span>
 
-<div class="viewcode-block" id="Complex.random_uniform"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.random_uniform">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.random_uniform"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.random_uniform">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">random_uniform</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">low</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">high</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a random complex number with real and imaginary parts between the given bounds</span>
@@ -203,7 +203,7 @@
         <span class="n">im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Complex</span><span class="p">(</span><span class="n">re</span><span class="p">,</span> <span class="n">im</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.unit_random"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.unit_random">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.unit_random"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.unit_random">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">unit_random</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a unit-norm random complex number</span>
@@ -211,7 +211,7 @@
         <span class="n">u1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">unit_random_from_uniform_sample</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">pi</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Complex.unit_random_from_uniform_sample"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Complex.unit_random_from_uniform_sample">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Complex.unit_random_from_uniform_sample"><a class="viewcode-back" href="../../../api/symforce.geo.complex.html#symforce.geo.complex.Complex.unit_random_from_uniform_sample">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">unit_random_from_uniform_sample</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">u1</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">pi</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Complex</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a unit-norm random Complex number from a variable sampled uniformly on [0, 1]</span>
