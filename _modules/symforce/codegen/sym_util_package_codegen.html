@@ -67,25 +67,28 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">):</span>
         <span class="n">template_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">template_dir</span><span class="p">()</span>
         <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">template_path</span><span class="o">=</span><span class="n">template_dir</span> <span class="o">/</span> <span class="s2">&quot;typedefs.h.jinja&quot;</span><span class="p">,</span>
+            <span class="n">template_path</span><span class="o">=</span><span class="s2">&quot;typedefs.h.jinja&quot;</span><span class="p">,</span>
             <span class="n">output_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_dir</span><span class="p">,</span> <span class="s2">&quot;typedefs.h&quot;</span><span class="p">),</span>
             <span class="n">data</span><span class="o">=</span><span class="p">{},</span>
+            <span class="n">template_dir</span><span class="o">=</span><span class="n">template_dir</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">template_path</span><span class="o">=</span><span class="n">template_dir</span> <span class="o">/</span> <span class="s2">&quot;type_ops.h.jinja&quot;</span><span class="p">,</span>
+            <span class="n">template_path</span><span class="o">=</span><span class="s2">&quot;type_ops.h.jinja&quot;</span><span class="p">,</span>
             <span class="n">output_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_dir</span><span class="p">,</span> <span class="s2">&quot;type_ops.h&quot;</span><span class="p">),</span>
             <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
                 <span class="n">python_util</span><span class="o">=</span><span class="n">python_util</span><span class="p">,</span>
                 <span class="n">camera_cal_class_names</span><span class="o">=</span><span class="n">cam_package_codegen</span><span class="o">.</span><span class="n">camera_cal_class_names</span><span class="p">(),</span>
             <span class="p">),</span>
+            <span class="n">template_dir</span><span class="o">=</span><span class="n">template_dir</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;epsilon.h&quot;</span><span class="p">,</span> <span class="s2">&quot;epsilon.cc&quot;</span><span class="p">):</span>
             <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">template_path</span><span class="o">=</span><span class="n">template_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.jinja&quot;</span><span class="p">,</span>
+                <span class="n">template_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.jinja&quot;</span><span class="p">,</span>
                 <span class="n">output_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span>
                 <span class="n">data</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">template_dir</span><span class="o">=</span><span class="n">template_dir</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># sym/util is currently C++ only</span>

@@ -224,7 +224,8 @@
         <span class="n">_make_return_dynamic</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">generated_files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
     <span class="n">template_util</span><span class="o">.</span><span class="n">render_template</span><span class="p">(</span>
-        <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;matrix_multiplication_benchmark.cc.jinja&quot;</span><span class="p">,</span>
+        <span class="n">template_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
+        <span class="n">template_path</span><span class="o">=</span><span class="s2">&quot;matrix_multiplication_benchmark.cc.jinja&quot;</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
             <span class="n">matrix_name</span><span class="o">=</span><span class="n">matrix_name</span><span class="p">,</span>
             <span class="n">matrix_name_camel</span><span class="o">=</span><span class="n">python_util</span><span class="o">.</span><span class="n">snakecase_to_camelcase</span><span class="p">(</span><span class="n">matrix_name</span><span class="p">),</span>
@@ -236,7 +237,6 @@
             <span class="n">cant_allocate_on_stack</span><span class="o">=</span><span class="n">cant_allocate_on_stack</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">output_path</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;matrix_multiplication_benchmark_</span><span class="si">{</span><span class="n">matrix_name</span><span class="si">}</span><span class="s2">.cc&quot;</span><span class="p">,</span>
-        <span class="n">template_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 

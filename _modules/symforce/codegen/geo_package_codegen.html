@@ -147,6 +147,12 @@
                 <span class="n">name</span><span class="o">=</span><span class="s2">&quot;from_yaw_pitch_roll&quot;</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="p">),</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">()),</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;to_yaw_pitch_roll&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="p">),</span>
         <span class="p">],</span>
         <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">:</span> <span class="p">[</span>
             <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">),</span>
@@ -173,14 +179,14 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating temp directory: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="c1"># Subdirectory for everything we&#39;ll generate</span>
     <span class="n">package_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;sym&quot;</span><span class="p">)</span>
-    <span class="n">templates</span> <span class="o">=</span> <span class="n">template_util</span><span class="o">.</span><span class="n">TemplateList</span><span class="p">()</span>
+    <span class="n">template_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">template_dir</span><span class="p">()</span>
+    <span class="n">templates</span> <span class="o">=</span> <span class="n">template_util</span><span class="o">.</span><span class="n">TemplateList</span><span class="p">(</span><span class="n">template_dir</span><span class="p">)</span>
 
     <span class="n">matrix_type_aliases</span> <span class="o">=</span> <span class="n">_matrix_type_aliases</span><span class="p">()</span>
     <span class="n">custom_generated_methods</span> <span class="o">=</span> <span class="n">_custom_generated_methods</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">PythonConfig</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating Python package at: &quot;</span><span class="si">{</span><span class="n">package_dir</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-        <span class="n">template_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">template_dir</span><span class="p">()</span>
 
         <span class="c1"># Build up templates for each type</span>
 
@@ -195,29 +201,29 @@
                 <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/group_ops.py&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/lie_group_ops.py&quot;</span><span class="p">),</span>
             <span class="p">):</span>
-                <span class="n">template_path</span> <span class="o">=</span> <span class="n">template_dir</span> <span class="o">/</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="p">(</span><span class="n">relative_path</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">)</span>
+                <span class="n">template_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">relative_path</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">)</span>
                 <span class="n">output_path</span> <span class="o">=</span> <span class="n">package_dir</span> <span class="o">/</span> <span class="n">relative_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;CLASS&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-                <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">)</span>
 
         <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">template_path</span><span class="o">=</span><span class="n">template_dir</span> <span class="o">/</span> <span class="s2">&quot;ops&quot;</span> <span class="o">/</span> <span class="s2">&quot;__init__.py.jinja&quot;</span><span class="p">,</span>
+            <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;ops&quot;</span><span class="p">,</span> <span class="s2">&quot;__init__.py.jinja&quot;</span><span class="p">),</span>
             <span class="n">output_path</span><span class="o">=</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;ops&quot;</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="p">{},</span>
         <span class="p">)</span>
 
         <span class="c1"># Package init</span>
         <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-            <span class="n">template_dir</span> <span class="o">/</span> <span class="s2">&quot;geo_package&quot;</span> <span class="o">/</span> <span class="s2">&quot;__init__.py.jinja&quot;</span><span class="p">,</span>
-            <span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span>
-            <span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span> <span class="n">all_types</span><span class="o">=</span><span class="n">DEFAULT_GEO_TYPES</span><span class="p">),</span>
+            <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;geo_package&quot;</span><span class="p">,</span> <span class="s2">&quot;__init__.py.jinja&quot;</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span> <span class="n">all_types</span><span class="o">=</span><span class="n">DEFAULT_GEO_TYPES</span><span class="p">),</span>
+            <span class="n">output_path</span><span class="o">=</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># Test example</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;geo_package_python_test.py&quot;</span><span class="p">,):</span>
             <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">template_dir</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">),</span>
-                <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
-                <span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span> <span class="n">all_types</span><span class="o">=</span><span class="n">DEFAULT_GEO_TYPES</span><span class="p">),</span>
+                <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">),</span>
+                <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span> <span class="n">all_types</span><span class="o">=</span><span class="n">DEFAULT_GEO_TYPES</span><span class="p">),</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
             <span class="p">)</span>
 
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">CppConfig</span><span class="p">):</span>
@@ -227,7 +233,6 @@
         <span class="n">sym_util_package_codegen</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating C++ package at: &quot;</span><span class="si">{</span><span class="n">package_dir</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-        <span class="n">template_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">template_dir</span><span class="p">()</span>
 
         <span class="c1"># Build up templates for each type</span>
         <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">DEFAULT_GEO_TYPES</span><span class="p">:</span>
@@ -245,9 +250,9 @@
                 <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/lie_group_ops.h&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/lie_group_ops.cc&quot;</span><span class="p">),</span>
             <span class="p">):</span>
-                <span class="n">template_path</span> <span class="o">=</span> <span class="n">template_dir</span> <span class="o">/</span> <span class="n">base_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s2">.jinja&quot;</span>
+                <span class="n">template_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">relative_path</span><span class="si">}</span><span class="s2">.jinja&quot;</span><span class="p">)</span>
                 <span class="n">output_path</span> <span class="o">=</span> <span class="n">package_dir</span> <span class="o">/</span> <span class="n">relative_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;CLASS&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-                <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">)</span>
 
         <span class="c1"># Render non geo type specific templates</span>
         <span class="k">for</span> <span class="n">template_name</span> <span class="ow">in</span> <span class="n">python_util</span><span class="o">.</span><span class="n">files_in_dir</span><span class="p">(</span>
@@ -260,17 +265,17 @@
                 <span class="k">continue</span>
 
             <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">template_dir</span> <span class="o">/</span> <span class="s2">&quot;geo_package&quot;</span> <span class="o">/</span> <span class="s2">&quot;ops&quot;</span> <span class="o">/</span> <span class="n">template_name</span><span class="p">,</span>
-                <span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;ops&quot;</span> <span class="o">/</span> <span class="n">template_name</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;.jinja&quot;</span><span class="p">)],</span>
-                <span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">()),</span>
+                <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;geo_package&quot;</span><span class="p">,</span> <span class="s2">&quot;ops&quot;</span><span class="p">,</span> <span class="n">template_name</span><span class="p">),</span>
+                <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">()),</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;ops&quot;</span> <span class="o">/</span> <span class="n">template_name</span><span class="p">[:</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;.jinja&quot;</span><span class="p">)],</span>
             <span class="p">)</span>
 
         <span class="c1"># Test example</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;geo_package_cpp_test.cc&quot;</span><span class="p">,):</span>
             <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">template_dir</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">),</span>
-                <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
-                <span class="nb">dict</span><span class="p">(</span>
+                <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">),</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+                <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
                     <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span>
                     <span class="n">all_types</span><span class="o">=</span><span class="n">DEFAULT_GEO_TYPES</span><span class="p">,</span>
                     <span class="n">cpp_geo_types</span><span class="o">=</span><span class="p">[</span>
@@ -291,9 +296,10 @@
 
     <span class="c1"># LCM type_t</span>
     <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="n">template_util</span><span class="o">.</span><span class="n">LCM_TEMPLATE_DIR</span> <span class="o">/</span> <span class="s2">&quot;symforce_types.lcm.jinja&quot;</span><span class="p">,</span>
-        <span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;..&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span> <span class="o">/</span> <span class="s2">&quot;symforce_types.lcm&quot;</span><span class="p">,</span>
-        <span class="n">lcm_types_codegen</span><span class="o">.</span><span class="n">lcm_symforce_types_data</span><span class="p">(),</span>
+        <span class="n">template_path</span><span class="o">=</span><span class="s2">&quot;symforce_types.lcm.jinja&quot;</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">lcm_types_codegen</span><span class="o">.</span><span class="n">lcm_symforce_types_data</span><span class="p">(),</span>
+        <span class="n">template_dir</span><span class="o">=</span><span class="n">template_util</span><span class="o">.</span><span class="n">LCM_TEMPLATE_DIR</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="o">=</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;..&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span> <span class="o">/</span> <span class="s2">&quot;symforce_types.lcm&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">templates</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>

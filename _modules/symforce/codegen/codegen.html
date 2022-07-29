@@ -391,7 +391,7 @@
         <span class="k">if</span> <span class="n">generated_file_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">generated_file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
-        <span class="c1"># List of (template_path, output_path, data)</span>
+        <span class="c1"># List of (template_path, output_path, data, template_dir)</span>
         <span class="n">templates</span> <span class="o">=</span> <span class="n">template_util</span><span class="o">.</span><span class="n">TemplateList</span><span class="p">()</span>
 
         <span class="c1"># Output types</span>
@@ -446,7 +446,12 @@
 
         <span class="c1"># Get templates to render</span>
         <span class="k">for</span> <span class="n">source</span><span class="p">,</span> <span class="n">dest</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">templates_to_render</span><span class="p">(</span><span class="n">generated_file_name</span><span class="p">):</span>
-            <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">template_dir</span> <span class="o">/</span> <span class="n">source</span><span class="p">,</span> <span class="n">out_function_dir</span> <span class="o">/</span> <span class="n">dest</span><span class="p">,</span> <span class="n">template_data</span><span class="p">)</span>
+            <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">source</span><span class="p">,</span>
+                <span class="n">template_data</span><span class="p">,</span>
+                <span class="n">template_dir</span><span class="o">=</span><span class="n">template_dir</span><span class="p">,</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">out_function_dir</span> <span class="o">/</span> <span class="n">dest</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="c1"># Render</span>
         <span class="n">templates</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">autoformat</span><span class="p">)</span>
