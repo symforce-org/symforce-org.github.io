@@ -56,6 +56,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">template_util</span>
@@ -295,6 +296,7 @@
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;scalar_types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">,</span> <span class="s2">&quot;float&quot;</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;camelcase_to_snakecase&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;python_util&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">python_util</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;typing_util&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">typing_util</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;lcm_type_t_include_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&lt;lcmtypes/sym/type_t.hpp&gt;&quot;</span>
 
         <span class="k">def</span> <span class="nf">is_symbolic</span><span class="p">(</span><span class="n">T</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -482,10 +484,10 @@
         <span class="n">input_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;self&quot;</span><span class="p">]</span>
 
         <span class="k">def</span> <span class="nf">nice_typename</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
                 <span class="k">return</span> <span class="s2">&quot;Scalar&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">python_util</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+                <span class="k">return</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">get_type</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
 
         <span class="n">input_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">nice_typename</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;self&quot;</span><span class="p">]</span>
         <span class="n">output_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">nice_typename</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">outputs</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
@@ -655,7 +657,7 @@
                     <span class="s2">&quot;The output of a factor must be a column vector representing the residual &quot;</span>
                     <span class="sa">f</span><span class="s1">&#39;(of shape Nx1).  For factor &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;, &#39;</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                         <span class="n">common_msg</span> <span class="o">+</span> <span class="s2">&quot;got a scalar expression instead.  Did you mean to wrap it in &quot;</span>
                         <span class="s2">&quot;`sf.V1(expr)`?&quot;</span>

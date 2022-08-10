@@ -59,6 +59,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Linearly project the 3D point by dividing by the depth.</span>
 
+<span class="sd">        Points behind the camera (z &lt;= 0 in the camera frame) are marked as invalid.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            point: 3D point</span>
 
@@ -73,9 +75,9 @@
         <span class="k">if</span> <span class="n">epsilon</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">z</span> <span class="o">=</span> <span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Max</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">epsilon</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Max</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span> <span class="o">/</span> <span class="n">z</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">Max</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span> <span class="o">/</span> <span class="n">z</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">is_positive</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="LinearCameraCal.pixel_from_unit_depth"><a class="viewcode-back" href="../../../api/symforce.cam.linear_camera_cal.html#symforce.cam.linear_camera_cal.LinearCameraCal.pixel_from_unit_depth">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_unit_depth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit_depth_coords</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>

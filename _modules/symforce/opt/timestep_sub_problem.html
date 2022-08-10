@@ -44,7 +44,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.sub_problem</span> <span class="kn">import</span> <span class="n">SubProblem</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.python_util</span> <span class="kn">import</span> <span class="n">get_sequence_from_dataclass_sequence_field</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
 
 
 <div class="viewcode-block" id="TimestepSubProblem"><a class="viewcode-back" href="../../../api/symforce.opt.timestep_sub_problem.html#symforce.opt.timestep_sub_problem.TimestepSubProblem">[docs]</a><span class="k">class</span> <span class="nc">TimestepSubProblem</span><span class="p">(</span><span class="n">SubProblem</span><span class="p">):</span>
@@ -94,7 +94,9 @@
                     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timesteps</span><span class="p">)</span>
                 <span class="p">]</span>
             <span class="k">elif</span> <span class="n">field</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;length&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-                <span class="n">sequence_instance</span> <span class="o">=</span> <span class="n">get_sequence_from_dataclass_sequence_field</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">field_type</span><span class="p">)</span>
+                <span class="n">sequence_instance</span> <span class="o">=</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">get_sequence_from_dataclass_sequence_field</span><span class="p">(</span>
+                    <span class="n">field</span><span class="p">,</span> <span class="n">field_type</span>
+                <span class="p">)</span>
                 <span class="n">constructed_fields</span><span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span>
                     <span class="n">sequence_instance</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="p">)</span>

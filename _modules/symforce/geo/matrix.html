@@ -48,7 +48,7 @@
 <span class="kn">from</span> <span class="nn">symforce.ops.interfaces</span> <span class="kn">import</span> <span class="n">Storage</span>
 <span class="kn">import</span> <span class="nn">symforce.internal.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">_T</span>  <span class="c1"># We already have a Matrix.T which collides</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
 
 
 <div class="viewcode-block" id="Matrix"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix">[docs]</a><span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
@@ -642,7 +642,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a scalar or matrix to this matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">applyfunc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">right</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">+</span> <span class="n">right</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>
@@ -653,7 +653,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Subtract a scalar or matrix from this matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">applyfunc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">-</span> <span class="n">right</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">-</span> <span class="n">right</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>
@@ -676,7 +676,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Multiply a matrix by a scalar or matrix</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">applyfunc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">right</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">*</span> <span class="n">right</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>
@@ -699,7 +699,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Left multiply a matrix by a scalar or matrix</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">left</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">left</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">applyfunc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">left</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">mat</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>
@@ -722,7 +722,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Divide a matrix by a scalar or a matrix (which takes the inverse).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">right</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">applyfunc</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">right</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="n">right</span><span class="o">.</span><span class="n">inv</span><span class="p">()</span>
@@ -731,7 +731,7 @@
 
 <div class="viewcode-block" id="Matrix.compute_AtA"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.compute_AtA">[docs]</a>    <span class="k">def</span> <span class="nf">compute_AtA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute a symmetric product A.transpose() * A faster by respecting symmetry of the output.</span>
+<span class="sd">        Compute a symmetric product A.transpose() * A</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            lower_only (bool): If given, only fill the lower half and set upper to zero</span>
@@ -740,15 +740,12 @@
 <span class="sd">            (Matrix(N, N)): Symmetric matrix AtA = self.transpose() * self</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span>
-        <span class="n">AtA</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-            <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-                <span class="n">val</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
-                <span class="n">AtA</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
-                    <span class="n">AtA</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">lower_only</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">AtA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="n">lower_only</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">):</span>
+                    <span class="n">AtA</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
         <span class="k">return</span> <span class="n">AtA</span></div>
 
 <div class="viewcode-block" id="Matrix.LU"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.LU">[docs]</a>    <span class="k">def</span> <span class="nf">LU</span><span class="p">(</span>

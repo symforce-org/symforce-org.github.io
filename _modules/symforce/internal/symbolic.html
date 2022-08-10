@@ -616,12 +616,12 @@
     <span class="n">new_subs_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Import these lazily, since initialization.py is imported from symforce/__init__.py</span>
     <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>  <span class="c1"># pylint: disable=cyclic-import</span>
-    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>  <span class="c1"># pylint: disable=cyclic-import</span>
+    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>  <span class="c1"># pylint: disable=cyclic-import</span>
 
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">subs_pairs</span><span class="p">:</span>
 
-        <span class="k">if</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">assert</span> <span class="n">python_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="n">new_subs_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
             <span class="k">continue</span>
 
@@ -664,6 +664,11 @@
             <span class="n">subs_pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">subs_pairs</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;subs must be passed either two positional arguments (a key-value pair), or a dict of &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;key-value pairs.  Instead, got </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
 
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subs_pairs</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_flatten_storage_type_subs</span><span class="p">(</span><span class="n">subs_pairs</span><span class="p">)</span>

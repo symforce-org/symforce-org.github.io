@@ -39,7 +39,7 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">symforce.python_util</span> <span class="kn">import</span> <span class="n">get_type</span><span class="p">,</span> <span class="n">scalar_like</span>
+<span class="kn">from</span> <span class="nn">symforce.typing_util</span> <span class="kn">import</span> <span class="n">get_type</span><span class="p">,</span> <span class="n">scalar_like</span>
 <span class="kn">import</span> <span class="nn">symforce.internal.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
@@ -109,8 +109,9 @@
 
 <div class="viewcode-block" id="StorageOps.subs"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps.subs">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">subs</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
+        <span class="c1"># We convert to a Matrix here so that we can call `.subs` once, which is faster</span>
         <span class="k">return</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span>
-            <span class="n">a</span><span class="p">,</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+            <span class="n">a</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)))</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="StorageOps.simplify"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps.simplify">[docs]</a>    <span class="nd">@staticmethod</span>
