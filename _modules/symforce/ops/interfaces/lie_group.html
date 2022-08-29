@@ -87,11 +87,11 @@
         <span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LieGroupT</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply a tangent space perturbation vec to this. Often used in optimization</span>
+<span class="sd">        Apply a tangent space perturbation vec to self. Often used in optimization</span>
 <span class="sd">        to update nonlinear values from an update step in the tangent space.</span>
 
-<span class="sd">        Implementation is simply `compose(this, from_tangent(vec))`.</span>
-<span class="sd">        Conceptually represents &quot;this + vec&quot;.</span>
+<span class="sd">        Implementation is simply `compose(self, from_tangent(vec))`.</span>
+<span class="sd">        Conceptually represents &quot;self + vec&quot; if self is a vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">))</span></div>
 
@@ -99,11 +99,11 @@
         <span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes a tangent space perturbation around this to produce b. Often used in optimization</span>
+<span class="sd">        Computes a tangent space perturbation around self to produce b. Often used in optimization</span>
 <span class="sd">        to minimize the distance between two group elements.</span>
 
-<span class="sd">        Implementation is simply `to_tangent(between(this, b))`.</span>
-<span class="sd">        Tangent space perturbation that conceptually represents &quot;this - a&quot;.</span>
+<span class="sd">        Implementation is simply `to_tangent(between(self, b))`.</span>
+<span class="sd">        Tangent space perturbation that conceptually represents &quot;b - self&quot; if self is a vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div></div>
 

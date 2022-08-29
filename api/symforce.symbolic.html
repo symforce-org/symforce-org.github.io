@@ -1917,7 +1917,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Complex.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/complex.html#Complex.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Complex.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = a</cite>.</p>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Complex" title="symforce.geo.complex.Complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Complex</span></code></a></p>
@@ -2172,7 +2172,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.DualQuaternion.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/dual_quaternion.html#DualQuaternion.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DualQuaternion.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = a</cite>.</p>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></p>
@@ -4939,7 +4939,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Quaternion.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/quaternion.html#Quaternion.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Quaternion.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = a</cite>.</p>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Quaternion" title="symforce.geo.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a></p>
@@ -5195,7 +5195,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = a</cite>.</p>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a></p>
@@ -5270,10 +5270,10 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.retract">
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.retract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a tangent space perturbation vec to this. Often used in optimization
+<dd><p>Apply a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Implementation is simply <cite>compose(this, from_tangent(vec))</cite>.
-Conceptually represents “this + vec”.</p>
+<p>Implementation is simply <cite>compose(self, from_tangent(vec))</cite>.
+Conceptually represents “self + vec” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5291,10 +5291,10 @@ Conceptually represents “this + vec”.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.local_coordinates">
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.local_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes a tangent space perturbation around this to produce b. Often used in optimization
+<dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Implementation is simply <cite>to_tangent(between(this, b))</cite>.
-Tangent space perturbation that conceptually represents “this - a”.</p>
+<p>Implementation is simply <cite>to_tangent(between(self, b))</cite>.
+Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5416,10 +5416,10 @@ benefit.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2_SE2.retract">
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2_se2.html#Pose2_SE2.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2_SE2.retract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a tangent space perturbation vec to this. Often used in optimization
+<dd><p>Apply a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Implementation is simply <cite>compose(this, from_tangent(vec))</cite>.
-Conceptually represents “this + vec”.</p>
+<p>Implementation is simply <cite>compose(self, from_tangent(vec))</cite>.
+Conceptually represents “self + vec” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5436,10 +5436,10 @@ Conceptually represents “this + vec”.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2_SE2.local_coordinates">
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2_se2.html#Pose2_SE2.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2_SE2.local_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes a tangent space perturbation around this to produce b. Often used in optimization
+<dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Implementation is simply <cite>to_tangent(between(this, b))</cite>.
-Tangent space perturbation that conceptually represents “this - a”.</p>
+<p>Implementation is simply <cite>to_tangent(between(self, b))</cite>.
+Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5608,7 +5608,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = a</cite>.</p>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
@@ -5696,10 +5696,10 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.retract">
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.retract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a tangent space perturbation vec to this. Often used in optimization
+<dd><p>Apply a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Implementation is simply <cite>compose(this, from_tangent(vec))</cite>.
-Conceptually represents “this + vec”.</p>
+<p>Implementation is simply <cite>compose(self, from_tangent(vec))</cite>.
+Conceptually represents “self + vec” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5717,10 +5717,10 @@ Conceptually represents “this + vec”.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.local_coordinates">
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.local_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes a tangent space perturbation around this to produce b. Often used in optimization
+<dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Implementation is simply <cite>to_tangent(between(this, b))</cite>.
-Tangent space perturbation that conceptually represents “this - a”.</p>
+<p>Implementation is simply <cite>to_tangent(between(self, b))</cite>.
+Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5838,10 +5838,10 @@ lie operations. This can be useful but is more expensive than SO(3) x R3 for oft
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3_SE3.retract">
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3_se3.html#Pose3_SE3.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3_SE3.retract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a tangent space perturbation vec to this. Often used in optimization
+<dd><p>Apply a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Implementation is simply <cite>compose(this, from_tangent(vec))</cite>.
-Conceptually represents “this + vec”.</p>
+<p>Implementation is simply <cite>compose(self, from_tangent(vec))</cite>.
+Conceptually represents “self + vec” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5858,10 +5858,10 @@ Conceptually represents “this + vec”.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3_SE3.local_coordinates">
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3_se3.html#Pose3_SE3.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3_SE3.local_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes a tangent space perturbation around this to produce b. Often used in optimization
+<dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Implementation is simply <cite>to_tangent(between(this, b))</cite>.
-Tangent space perturbation that conceptually represents “this - a”.</p>
+<p>Implementation is simply <cite>to_tangent(between(self, b))</cite>.
+Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -5995,7 +5995,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = a</cite>.</p>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Rot2" title="symforce.geo.rot2.Rot2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot2</span></code></a></p>
@@ -6255,7 +6255,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = a</cite>.</p>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
