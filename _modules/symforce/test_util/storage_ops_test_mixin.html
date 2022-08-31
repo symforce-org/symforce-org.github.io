@@ -110,7 +110,14 @@
             <span class="n">sym_element</span><span class="p">,</span>
             <span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">sym_element</span><span class="p">,</span> <span class="p">{</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;var_not_in_element&quot;</span><span class="p">):</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;new_var&quot;</span><span class="p">)}),</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sym_element</span><span class="p">,</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">sym_element</span><span class="p">))</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">sym_element</span><span class="p">,</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">sym_element</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+            <span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span>
+                <span class="n">sym_element</span><span class="p">,</span>
+                <span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;var_not_in_element&quot;</span><span class="p">)),</span>
+                <span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;new_var&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
+            <span class="p">)</span></div></div>
 </pre></div>
 
           </div>

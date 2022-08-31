@@ -96,6 +96,22 @@
         <span class="c1"># type: () -&gt; np.ndarray</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span></div>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">R</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; Rot2</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Accessor for the rotation component, equivalent to self.rotation()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; np.ndarray</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Accessor for the position component, equivalent to self.position()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
+
     <span class="k">def</span> <span class="nf">_apply_to_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="c1"># type: (np.ndarray) -&gt; np.ndarray</span>
         <span class="n">v_reshaped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,))</span>

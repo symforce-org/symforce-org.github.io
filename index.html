@@ -189,7 +189,7 @@ $ -->
     width="135px" /></p>
 <!-- /DARK_MODE_ONLY -->
 <!-- $\sqrt{x_0^2 + x_1^2 + x_2^2 + \epsilon}$ -->
-<p>See the <a class="reference external" href="https://symforce.org/notebooks/epsilon_tutorial.html">Epsilon Tutorial</a> in the SymForce Docs for more information.</p>
+<p>See the <a class="reference external" href="https://symforce.org/tutorials/epsilon_tutorial.html">Epsilon Tutorial</a> in the SymForce Docs for more information.</p>
 </section>
 <section id="build-an-optimization-problem">
 <h3>Build an optimization problem<a class="headerlink" href="#build-an-optimization-problem" title="Permalink to this headline">¶</a></h3>
@@ -283,7 +283,7 @@ circles represent the robot, and the dotted lines represent the bearing measurem
 <section id="symbolic-vs-numerical-types">
 <h3>Symbolic vs Numerical Types<a class="headerlink" href="#symbolic-vs-numerical-types" title="Permalink to this headline">¶</a></h3>
 <p>SymForce provides <code class="docutils literal notranslate"><span class="pre">sym</span></code> packages with runtime code for geometry and camera types that are generated from its symbolic <code class="docutils literal notranslate"><span class="pre">geo</span></code> and <code class="docutils literal notranslate"><span class="pre">cam</span></code> packages. As such, there are multiple versions of a class like <code class="docutils literal notranslate"><span class="pre">Pose3</span></code> and it can be a common source of confusion.</p>
-<p>The canonical symbolic class <a class="reference external" href="https://symforce.org/api/symforce.sf.pose3.html"><code class="docutils literal notranslate"><span class="pre">sf.Pose3</span></code></a> lives in the <code class="docutils literal notranslate"><span class="pre">symforce</span></code> package:</p>
+<p>The canonical symbolic class <a class="reference external" href="https://symforce.org/api/symforce.symbolic.html#symforce.symbolic.Pose3"><code class="docutils literal notranslate"><span class="pre">sf.Pose3</span></code></a> lives in the <code class="docutils literal notranslate"><span class="pre">symforce</span></code> package:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -296,7 +296,7 @@ circles represent the robot, and the dotted lines represent the bearing measurem
 <div class="highlight-C++ notranslate"><div class="highlight"><pre><span></span><span class="n">sym</span><span class="o">::</span><span class="n">Pose3</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">Identity</span><span class="p">()</span><span class="w"></span>
 </pre></div>
 </div>
-<p>The matrix type for symbolic code is <a class="reference external" href="https://symforce.org/api/symforce.sf.matrix.html?highlight=matrix#module-symforce.sf.matrix"><code class="docutils literal notranslate"><span class="pre">sf.Matrix</span></code></a>, for generated Python is <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, and for C++ is <a class="reference external" href="https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html"><code class="docutils literal notranslate"><span class="pre">Eigen::Matrix</span></code></a>.</p>
+<p>The matrix type for symbolic code is <a class="reference external" href="https://symforce.org/api/symforce.symbolic.html#symforce.symbolic.Matrix"><code class="docutils literal notranslate"><span class="pre">sf.Matrix</span></code></a>, for generated Python is <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html"><code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, and for C++ is <a class="reference external" href="https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html"><code class="docutils literal notranslate"><span class="pre">Eigen::Matrix</span></code></a>.</p>
 <p>The symbolic classes can also handle numerical values, but will be dramatically slower than the generated classes. The symbolic classes must be used when defining functions for codegen and optimization. Generated functions always accept the runtime types.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Codegen</span></code> or <code class="docutils literal notranslate"><span class="pre">Factor</span></code> objects require symbolic types and functions to do math and generate code. However, once code is generated, numerical types should be used when invoking generated functions and in the initial values when calling the <code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>.</p>
 <p>As a convenience, the Python <code class="docutils literal notranslate"><span class="pre">Optimizer</span></code> class can accept symbolic types in its <code class="docutils literal notranslate"><span class="pre">Values</span></code> and convert to numerical types before invoking generated functions. This is done in the tutorial example for simplicity.</p>
