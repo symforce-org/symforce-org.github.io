@@ -121,10 +121,62 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
             <span class="n">func</span><span class="o">=</span><span class="n">group</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;compose&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;compose_with_point&quot;</span><span class="p">,</span>
             <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">group</span><span class="p">,</span> <span class="n">multiplicand_type</span><span class="p">],</span>
             <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="p">)</span>
+
+    <span class="n">rot3_functions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">),</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random_from_uniform_samples</span><span class="p">,</span> <span class="n">pi</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;random_from_uniform_samples&quot;</span><span class="p">,</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">()),</span>
+            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;to_yaw_pitch_roll&quot;</span><span class="p">,</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="c1"># TODO(brad): We don&#39;t currently generate this in python because python (unlike C++)</span>
+    <span class="c1"># has no function overloading, and we already generate a from_yaw_pitch_roll which</span>
+    <span class="c1"># instead takes yaw, pitch, and roll as seperate arguments. Figure out how to allow</span>
+    <span class="c1"># this overload to better achieve parity between C++ and python.</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">PythonConfig</span><span class="p">):</span>
+        <span class="k">pass</span>
+        <span class="c1"># rot3_functions.insert(2, Codegen.function(func=sf.Rot3.from_rotation_matrix, config=config))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rot3_functions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ypr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="o">*</span><span class="n">ypr</span><span class="p">),</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;from_yaw_pitch_roll&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pose_getter_methods</span><span class="p">(</span><span class="n">pose_type</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Codegen</span><span class="p">]:</span>
+        <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the rotational component of this pose.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span>
+
+        <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Returns the positional component of this pose.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">pose_type</span><span class="p">],</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">pose_type</span><span class="p">],</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="p">]</span>
 
     <span class="k">return</span> <span class="p">{</span>
         <span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="p">:</span> <span class="p">[</span>
@@ -132,34 +184,15 @@
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="o">.</span><span class="n">from_angle</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
         <span class="p">],</span>
-        <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">:</span> <span class="p">[</span>
-            <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">),</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-                <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random_from_uniform_samples</span><span class="p">,</span> <span class="n">pi</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;random_from_uniform_samples&quot;</span><span class="p">,</span>
-                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-                <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ypr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="o">*</span><span class="n">ypr</span><span class="p">),</span>
-                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">],</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;from_yaw_pitch_roll&quot;</span><span class="p">,</span>
-                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="p">),</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-                <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">()),</span>
-                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">],</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;to_yaw_pitch_roll&quot;</span><span class="p">,</span>
-                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="p">),</span>
-        <span class="p">],</span>
-        <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">:</span> <span class="n">rot3_functions</span><span class="p">,</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">:</span> <span class="n">pose_getter_methods</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">)</span>
+        <span class="o">+</span> <span class="p">[</span>
             <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">pose2_inverse_compose</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;inverse_compose&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="o">.</span><span class="n">to_homogenous_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
         <span class="p">],</span>
-        <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">:</span> <span class="n">pose_getter_methods</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">)</span>
+        <span class="o">+</span> <span class="p">[</span>
             <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">pose3_inverse_compose</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;inverse_compose&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="o">.</span><span class="n">to_homogenous_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
@@ -196,6 +229,10 @@
             <span class="n">data</span> <span class="o">=</span> <span class="n">geo_class_common_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;matrix_type_aliases&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_type_aliases</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span>
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;custom_generated_methods&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">custom_generated_methods</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">cls</span> <span class="o">==</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;imported_classes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="bp">cls</span> <span class="o">==</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="s2">&quot;imported_classes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">]</span>
 
             <span class="k">for</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">relative_path</span> <span class="ow">in</span> <span class="p">(</span>
                 <span class="p">(</span><span class="s2">&quot;geo_package&quot;</span><span class="p">,</span> <span class="s2">&quot;CLASS.py&quot;</span><span class="p">),</span>
@@ -216,7 +253,11 @@
         <span class="c1"># Package init</span>
         <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
             <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;geo_package&quot;</span><span class="p">,</span> <span class="s2">&quot;__init__.py.jinja&quot;</span><span class="p">),</span>
-            <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span> <span class="n">all_types</span><span class="o">=</span><span class="n">DEFAULT_GEO_TYPES</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span>
+                <span class="n">all_types</span><span class="o">=</span><span class="n">DEFAULT_GEO_TYPES</span><span class="p">,</span>
+                <span class="n">numeric_epsilon</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">numeric_epsilon</span><span class="p">,</span>
+            <span class="p">),</span>
             <span class="n">output_path</span><span class="o">=</span><span class="n">package_dir</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 

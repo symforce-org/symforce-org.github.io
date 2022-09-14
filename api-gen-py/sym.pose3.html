@@ -84,26 +84,6 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#sym.pose3.Pose3.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="sym.pose3.Pose3.rotation">
-<span class="sig-name descname"><span class="pre">rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/pose3.html#Pose3.rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.pose3.Pose3.rotation" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="sym.rot3.html#sym.rot3.Rot3" title="sym.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sym.pose3.Pose3.position">
-<span class="sig-name descname"><span class="pre">position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/pose3.html#Pose3.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.pose3.Pose3.position" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="sym.pose3.Pose3.R">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">R</span></span><a class="headerlink" href="#sym.pose3.Pose3.R" title="Permalink to this definition">¶</a></dt>
@@ -119,6 +99,74 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dt class="sig sig-object py" id="sym.pose3.Pose3.t">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">t</span></span><a class="headerlink" href="#sym.pose3.Pose3.t" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor for the position component, equivalent to self.position()</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.pose3.Pose3.rotation">
+<span class="sig-name descname"><span class="pre">rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/pose3.html#Pose3.rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.pose3.Pose3.rotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the rotational component of this pose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="sym.rot3.html#sym.rot3.Rot3" title="sym.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.pose3.Pose3.position">
+<span class="sig-name descname"><span class="pre">position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/pose3.html#Pose3.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.pose3.Pose3.position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the positional component of this pose.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.pose3.Pose3.compose_with_point">
+<span class="sig-name descname"><span class="pre">compose_with_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/pose3.html#Pose3.compose_with_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.pose3.Pose3.compose_with_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left-multiply with a compatible quantity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>right</strong> (<a class="reference internal" href="#sym.pose3.Pose3" title="sym.pose3.Pose3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose3</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.pose3.Pose3.inverse_compose">
+<span class="sig-name descname"><span class="pre">inverse_compose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/pose3.html#Pose3.inverse_compose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.pose3.Pose3.inverse_compose" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function was autogenerated from a symbolic function. Do not modify by hand.</p>
+<p>Symbolic function: pose3_inverse_compose</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>point</strong> (<a class="reference internal" href="#sym.pose3.Pose3" title="sym.pose3.Pose3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose3</span></code></a>) – Matrix31</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>res: Matrix31</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.pose3.Pose3.to_homogenous_matrix">
+<span class="sig-name descname"><span class="pre">to_homogenous_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/pose3.html#Pose3.to_homogenous_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.pose3.Pose3.to_homogenous_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>4x4 matrix representing this pose transform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
@@ -221,7 +269,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
+<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
@@ -239,7 +287,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dd class="field-odd"><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -250,7 +298,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
+<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
@@ -271,7 +319,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>

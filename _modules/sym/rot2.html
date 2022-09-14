@@ -40,7 +40,8 @@
 <span class="c1"># Do NOT modify by hand.</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
 <span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
 
 <span class="kn">from</span> <span class="nn">.ops</span> <span class="kn">import</span> <span class="n">rot2</span> <span class="k">as</span> <span class="n">ops</span>
@@ -72,18 +73,72 @@
             <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">z</span><span class="p">)</span></div>
 
+    <span class="c1"># --------------------------------------------------------------------------</span>
+    <span class="c1"># Custom generated methods</span>
+    <span class="c1"># --------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="Rot2.compose_with_point"><a class="viewcode-back" href="../../api-gen-py/sym.rot2.html#sym.rot2.Rot2.compose_with_point">[docs]</a>    <span class="k">def</span> <span class="nf">compose_with_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+        <span class="c1"># type: (Rot2, numpy.ndarray) -&gt; numpy.ndarray</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Left-multiplication. Either rotation concatenation or point transform.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Total ops: 6</span>
+
+        <span class="c1"># Input arrays</span>
+        <span class="n">_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">right</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Intermediate terms (0)</span>
+
+        <span class="c1"># Output terms</span>
+        <span class="n">_res</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">right</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">_self</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">right</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">right</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">_self</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">right</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_res</span></div>
+
+<div class="viewcode-block" id="Rot2.from_angle"><a class="viewcode-back" href="../../api-gen-py/sym.rot2.html#sym.rot2.Rot2.from_angle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_angle</span><span class="p">(</span><span class="n">theta</span><span class="p">):</span>
+        <span class="c1"># type: (float) -&gt; Rot2</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a Rot2 from an angle `theta` in radians</span>
+
+<span class="sd">        This is equivalent to from_tangent([theta])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Total ops: 2</span>
+
+        <span class="c1"># Input arrays</span>
+
+        <span class="c1"># Intermediate terms (0)</span>
+
+        <span class="c1"># Output terms</span>
+        <span class="n">_res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Rot2</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Rot2.to_rotation_matrix"><a class="viewcode-back" href="../../api-gen-py/sym.rot2.html#sym.rot2.Rot2.to_rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; np.ndarray</span>
-        <span class="n">real</span><span class="p">,</span> <span class="n">imag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="c1"># type: (Rot2) -&gt; numpy.ndarray</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A matrix representation of this element in the Euclidean space that contains it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">real</span><span class="p">,</span> <span class="o">-</span><span class="n">imag</span><span class="p">],</span> <span class="p">[</span><span class="n">imag</span><span class="p">,</span> <span class="n">real</span><span class="p">]])</span></div>
+        <span class="c1"># Total ops: 1</span>
 
-    <span class="k">def</span> <span class="nf">_apply_to_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="c1"># type: (np.ndarray) -&gt; np.ndarray</span>
-        <span class="n">v_reshaped</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">(),</span> <span class="n">v_reshaped</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="c1"># Input arrays</span>
+        <span class="n">_self</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
 
-    <span class="c1"># TODO rotation helpers</span>
+        <span class="c1"># Intermediate terms (0)</span>
+
+        <span class="c1"># Output terms</span>
+        <span class="n">_res</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_self</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">_self</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_self</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_res</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># StorageOps concept</span>
@@ -147,7 +202,7 @@
 
 <div class="viewcode-block" id="Rot2.from_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.rot2.html#sym.rot2.Rot2.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (T.Sequence[float], float) -&gt; Rot2</span>
+        <span class="c1"># type: (numpy.ndarray, float) -&gt; Rot2</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -157,11 +212,11 @@
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot2.to_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.rot2.html#sym.rot2.Rot2.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (float) -&gt; T.List[float]</span>
+        <span class="c1"># type: (float) -&gt; numpy.ndarray</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot2.retract"><a class="viewcode-back" href="../../api-gen-py/sym.rot2.html#sym.rot2.Rot2.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (T.Sequence[float], float) -&gt; Rot2</span>
+        <span class="c1"># type: (numpy.ndarray, float) -&gt; Rot2</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -171,7 +226,7 @@
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot2.local_coordinates"><a class="viewcode-back" href="../../api-gen-py/sym.rot2.html#sym.rot2.Rot2.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (Rot2, float) -&gt; T.List[float]</span>
+        <span class="c1"># type: (Rot2, float) -&gt; numpy.ndarray</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
@@ -191,15 +246,15 @@
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
     <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-        <span class="c1"># type: (np.ndarray) -&gt; np.ndarray</span>
+        <span class="c1"># type: (numpy.ndarray) -&gt; numpy.ndarray</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="c1"># type: (T.Union[Rot2, np.ndarray]) -&gt; T.Union[Rot2, np.ndarray]</span>
+        <span class="c1"># type: (T.Union[Rot2, numpy.ndarray]) -&gt; T.Union[Rot2, numpy.ndarray]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Rot2</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_apply_to_vector&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_to_vector</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;compose_with_point&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose_with_point</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Cannot compose </span><span class="si">{}</span><span class="s2"> with </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)))</span></div>
 </pre></div>

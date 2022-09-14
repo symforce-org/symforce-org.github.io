@@ -61,7 +61,6 @@
 <span class="sd">        use_eigen_types: Use eigen_lcm types for vectors instead of lists</span>
 <span class="sd">        autoformat: Run a code formatter on the generated code</span>
 <span class="sd">        cse_optimizations: Optimizations argument to pass to sf.cse</span>
-<span class="sd">        matrix_is_1d: Whether sf.Matrix symbols get formatted as 1D</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">doc_comment_line_prefix</span><span class="p">:</span> <span class="nb">str</span>
@@ -71,8 +70,6 @@
     <span class="n">cse_optimizations</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span>
         <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;basic&quot;</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">]]]</span>
     <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="c1"># TODO(hayk): Remove this parameter (by making everything 2D?)</span>
-    <span class="n">matrix_is_1d</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="CodegenConfig.backend_name"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.backend_name">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
@@ -112,7 +109,32 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format data for accessing a data array in code.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.data[</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">]&quot;</span></div></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.data[</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">]&quot;</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_assert_indices_in_bounds</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">row</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Row index </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s2"> is out of bounds (size </span><span class="si">{</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">col</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Column index </span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2"> is out of bounds (size </span><span class="si">{</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CodegenConfig.format_matrix_accessor"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.format_matrix_accessor">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">format_matrix_accessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format accessor for 2D matrices.</span>
+<span class="sd">        Raises an index exception if either of the following is false:</span>
+<span class="sd">            0 &lt;= i &lt; shape[0]</span>
+<span class="sd">            0 &lt;= j &lt; shape[1]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="CodegenConfig.format_eigen_lcm_accessor"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.format_eigen_lcm_accessor">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">format_eigen_lcm_accessor</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format accessor for eigen_lcm types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
 </pre></div>
 
           </div>

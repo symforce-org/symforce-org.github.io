@@ -65,14 +65,15 @@
 <span class="sd">                   on the first call and some overhead on subsequent calls, so it should not be</span>
 <span class="sd">                   used for small functions or functions that are only called a handfull of</span>
 <span class="sd">                   times.</span>
-<span class="sd">        matrix_is_1D: sf.Matrix symbols get formatted as a 1D array</span>
+<span class="sd">        reshape_vectors: Allow rank 1 ndarrays to be passed in for row and column vectors by</span>
+<span class="sd">                         automatically reshaping the input.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">doc_comment_line_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">line_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
     <span class="n">use_eigen_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">use_numba</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">matrix_is_1d</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">reshape_vectors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="PythonConfig.backend_name"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.python.python_config.html#symforce.codegen.backends.python.python_config.PythonConfig.backend_name">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">backend_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -91,7 +92,18 @@
 <div class="viewcode-block" id="PythonConfig.printer"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.python.python_config.html#symforce.codegen.backends.python.python_config.PythonConfig.printer">[docs]</a>    <span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodePrinter</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">symforce.codegen.backends.python</span> <span class="kn">import</span> <span class="n">python_code_printer</span>
 
-        <span class="k">return</span> <span class="n">python_code_printer</span><span class="o">.</span><span class="n">PythonCodePrinter</span><span class="p">()</span></div></div>
+        <span class="k">return</span> <span class="n">python_code_printer</span><span class="o">.</span><span class="n">PythonCodePrinter</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PythonConfig.format_matrix_accessor"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.python.python_config.html#symforce.codegen.backends.python.python_config.PythonConfig.format_matrix_accessor">[docs]</a>    <span class="k">def</span> <span class="nf">format_matrix_accessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">PythonConfig</span><span class="o">.</span><span class="n">_assert_indices_in_bounds</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">]&quot;</span></div>
+
+<div class="viewcode-block" id="PythonConfig.format_eigen_lcm_accessor"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.python.python_config.html#symforce.codegen.backends.python.python_config.PythonConfig.format_eigen_lcm_accessor">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">format_eigen_lcm_accessor</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Format accessor for eigen_lcm types.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.data[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">]&quot;</span></div></div>
 </pre></div>
 
           </div>

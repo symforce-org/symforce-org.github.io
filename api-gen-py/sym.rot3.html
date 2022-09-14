@@ -66,16 +66,6 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sym.rot3.Rot3.to_rotation_matrix">
-<span class="sig-name descname"><span class="pre">to_rotation_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.to_rotation_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.to_rotation_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sym.rot3.Rot3.from_rotation_matrix">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_rotation_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">R</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.from_rotation_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.from_rotation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
@@ -92,14 +82,40 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sym.rot3.Rot3.from_yaw_pitch_roll">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_yaw_pitch_roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roll</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.from_yaw_pitch_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.from_yaw_pitch_roll" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dt class="sig sig-object py" id="sym.rot3.Rot3.compose_with_point">
+<span class="sig-name descname"><span class="pre">compose_with_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.compose_with_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.compose_with_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left-multiplication. Either rotation concatenation or point transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>right</strong> (<a class="reference internal" href="#sym.rot3.Rot3" title="sym.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.rot3.Rot3.to_rotation_matrix">
+<span class="sig-name descname"><span class="pre">to_rotation_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.to_rotation_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.to_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts to a rotation matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.rot3.Rot3.random_from_uniform_samples">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random_from_uniform_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.random_from_uniform_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.random_from_uniform_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random element of SO3 from three variables uniformly sampled in [0, 1].</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>yaw</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
-<li><p><strong>pitch</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
-<li><p><strong>roll</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>u1</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>u2</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>u3</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -111,9 +127,34 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sym.rot3.Rot3.to_yaw_pitch_roll">
 <span class="sig-name descname"><span class="pre">to_yaw_pitch_roll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.to_yaw_pitch_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.to_yaw_pitch_roll" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>This function was autogenerated from a symbolic function. Do not modify by hand.</p>
+<p>Symbolic function: &lt;lambda&gt;</p>
+<p>Args:</p>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>res: Matrix31</p>
+</dd>
+</dl>
+<dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.rot3.Rot3.from_yaw_pitch_roll">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_yaw_pitch_roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pitch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roll</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.from_yaw_pitch_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.from_yaw_pitch_roll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from yaw, pitch, and roll Euler angles in radians</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>yaw</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>pitch</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>roll</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#sym.rot3.Rot3" title="sym.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -213,7 +254,7 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
+<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
@@ -231,7 +272,7 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 <dd class="field-odd"><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -242,7 +283,7 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
+<li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
@@ -263,7 +304,7 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></p>
 </dd>
 </dl>
 </dd></dl>

@@ -157,7 +157,12 @@
     <span class="c1"># For mypy: https://github.com/python/typeshed/issues/2793</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="n">importlib</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span>
 
-    <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">symengine</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">symengine</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>  <span class="c1"># pylint: disable=bare-except</span>
+        <span class="c1"># If executing the module fails for any reason, it shouldn&#39;t be in `sys.modules`</span>
+        <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;symengine&quot;</span><span class="p">]</span>
+        <span class="k">raise</span>
 
     <span class="k">return</span> <span class="n">symengine</span>
 

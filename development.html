@@ -75,31 +75,28 @@ level commands for development:</p>
 <col style="width: 36%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p>Run Python tests</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p>Run tests which update (most) generated code</p></td>
+<tr class="row-odd"><td><p>Run tests which update (most) generated code</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test_update</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Run tests which update all generated code</p></td>
+<tr class="row-even"><td><p>Run tests which update all generated code</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test_update_all</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Run tests and open coverage report</p></td>
+<tr class="row-odd"><td><p>Run tests and open coverage report</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">coverage_open</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Build docs</p></td>
+<tr class="row-even"><td><p>Build docs</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">docs</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Build docs + open in browser</p></td>
+<tr class="row-odd"><td><p>Build docs + open in browser</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">docs_open</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Run the code formatter (black, clang-format)</p></td>
+<tr class="row-even"><td><p>Run the code formatter (black, clang-format)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">format</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Check types with mypy</p></td>
+<tr class="row-odd"><td><p>Check types with mypy</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">check_types</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Check formatting and types</p></td>
+<tr class="row-even"><td><p>Check formatting and types</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">lint</span></code></p></td>
 </tr>
 </tbody>
@@ -125,10 +122,10 @@ level commands for development:</p>
 <p>SymForce is heavily tested, targeting close to 100% code coverage.
 Tests live in <code class="docutils literal notranslate"><span class="pre">test</span></code> and use <a class="reference external" href="https://docs.python.org/2/library/unittest.html">unittest</a>. Additionally, <a class="reference external" href="https://coverage.readthedocs.io/en/coverage-5.0.4/">coverage.py</a> is used to run tests while measuring code coverage. The generated coverage report also provides a great view into what methods need to be tested and what code is potentially unused.</p>
 <div class="line-block">
-<div class="line">Run all tests: <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test</span></code></div>
-<div class="line">Run all tests and open the coverage report: <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">coverage_open</span></code></div>
 <div class="line">Run a specific test: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">test/symforce_codegen_test.py</span></code></div>
 <div class="line">Run with debug level output: <code class="docutils literal notranslate"><span class="pre">SYMFORCE_LOGLEVEL=DEBUG</span> <span class="pre">python</span> <span class="pre">test/symforce_codegen_test.py</span></code></div>
+<div class="line">Run all Python and C++ tests after building with cmake: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">build;</span> <span class="pre">ctest</span></code></div>
+<div class="line">Run all Python tests, without a cmake build (tests cannot be run in the same interpreter): <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">test/*_test.py</span> <span class="pre">|</span> <span class="pre">xargs</span> <span class="pre">-n1</span> <span class="pre">-P</span> <span class="pre">$(nproc)</span> <span class="pre">python</span></code></div>
 </div>
 <p>When debugging a specific test, the use of <a class="reference external" href="https://pypi.org/project/ipdb/">ipdb</a> is highly recommended, as is reproducing the most minimal example of the issue in a notebook.</p>
 </section>
