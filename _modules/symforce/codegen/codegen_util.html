@@ -49,19 +49,21 @@
 <span class="kn">import</span> <span class="nn">importlib.abc</span>
 <span class="kn">import</span> <span class="nn">importlib.util</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">import</span> <span class="nn">sympy</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">sympy</span>
 
 <span class="kn">import</span> <span class="nn">symforce</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
-<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span><span class="p">,</span> <span class="n">IndexEntry</span>
 <span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">format_util</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_config</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">_sympy_count_ops</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_config</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">format_util</span>
+<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">IndexEntry</span>
+<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
 
 <span class="n">NUMPY_DTYPE_FROM_SCALAR_TYPE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;double&quot;</span><span class="p">:</span> <span class="s2">&quot;numpy.float64&quot;</span><span class="p">,</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span> <span class="s2">&quot;numpy.float32&quot;</span><span class="p">}</span>
 <span class="c1"># Type representing generated code (list of lhs and rhs terms)</span>
@@ -685,8 +687,8 @@
         <span class="k">return</span> <span class="n">result</span>
 
     <span class="kn">from</span> <span class="nn">skymarshal</span> <span class="kn">import</span> <span class="n">skymarshal</span>
-    <span class="kn">from</span> <span class="nn">skymarshal.emit_python</span> <span class="kn">import</span> <span class="n">SkymarshalPython</span>
     <span class="kn">from</span> <span class="nn">skymarshal.emit_cpp</span> <span class="kn">import</span> <span class="n">SkymarshalCpp</span>
+    <span class="kn">from</span> <span class="nn">skymarshal.emit_python</span> <span class="kn">import</span> <span class="n">SkymarshalPython</span>
 
     <span class="n">skymarshal</span><span class="o">.</span><span class="n">main</span><span class="p">(</span>
         <span class="p">[</span><span class="n">SkymarshalPython</span><span class="p">,</span> <span class="n">SkymarshalCpp</span><span class="p">],</span>

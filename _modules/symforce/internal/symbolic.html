@@ -64,9 +64,10 @@
 <span class="c1"># pylint: disable=ungrouped-imports</span>
 
 <span class="kn">import</span> <span class="nn">contextlib</span>
+
 <span class="kn">import</span> <span class="nn">symforce</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 <span class="c1"># See `symforce/__init__.py` for more information, this is used to check whether things that this</span>
 <span class="c1"># module depends on are modified after importing</span>
@@ -75,211 +76,207 @@
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
     <span class="n">sympy</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>  <span class="c1"># pylint: disable=protected-access</span>
 
-    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="p">(</span>
-        <span class="n">Abs</span><span class="p">,</span>
-        <span class="n">Add</span><span class="p">,</span>
-        <span class="n">Basic</span><span class="p">,</span>
-        <span class="n">Catalan</span><span class="p">,</span>
-        <span class="n">Contains</span><span class="p">,</span>
-        <span class="n">Derivative</span><span class="p">,</span>
-        <span class="n">Dummy</span><span class="p">,</span>
-        <span class="n">E</span><span class="p">,</span>
-        <span class="n">EmptySet</span><span class="p">,</span>
-        <span class="n">EulerGamma</span><span class="p">,</span>
-        <span class="n">Expr</span><span class="p">,</span>
-        <span class="n">FiniteSet</span><span class="p">,</span>
-        <span class="n">Float</span><span class="p">,</span>
-        <span class="n">Function</span><span class="p">,</span>
-        <span class="n">GoldenRatio</span><span class="p">,</span>
-        <span class="n">I</span><span class="p">,</span>
-        <span class="n">Integer</span><span class="p">,</span>
-        <span class="n">Integers</span><span class="p">,</span>
-        <span class="n">Interval</span><span class="p">,</span>
-        <span class="n">KroneckerDelta</span><span class="p">,</span>
-        <span class="n">LambertW</span><span class="p">,</span>
-        <span class="n">LeviCivita</span><span class="p">,</span>
-        <span class="n">Max</span><span class="p">,</span>
-        <span class="n">Min</span><span class="p">,</span>
-        <span class="n">Mod</span><span class="p">,</span>
-        <span class="n">Mul</span><span class="p">,</span>
-        <span class="n">Number</span><span class="p">,</span>
-        <span class="n">Piecewise</span><span class="p">,</span>
-        <span class="n">Pow</span><span class="p">,</span>
-        <span class="n">Rational</span><span class="p">,</span>
-        <span class="n">RealNumber</span><span class="p">,</span>
-        <span class="n">Reals</span><span class="p">,</span>
-        <span class="n">S</span><span class="p">,</span>
-        <span class="n">Subs</span><span class="p">,</span>
-        <span class="n">SympifyError</span><span class="p">,</span>
-        <span class="n">UnevaluatedExpr</span><span class="p">,</span>
-        <span class="n">UniversalSet</span><span class="p">,</span>
-        <span class="n">acos</span><span class="p">,</span>
-        <span class="n">acosh</span><span class="p">,</span>
-        <span class="n">acot</span><span class="p">,</span>
-        <span class="n">acoth</span><span class="p">,</span>
-        <span class="n">acsc</span><span class="p">,</span>
-        <span class="n">acsch</span><span class="p">,</span>
-        <span class="n">asec</span><span class="p">,</span>
-        <span class="n">asech</span><span class="p">,</span>
-        <span class="n">asin</span><span class="p">,</span>
-        <span class="n">asinh</span><span class="p">,</span>
-        <span class="n">atan</span><span class="p">,</span>
-        <span class="n">atanh</span><span class="p">,</span>
-        <span class="n">beta</span><span class="p">,</span>
-        <span class="n">ceiling</span><span class="p">,</span>
-        <span class="n">conjugate</span><span class="p">,</span>
-        <span class="n">cos</span><span class="p">,</span>
-        <span class="n">cosh</span><span class="p">,</span>
-        <span class="n">cot</span><span class="p">,</span>
-        <span class="n">coth</span><span class="p">,</span>
-        <span class="n">csc</span><span class="p">,</span>
-        <span class="n">csch</span><span class="p">,</span>
-        <span class="n">cse</span><span class="p">,</span>
-        <span class="n">diff</span><span class="p">,</span>
-        <span class="n">digamma</span><span class="p">,</span>
-        <span class="n">dirichlet_eta</span><span class="p">,</span>
-        <span class="n">erf</span><span class="p">,</span>
-        <span class="n">erfc</span><span class="p">,</span>
-        <span class="n">exp</span><span class="p">,</span>
-        <span class="n">expand</span><span class="p">,</span>
-        <span class="n">floor</span><span class="p">,</span>
-        <span class="n">gamma</span><span class="p">,</span>
-        <span class="n">init_printing</span><span class="p">,</span>
-        <span class="n">integer_nthroot</span><span class="p">,</span>
-        <span class="n">isprime</span><span class="p">,</span>
-        <span class="n">lambdify</span><span class="p">,</span>
-        <span class="n">latex</span><span class="p">,</span>
-        <span class="n">linsolve</span><span class="p">,</span>
-        <span class="n">log</span><span class="p">,</span>
-        <span class="n">loggamma</span><span class="p">,</span>
-        <span class="n">lowergamma</span><span class="p">,</span>
-        <span class="n">nan</span><span class="p">,</span>
-        <span class="n">oo</span><span class="p">,</span>
-        <span class="n">perfect_power</span><span class="p">,</span>
-        <span class="n">pi</span><span class="p">,</span>
-        <span class="n">polygamma</span><span class="p">,</span>
-        <span class="n">sec</span><span class="p">,</span>
-        <span class="n">sech</span><span class="p">,</span>
-        <span class="n">series</span><span class="p">,</span>
-        <span class="n">sign</span><span class="p">,</span>
-        <span class="n">sin</span><span class="p">,</span>
-        <span class="n">sinh</span><span class="p">,</span>
-        <span class="n">sqrt</span><span class="p">,</span>
-        <span class="n">sqrt_mod</span><span class="p">,</span>
-        <span class="n">sympify</span><span class="p">,</span>
-        <span class="n">tan</span><span class="p">,</span>
-        <span class="n">tanh</span><span class="p">,</span>
-        <span class="n">trigamma</span><span class="p">,</span>
-        <span class="n">uppergamma</span><span class="p">,</span>
-        <span class="n">var</span><span class="p">,</span>
-        <span class="n">zeta</span><span class="p">,</span>
-        <span class="n">zoo</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Abs</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Add</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Basic</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Catalan</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Contains</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Derivative</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Dummy</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">E</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">EmptySet</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">EulerGamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Expr</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">FiniteSet</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Float</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Function</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">GoldenRatio</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">I</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Integer</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Integers</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Interval</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">KroneckerDelta</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">LambertW</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">LeviCivita</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Max</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Min</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Mod</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Mul</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Number</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Piecewise</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Pow</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Rational</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">RealNumber</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Reals</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">S</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Subs</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">SympifyError</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">UnevaluatedExpr</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">UniversalSet</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">acos</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">acosh</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">acot</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">acoth</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">acsc</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">acsch</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">asec</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">asech</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">asin</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">asinh</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">atan</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">atanh</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">beta</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">ceiling</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">conjugate</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">cos</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">cosh</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">cot</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">coth</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">csc</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">csch</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">cse</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">diff</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">digamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">dirichlet_eta</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">erf</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">erfc</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">exp</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">expand</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">floor</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">gamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">init_printing</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">integer_nthroot</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">isprime</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">lambdify</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">latex</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">linsolve</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">log</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">loggamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">lowergamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">nan</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">oo</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">perfect_power</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">polygamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sec</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sech</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">series</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sign</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sin</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sinh</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sqrt</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sqrt_mod</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">sympify</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">tan</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">tanh</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">trigamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">uppergamma</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">var</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">zeta</span>
+    <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">zoo</span>
 <span class="k">elif</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">sympy</span>
 
     <span class="n">sympy</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
 
-    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="p">(</span>
-        <span class="n">Abs</span><span class="p">,</span>
-        <span class="n">Add</span><span class="p">,</span>
-        <span class="n">Basic</span><span class="p">,</span>
-        <span class="n">Catalan</span><span class="p">,</span>
-        <span class="n">Contains</span><span class="p">,</span>
-        <span class="n">Derivative</span><span class="p">,</span>
-        <span class="n">Dummy</span><span class="p">,</span>
-        <span class="n">E</span><span class="p">,</span>
-        <span class="n">EmptySet</span><span class="p">,</span>
-        <span class="n">EulerGamma</span><span class="p">,</span>
-        <span class="n">Expr</span><span class="p">,</span>
-        <span class="n">FiniteSet</span><span class="p">,</span>
-        <span class="n">Float</span><span class="p">,</span>
-        <span class="n">Function</span><span class="p">,</span>
-        <span class="n">GoldenRatio</span><span class="p">,</span>
-        <span class="n">I</span><span class="p">,</span>
-        <span class="n">Integer</span><span class="p">,</span>
-        <span class="n">Integers</span><span class="p">,</span>
-        <span class="n">Interval</span><span class="p">,</span>
-        <span class="n">KroneckerDelta</span><span class="p">,</span>
-        <span class="n">LambertW</span><span class="p">,</span>
-        <span class="n">LeviCivita</span><span class="p">,</span>
-        <span class="n">Max</span><span class="p">,</span>
-        <span class="n">Min</span><span class="p">,</span>
-        <span class="n">Mod</span><span class="p">,</span>
-        <span class="n">Mul</span><span class="p">,</span>
-        <span class="n">Number</span><span class="p">,</span>
-        <span class="n">Piecewise</span><span class="p">,</span>
-        <span class="n">Pow</span><span class="p">,</span>
-        <span class="n">Rational</span><span class="p">,</span>
-        <span class="n">RealNumber</span><span class="p">,</span>
-        <span class="n">Reals</span><span class="p">,</span>
-        <span class="n">S</span><span class="p">,</span>
-        <span class="n">Subs</span><span class="p">,</span>
-        <span class="n">SympifyError</span><span class="p">,</span>
-        <span class="n">UnevaluatedExpr</span><span class="p">,</span>
-        <span class="n">UniversalSet</span><span class="p">,</span>
-        <span class="n">acos</span><span class="p">,</span>
-        <span class="n">acosh</span><span class="p">,</span>
-        <span class="n">acot</span><span class="p">,</span>
-        <span class="n">acoth</span><span class="p">,</span>
-        <span class="n">acsc</span><span class="p">,</span>
-        <span class="n">acsch</span><span class="p">,</span>
-        <span class="n">asec</span><span class="p">,</span>
-        <span class="n">asech</span><span class="p">,</span>
-        <span class="n">asin</span><span class="p">,</span>
-        <span class="n">asinh</span><span class="p">,</span>
-        <span class="n">atan</span><span class="p">,</span>
-        <span class="n">atanh</span><span class="p">,</span>
-        <span class="n">beta</span><span class="p">,</span>
-        <span class="n">ceiling</span><span class="p">,</span>
-        <span class="n">conjugate</span><span class="p">,</span>
-        <span class="n">cos</span><span class="p">,</span>
-        <span class="n">cosh</span><span class="p">,</span>
-        <span class="n">cot</span><span class="p">,</span>
-        <span class="n">coth</span><span class="p">,</span>
-        <span class="n">csc</span><span class="p">,</span>
-        <span class="n">csch</span><span class="p">,</span>
-        <span class="n">cse</span><span class="p">,</span>
-        <span class="n">diff</span><span class="p">,</span>
-        <span class="n">digamma</span><span class="p">,</span>
-        <span class="n">dirichlet_eta</span><span class="p">,</span>
-        <span class="n">erf</span><span class="p">,</span>
-        <span class="n">erfc</span><span class="p">,</span>
-        <span class="n">exp</span><span class="p">,</span>
-        <span class="n">expand</span><span class="p">,</span>
-        <span class="n">floor</span><span class="p">,</span>
-        <span class="n">gamma</span><span class="p">,</span>
-        <span class="n">init_printing</span><span class="p">,</span>
-        <span class="n">integer_nthroot</span><span class="p">,</span>
-        <span class="n">isprime</span><span class="p">,</span>
-        <span class="n">lambdify</span><span class="p">,</span>
-        <span class="n">latex</span><span class="p">,</span>
-        <span class="n">linsolve</span><span class="p">,</span>
-        <span class="n">log</span><span class="p">,</span>
-        <span class="n">loggamma</span><span class="p">,</span>
-        <span class="n">lowergamma</span><span class="p">,</span>
-        <span class="n">nan</span><span class="p">,</span>
-        <span class="n">oo</span><span class="p">,</span>
-        <span class="n">perfect_power</span><span class="p">,</span>
-        <span class="n">pi</span><span class="p">,</span>
-        <span class="n">polygamma</span><span class="p">,</span>
-        <span class="n">sec</span><span class="p">,</span>
-        <span class="n">sech</span><span class="p">,</span>
-        <span class="n">series</span><span class="p">,</span>
-        <span class="n">sign</span><span class="p">,</span>
-        <span class="n">sin</span><span class="p">,</span>
-        <span class="n">sinh</span><span class="p">,</span>
-        <span class="n">sqrt</span><span class="p">,</span>
-        <span class="n">sqrt_mod</span><span class="p">,</span>
-        <span class="n">sympify</span><span class="p">,</span>
-        <span class="n">tan</span><span class="p">,</span>
-        <span class="n">tanh</span><span class="p">,</span>
-        <span class="n">trigamma</span><span class="p">,</span>
-        <span class="n">uppergamma</span><span class="p">,</span>
-        <span class="n">var</span><span class="p">,</span>
-        <span class="n">zeta</span><span class="p">,</span>
-        <span class="n">zoo</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Abs</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Add</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Basic</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Catalan</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Contains</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Derivative</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Dummy</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">E</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">EmptySet</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">EulerGamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Expr</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">FiniteSet</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Float</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Function</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">GoldenRatio</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">I</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Integer</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Integers</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Interval</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">KroneckerDelta</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">LambertW</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">LeviCivita</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Max</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Min</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Mod</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Mul</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Number</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Piecewise</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Pow</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Rational</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">RealNumber</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Reals</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">S</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Subs</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">SympifyError</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">UnevaluatedExpr</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">UniversalSet</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">acos</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">acosh</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">acot</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">acoth</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">acsc</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">acsch</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">asec</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">asech</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">asin</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">asinh</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">atan</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">atanh</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">beta</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">ceiling</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">conjugate</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">cos</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">cosh</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">cot</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">coth</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">csc</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">csch</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">cse</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">diff</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">digamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">dirichlet_eta</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">erf</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">erfc</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">exp</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">expand</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">floor</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">gamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">init_printing</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">integer_nthroot</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">isprime</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">lambdify</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">latex</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">linsolve</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">log</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">loggamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">lowergamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">nan</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">oo</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">perfect_power</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">pi</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">polygamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sec</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sech</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">series</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sign</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sin</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sinh</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sqrt</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sqrt_mod</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">sympify</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">tan</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">tanh</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">trigamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">uppergamma</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">var</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">zeta</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">zoo</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">())</span>
 
@@ -310,7 +307,7 @@
 <span class="sd">    in the SymForce docs here: https://symforce.org/tutorials/epsilon_tutorial.html</span>
 
 <span class="sd">    For purely numerical code that just needs a good default numerical epsilon, see</span>
-<span class="sd">    `symforce.symbolic.numerical_epsilon`.</span>
+<span class="sd">    `symforce.symbolic.numeric_epsilon`.</span>
 
 <span class="sd">    Returns: The current default epsilon.  This is typically some kind of &quot;Scalar&quot;, like a float or</span>
 <span class="sd">             a Symbol.</span>
@@ -355,7 +352,9 @@
 
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
-    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>  <span class="c1"># type: ignore[misc] # mypy is mad that this is of a different type on sympy</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">symbols</span><span class="p">,</span>  <span class="c1"># type: ignore[misc] # mypy is mad that this is of a different type on sympy</span>
+    <span class="p">)</span>
 
     <span class="c1"># Save original</span>
     <span class="n">original_symbol_new</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="o">.</span><span class="fm">__new__</span>
@@ -381,15 +380,15 @@
 <span class="c1"># Typing</span>
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<span class="c1"># isort: split</span>
 <span class="kn">from</span> <span class="nn">symforce.typing</span> <span class="kn">import</span> <span class="n">Scalar</span>
-
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
 <span class="c1"># Logic functions</span>
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
+<span class="c1"># isort: split</span>
 <span class="kn">from</span> <span class="nn">symforce.logic</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># pylint: disable=wildcard-import</span>
-
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
 <span class="c1"># Additional custom functions</span>

@@ -52,8 +52,8 @@
 <span class="c1"># Define residual functions</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
 <span class="kn">import</span> <span class="nn">symforce</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 <span class="k">if</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
@@ -140,9 +140,10 @@
 <span class="c1"># Instantiate, optimize, and visualize</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">sym</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
-<span class="kn">import</span> <span class="nn">sym</span>
 
 
 <div class="viewcode-block" id="build_residual"><a class="viewcode-back" href="../../../../api/symforce.examples.robot_3d_localization.robot_3d_localization.html#symforce.examples.robot_3d_localization.robot_3d_localization.build_residual">[docs]</a><span class="k">def</span> <span class="nf">build_residual</span><span class="p">(</span><span class="n">num_poses</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_landmarks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
@@ -289,14 +290,20 @@
     <span class="n">plot_solution</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">animated</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
 <span class="c1"># -----------------------------------------------------------------------------</span>
 <span class="c1"># (Optional) Generate C++ functions for residuals with on-manifold jacobians</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">Codegen</span><span class="p">,</span> <span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">CppConfig</span><span class="p">,</span> <span class="n">values_codegen</span><span class="p">,</span> <span class="n">template_util</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">Codegen</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">CodegenConfig</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">CppConfig</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">template_util</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">values_codegen</span>
 
 
 <div class="viewcode-block" id="build_codegen_object"><a class="viewcode-back" href="../../../../api/symforce.examples.robot_3d_localization.robot_3d_localization.html#symforce.examples.robot_3d_localization.robot_3d_localization.build_codegen_object">[docs]</a><span class="k">def</span> <span class="nf">build_codegen_object</span><span class="p">(</span><span class="n">num_poses</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Codegen</span><span class="p">:</span>

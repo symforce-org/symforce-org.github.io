@@ -40,11 +40,11 @@
 <span class="c1"># ----------------------------------------------------------------------------</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
 <span class="kn">from</span> <span class="nn">sympy.printing.codeprinter</span> <span class="kn">import</span> <span class="n">CodePrinter</span>
 
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen.codegen_config</span> <span class="kn">import</span> <span class="n">CodegenConfig</span>
-
 
 <span class="n">CURRENT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
 
@@ -60,6 +60,7 @@
 <span class="sd">        use_eigen_types: Use eigen_lcm types for vectors instead of lists</span>
 <span class="sd">        autoformat: Run a code formatter on the generated code</span>
 <span class="sd">        cse_optimizations: Optimizations argument to pass to sf.cse</span>
+<span class="sd">        zero_epsilon_behavior: What should codegen do if a default epsilon is not set?</span>
 <span class="sd">        use_numba: Add the `@numba.njit` decorator to generated functions.  This will greatly</span>
 <span class="sd">                   speed up functions by compiling them to machine code, but has large overhead</span>
 <span class="sd">                   on the first call and some overhead on subsequent calls, so it should not be</span>

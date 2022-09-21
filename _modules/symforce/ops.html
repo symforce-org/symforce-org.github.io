@@ -47,23 +47,28 @@
 <span class="sd">This is the recommended API for using these concepts, rather than calling directly on a type.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.storage_ops</span> <span class="kn">import</span> <span class="n">StorageOps</span>
+<span class="kn">import</span> <span class="nn">abc</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
 <span class="kn">from</span> <span class="nn">.group_ops</span> <span class="kn">import</span> <span class="n">GroupOps</span>
 <span class="kn">from</span> <span class="nn">.lie_group_ops</span> <span class="kn">import</span> <span class="n">LieGroupOps</span>
+<span class="kn">from</span> <span class="nn">.storage_ops</span> <span class="kn">import</span> <span class="n">StorageOps</span>
 
-<span class="c1"># Register ops for scalars and sequences</span>
-<span class="kn">import</span> <span class="nn">abc</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1"># isort: split</span>
+
 <span class="kn">import</span> <span class="nn">symforce.internal.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
 
-<span class="kn">from</span> <span class="nn">.impl.scalar_lie_group_ops</span> <span class="kn">import</span> <span class="n">ScalarLieGroupOps</span>
-<span class="kn">from</span> <span class="nn">.impl.sequence_lie_group_ops</span> <span class="kn">import</span> <span class="n">SequenceLieGroupOps</span>
 <span class="kn">from</span> <span class="nn">.impl.array_lie_group_ops</span> <span class="kn">import</span> <span class="n">ArrayLieGroupOps</span>
+<span class="kn">from</span> <span class="nn">.impl.databuffer_storage_ops</span> <span class="kn">import</span> <span class="n">DataBufferStorageOps</span>
 <span class="kn">from</span> <span class="nn">.impl.dataclass_lie_group_ops</span> <span class="kn">import</span> <span class="n">DataclassLieGroupOps</span>
 <span class="kn">from</span> <span class="nn">.impl.nonetype_lie_group_ops</span> <span class="kn">import</span> <span class="n">NoneTypeLieGroupOps</span>
-<span class="kn">from</span> <span class="nn">.impl.databuffer_storage_ops</span> <span class="kn">import</span> <span class="n">DataBufferStorageOps</span>
+
+<span class="c1"># Register ops for scalars and sequences</span>
+<span class="kn">from</span> <span class="nn">.impl.scalar_lie_group_ops</span> <span class="kn">import</span> <span class="n">ScalarLieGroupOps</span>
+<span class="kn">from</span> <span class="nn">.impl.sequence_lie_group_ops</span> <span class="kn">import</span> <span class="n">SequenceLieGroupOps</span>
 
 
 <div class="viewcode-block" id="ScalarExpr"><a class="viewcode-back" href="../../api/symforce.ops.html#symforce.ops.ScalarExpr">[docs]</a><span class="k">class</span> <span class="nc">ScalarExpr</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
@@ -103,6 +108,7 @@
 <span class="c1"># TODO(hayk): Are these okay here or where can we put them? In theory we could just have this</span>
 <span class="c1"># be automatic that if the given type has the methods that it gets registered automatically.</span>
 <span class="kn">import</span> <span class="nn">sym</span>
+
 <span class="kn">from</span> <span class="nn">.impl.sym_class_lie_group_ops</span> <span class="kn">import</span> <span class="n">SymClassLieGroupOps</span>
 
 <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">Rot2</span><span class="p">,</span> <span class="n">SymClassLieGroupOps</span><span class="p">)</span>

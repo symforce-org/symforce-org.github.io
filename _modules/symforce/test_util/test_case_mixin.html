@@ -40,7 +40,6 @@
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
 <span class="kn">import</span> <span class="nn">difflib</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
@@ -48,13 +47,16 @@
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.ops</span> <span class="kn">import</span> <span class="n">interfaces</span>
-<span class="kn">from</span> <span class="nn">symforce.ops</span> <span class="kn">import</span> <span class="n">StorageOps</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_config</span>
 <span class="kn">from</span> <span class="nn">symforce.ops</span> <span class="kn">import</span> <span class="n">LieGroupOps</span>
-<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce.ops</span> <span class="kn">import</span> <span class="n">StorageOps</span>
+<span class="kn">from</span> <span class="nn">symforce.ops</span> <span class="kn">import</span> <span class="n">interfaces</span>
 
 
 <div class="viewcode-block" id="SymforceTestCaseMixin"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin">[docs]</a><span class="k">class</span> <span class="nc">SymforceTestCaseMixin</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
@@ -182,6 +184,11 @@
 <span class="sd">        mode is on)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setUp</span><span class="p">()</span>
+
+        <span class="c1"># Set to fail on default epsilon == 0</span>
+        <span class="n">codegen_config</span><span class="o">.</span><span class="n">DEFAULT_ZERO_EPSILON_BEHAVIOR</span> <span class="o">=</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">ZeroEpsilonBehavior</span><span class="o">.</span><span class="n">FAIL</span>
+
+        <span class="c1"># Storage for temporary output directories</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dirs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.tearDown"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
