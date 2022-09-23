@@ -41,9 +41,11 @@
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
+<span class="kn">import</span> <span class="nn">sympy</span>
 <span class="kn">from</span> <span class="nn">sympy.printing.codeprinter</span> <span class="kn">import</span> <span class="n">CodePrinter</span>
 
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen.backends.cpp</span> <span class="kn">import</span> <span class="n">cpp_code_printer</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen.codegen_config</span> <span class="kn">import</span> <span class="n">CodegenConfig</span>
 
 <span class="n">CURRENT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
@@ -69,7 +71,19 @@
 <span class="sd">                                                element to 0 individually</span>
 <span class="sd">        explicit_template_instantiation_types: Explicity instantiates templated functions in a `.cc`</span>
 <span class="sd">            file for each given type. This allows the generated function to be compiled in its own</span>
-<span class="sd">            translation unit. Useful for large functions which take a long time to compile.</span>
+<span class="sd">            translation unit. Useful for large functions which take a long time to compile</span>
+<span class="sd">        override_methods: Add special function overrides in dictionary with symforce function keys</span>
+<span class="sd">            (e.g. sf.sin) and a string for the new method (e.g. fast_math::sin_lut), note that this bypasses</span>
+<span class="sd">            the default namespace (so std:: won&#39;t be added in front automatically). Note that the keys here</span>
+<span class="sd">            need to be sympy keys, not symengine (i.e sympy.sin NOT sf.sin with symengine backend). Symengine to</span>
+<span class="sd">            sympy conversion does not work for Function types. Note that this function works in the code printer,</span>
+<span class="sd">            and should only be used for replacing functions that compute the same thing but in a different way,</span>
+<span class="sd">            e.g. replacing `sin` with `my_lib::sin`. It should _not_ be used for substituting a function</span>
+<span class="sd">            with a different function, which will break derivatives and certain simplifications,</span>
+<span class="sd">            e.g. you should not use this to replace `sin` with `cos` or `sin` with `my_lib::cos`</span>
+<span class="sd">        extra_imports: Add extra imports to the file if you use custom overrides for some functions</span>
+<span class="sd">            (i.e. add fast_math.h). Note that these are only added on a call to `generate_function`, i.e.</span>
+<span class="sd">            you can&#39;t define custom functions in e.g. the geo package using this</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">doc_comment_line_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot; * &quot;</span>
@@ -79,6 +93,8 @@
     <span class="n">force_no_inline</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">zero_initialization_sparsity_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
     <span class="n">explicit_template_instantiation_types</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">override_methods</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">extra_imports</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="CppConfig.backend_name"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cpp.cpp_config.html#symforce.codegen.backends.cpp.cpp_config.CppConfig.backend_name">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">backend_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -99,13 +115,12 @@
         <span class="k">return</span> <span class="n">templates</span></div>
 
 <div class="viewcode-block" id="CppConfig.printer"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cpp.cpp_config.html#symforce.codegen.backends.cpp.cpp_config.CppConfig.printer">[docs]</a>    <span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodePrinter</span><span class="p">:</span>
-        <span class="c1"># NOTE(hayk): Is there any benefit to this being lazy?</span>
-        <span class="kn">from</span> <span class="nn">symforce.codegen.backends.cpp</span> <span class="kn">import</span> <span class="n">cpp_code_printer</span>
+        <span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;override_methods&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">override_methods</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">support_complex</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cpp_code_printer</span><span class="o">.</span><span class="n">ComplexCppCodePrinter</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">cpp_code_printer</span><span class="o">.</span><span class="n">CppCodePrinter</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">cpp_code_printer</span><span class="o">.</span><span class="n">ComplexCppCodePrinter</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cpp_code_printer</span><span class="o">.</span><span class="n">CppCodePrinter</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CppConfig.format_data_accessor"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cpp.cpp_config.html#symforce.codegen.backends.cpp.cpp_config.CppConfig.format_data_accessor">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">format_data_accessor</span><span class="p">(</span><span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
