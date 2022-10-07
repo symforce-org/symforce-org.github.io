@@ -561,6 +561,11 @@ make -j <span class="k">$(</span>nproc<span class="k">)</span>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PYTHONPATH</span><span class="s2">:/path/to/symforce:/path/to/symforce/build/lcmtypes/python2.7:/path/to/symforce/gen/python:/path/to/symforce/third_party/skymarshal&quot;</span>
 </pre></div>
 </div>
+<p>If you want to install SymForce to use its C++ libraries in another CMake project, you can do that with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make install
+</pre></div>
+</div>
+<p>SymForce does not currently integrate with CMake’s <code class="docutils literal notranslate"><span class="pre">find_package</span></code> (see #209), so if you do this you currently need to add its libraries as link dependencies in your CMake project manually.</p>
 </section>
 <section id="verify-your-installation">
 <h3>Verify your installation:<a class="headerlink" href="#verify-your-installation" title="Permalink to this headline">¶</a></h3>
