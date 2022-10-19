@@ -194,7 +194,23 @@ $ -->
 <section id="build-an-optimization-problem">
 <h3>Build an optimization problem<a class="headerlink" href="#build-an-optimization-problem" title="Permalink to this headline">¶</a></h3>
 <p>We will model this problem as a factor graph and solve it with nonlinear least-squares.</p>
-<p>The residual function comprises of two terms - one for the bearing measurements and one for the odometry measurements. Let’s formalize the math we just defined for the bearing measurements into a symbolic residual function:</p>
+<p>First, we will instantiate numerical <a class="reference external" href="https://symforce.org/api/symforce.values.values.html?highlight=values#module-symforce.values.values"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a> for the problem, including an initial guess for our unknown poses (just set them to identity).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
+
+<span class="n">num_poses</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">num_landmarks</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="n">initial_values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span>
+    <span class="n">poses</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="o">.</span><span class="n">identity</span><span class="p">()]</span> <span class="o">*</span> <span class="n">num_poses</span><span class="p">,</span>
+    <span class="n">landmarks</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+    <span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">],</span>
+    <span class="n">angles</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">([[</span><span class="mi">145</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">55</span><span class="p">],</span> <span class="p">[</span><span class="mi">185</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">215</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">70</span><span class="p">]])</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="n">epsilon</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">numeric_epsilon</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we can set up the factors connecting our variables.  The residual function comprises of two terms - one for the bearing measurements and one for the odometry measurements. Let’s formalize the math we just defined for the bearing measurements into a symbolic residual function:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bearing_residual</span><span class="p">(</span>
     <span class="n">pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">landmark</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">V1</span><span class="p">:</span>
@@ -213,9 +229,6 @@ $ -->
 </div>
 <p>Now we can create <a class="reference external" href="https://symforce.org/api/symforce.opt.factor.html?highlight=factor#module-symforce.opt.factor"><code class="docutils literal notranslate"><span class="pre">Factor</span></code></a> objects from the residual functions and a set of keys. The keys are named strings for the function arguments, which will be accessed by name from a <a class="reference external" href="https://symforce.org/api/symforce.values.values.html"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a> class we later instantiate with numerical quantities.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">symforce.opt.factor</span> <span class="kn">import</span> <span class="n">Factor</span>
-
-<span class="n">num_poses</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">num_landmarks</span> <span class="o">=</span> <span class="mi">3</span>
 
 <span class="n">factors</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -251,19 +264,6 @@ with these factors and tell it to only optimize the pose keys (the rest are held
     <span class="n">optimized_keys</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;poses[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">]&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_poses</span><span class="p">)],</span>
     <span class="c1"># So that we save more information about each iteration, to visualize later:</span>
     <span class="n">debug_stats</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>Now we need to instantiate numerical <a class="reference external" href="https://symforce.org/api/symforce.values.values.html?highlight=values#module-symforce.values.values"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a> for the problem, including an initial guess for our unknown poses (just set them to identity).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
-
-<span class="n">initial_values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span>
-    <span class="n">poses</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="o">.</span><span class="n">identity</span><span class="p">()]</span> <span class="o">*</span> <span class="n">num_poses</span><span class="p">,</span>
-    <span class="n">landmarks</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
-    <span class="n">distances</span><span class="o">=</span><span class="p">[</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">],</span>
-    <span class="n">angles</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">([[</span><span class="mi">145</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">55</span><span class="p">],</span> <span class="p">[</span><span class="mi">185</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">70</span><span class="p">],</span> <span class="p">[</span><span class="mi">215</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">70</span><span class="p">]])</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
-    <span class="n">epsilon</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">numeric_epsilon</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
