@@ -4070,13 +4070,14 @@
 <p>Group of two-dimensional rigid body transformations - R2 x SO(2).</p>
 <p>The storage space is a complex (real, imag) for rotation followed by a position (x, y).</p>
 <p>The tangent space is one angle for rotation followed by two elements for translation in the non-rotated frame.</p>
-<p>For Lie group enthusiasts: This class is on the PRODUCT manifold, if you really really want SE(2) you should use Pose2_SE2. On this class, the group operations (e.g. compose and between) operate as you’d expect for a Pose or SE(2), but the manifold operations (e.g. retract and local_coordinates) operate on the product manifold SO(2) x R2. This means that:</p>
+<p>For Lie group enthusiasts: This class is on the PRODUCT manifold. On this class, the group operations (e.g. compose and between) operate as you’d expect for a Pose or SE(2), but the manifold operations (e.g. retract and local_coordinates) operate on the product manifold SO(2) x R2. This means that:</p>
 <p><ul class="simple">
 <li><p>retract(a, vec) != compose(a, from_tangent(vec))</p></li>
 <li><p>local_coordinates(a, b) != to_tangent(between(a, b))</p></li>
-<li><p>There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log </p></li>
+<li><p>There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log</p></li>
 </ul>
 </p>
+<p>If you need a type that has these properties in symbolic expressions, you should use Pose2_SE2. There is no runtime equivalent of Pose2_SE2, see the docstring on that class for more information. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
 <dl class="cpp type">

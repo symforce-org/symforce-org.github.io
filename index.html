@@ -44,6 +44,12 @@
 <!-- DARK_MODE_ONLY -->
 <p><img alt="SymForce" src="docs/static/images/symforce_banner_dark.png#gh-dark-mode-only" /></p>
 <!-- /DARK_MODE_ONLY -->
+<table class="colwidths-auto docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>📣 We are open for internships!  If you are interested in contributing to SymForce, visit the program page <a class="reference external" href="https://github.com/symforce-org/symforce/discussions/242">here</a> to learn more.</p></th>
+</tr>
+</thead>
+</table>
 <p align="center">
 <a href="https://github.com/symforce-org/symforce/actions/workflows/ci.yml?query=branch%3Amain"><img alt="CI status" src="https://github.com/symforce-org/symforce/actions/workflows/ci.yml/badge.svg" /></a>
 <a href="https://symforce.org"><img alt="Documentation" src="https://img.shields.io/badge/api-docs-blue" /></a>
@@ -81,6 +87,9 @@
 </section>
 <section id="read-the-paper-a-href-https-arxiv-org-abs-2204-07889-https-arxiv-org-abs-2204-07889-a">
 <h2>Read the paper: <a href="https://arxiv.org/abs/2204.07889">https://arxiv.org/abs/2204.07889</a><a class="headerlink" href="#read-the-paper-a-href-https-arxiv-org-abs-2204-07889-https-arxiv-org-abs-2204-07889-a" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="and-watch-the-video-a-href-https-youtu-be-qo-ltjrnj0o-https-youtu-be-qo-ltjrnj0o-a">
+<h2>And watch the video: <a href="https://youtu.be/QO_ltJRNj0o">https://youtu.be/QO_ltJRNj0o</a><a class="headerlink" href="#and-watch-the-video-a-href-https-youtu-be-qo-ltjrnj0o-https-youtu-be-qo-ltjrnj0o-a" title="Permalink to this headline">¶</a></h2>
 <p>SymForce was published to <a class="reference external" href="https://roboticsconference.org/">RSS 2022</a>. Please cite it as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">Martiros</span><span class="o">-</span><span class="n">RSS</span><span class="o">-</span><span class="mi">22</span><span class="p">,</span>
     <span class="n">author</span>    <span class="o">=</span> <span class="p">{</span><span class="n">Hayk</span> <span class="n">Martiros</span> <span class="n">AND</span> <span class="n">Aaron</span> <span class="n">Miller</span> <span class="n">AND</span> <span class="n">Nathan</span> <span class="n">Bucki</span> <span class="n">AND</span> <span class="n">Bradley</span> <span class="n">Solliday</span> <span class="n">AND</span> <span class="n">Ryan</span> <span class="n">Kennedy</span> <span class="n">AND</span> <span class="n">Jack</span> <span class="n">Zhu</span> <span class="n">AND</span> <span class="n">Tung</span> <span class="n">Dang</span> <span class="n">AND</span> <span class="n">Dominic</span> <span class="n">Pattison</span> <span class="n">AND</span> <span class="n">Harrison</span> <span class="n">Zheng</span> <span class="n">AND</span> <span class="n">Teo</span> <span class="n">Tomic</span> <span class="n">AND</span> <span class="n">Peter</span> <span class="n">Henry</span> <span class="n">AND</span> <span class="n">Gareth</span> <span class="n">Cross</span> <span class="n">AND</span> <span class="n">Josiah</span> <span class="n">VanderMey</span> <span class="n">AND</span> <span class="n">Alvin</span> <span class="n">Sun</span> <span class="n">AND</span> <span class="n">Samuel</span> <span class="n">Wang</span> <span class="n">AND</span> <span class="n">Kristen</span> <span class="n">Holtz</span><span class="p">},</span>
@@ -194,7 +203,14 @@ $ -->
 <section id="build-an-optimization-problem">
 <h3>Build an optimization problem<a class="headerlink" href="#build-an-optimization-problem" title="Permalink to this headline">¶</a></h3>
 <p>We will model this problem as a factor graph and solve it with nonlinear least-squares.</p>
-<p>First, we will instantiate numerical <a class="reference external" href="https://symforce.org/api/symforce.values.values.html?highlight=values#module-symforce.values.values"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a> for the problem, including an initial guess for our unknown poses (just set them to identity).</p>
+<p>First, we need to tell SymForce to use a nonzero epsilon to prevent singularities.  This isn’t necessary when playing around with symbolic expressions like we were above, but it’s important now that we want to numerically evaluate some results.  For more information, check out the <a class="reference external" href="https://symforce.org/tutorials/epsilon_tutorial.html">Epsilon Tutorial</a> - for now, all you need to do is this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">symforce</span>
+<span class="n">symforce</span><span class="o">.</span><span class="n">set_epsilon_to_symbol</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This needs to be done before other parts of symforce are imported - if you’re following along in a
+notebook you should add this at the top and restart the kernel.</p>
+<p>Now that epsilon is set up, we will instantiate numerical <a class="reference external" href="https://symforce.org/api/symforce.values.values.html?highlight=values#module-symforce.values.values"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a> for the problem, including an initial guess for our unknown poses (just set them to identity).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
 

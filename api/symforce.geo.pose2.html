@@ -18,7 +18,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="symforce.geo.pose2_se2 module" href="symforce.geo.pose2_se2.html" />
+    <link rel="next" title="symforce.geo.pose3 module" href="symforce.geo.pose3.html" />
     <link rel="prev" title="symforce.geo.matrix module" href="symforce.geo.matrix.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -46,10 +46,10 @@
 <p>The storage space is a complex (real, imag) for rotation followed by a position (x, y).</p>
 <p>The tangent space is one angle for rotation followed by two elements for translation in the
 non-rotated frame.</p>
-<p>For Lie group enthusiasts: This class is on the PRODUCT manifold, if you really really want
-SE(2) you should use Pose2_SE2.  On this class, the group operations (e.g. compose and between)
-operate as you’d expect for a Pose or SE(2), but the manifold operations (e.g. retract and
-local_coordinates) operate on the product manifold SO(2) x R2.  This means that:</p>
+<p>For Lie group enthusiasts: This class is on the PRODUCT manifold.  On this class, the group
+operations (e.g. compose and between) operate as you’d expect for a Pose or SE(2), but the
+manifold operations (e.g. retract and local_coordinates) operate on the product manifold
+SO(2) x R2.  This means that:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>retract(a, vec) != compose(a, from_tangent(vec))</p></li>
@@ -57,6 +57,9 @@ local_coordinates) operate on the product manifold SO(2) x R2.  This means that:
 <li><p>There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log</p></li>
 </ul>
 </div></blockquote>
+<p>If you need a type that has these properties in symbolic expressions, you should use Pose2_SE2.
+There is no runtime equivalent of Pose2_SE2, see the docstring on that class for more
+information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -421,7 +424,7 @@ Tangent space perturbation that conceptually represents “b - self” if self i
   <li><a href="symforce.html">symforce package</a><ul>
   <li><a href="symforce.geo.html">symforce.geo package</a><ul>
       <li>Previous: <a href="symforce.geo.matrix.html" title="previous chapter">symforce.geo.matrix module</a></li>
-      <li>Next: <a href="symforce.geo.pose2_se2.html" title="next chapter">symforce.geo.pose2_se2 module</a></li>
+      <li>Next: <a href="symforce.geo.pose3.html" title="next chapter">symforce.geo.pose3 module</a></li>
   </ul></li>
   </ul></li>
   </ul></li>
