@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>symforce.opt.objective module &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,17 +39,17 @@
           <div class="body" role="main">
             
   <section id="module-symforce.opt.objective">
-<span id="symforce-opt-objective-module"></span><h1>symforce.opt.objective module<a class="headerlink" href="#module-symforce.opt.objective" title="Permalink to this headline">¶</a></h1>
+<span id="symforce-opt-objective-module"></span><h1>symforce.opt.objective module<a class="headerlink" href="#module-symforce.opt.objective" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.objective.Objective">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Objective</span></span><a class="reference internal" href="../_modules/symforce/opt/objective.html#Objective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.objective.Objective" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>An objective, defined as a residual or group of residuals and an associated Params block</p>
 <p>Subclasses should add individual residual functions as static methods that return
 <cite>ResidualBlock</cite>, and define the Params block as a dataclass</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.objective.Objective.Params">
-<span class="sig-name descname"><span class="pre">Params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><span class="pre">symforce.typing.Dataclass</span></a></em><a class="headerlink" href="#symforce.opt.objective.Objective.Params" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><span class="pre">Dataclass</span></a></em><a class="headerlink" href="#symforce.opt.objective.Objective.Params" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -56,11 +58,11 @@
 <dd><p>Should return instantiated numerical arguments for the residual function(s) of this
 objective, to be used for testing and sanity checking</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>enabled</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to configure the objective params with the objective enabled or not
 (e.g. setting costs to 0)</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a></p>
 </dd>
 </dl>
@@ -71,7 +73,7 @@ objective, to be used for testing and sanity checking</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.objective.TimestepObjective">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">TimestepObjective</span></span><a class="reference internal" href="../_modules/symforce/opt/objective.html#TimestepObjective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.objective.TimestepObjective" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#symforce.opt.objective.Objective" title="symforce.opt.objective.Objective"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.opt.objective.Objective</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.opt.objective.Objective" title="symforce.opt.objective.Objective"><code class="xref py py-class docutils literal notranslate"><span class="pre">Objective</span></code></a></p>
 <p>An objective defined as a single residual applied over multiple timesteps, and associated Params
 block</p>
 <p>Subclasses should define the residual_at_timestep function needed to compute the residual at
@@ -81,17 +83,17 @@ each timestep.</p>
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">residual_at_timestep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/objective.html#TimestepObjective.residual_at_timestep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.objective.TimestepObjective.residual_at_timestep" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the residual at a single timestep</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>*</strong> – Any arguments needed for the particular residual; typically these are expressions
 evaluated at a particular time, or single element of a timestepped sequence</p></li>
 <li><p><strong>args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The ResidualBlock for this objective at this timestep</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>residual_block</p>
 </dd>
 </dl>
@@ -99,7 +101,7 @@ evaluated at a particular time, or single element of a timestepped sequence</p><
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.objective.TimestepObjective.Params">
-<span class="sig-name descname"><span class="pre">Params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><span class="pre">symforce.typing.Dataclass</span></a></em><a class="headerlink" href="#symforce.opt.objective.TimestepObjective.Params" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><span class="pre">Dataclass</span></a></em><a class="headerlink" href="#symforce.opt.objective.TimestepObjective.Params" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -219,7 +221,7 @@ evaluated at a particular time, or single element of a timestepped sequence</p><
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -236,7 +238,7 @@ evaluated at a particular time, or single element of a timestepped sequence</p><
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

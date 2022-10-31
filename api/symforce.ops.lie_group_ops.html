@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>symforce.ops.lie_group_ops module &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,11 +39,11 @@
           <div class="body" role="main">
             
   <section id="module-symforce.ops.lie_group_ops">
-<span id="symforce-ops-lie-group-ops-module"></span><h1>symforce.ops.lie_group_ops module<a class="headerlink" href="#module-symforce.ops.lie_group_ops" title="Permalink to this headline">¶</a></h1>
+<span id="symforce-ops-lie-group-ops-module"></span><h1>symforce.ops.lie_group_ops module<a class="headerlink" href="#module-symforce.ops.lie_group_ops" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.ops.lie_group_ops.LieGroupOps">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LieGroupOps</span></span><a class="reference internal" href="../_modules/symforce/ops/lie_group_ops.html#LieGroupOps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.lie_group_ops.LieGroupOps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.ops.group_ops.html#symforce.ops.group_ops.GroupOps" title="symforce.ops.group_ops.GroupOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.ops.group_ops.GroupOps</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="symforce.ops.group_ops.html#symforce.ops.group_ops.GroupOps" title="symforce.ops.group_ops.GroupOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupOps</span></code></a></p>
 <p>API for Lie groups.</p>
 <p>A Lie group is a group that is also a differentiable manifold, with the property that the
 group operations are compatible with the smooth structure.</p>
@@ -69,10 +71,10 @@ storage_dim is the higher dimensional space in which this manifold is embedded. 
 example SO3 could be a tangent_dim of 3 with a storage_dim of 4 if storing quaternions,
 or 9 if storing rotation matrices. For vector spaces they are equal.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>a</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code>]) – </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
 </dd>
 </dl>
@@ -85,17 +87,17 @@ or 9 if storing rotation matrices. For vector spaces they are equal.</p>
 For most manifold types this is implemented as the exponential map.</p>
 <p>This method does not rely on the value of a, only the type.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code>]) – </p></li>
 <li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Tangent space perturbation</p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Small number to avoid singularity</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Valid group element that approximates vec around identity.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Element</p>
 </dd>
 </dl>
@@ -106,16 +108,16 @@ For most manifold types this is implemented as the exponential map.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/lie_group_ops.html#LieGroupOps.to_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.lie_group_ops.LieGroupOps.to_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping from this element to the tangent space approximation at identity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Small number to avoid singularity</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tangent space perturbation around identity that approximates a.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -128,17 +130,17 @@ For most manifold types this is implemented as the exponential map.</p>
 to update nonlinear values from an update step in the tangent space.</p>
 <p>Implementation is simply <cite>compose(a, from_tangent(vec))</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
 <li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Small number to avoid singularity</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Group element that conceptually represents “a + vec”</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Element</p>
 </dd>
 </dl>
@@ -151,17 +153,17 @@ to update nonlinear values from an update step in the tangent space.</p>
 to minimize the distance between two group elements.</p>
 <p>Implementation is simply <cite>to_tangent(between(a, b))</cite>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
 <li><p><strong>b</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Small number to avoid singularity</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Tangent space perturbation that conceptually represents “b - a”</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -174,7 +176,7 @@ to minimize the distance between two group elements.</p>
 <p>Implementation is to take the perturbation between self and b in tangent space
 (local_coordinates) and add a scaled version of that to self (retract).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>a</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
 <li><p><strong>b</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
@@ -183,10 +185,10 @@ is not clamped between 0 and 1 in this function.</p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Small number to avoid singularity</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Interpolated group element</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Element</p>
 </dd>
 </dl>
@@ -198,10 +200,10 @@ is not clamped between 0 and 1 in this function.</p></li>
 <dd><p>Computes the jacobian of the storage space of an element with respect to the tangent space around
 that element.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>a</strong> (<em>T.Element</em>) – </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>geo.Matrix</p>
 </dd>
 </dl>
@@ -213,10 +215,10 @@ that element.</p>
 <dd><p>Computes the jacobian of the tangent space around an element with respect to the storage space of
 that element.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>a</strong> (<em>T.Element</em>) – </p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>geo.Matrix</p>
 </dd>
 </dl>
@@ -339,7 +341,7 @@ that element.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -356,7 +358,7 @@ that element.</p>
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

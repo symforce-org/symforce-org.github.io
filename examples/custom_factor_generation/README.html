@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Custom Factor Generation &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -37,21 +39,21 @@
           <div class="body" role="main">
             
   <section id="custom-factor-generation">
-<h1>Custom Factor Generation<a class="headerlink" href="#custom-factor-generation" title="Permalink to this headline">¶</a></h1>
+<h1>Custom Factor Generation<a class="headerlink" href="#custom-factor-generation" title="Permalink to this heading">¶</a></h1>
 <p><a class="reference external" href="https://github.com/symforce-org/symforce/tree/main/symforce/examples/custom_factor_generation">Source on GitHub</a></p>
 <p>Here we show how to define your own residual function and generate it into a factor to use from C++.  You can define factors by importing existing symbolic factors that we’ve defined and modifying them, or by writing your own symbolic functions from scratch using our symbolic toolkit.</p>
 <section id="files">
-<h2>Files:<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h2>
+<h2>Files:<a class="headerlink" href="#files" title="Permalink to this heading">¶</a></h2>
 <section id="factor-residuals-py">
-<h3><code class="docutils literal notranslate"><span class="pre">factor_residuals.py</span></code>:<a class="headerlink" href="#factor-residuals-py" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">factor_residuals.py</span></code>:<a class="headerlink" href="#factor-residuals-py" title="Permalink to this heading">¶</a></h3>
 <p>Defines a single function <code class="docutils literal notranslate"><span class="pre">custom_between_factor_residual</span></code>, which takes a set of symbolic arguments and returns a symbolic vector (the residual).  The inputs to the function represent all of the variables the residual depends on, both optimized variables and constants (plus, you can generate the same residual function with different sets of optimized variables).</p>
 </section>
 <section id="generate-factors-py">
-<h3><code class="docutils literal notranslate"><span class="pre">generate_factors.py</span></code>:<a class="headerlink" href="#generate-factors-py" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">generate_factors.py</span></code>:<a class="headerlink" href="#generate-factors-py" title="Permalink to this heading">¶</a></h3>
 <p>Contains a <code class="docutils literal notranslate"><span class="pre">generate</span></code> function which generates the residual in <code class="docutils literal notranslate"><span class="pre">factor_residuals.py</span></code> into an output directory.  The <code class="docutils literal notranslate"><span class="pre">generate</span></code> function here is called by <code class="docutils literal notranslate"><span class="pre">test/symforce_examples_custom_factor_generation_codegen_test.py</span></code> to generate the code in <code class="docutils literal notranslate"><span class="pre">gen</span></code> under this directory.</p>
 </section>
 <section id="gen">
-<h3><code class="docutils literal notranslate"><span class="pre">gen/*</span></code>:<a class="headerlink" href="#gen" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">gen/*</span></code>:<a class="headerlink" href="#gen" title="Permalink to this heading">¶</a></h3>
 <p>This directory contains the generated code for the C++ linearization function.</p>
 </section>
 </section>
@@ -143,7 +145,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -160,7 +162,7 @@
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Ops Tutorial &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -253,6 +255,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -261,10 +264,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -276,18 +283,21 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="Ops-Tutorial">
-<h1>Ops Tutorial<a class="headerlink" href="#Ops-Tutorial" title="Permalink to this headline">¶</a></h1>
+<h1>Ops Tutorial<a class="headerlink" href="#Ops-Tutorial" title="Permalink to this heading">¶</a></h1>
 <p>SymForce uses <a class="reference external" href="https://en.wikipedia.org/wiki/Concept_(generic_programming)">concepts</a> as an underlying mechanism. A concept is a specification of supported operations, including syntax and semantics, but does not require a subtype relationship. This means that a set of heterogenous types can be operated on in a homogenous way, i.e. types that are external and don’t share a base class, like Python floats treated as scalars.</p>
 <p>There are three core concepts, each of which is a superset of the previous. The core routines use these ops interfaces rather than calling methods on types directly. The <a class="reference external" href="../api/symforce.ops.html">ops package</a> docs provide much more detail and each op is tested on each type, but examples are given here.</p>
 <p>In the case of lists of objects or a Values object (see the <a class="reference external" href="../tutorials/values_tutorial.html">Values tutorial</a>), we perform element-wise operations.</p>
@@ -309,7 +319,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <section id="StorageOps">
-<h2>StorageOps<a class="headerlink" href="#StorageOps" title="Permalink to this headline">¶</a></h2>
+<h2>StorageOps<a class="headerlink" href="#StorageOps" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="../api/symforce.ops.storage_ops.html">StorageOps</a>: <strong>Data type that can be serialized to and from a vector of scalar quantities.</strong></p>
 <p>Methods: <code class="docutils literal notranslate"><span class="pre">.storage_dim()</span></code>, <code class="docutils literal notranslate"><span class="pre">.to_storage()</span></code>, <code class="docutils literal notranslate"><span class="pre">.from_storage()</span></code>, <code class="docutils literal notranslate"><span class="pre">.symbolic()</span></code>, <code class="docutils literal notranslate"><span class="pre">.evalf()</span></code>, <code class="docutils literal notranslate"><span class="pre">.subs()</span></code>, <code class="docutils literal notranslate"><span class="pre">.simplify()</span></code></p>
 <p>Storage operations are used extensively for marshalling and for operating on each scalar in a type.</p>
@@ -444,7 +454,7 @@ $\displaystyle \left[ T.R_{x}, \  T.R_{y}, \  T.R_{z}, \  T.R_{w}, \  T.t0, \  T
 </div>
 </section>
 <section id="GroupOps">
-<h2>GroupOps<a class="headerlink" href="#GroupOps" title="Permalink to this headline">¶</a></h2>
+<h2>GroupOps<a class="headerlink" href="#GroupOps" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="../api/symforce.ops.group_ops.html">GroupOps</a>: <strong>Mathematical group that implements closure, associativity, identity and invertibility.</strong></p>
 <p>Methods: <code class="docutils literal notranslate"><span class="pre">.identity()</span></code>, <code class="docutils literal notranslate"><span class="pre">.inverse()</span></code>, <code class="docutils literal notranslate"><span class="pre">.compose()</span></code>, <code class="docutils literal notranslate"><span class="pre">.between()</span></code></p>
 <p>Group operations provide the core methods to compare and combine types.</p>
@@ -567,7 +577,7 @@ $\displaystyle \left[\begin{matrix}4\\-3\end{matrix}\right]$</div></div>
 </div>
 </section>
 <section id="LieGroupOps">
-<h2>LieGroupOps<a class="headerlink" href="#LieGroupOps" title="Permalink to this headline">¶</a></h2>
+<h2>LieGroupOps<a class="headerlink" href="#LieGroupOps" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="../api/symforce.ops.lie_group_ops.html">LieGroupOps</a>: <strong>Group that is also a differentiable manifold, such that calculus applies.</strong></p>
 <p>Methods: <code class="docutils literal notranslate"><span class="pre">.tangent_dim()</span></code>, <code class="docutils literal notranslate"><span class="pre">.from_tangent()</span></code>, <code class="docutils literal notranslate"><span class="pre">to_tangent()</span></code>, <code class="docutils literal notranslate"><span class="pre">.retract()</span></code>, <code class="docutils literal notranslate"><span class="pre">.local_coordinates()</span></code>, <code class="docutils literal notranslate"><span class="pre">.storage_D_tangent()</span></code></p>
 <div class="line-block">
@@ -791,7 +801,7 @@ $\displaystyle \left[\begin{matrix}- \sin{\left(\theta \right)}\\\cos{\left(\the
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -808,7 +818,7 @@ $\displaystyle \left[\begin{matrix}- \sin{\left(\theta \right)}\\\cos{\left(\the
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

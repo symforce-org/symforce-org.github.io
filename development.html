@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Development Guide &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -37,9 +39,9 @@
           <div class="body" role="main">
             
   <section id="development-guide">
-<h1>Development Guide<a class="headerlink" href="#development-guide" title="Permalink to this headline">¶</a></h1>
+<h1>Development Guide<a class="headerlink" href="#development-guide" title="Permalink to this heading">¶</a></h1>
 <p>Guide for how to build, configure, and develop SymForce.</p>
-<div class="contents local topic" id="contents">
+<nav class="contents local" id="contents">
 <ul class="simple">
 <li><p><a class="reference internal" href="#organization" id="id2">Organization</a></p></li>
 <li><p><a class="reference internal" href="#build" id="id3">Build</a></p></li>
@@ -52,28 +54,24 @@
 <li><p><a class="reference internal" href="#symbolic-api" id="id10">Symbolic API</a></p></li>
 <li><p><a class="reference internal" href="#building-wheels" id="id11">Building wheels</a></p></li>
 </ul>
-</div>
+</nav>
 <section id="organization">
-<h2><a class="toc-backref" href="#id2">Organization</a><a class="headerlink" href="#organization" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Organization</a><a class="headerlink" href="#organization" title="Permalink to this heading">¶</a></h2>
 <p>SymForce aims to follow Python <a class="reference external" href="https://docs.python-guide.org/writing/structure/">standards</a>. The core <code class="docutils literal notranslate"><span class="pre">symforce</span></code> package lives in the equivalently named subdirectory at the top level. Tests, documentation, etc live at the top level outside of the core package.
 To import <code class="docutils literal notranslate"><span class="pre">symforce</span></code> add the top level to the Python path.</p>
 <p>See the <a class="reference internal" href="index.html#api-reference"><span class="std std-ref">module reference</span></a> for the core package structure.</p>
 </section>
 <section id="build">
-<h2><a class="toc-backref" href="#id3">Build</a><a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Build</a><a class="headerlink" href="#build" title="Permalink to this heading">¶</a></h2>
 <p>SymForce is primarily written in Python and C++, and is Python 3.8+ and C++14 compatible.  The build
 system is CMake for the C++ components, and optionally pip / setuptools on top for Python packaging.
 See the Build section on the [Homepage](/index.html#build-from-source) for build instructions.</p>
 </section>
 <section id="additional-useful-commands">
-<h2><a class="toc-backref" href="#id4">Additional useful commands</a><a class="headerlink" href="#additional-useful-commands" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Additional useful commands</a><a class="headerlink" href="#additional-useful-commands" title="Permalink to this heading">¶</a></h2>
 <p>SymForce also has a top level Makefile which is not used by the build, but provides some high
 level commands for development:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 64%" />
-<col style="width: 36%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Run tests which update (most) generated code</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">test_update</span></code></p></td>
@@ -103,12 +101,12 @@ level commands for development:</p>
 </table>
 </section>
 <section id="documentation">
-<h2><a class="toc-backref" href="#id5">Documentation</a><a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Documentation</a><a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h2>
 <p>This documentation is built with <a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a>, including automatic parsing of the code to generate a module reference using <a class="reference external" href="https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html">sphinx-apidoc</a>. The code uses <a class="reference external" href="https://www.sphinx-doc.org/en/1.6/ext/example_google.html">Google Style</a> docstrings to annotate all modules, classes, and functions. Docs pages are <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files in <code class="docutils literal notranslate"><span class="pre">docs</span></code>, and the Sphinx config file is <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>.</p>
 <p>There are sample <a class="reference external" href="https://jupyter.org/">Jupyter</a> notebooks in <code class="docutils literal notranslate"><span class="pre">notebooks</span></code>, some of which are built into these docs using <a class="reference external" href="https://nbsphinx.readthedocs.io/en/0.5.1/">nbsphinx</a>, such as the <a class="reference external" href="notebooks/tutorial.html">tutorial</a>. <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">notebook</span></code> starts a Jupyter server to modify and run them.</p>
 </section>
 <section id="logging">
-<h2><a class="toc-backref" href="#id6">Logging</a><a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Logging</a><a class="headerlink" href="#logging" title="Permalink to this heading">¶</a></h2>
 <p>SymForce uses the <a class="reference external" href="https://docs.python.org/2/library/logging.html">logging</a> module. You can import and use the logger like this:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;houston, we have a problem&#39;</span><span class="p">)</span>
@@ -118,7 +116,7 @@ level commands for development:</p>
 <p>You can configure the log level using <a class="reference internal" href="api/symforce.html#symforce.set_log_level" title="symforce.set_log_level"><code class="xref py py-func docutils literal notranslate"><span class="pre">symforce.set_log_level()</span></code></a> or by setting the <code class="docutils literal notranslate"><span class="pre">SYMENGINE_LOGLEVEL</span></code> environment variable. The default is <code class="docutils literal notranslate"><span class="pre">logging.INFO</span></code>.</p>
 </section>
 <section id="testing-and-coverage">
-<h2><a class="toc-backref" href="#id7">Testing and Coverage</a><a class="headerlink" href="#testing-and-coverage" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Testing and Coverage</a><a class="headerlink" href="#testing-and-coverage" title="Permalink to this heading">¶</a></h2>
 <p>SymForce is heavily tested, targeting close to 100% code coverage.
 Tests live in <code class="docutils literal notranslate"><span class="pre">test</span></code> and use <a class="reference external" href="https://docs.python.org/2/library/unittest.html">unittest</a>. Additionally, <a class="reference external" href="https://coverage.readthedocs.io/en/coverage-5.0.4/">coverage.py</a> is used to run tests while measuring code coverage. The generated coverage report also provides a great view into what methods need to be tested and what code is potentially unused.</p>
 <div class="line-block">
@@ -130,7 +128,7 @@ Tests live in <code class="docutils literal notranslate"><span class="pre">test<
 <p>When debugging a specific test, the use of <a class="reference external" href="https://pypi.org/project/ipdb/">ipdb</a> is highly recommended, as is reproducing the most minimal example of the issue in a notebook.</p>
 </section>
 <section id="formatting">
-<h2><a class="toc-backref" href="#id8">Formatting</a><a class="headerlink" href="#formatting" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Formatting</a><a class="headerlink" href="#formatting" title="Permalink to this heading">¶</a></h2>
 <p>Symforce uses the <a class="reference external" href="https://github.com/psf/black">Black</a> formatter for Python code. To quote the authors:</p>
 <blockquote>
 <div><p><cite>Black is the uncompromising Python code formatter. By using it, you agree to cede control over minutiae of hand-formatting. In return, Black gives you speed, determinism, and freedom from nagging about formatting. You will save time and mental energy for more important matters.</cite></p>
@@ -138,17 +136,17 @@ Tests live in <code class="docutils literal notranslate"><span class="pre">test<
 <p>Running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">format</span></code> will format the entire codebase. It’s recommended to develop with <a class="reference external" href="https://code.visualstudio.com/">VSCode</a> and integrate black.</p>
 </section>
 <section id="templates">
-<h2><a class="toc-backref" href="#id9">Templates</a><a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Templates</a><a class="headerlink" href="#templates" title="Permalink to this heading">¶</a></h2>
 <p>Much of the core functionality of SymForce is in generating code using the <a class="reference external" href="https://jinja.palletsprojects.com/en/2.11.x/">Jinja</a> template language. It’s relatively simple and easy to use - you pass it a template file in any language and a python dictionary of data, and it spits out the rendered code.</p>
 <p>For example template files, see <code class="docutils literal notranslate"><span class="pre">symforce/codegen/backends/cpp/templates</span></code>.</p>
 </section>
 <section id="symbolic-api">
-<h2><a class="toc-backref" href="#id10">Symbolic API</a><a class="headerlink" href="#symbolic-api" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Symbolic API</a><a class="headerlink" href="#symbolic-api" title="Permalink to this heading">¶</a></h2>
 <p>SymForce uses the <a class="reference external" href="https://www.sympy.org/en/index.html">SymPy</a> API, but supports two implementations of it. The SymPy implementation is pure Python, whereas the <a class="reference external" href="https://github.com/symengine/symengine">SymEngine</a> implementation is wrapped C++. It can be 100-200 times faster for many operations, but is less fully featured and requires a C++ build.</p>
 <p>To set the symbolic API, you can either use <a class="reference internal" href="api/symforce.html#symforce.set_symbolic_api" title="symforce.set_symbolic_api"><code class="xref py py-func docutils literal notranslate"><span class="pre">symforce.set_symbolic_api()</span></code></a> before any other imports, or use the <code class="docutils literal notranslate"><span class="pre">SYMFORCE_SYMBOLIC_API</span></code> environment variable with the options <code class="docutils literal notranslate"><span class="pre">sympy</span></code> or <code class="docutils literal notranslate"><span class="pre">symengine</span></code>. By default SymEngine will be used if found, otherwise SymPy.</p>
 </section>
 <section id="building-wheels">
-<h2><a class="toc-backref" href="#id11">Building wheels</a><a class="headerlink" href="#building-wheels" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Building wheels</a><a class="headerlink" href="#building-wheels" title="Permalink to this heading">¶</a></h2>
 <p>You should be able to build Python wheels of symforce the standard ways.  We recommend using
 <code class="docutils literal notranslate"><span class="pre">build</span></code>, i.e. running <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">build</span> <span class="pre">--wheel</span></code> from the <code class="docutils literal notranslate"><span class="pre">symforce</span></code> directory.  By default,
 this will build a wheel that includes local dependencies on the <code class="docutils literal notranslate"><span class="pre">skymarshal</span></code> and <code class="docutils literal notranslate"><span class="pre">symforce-sym</span></code>
@@ -262,7 +260,7 @@ and upload to PyPI with <code class="docutils literal notranslate"><span class="
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -279,7 +277,7 @@ and upload to PyPI with <code class="docutils literal notranslate"><span class="
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

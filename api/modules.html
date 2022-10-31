@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>symforce &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -35,10 +37,24 @@
           <div class="body" role="main">
             
   <section id="symforce">
-<h1>symforce<a class="headerlink" href="#symforce" title="Permalink to this headline">¶</a></h1>
+<h1>symforce<a class="headerlink" href="#symforce" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="symforce.html">symforce package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_log_level"><code class="docutils literal notranslate"><span class="pre">set_log_level()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.InvalidSymbolicApiError"><code class="docutils literal notranslate"><span class="pre">InvalidSymbolicApiError</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.html#symforce.InvalidSymbolicApiError.__init__"><code class="docutils literal notranslate"><span class="pre">InvalidSymbolicApiError.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_symbolic_api"><code class="docutils literal notranslate"><span class="pre">set_symbolic_api()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.get_symbolic_api"><code class="docutils literal notranslate"><span class="pre">get_symbolic_api()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.AlreadyUsedEpsilon"><code class="docutils literal notranslate"><span class="pre">AlreadyUsedEpsilon</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_epsilon_to_symbol"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_symbol()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_epsilon_to_number"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_number()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_epsilon_to_zero"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_zero()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_epsilon_to_invalid"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_invalid()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="symforce.benchmarks.html">symforce.benchmarks package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="symforce.benchmarks.html#subpackages">Subpackages</a></li>
@@ -68,6 +84,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.ops.html">symforce.ops package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.ops.html#symforce.ops.ScalarExpr"><code class="docutils literal notranslate"><span class="pre">ScalarExpr</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.html#subpackages">Subpackages</a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.ops.html#submodules">Submodules</a></li>
 </ul>
@@ -89,17 +106,432 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html">symforce.symbolic module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="symforce.typing_util.html">symforce.typing_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Factor"><code class="docutils literal notranslate"><span class="pre">Factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Key"><code class="docutils literal notranslate"><span class="pre">Key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Linearization"><code class="docutils literal notranslate"><span class="pre">Linearization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.OptimizationStats"><code class="docutils literal notranslate"><span class="pre">OptimizationStats</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Optimizer"><code class="docutils literal notranslate"><span class="pre">Optimizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Values"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.default_optimizer_params"><code class="docutils literal notranslate"><span class="pre">default_optimizer_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.optimize"><code class="docutils literal notranslate"><span class="pre">optimize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.cc_sym.html#cc_sym.set_log_level"><code class="docutils literal notranslate"><span class="pre">set_log_level()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.databuffer.html#symforce.databuffer.DataBuffer"><code class="docutils literal notranslate"><span class="pre">DataBuffer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians"><code class="docutils literal notranslate"><span class="pre">tangent_jacobians()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians_first_order"><code class="docutils literal notranslate"><span class="pre">tangent_jacobians_first_order()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians_chain_rule"><code class="docutils literal notranslate"><span class="pre">tangent_jacobians_chain_rule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.logic.html#symforce.logic.is_positive"><code class="docutils literal notranslate"><span class="pre">is_positive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.logic.html#symforce.logic.is_negative"><code class="docutils literal notranslate"><span class="pre">is_negative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.logic.html#symforce.logic.is_nonnegative"><code class="docutils literal notranslate"><span class="pre">is_nonnegative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.logic.html#symforce.logic.is_nonpositive"><code class="docutils literal notranslate"><span class="pre">is_nonpositive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.logic.html#symforce.logic.logical_and"><code class="docutils literal notranslate"><span class="pre">logical_and()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.logic.html#symforce.logic.logical_or"><code class="docutils literal notranslate"><span class="pre">logical_or()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.logic.html#symforce.logic.logical_not"><code class="docutils literal notranslate"><span class="pre">logical_not()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.notebook_util.html#symforce.notebook_util.display"><code class="docutils literal notranslate"><span class="pre">display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.notebook_util.html#symforce.notebook_util.display_code"><code class="docutils literal notranslate"><span class="pre">display_code()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.notebook_util.html#symforce.notebook_util.display_code_file"><code class="docutils literal notranslate"><span class="pre">display_code_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.notebook_util.html#symforce.notebook_util.print_expression_tree"><code class="docutils literal notranslate"><span class="pre">print_expression_tree()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.path_util.html#symforce.path_util.MissingManifestException"><code class="docutils literal notranslate"><span class="pre">MissingManifestException</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.path_util.html#symforce.path_util.symforce_dir"><code class="docutils literal notranslate"><span class="pre">symforce_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.path_util.html#symforce.path_util.symenginepy_install_dir"><code class="docutils literal notranslate"><span class="pre">symenginepy_install_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.path_util.html#symforce.path_util.cc_sym_install_dir"><code class="docutils literal notranslate"><span class="pre">cc_sym_install_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.path_util.html#symforce.path_util.binary_output_dir"><code class="docutils literal notranslate"><span class="pre">binary_output_dir()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.remove_if_exists"><code class="docutils literal notranslate"><span class="pre">remove_if_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.execute_subprocess"><code class="docutils literal notranslate"><span class="pre">execute_subprocess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.camelcase_to_snakecase"><code class="docutils literal notranslate"><span class="pre">camelcase_to_snakecase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.snakecase_to_camelcase"><code class="docutils literal notranslate"><span class="pre">snakecase_to_camelcase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.camelcase_to_screaming_snakecase"><code class="docutils literal notranslate"><span class="pre">camelcase_to_screaming_snakecase()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.str_replace_all"><code class="docutils literal notranslate"><span class="pre">str_replace_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.str_removeprefix"><code class="docutils literal notranslate"><span class="pre">str_removeprefix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.str_removesuffix"><code class="docutils literal notranslate"><span class="pre">str_removesuffix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.files_in_dir"><code class="docutils literal notranslate"><span class="pre">files_in_dir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.id_generator"><code class="docutils literal notranslate"><span class="pre">id_generator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.getattr_recursive"><code class="docutils literal notranslate"><span class="pre">getattr_recursive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.InvalidKeyError"><code class="docutils literal notranslate"><span class="pre">InvalidKeyError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.InvalidPythonIdentifierError"><code class="docutils literal notranslate"><span class="pre">InvalidPythonIdentifierError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.base_and_indices"><code class="docutils literal notranslate"><span class="pre">base_and_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.plural"><code class="docutils literal notranslate"><span class="pre">plural()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.get_func_from_maybe_bound_function"><code class="docutils literal notranslate"><span class="pre">get_func_from_maybe_bound_function()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.get_class_for_method"><code class="docutils literal notranslate"><span class="pre">get_class_for_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.python_util.html#symforce.python_util.AttrDict"><code class="docutils literal notranslate"><span class="pre">AttrDict</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html">symforce.symbolic module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Abs"><code class="docutils literal notranslate"><span class="pre">Abs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Add"><code class="docutils literal notranslate"><span class="pre">Add</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Basic"><code class="docutils literal notranslate"><span class="pre">Basic</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Contains"><code class="docutils literal notranslate"><span class="pre">Contains</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Derivative"><code class="docutils literal notranslate"><span class="pre">Derivative</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Dummy"><code class="docutils literal notranslate"><span class="pre">Dummy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Expr"><code class="docutils literal notranslate"><span class="pre">Expr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.FiniteSet"><code class="docutils literal notranslate"><span class="pre">FiniteSet</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Float"><code class="docutils literal notranslate"><span class="pre">Float</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Function"><code class="docutils literal notranslate"><span class="pre">Function</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Integer"><code class="docutils literal notranslate"><span class="pre">Integer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Interval"><code class="docutils literal notranslate"><span class="pre">Interval</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.KroneckerDelta"><code class="docutils literal notranslate"><span class="pre">KroneckerDelta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.LambertW"><code class="docutils literal notranslate"><span class="pre">LambertW</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.LeviCivita"><code class="docutils literal notranslate"><span class="pre">LeviCivita</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Max"><code class="docutils literal notranslate"><span class="pre">Max</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Min"><code class="docutils literal notranslate"><span class="pre">Min</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Mod"><code class="docutils literal notranslate"><span class="pre">Mod()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Mul"><code class="docutils literal notranslate"><span class="pre">Mul</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Number"><code class="docutils literal notranslate"><span class="pre">Number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Piecewise"><code class="docutils literal notranslate"><span class="pre">Piecewise</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pow"><code class="docutils literal notranslate"><span class="pre">Pow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rational"><code class="docutils literal notranslate"><span class="pre">Rational</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.RealNumber"><code class="docutils literal notranslate"><span class="pre">RealNumber</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Subs"><code class="docutils literal notranslate"><span class="pre">Subs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.SympifyError"><code class="docutils literal notranslate"><span class="pre">SympifyError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.UnevaluatedExpr"><code class="docutils literal notranslate"><span class="pre">UnevaluatedExpr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acos"><code class="docutils literal notranslate"><span class="pre">acos</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acosh"><code class="docutils literal notranslate"><span class="pre">acosh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acot"><code class="docutils literal notranslate"><span class="pre">acot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acoth"><code class="docutils literal notranslate"><span class="pre">acoth</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acsc"><code class="docutils literal notranslate"><span class="pre">acsc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acsch"><code class="docutils literal notranslate"><span class="pre">acsch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.asec"><code class="docutils literal notranslate"><span class="pre">asec</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.asech"><code class="docutils literal notranslate"><span class="pre">asech</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.asin"><code class="docutils literal notranslate"><span class="pre">asin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.asinh"><code class="docutils literal notranslate"><span class="pre">asinh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.atan"><code class="docutils literal notranslate"><span class="pre">atan</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.atanh"><code class="docutils literal notranslate"><span class="pre">atanh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.beta"><code class="docutils literal notranslate"><span class="pre">beta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.ceiling"><code class="docutils literal notranslate"><span class="pre">ceiling</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.conjugate"><code class="docutils literal notranslate"><span class="pre">conjugate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cos"><code class="docutils literal notranslate"><span class="pre">cos</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cosh"><code class="docutils literal notranslate"><span class="pre">cosh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cot"><code class="docutils literal notranslate"><span class="pre">cot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.coth"><code class="docutils literal notranslate"><span class="pre">coth</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.csc"><code class="docutils literal notranslate"><span class="pre">csc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.csch"><code class="docutils literal notranslate"><span class="pre">csch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cse"><code class="docutils literal notranslate"><span class="pre">cse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.diff"><code class="docutils literal notranslate"><span class="pre">diff()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.digamma"><code class="docutils literal notranslate"><span class="pre">digamma()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.dirichlet_eta"><code class="docutils literal notranslate"><span class="pre">dirichlet_eta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.erf"><code class="docutils literal notranslate"><span class="pre">erf</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.erfc"><code class="docutils literal notranslate"><span class="pre">erfc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.exp"><code class="docutils literal notranslate"><span class="pre">exp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.expand"><code class="docutils literal notranslate"><span class="pre">expand()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.floor"><code class="docutils literal notranslate"><span class="pre">floor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.gamma"><code class="docutils literal notranslate"><span class="pre">gamma()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.init_printing"><code class="docutils literal notranslate"><span class="pre">init_printing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.integer_nthroot"><code class="docutils literal notranslate"><span class="pre">integer_nthroot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.isprime"><code class="docutils literal notranslate"><span class="pre">isprime()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.lambdify"><code class="docutils literal notranslate"><span class="pre">lambdify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.latex"><code class="docutils literal notranslate"><span class="pre">latex()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.linsolve"><code class="docutils literal notranslate"><span class="pre">linsolve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.log"><code class="docutils literal notranslate"><span class="pre">log</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.loggamma"><code class="docutils literal notranslate"><span class="pre">loggamma</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.lowergamma"><code class="docutils literal notranslate"><span class="pre">lowergamma</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.perfect_power"><code class="docutils literal notranslate"><span class="pre">perfect_power()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.polygamma"><code class="docutils literal notranslate"><span class="pre">polygamma</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sec"><code class="docutils literal notranslate"><span class="pre">sec</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sech"><code class="docutils literal notranslate"><span class="pre">sech</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.series"><code class="docutils literal notranslate"><span class="pre">series()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sign"><code class="docutils literal notranslate"><span class="pre">sign</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sin"><code class="docutils literal notranslate"><span class="pre">sin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sinh"><code class="docutils literal notranslate"><span class="pre">sinh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sqrt"><code class="docutils literal notranslate"><span class="pre">sqrt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sqrt_mod"><code class="docutils literal notranslate"><span class="pre">sqrt_mod()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sympify"><code class="docutils literal notranslate"><span class="pre">sympify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.tan"><code class="docutils literal notranslate"><span class="pre">tan</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.tanh"><code class="docutils literal notranslate"><span class="pre">tanh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.trigamma"><code class="docutils literal notranslate"><span class="pre">trigamma()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.uppergamma"><code class="docutils literal notranslate"><span class="pre">uppergamma</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.var"><code class="docutils literal notranslate"><span class="pre">var()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.zeta"><code class="docutils literal notranslate"><span class="pre">zeta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.original_symbols"><code class="docutils literal notranslate"><span class="pre">original_symbols()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.symbols"><code class="docutils literal notranslate"><span class="pre">symbols()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Scalar"><code class="docutils literal notranslate"><span class="pre">Scalar</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_positive"><code class="docutils literal notranslate"><span class="pre">is_positive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_negative"><code class="docutils literal notranslate"><span class="pre">is_negative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_nonnegative"><code class="docutils literal notranslate"><span class="pre">is_nonnegative()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_nonpositive"><code class="docutils literal notranslate"><span class="pre">is_nonpositive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.logical_and"><code class="docutils literal notranslate"><span class="pre">logical_and()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.logical_or"><code class="docutils literal notranslate"><span class="pre">logical_or()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.logical_not"><code class="docutils literal notranslate"><span class="pre">logical_not()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.wrap_angle"><code class="docutils literal notranslate"><span class="pre">wrap_angle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.angle_diff"><code class="docutils literal notranslate"><span class="pre">angle_diff()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.sign_no_zero"><code class="docutils literal notranslate"><span class="pre">sign_no_zero()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.copysign_no_zero"><code class="docutils literal notranslate"><span class="pre">copysign_no_zero()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.argmax_onehot"><code class="docutils literal notranslate"><span class="pre">argmax_onehot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.argmax"><code class="docutils literal notranslate"><span class="pre">argmax()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.atan2"><code class="docutils literal notranslate"><span class="pre">atan2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.asin_safe"><code class="docutils literal notranslate"><span class="pre">asin_safe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acos_safe"><code class="docutils literal notranslate"><span class="pre">acos_safe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_eval_on_sympify"><code class="docutils literal notranslate"><span class="pre">set_eval_on_sympify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.simplify"><code class="docutils literal notranslate"><span class="pre">simplify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.limit"><code class="docutils literal notranslate"><span class="pre">limit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.count_ops"><code class="docutils literal notranslate"><span class="pre">count_ops()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.DataBuffer"><code class="docutils literal notranslate"><span class="pre">DataBuffer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.original_get_dict"><code class="docutils literal notranslate"><span class="pre">original_get_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.create_named_scope"><code class="docutils literal notranslate"><span class="pre">create_named_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_scope"><code class="docutils literal notranslate"><span class="pre">set_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.get_scope"><code class="docutils literal notranslate"><span class="pre">get_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Complex"><code class="docutils literal notranslate"><span class="pre">Complex</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.DualQuaternion"><code class="docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Storage"><code class="docutils literal notranslate"><span class="pre">Storage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix"><code class="docutils literal notranslate"><span class="pre">Matrix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix11"><code class="docutils literal notranslate"><span class="pre">Matrix11</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21"><code class="docutils literal notranslate"><span class="pre">Matrix21</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31"><code class="docutils literal notranslate"><span class="pre">Matrix31</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix41"><code class="docutils literal notranslate"><span class="pre">Matrix41</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix51"><code class="docutils literal notranslate"><span class="pre">Matrix51</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix61"><code class="docutils literal notranslate"><span class="pre">Matrix61</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix71"><code class="docutils literal notranslate"><span class="pre">Matrix71</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix81"><code class="docutils literal notranslate"><span class="pre">Matrix81</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix91"><code class="docutils literal notranslate"><span class="pre">Matrix91</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix12"><code class="docutils literal notranslate"><span class="pre">Matrix12</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix22"><code class="docutils literal notranslate"><span class="pre">Matrix22</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix32"><code class="docutils literal notranslate"><span class="pre">Matrix32</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix42"><code class="docutils literal notranslate"><span class="pre">Matrix42</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix52"><code class="docutils literal notranslate"><span class="pre">Matrix52</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix62"><code class="docutils literal notranslate"><span class="pre">Matrix62</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix72"><code class="docutils literal notranslate"><span class="pre">Matrix72</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix82"><code class="docutils literal notranslate"><span class="pre">Matrix82</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix92"><code class="docutils literal notranslate"><span class="pre">Matrix92</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix13"><code class="docutils literal notranslate"><span class="pre">Matrix13</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix23"><code class="docutils literal notranslate"><span class="pre">Matrix23</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33"><code class="docutils literal notranslate"><span class="pre">Matrix33</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix43"><code class="docutils literal notranslate"><span class="pre">Matrix43</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix53"><code class="docutils literal notranslate"><span class="pre">Matrix53</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix63"><code class="docutils literal notranslate"><span class="pre">Matrix63</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix73"><code class="docutils literal notranslate"><span class="pre">Matrix73</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix83"><code class="docutils literal notranslate"><span class="pre">Matrix83</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix93"><code class="docutils literal notranslate"><span class="pre">Matrix93</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix14"><code class="docutils literal notranslate"><span class="pre">Matrix14</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix24"><code class="docutils literal notranslate"><span class="pre">Matrix24</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix34"><code class="docutils literal notranslate"><span class="pre">Matrix34</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix44"><code class="docutils literal notranslate"><span class="pre">Matrix44</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix54"><code class="docutils literal notranslate"><span class="pre">Matrix54</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix64"><code class="docutils literal notranslate"><span class="pre">Matrix64</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix74"><code class="docutils literal notranslate"><span class="pre">Matrix74</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix84"><code class="docutils literal notranslate"><span class="pre">Matrix84</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix94"><code class="docutils literal notranslate"><span class="pre">Matrix94</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix15"><code class="docutils literal notranslate"><span class="pre">Matrix15</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix25"><code class="docutils literal notranslate"><span class="pre">Matrix25</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix35"><code class="docutils literal notranslate"><span class="pre">Matrix35</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix45"><code class="docutils literal notranslate"><span class="pre">Matrix45</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix55"><code class="docutils literal notranslate"><span class="pre">Matrix55</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix65"><code class="docutils literal notranslate"><span class="pre">Matrix65</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix75"><code class="docutils literal notranslate"><span class="pre">Matrix75</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix85"><code class="docutils literal notranslate"><span class="pre">Matrix85</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix95"><code class="docutils literal notranslate"><span class="pre">Matrix95</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix16"><code class="docutils literal notranslate"><span class="pre">Matrix16</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix26"><code class="docutils literal notranslate"><span class="pre">Matrix26</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix36"><code class="docutils literal notranslate"><span class="pre">Matrix36</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix46"><code class="docutils literal notranslate"><span class="pre">Matrix46</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix56"><code class="docutils literal notranslate"><span class="pre">Matrix56</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix66"><code class="docutils literal notranslate"><span class="pre">Matrix66</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix76"><code class="docutils literal notranslate"><span class="pre">Matrix76</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix86"><code class="docutils literal notranslate"><span class="pre">Matrix86</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix96"><code class="docutils literal notranslate"><span class="pre">Matrix96</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix17"><code class="docutils literal notranslate"><span class="pre">Matrix17</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix27"><code class="docutils literal notranslate"><span class="pre">Matrix27</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix37"><code class="docutils literal notranslate"><span class="pre">Matrix37</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix47"><code class="docutils literal notranslate"><span class="pre">Matrix47</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix57"><code class="docutils literal notranslate"><span class="pre">Matrix57</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix67"><code class="docutils literal notranslate"><span class="pre">Matrix67</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix77"><code class="docutils literal notranslate"><span class="pre">Matrix77</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix87"><code class="docutils literal notranslate"><span class="pre">Matrix87</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix97"><code class="docutils literal notranslate"><span class="pre">Matrix97</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix18"><code class="docutils literal notranslate"><span class="pre">Matrix18</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix28"><code class="docutils literal notranslate"><span class="pre">Matrix28</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix38"><code class="docutils literal notranslate"><span class="pre">Matrix38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix48"><code class="docutils literal notranslate"><span class="pre">Matrix48</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix58"><code class="docutils literal notranslate"><span class="pre">Matrix58</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix68"><code class="docutils literal notranslate"><span class="pre">Matrix68</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix78"><code class="docutils literal notranslate"><span class="pre">Matrix78</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix88"><code class="docutils literal notranslate"><span class="pre">Matrix88</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix98"><code class="docutils literal notranslate"><span class="pre">Matrix98</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix19"><code class="docutils literal notranslate"><span class="pre">Matrix19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix29"><code class="docutils literal notranslate"><span class="pre">Matrix29</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix39"><code class="docutils literal notranslate"><span class="pre">Matrix39</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix49"><code class="docutils literal notranslate"><span class="pre">Matrix49</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix59"><code class="docutils literal notranslate"><span class="pre">Matrix59</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix69"><code class="docutils literal notranslate"><span class="pre">Matrix69</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix79"><code class="docutils literal notranslate"><span class="pre">Matrix79</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix89"><code class="docutils literal notranslate"><span class="pre">Matrix89</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix99"><code class="docutils literal notranslate"><span class="pre">Matrix99</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.m"><code class="docutils literal notranslate"><span class="pre">m</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.matrix_type_from_shape"><code class="docutils literal notranslate"><span class="pre">matrix_type_from_shape()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M"><code class="docutils literal notranslate"><span class="pre">M</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector1"><code class="docutils literal notranslate"><span class="pre">Vector1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector2"><code class="docutils literal notranslate"><span class="pre">Vector2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector3"><code class="docutils literal notranslate"><span class="pre">Vector3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector4"><code class="docutils literal notranslate"><span class="pre">Vector4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector5"><code class="docutils literal notranslate"><span class="pre">Vector5</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector6"><code class="docutils literal notranslate"><span class="pre">Vector6</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector7"><code class="docutils literal notranslate"><span class="pre">Vector7</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector8"><code class="docutils literal notranslate"><span class="pre">Vector8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Vector9"><code class="docutils literal notranslate"><span class="pre">Vector9</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V1"><code class="docutils literal notranslate"><span class="pre">V1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V2"><code class="docutils literal notranslate"><span class="pre">V2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V3"><code class="docutils literal notranslate"><span class="pre">V3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V4"><code class="docutils literal notranslate"><span class="pre">V4</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V5"><code class="docutils literal notranslate"><span class="pre">V5</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V6"><code class="docutils literal notranslate"><span class="pre">V6</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V7"><code class="docutils literal notranslate"><span class="pre">V7</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V8"><code class="docutils literal notranslate"><span class="pre">V8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.V9"><code class="docutils literal notranslate"><span class="pre">V9</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M11"><code class="docutils literal notranslate"><span class="pre">M11</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M21"><code class="docutils literal notranslate"><span class="pre">M21</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M31"><code class="docutils literal notranslate"><span class="pre">M31</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M41"><code class="docutils literal notranslate"><span class="pre">M41</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M51"><code class="docutils literal notranslate"><span class="pre">M51</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M61"><code class="docutils literal notranslate"><span class="pre">M61</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M71"><code class="docutils literal notranslate"><span class="pre">M71</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M81"><code class="docutils literal notranslate"><span class="pre">M81</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M91"><code class="docutils literal notranslate"><span class="pre">M91</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M12"><code class="docutils literal notranslate"><span class="pre">M12</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M22"><code class="docutils literal notranslate"><span class="pre">M22</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M32"><code class="docutils literal notranslate"><span class="pre">M32</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M42"><code class="docutils literal notranslate"><span class="pre">M42</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M52"><code class="docutils literal notranslate"><span class="pre">M52</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M62"><code class="docutils literal notranslate"><span class="pre">M62</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M72"><code class="docutils literal notranslate"><span class="pre">M72</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M82"><code class="docutils literal notranslate"><span class="pre">M82</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M92"><code class="docutils literal notranslate"><span class="pre">M92</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M13"><code class="docutils literal notranslate"><span class="pre">M13</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M23"><code class="docutils literal notranslate"><span class="pre">M23</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M33"><code class="docutils literal notranslate"><span class="pre">M33</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M43"><code class="docutils literal notranslate"><span class="pre">M43</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M53"><code class="docutils literal notranslate"><span class="pre">M53</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M63"><code class="docutils literal notranslate"><span class="pre">M63</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M73"><code class="docutils literal notranslate"><span class="pre">M73</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M83"><code class="docutils literal notranslate"><span class="pre">M83</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M93"><code class="docutils literal notranslate"><span class="pre">M93</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M14"><code class="docutils literal notranslate"><span class="pre">M14</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M24"><code class="docutils literal notranslate"><span class="pre">M24</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M34"><code class="docutils literal notranslate"><span class="pre">M34</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M44"><code class="docutils literal notranslate"><span class="pre">M44</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M54"><code class="docutils literal notranslate"><span class="pre">M54</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M64"><code class="docutils literal notranslate"><span class="pre">M64</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M74"><code class="docutils literal notranslate"><span class="pre">M74</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M84"><code class="docutils literal notranslate"><span class="pre">M84</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M94"><code class="docutils literal notranslate"><span class="pre">M94</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M15"><code class="docutils literal notranslate"><span class="pre">M15</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M25"><code class="docutils literal notranslate"><span class="pre">M25</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M35"><code class="docutils literal notranslate"><span class="pre">M35</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M45"><code class="docutils literal notranslate"><span class="pre">M45</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M55"><code class="docutils literal notranslate"><span class="pre">M55</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M65"><code class="docutils literal notranslate"><span class="pre">M65</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M75"><code class="docutils literal notranslate"><span class="pre">M75</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M85"><code class="docutils literal notranslate"><span class="pre">M85</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M95"><code class="docutils literal notranslate"><span class="pre">M95</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M16"><code class="docutils literal notranslate"><span class="pre">M16</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M26"><code class="docutils literal notranslate"><span class="pre">M26</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M36"><code class="docutils literal notranslate"><span class="pre">M36</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M46"><code class="docutils literal notranslate"><span class="pre">M46</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M56"><code class="docutils literal notranslate"><span class="pre">M56</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M66"><code class="docutils literal notranslate"><span class="pre">M66</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M76"><code class="docutils literal notranslate"><span class="pre">M76</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M86"><code class="docutils literal notranslate"><span class="pre">M86</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M96"><code class="docutils literal notranslate"><span class="pre">M96</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M17"><code class="docutils literal notranslate"><span class="pre">M17</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M27"><code class="docutils literal notranslate"><span class="pre">M27</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M37"><code class="docutils literal notranslate"><span class="pre">M37</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M47"><code class="docutils literal notranslate"><span class="pre">M47</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M57"><code class="docutils literal notranslate"><span class="pre">M57</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M67"><code class="docutils literal notranslate"><span class="pre">M67</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M77"><code class="docutils literal notranslate"><span class="pre">M77</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M87"><code class="docutils literal notranslate"><span class="pre">M87</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M97"><code class="docutils literal notranslate"><span class="pre">M97</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M18"><code class="docutils literal notranslate"><span class="pre">M18</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M28"><code class="docutils literal notranslate"><span class="pre">M28</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M38"><code class="docutils literal notranslate"><span class="pre">M38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M48"><code class="docutils literal notranslate"><span class="pre">M48</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M58"><code class="docutils literal notranslate"><span class="pre">M58</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M68"><code class="docutils literal notranslate"><span class="pre">M68</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M78"><code class="docutils literal notranslate"><span class="pre">M78</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M88"><code class="docutils literal notranslate"><span class="pre">M88</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M98"><code class="docutils literal notranslate"><span class="pre">M98</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M19"><code class="docutils literal notranslate"><span class="pre">M19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M29"><code class="docutils literal notranslate"><span class="pre">M29</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M39"><code class="docutils literal notranslate"><span class="pre">M39</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M49"><code class="docutils literal notranslate"><span class="pre">M49</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M59"><code class="docutils literal notranslate"><span class="pre">M59</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M69"><code class="docutils literal notranslate"><span class="pre">M69</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M79"><code class="docutils literal notranslate"><span class="pre">M79</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M89"><code class="docutils literal notranslate"><span class="pre">M89</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.M99"><code class="docutils literal notranslate"><span class="pre">M99</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I1"><code class="docutils literal notranslate"><span class="pre">I1()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I11"><code class="docutils literal notranslate"><span class="pre">I11()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I2"><code class="docutils literal notranslate"><span class="pre">I2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I22"><code class="docutils literal notranslate"><span class="pre">I22()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I3"><code class="docutils literal notranslate"><span class="pre">I3()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I33"><code class="docutils literal notranslate"><span class="pre">I33()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I4"><code class="docutils literal notranslate"><span class="pre">I4()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I44"><code class="docutils literal notranslate"><span class="pre">I44()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I5"><code class="docutils literal notranslate"><span class="pre">I5()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I55"><code class="docutils literal notranslate"><span class="pre">I55()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I6"><code class="docutils literal notranslate"><span class="pre">I6()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I66"><code class="docutils literal notranslate"><span class="pre">I66()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I7"><code class="docutils literal notranslate"><span class="pre">I7()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I77"><code class="docutils literal notranslate"><span class="pre">I77()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I8"><code class="docutils literal notranslate"><span class="pre">I8()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I88"><code class="docutils literal notranslate"><span class="pre">I88()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I9"><code class="docutils literal notranslate"><span class="pre">I9()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.I99"><code class="docutils literal notranslate"><span class="pre">I99()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.VectorClassLieGroupOps"><code class="docutils literal notranslate"><span class="pre">VectorClassLieGroupOps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose2"><code class="docutils literal notranslate"><span class="pre">Pose2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3"><code class="docutils literal notranslate"><span class="pre">Pose3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Quaternion"><code class="docutils literal notranslate"><span class="pre">Quaternion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot2"><code class="docutils literal notranslate"><span class="pre">Rot2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3"><code class="docutils literal notranslate"><span class="pre">Rot3</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.ATANCameraCal"><code class="docutils literal notranslate"><span class="pre">ATANCameraCal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Camera"><code class="docutils literal notranslate"><span class="pre">Camera</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.CameraCal"><code class="docutils literal notranslate"><span class="pre">CameraCal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.DoubleSphereCameraCal"><code class="docutils literal notranslate"><span class="pre">DoubleSphereCameraCal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.EquirectangularCameraCal"><code class="docutils literal notranslate"><span class="pre">EquirectangularCameraCal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.LinearCameraCal"><code class="docutils literal notranslate"><span class="pre">LinearCameraCal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.PolynomialCameraCal"><code class="docutils literal notranslate"><span class="pre">PolynomialCameraCal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.PosedCamera"><code class="docutils literal notranslate"><span class="pre">PosedCamera</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.SphericalCameraCal"><code class="docutils literal notranslate"><span class="pre">SphericalCameraCal</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.type_helpers.html#symforce.type_helpers.deduce_input_type"><code class="docutils literal notranslate"><span class="pre">deduce_input_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.type_helpers.html#symforce.type_helpers.deduce_input_types"><code class="docutils literal notranslate"><span class="pre">deduce_input_types()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.type_helpers.html#symforce.type_helpers.symbolic_inputs"><code class="docutils literal notranslate"><span class="pre">symbolic_inputs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.type_helpers.html#symforce.type_helpers.symbolic_eval"><code class="docutils literal notranslate"><span class="pre">symbolic_eval()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass"><code class="docutils literal notranslate"><span class="pre">Dataclass</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.typing.html#symforce.typing.any_args"><code class="docutils literal notranslate"><span class="pre">any_args()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.typing_util.html">symforce.typing_util module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="symforce.typing_util.html#symforce.typing_util.get_type"><code class="docutils literal notranslate"><span class="pre">get_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.typing_util.html#symforce.typing_util.scalar_like"><code class="docutils literal notranslate"><span class="pre">scalar_like()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.typing_util.html#symforce.typing_util.get_sequence_from_dataclass_sequence_field"><code class="docutils literal notranslate"><span class="pre">get_sequence_from_dataclass_sequence_field()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.typing_util.html#symforce.typing_util.maybe_tuples_of_types_from_annotation"><code class="docutils literal notranslate"><span class="pre">maybe_tuples_of_types_from_annotation()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -192,7 +624,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -209,7 +641,7 @@
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

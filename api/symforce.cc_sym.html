@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>symforce.cc_sym module &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,12 +39,12 @@
           <div class="body" role="main">
             
   <section id="symforce-cc-sym-module">
-<h1>symforce.cc_sym module<a class="headerlink" href="#symforce-cc-sym-module" title="Permalink to this headline">¶</a></h1>
+<h1>symforce.cc_sym module<a class="headerlink" href="#symforce-cc-sym-module" title="Permalink to this heading">¶</a></h1>
 <span class="target" id="module-cc_sym"></span><p>This module wraps many of the C++ optimization classes.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="cc_sym.Factor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Factor</span></span><a class="headerlink" href="#cc_sym.Factor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>A residual term for optimization.</p>
 <p>Created from a function and a set of Keys that act as inputs. Given a Values as an evaluation
 point, generates a linear approximation to the residual function.</p>
@@ -161,7 +163,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 <dl class="py class">
 <dt class="sig sig-object py" id="cc_sym.Key">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Key</span></span><a class="headerlink" href="#cc_sym.Key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>Key type for Values. Contains a letter plus an integral subscript and superscript. Can construct with a letter, a letter + sub, or a letter + sub + super, but not a letter + super.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="cc_sym.Key.INVALID_LETTER">
@@ -229,7 +231,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 <dl class="py class">
 <dt class="sig sig-object py" id="cc_sym.Linearization">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Linearization</span></span><a class="headerlink" href="#cc_sym.Linearization" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>Class for storing a problem linearization evaluated at a Values (i.e. a residual, jacobian, hessian, and rhs).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Linearization.__init__">
@@ -288,7 +290,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 <dl class="py class">
 <dt class="sig sig-object py" id="cc_sym.OptimizationStats">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OptimizationStats</span></span><a class="headerlink" href="#cc_sym.OptimizationStats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>Debug stats for a full optimization run.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.OptimizationStats.__init__">
@@ -345,7 +347,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 <dl class="py class">
 <dt class="sig sig-object py" id="cc_sym.Optimizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Optimizer</span></span><a class="headerlink" href="#cc_sym.Optimizer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>Class for optimizing a nonlinear least-squares problem specified as a list of Factors. For efficient use, create once and call Optimize() multiple times with different initial guesses, as long as the factors remain constant and the structure of the Values is identical.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.__init__">
@@ -471,7 +473,7 @@ important.  If passed, stats must not be None.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="cc_sym.Values">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Values</span></span><a class="headerlink" href="#cc_sym.Values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_builtins.pybind11_object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pybind11_object</span></code></p>
 <p>Efficient polymorphic data structure to store named types with a dict-like interface and
 support efficient repeated operations using a key index. Supports on-manifold optimization.</p>
 <p>Compatible types are given by the type_t enum. All types implement the StorageOps and
@@ -564,7 +566,7 @@ for repeated efficient operations on that subset of keys.</p>
 <span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_by_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all keys.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>sort_by_offset</strong> – Sorts by storage order to make iteration safer and more memory efficient</p>
 </dd>
 </dl>
@@ -575,7 +577,7 @@ for repeated efficient operations on that subset of keys.</p>
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">others</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">index_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.local_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Express this Values in the local coordinate of others Values, i.e., this ominus others</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>others</strong> – The other Values that the local coordinate is relative to</p></li>
 <li><p><strong>index</strong> – Ordered list of keys to include (MUST be valid for both this and others Values)</p></li>
@@ -610,7 +612,7 @@ Returns true if removed, false if already not present.</p>
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">index_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#cc_sym.Values.retract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a retraction from an update vector.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> – Ordered list of keys in the delta vector</p></li>
 <li><p><strong>delta</strong> – Update vector - MUST be the size of index.tangent_dim!</p></li>
@@ -1516,7 +1518,7 @@ index MUST be valid for other.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -1533,7 +1535,7 @@ index MUST be valid for other.</p>
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

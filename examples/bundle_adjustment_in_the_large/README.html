@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Bundle-Adjustment-in-the-Large &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -37,7 +39,7 @@
           <div class="body" role="main">
             
   <section id="bundle-adjustment-in-the-large">
-<h1>Bundle-Adjustment-in-the-Large<a class="headerlink" href="#bundle-adjustment-in-the-large" title="Permalink to this headline">¶</a></h1>
+<h1>Bundle-Adjustment-in-the-Large<a class="headerlink" href="#bundle-adjustment-in-the-large" title="Permalink to this heading">¶</a></h1>
 <p><a class="reference external" href="https://github.com/symforce-org/symforce/tree/main/symforce/examples/bundle_adjustment_in_the_large">Source on GitHub</a></p>
 <p>This example demonstrates bundle adjustment of camera extrinsics and intrinsics, as well as 3D landmark positions, for a Structure-from-Motion problem.  The example isn’t particularly optimized for performance, but demonstrates the simplest way to set this up with SymForce.</p>
 <p>We use the Bundle-Adjustment-in-the-Large dataset, as described here: https://grail.cs.washington.edu/projects/bal/</p>
@@ -45,17 +47,17 @@
 <p>The camera model is a simple polynomial model, and each image is assumed to be captured by a different camera with its own intrinsics.</p>
 <p>Ceres and GTSAM also have reference implementations for this dataset, see <a class="reference external" href="https://github.com/ceres-solver/ceres-solver/blob/master/examples/simple_bundle_adjuster.cc">here</a> for Ceres and <a class="reference external" href="https://github.com/devbharat/gtsam/blob/master/examples/SFMExample_bal.cpp">here</a> for GTSAM.</p>
 <section id="files">
-<h2>Files:<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h2>
+<h2>Files:<a class="headerlink" href="#files" title="Permalink to this heading">¶</a></h2>
 <section id="download-dataset-py">
-<h3><code class="docutils literal notranslate"><span class="pre">download_dataset.py</span></code>:<a class="headerlink" href="#download-dataset-py" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">download_dataset.py</span></code>:<a class="headerlink" href="#download-dataset-py" title="Permalink to this heading">¶</a></h3>
 <p>Script to download the dataset files into the <code class="docutils literal notranslate"><span class="pre">./data</span></code> folder, run this first if you’d like to run the example</p>
 </section>
 <section id="bundle-adjustment-in-the-large-py">
-<h3><code class="docutils literal notranslate"><span class="pre">bundle_adjustment_in_the_large.py</span></code><a class="headerlink" href="#bundle-adjustment-in-the-large-py" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">bundle_adjustment_in_the_large.py</span></code><a class="headerlink" href="#bundle-adjustment-in-the-large-py" title="Permalink to this heading">¶</a></h3>
 <p>Defines the symbolic residual function for the reprojection error factor, and a function to generate the symbolic factor into C++.  The <code class="docutils literal notranslate"><span class="pre">generate</span></code> function is called by <code class="docutils literal notranslate"><span class="pre">symforce/test/symforce_examples_bundle_adjustment_in_the_large_codegen_test.py</span></code> to generate everything in the <code class="docutils literal notranslate"><span class="pre">gen</span></code> directory.</p>
 </section>
 <section id="bundle-adjustment-in-the-large-cc">
-<h3><code class="docutils literal notranslate"><span class="pre">bundle_adjustment_in_the_large.cc</span></code><a class="headerlink" href="#bundle-adjustment-in-the-large-cc" title="Permalink to this headline">¶</a></h3>
+<h3><code class="docutils literal notranslate"><span class="pre">bundle_adjustment_in_the_large.cc</span></code><a class="headerlink" href="#bundle-adjustment-in-the-large-cc" title="Permalink to this heading">¶</a></h3>
 <p>This is the C++ file that actually runs the optimization.  It loads a dataset, builds a factor graph,
 and performs bundle adjustment.  See the comments there for more information.</p>
 </section>
@@ -148,7 +150,7 @@ and performs bundle adjustment.  See the comments there for more information.</p
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -165,7 +167,7 @@ and performs bundle adjustment.  See the comments there for more information.</p
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

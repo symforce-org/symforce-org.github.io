@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>symforce.ops.interfaces.lie_group module &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -37,11 +39,11 @@
           <div class="body" role="main">
             
   <section id="module-symforce.ops.interfaces.lie_group">
-<span id="symforce-ops-interfaces-lie-group-module"></span><h1>symforce.ops.interfaces.lie_group module<a class="headerlink" href="#module-symforce.ops.interfaces.lie_group" title="Permalink to this headline">¶</a></h1>
+<span id="symforce-ops-interfaces-lie-group-module"></span><h1>symforce.ops.interfaces.lie_group module<a class="headerlink" href="#module-symforce.ops.interfaces.lie_group" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.ops.interfaces.lie_group.LieGroup">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LieGroup</span></span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.group.html#symforce.ops.interfaces.group.Group" title="symforce.ops.interfaces.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.ops.interfaces.group.Group</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.group.html#symforce.ops.interfaces.group.Group" title="symforce.ops.interfaces.group.Group"><code class="xref py py-class docutils literal notranslate"><span class="pre">Group</span></code></a></p>
 <p>Interface for objects that implement the lie group concept. Because this
 class is registered using ClassLieGroupOps (see bottom of this file), any
 object that inherits from LieGroup and that implements the functions defined
@@ -60,7 +62,7 @@ StorageOps (assuming the necessary functions are implemented).</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tangent_dim</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.tangent_dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.tangent_dim" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dimension of the embedded manifold</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
 </dd>
 </dl>
@@ -71,14 +73,14 @@ StorageOps (assuming the necessary functions are implemented).</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.from_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.from_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping from the tangent space vector about identity into a group element.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>cls</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Type</span></code>[~LieGroupT]) – </p></li>
 <li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>~LieGroupT</p>
 </dd>
 </dl>
@@ -89,13 +91,13 @@ StorageOps (assuming the necessary functions are implemented).</p>
 <span class="sig-name descname"><span class="pre">to_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.to_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.interfaces.lie_group.LieGroup.to_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping from this element to the tangent space vector about identity.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>self</strong> (<em>~LieGroupT</em>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
 </dd>
 </dl>
@@ -109,14 +111,14 @@ to update nonlinear values from an update step in the tangent space.</p>
 <p>Implementation is simply <cite>compose(self, from_tangent(vec))</cite>.
 Conceptually represents “self + vec” if self is a vector.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>self</strong> (<em>~LieGroupT</em>) – </p></li>
 <li><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>~LieGroupT</p>
 </dd>
 </dl>
@@ -130,14 +132,14 @@ to minimize the distance between two group elements.</p>
 <p>Implementation is simply <cite>to_tangent(between(self, b))</cite>.
 Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>self</strong> (<em>~LieGroupT</em>) – </p></li>
 <li><p><strong>b</strong> (<em>~LieGroupT</em>) – </p></li>
 <li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
 </dd>
 </dl>
@@ -262,7 +264,7 @@ Tangent space perturbation that conceptually represents “b - self” if self i
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -279,7 +281,7 @@ Tangent space perturbation that conceptually represents “b - self” if self i
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

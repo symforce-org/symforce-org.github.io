@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Geometry Tutorial &#8212; symforce 0.6.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -13,7 +13,9 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -253,6 +255,7 @@ div.nboutput.container div.output_area > div[class^='highlight']{
 }
 
 /* Some additional styling taken form the Jupyter notebook CSS */
+.jp-RenderedHTMLCommon table,
 div.rendered_html table {
   border: none;
   border-collapse: collapse;
@@ -261,10 +264,14 @@ div.rendered_html table {
   font-size: 12px;
   table-layout: fixed;
 }
+.jp-RenderedHTMLCommon thead,
 div.rendered_html thead {
   border-bottom: 1px solid black;
   vertical-align: bottom;
 }
+.jp-RenderedHTMLCommon tr,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon td,
 div.rendered_html tr,
 div.rendered_html th,
 div.rendered_html td {
@@ -276,18 +283,21 @@ div.rendered_html td {
   max-width: none;
   border: none;
 }
+.jp-RenderedHTMLCommon th,
 div.rendered_html th {
   font-weight: bold;
 }
+.jp-RenderedHTMLCommon tbody tr:nth-child(odd),
 div.rendered_html tbody tr:nth-child(odd) {
   background: #f5f5f5;
 }
+.jp-RenderedHTMLCommon tbody tr:hover,
 div.rendered_html tbody tr:hover {
   background: rgba(66, 165, 245, 0.2);
 }
 </style>
 <section id="Geometry-Tutorial">
-<h1>Geometry Tutorial<a class="headerlink" href="#Geometry-Tutorial" title="Permalink to this headline">¶</a></h1>
+<h1>Geometry Tutorial<a class="headerlink" href="#Geometry-Tutorial" title="Permalink to this heading">¶</a></h1>
 <p>This is an introductory walkthrough of the symbolic <a class="reference external" href="../api/symforce.geo.html">geometry package</a> in symforce. Symforce natively contains the following geometry objects: complex numbers, quaternions, dual quaternions, matrices, 2D and 3D rotations, and 2D and 3D poses (translation + rotation).</p>
 <p>In this tutorial we will demonstrate a few of the ways these geometry objects can be constructed and composed. Here we pay special attention to 3D rotations, poses, and vectors, as they are typically the most commonly used geometric objects.</p>
 <div class="nbinput nblast docutils container">
@@ -307,7 +317,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <section id="Rotations">
-<h2>Rotations<a class="headerlink" href="#Rotations" title="Permalink to this headline">¶</a></h2>
+<h2>Rotations<a class="headerlink" href="#Rotations" title="Permalink to this heading">¶</a></h2>
 <p>Rotations can be defined from and converted to a number of different representations as shown below, but always use a quaternion as the underlying representation. We use the notation world_R_body to represent a rotation that rotates a point written in the body frame into the world frame.</p>
 <p>Note that in some cases a small epsilon can be provided to prevent numerical errors (e.g. division by zero) when converting to/from rotation representations. Furthermore, converting between certain representations can require additional symbolic expressions to guard against degenerate cases. For example, a rotation constructed from a rotation matrix results in more complexity than when constructed using an axis-angle representation as shown below.</p>
 <div class="nbinput docutils container">
@@ -513,7 +523,7 @@ $\displaystyle \left[\begin{matrix}- 0.662947416398295 p_{0} - 0.554353314451006
 </div>
 </section>
 <section id="Poses">
-<h2>Poses<a class="headerlink" href="#Poses" title="Permalink to this headline">¶</a></h2>
+<h2>Poses<a class="headerlink" href="#Poses" title="Permalink to this heading">¶</a></h2>
 <p>Poses are defined as a rotation plus a translation, and are constructed as such. We use the notation world_T_body to represent a pose that transforms from the body frame to the world frame.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
@@ -611,7 +621,7 @@ $\displaystyle \left[\begin{matrix}p_{0} \left(- 2 R_{y}^{2} - 2 R_{z}^{2} + 1\r
 </div>
 </section>
 <section id="Vectors-and-Matrices">
-<h2>Vectors and Matrices<a class="headerlink" href="#Vectors-and-Matrices" title="Permalink to this headline">¶</a></h2>
+<h2>Vectors and Matrices<a class="headerlink" href="#Vectors-and-Matrices" title="Permalink to this heading">¶</a></h2>
 <p>Vectors and matrices are all represented using subclasses of sf.Matrix class, and can be constructed in several different ways as shown below.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
@@ -800,9 +810,9 @@ $\displaystyle \left( 3, \  3\right)$</div></div>
 </div>
 </section>
 <section id="General-properties-of-geo-objects">
-<h2>General properties of geo objects<a class="headerlink" href="#General-properties-of-geo-objects" title="Permalink to this headline">¶</a></h2>
+<h2>General properties of geo objects<a class="headerlink" href="#General-properties-of-geo-objects" title="Permalink to this heading">¶</a></h2>
 <section id="Storage-operations">
-<h3>Storage operations<a class="headerlink" href="#Storage-operations" title="Permalink to this headline">¶</a></h3>
+<h3>Storage operations<a class="headerlink" href="#Storage-operations" title="Permalink to this heading">¶</a></h3>
 <p>All geometric types implement the “Storage” interface. This means that they can:</p>
 <ol class="arabic simple">
 <li><p>Be serialized into a list of scalar expressions (<code class="docutils literal notranslate"><span class="pre">.to_storage()</span></code>)</p></li>
@@ -887,7 +897,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 </section>
 <section id="Group-operations">
-<h3>Group operations<a class="headerlink" href="#Group-operations" title="Permalink to this headline">¶</a></h3>
+<h3>Group operations<a class="headerlink" href="#Group-operations" title="Permalink to this heading">¶</a></h3>
 <p>All geometric types also implement the “Group” interface, meaning that geometric objects:</p>
 <ol class="arabic simple">
 <li><p>Can be composed with objects of the same type to produce an object of the same type (<code class="docutils literal notranslate"><span class="pre">.compose()</span></code>)</p></li>
@@ -913,7 +923,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.310385788469879, 0.949612585328839, 0.0212209006653769, -0.0380299023922031]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.552745181135534, 0.610004400235210, -0.288808758594664, -0.488832177116172]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -932,7 +942,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.534577518363646, -0.0771449451936366, -0.646985534571582, 0.538224165516898]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.0870701329003126, 0.360884564192675, 0.0622990961963525, -0.926444788369659]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -940,7 +950,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.534577518363646, -0.0771449451936366, -0.646985534571582, 0.538224165516898]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.0870701329003126, 0.360884564192675, 0.0622990961963525, -0.926444788369659]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -986,7 +996,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.800135583768032, 0.296011294875447, 0.518403038735584, 0.0584692254443784]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.696879920777827, -0.379434502060523, 0.0454288040596162, 0.606897073995653]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -994,12 +1004,12 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.800135583768032, 0.296011294875447, 0.518403038735584, 0.0584692254443784]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.696879920777827, -0.379434502060523, 0.0454288040596162, 0.606897073995653]&gt;&gt;
 </pre></div></div>
 </div>
 </section>
 <section id="Lie-Group-operations">
-<h3>Lie Group operations<a class="headerlink" href="#Lie-Group-operations" title="Permalink to this headline">¶</a></h3>
+<h3>Lie Group operations<a class="headerlink" href="#Lie-Group-operations" title="Permalink to this heading">¶</a></h3>
 <p>Rotations, poses, and matrices all implement the “LieGroup” interface, meaning that they each have a tangent space. There are many great references on Lie groups out there already, so instead of introducing them here, we recommend checking out <a class="reference external" href="https://github.com/borglab/gtsam/blob/develop/doc/LieGroups.pdf">Frank Dellaert’s</a>, <a class="reference external" href="https://www.ethaneade.com/lie.pdf">Ethan Eade’s</a>, or <a class="reference external" href="https://ingmec.ual.es/~jlblanco/papers/jlblanco2010geometry3D_techrep.pdf">JL Blanco’s</a> tutorials. In
 SymForce, objects which are a Lie Group can:</p>
 <ol class="arabic simple">
@@ -1029,7 +1039,7 @@ SymForce, objects which are a Lie Group can:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.296784058786147, 0.703149446216634, 0.165696558712104, 0.624535610807444]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.696979428956104, 0.653553461507129, 0.0669598212306018, 0.287408995866237]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1037,7 +1047,7 @@ SymForce, objects which are a Lie Group can:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.296784058786147, 0.703149446216634, 0.165696558712104, 0.624535610807444]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.696979428956104, 0.653553461507129, 0.0669598212306018, 0.287408995866237]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1062,7 +1072,7 @@ SymForce, objects which are a Lie Group can:</p>
 </div>
 <div class="output_area docutils container">
 <div class="math notranslate nohighlight">
-$\displaystyle \left[ 0.1, \  2.3, \  -0.5\right]$</div></div>
+$\displaystyle \left[ 0.0999999999999998, \  2.3, \  -0.5\right]$</div></div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
@@ -1085,7 +1095,7 @@ $\displaystyle \left[ 0.1, \  2.3, \  -0.5\right]$</div></div>
 </section>
 </section>
 <section id="Poses-and-SE(n)">
-<h2>Poses and SE(n)<a class="headerlink" href="#Poses-and-SE(n)" title="Permalink to this headline">¶</a></h2>
+<h2>Poses and SE(n)<a class="headerlink" href="#Poses-and-SE(n)" title="Permalink to this heading">¶</a></h2>
 <p>Poses in robotics are often represented using the <a class="reference external" href="https://en.wikipedia.org/wiki/Euclidean_group">Special Euclidean group</a>, SE(2) and SE(3) for 2D and 3D respectively. Additionally, the manifold is often defined so that the <code class="docutils literal notranslate"><span class="pre">from_tangent</span></code> function is the matrix exponential of a linear combination of generators.</p>
 <p>This has the advantage of simpler theoretical treatment in some cases, but has disadvantages in terms of the number of operations required to implement commonly used functions like <code class="docutils literal notranslate"><span class="pre">retract</span></code>. For these reasons, instead of using the SE(n) <code class="docutils literal notranslate"><span class="pre">from_tangent</span></code> and <code class="docutils literal notranslate"><span class="pre">to_tangent</span></code> functions, ours decouple the perturbations to rotation and translation. This means our <code class="docutils literal notranslate"><span class="pre">Pose2</span></code> and <code class="docutils literal notranslate"><span class="pre">Pose3</span></code> objects represent neither <code class="docutils literal notranslate"><span class="pre">SE(n)</span></code> nor <code class="docutils literal notranslate"><span class="pre">SO(n)</span> <span class="pre">x</span> <span class="pre">R^n</span></code>; they compose like objects on <code class="docutils literal notranslate"><span class="pre">SE(n)</span></code> but have tangent
 space operations analogous to <code class="docutils literal notranslate"><span class="pre">SO(n)</span> <span class="pre">x</span> <span class="pre">R^n</span></code>.</p>
@@ -1191,7 +1201,7 @@ space operations analogous to <code class="docutils literal notranslate"><span c
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -1208,7 +1218,7 @@ space operations analogous to <code class="docutils literal notranslate"><span c
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
