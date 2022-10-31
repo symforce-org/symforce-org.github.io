@@ -149,7 +149,34 @@
         <span class="p">)</span>
         <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">_b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">_res</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">_b</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">_res</span></div></div>
+        <span class="k">return</span> <span class="n">_res</span></div>
+
+<div class="viewcode-block" id="LieGroupOps.interpolate"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.pose2.lie_group_ops.html#sym.ops.pose2.lie_group_ops.LieGroupOps.interpolate">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
+        <span class="c1"># type: (sym.Pose2, sym.Pose2, float, float) -&gt; sym.Pose2</span>
+
+        <span class="c1"># Total ops: 26</span>
+
+        <span class="c1"># Input arrays</span>
+        <span class="n">_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">_b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">data</span>
+
+        <span class="c1"># Intermediate terms (4)</span>
+        <span class="n">_tmp0</span> <span class="o">=</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">_tmp1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span>
+            <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">_tmp0</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="p">((</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">_tmp0</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_tmp0</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">_tmp2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">_tmp1</span><span class="p">)</span>
+        <span class="n">_tmp3</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_tmp1</span><span class="p">)</span>
+
+        <span class="c1"># Output terms</span>
+        <span class="n">_res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_tmp3</span> <span class="o">-</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_tmp2</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_tmp2</span> <span class="o">+</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_tmp3</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">_b</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">_a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">_b</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">sym</span><span class="o">.</span><span class="n">Pose2</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
