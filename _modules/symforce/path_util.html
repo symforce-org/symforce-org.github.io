@@ -95,6 +95,28 @@
 
 <div class="viewcode-block" id="binary_output_dir"><a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.binary_output_dir">[docs]</a><span class="k">def</span> <span class="nf">binary_output_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">_Manifest</span><span class="o">.</span><span class="n">get_entry</span><span class="p">(</span><span class="s2">&quot;binary_output_dir&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="symforce_root"><a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.symforce_root">[docs]</a><span class="k">def</span> <span class="nf">symforce_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The root directory of the symforce project</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span></div>
+
+
+<div class="viewcode-block" id="symforce_data_root"><a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.symforce_data_root">[docs]</a><span class="k">def</span> <span class="nf">symforce_data_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The root directory of the symforce project, for use accessing data that might need to be updated</span>
+<span class="sd">    (such as generated files).  Most of the time this is the same as `symforce_root()`, but when</span>
+<span class="sd">    the `--update` flag is passed to a test, this is guaranteed to point to the _resolved_ version,</span>
+<span class="sd">    i.e. the actual symforce location on disk regardless of whether this path is a symlink.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">symforce.test_util.test_case_mixin</span> <span class="kn">import</span> <span class="n">SymforceTestCaseMixin</span>
+
+    <span class="k">if</span> <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">should_update</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">symforce_root</span><span class="p">()</span></div>
 </pre></div>
 
           </div>

@@ -43,11 +43,11 @@
 
 <span class="kn">import</span> <span class="nn">difflib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -70,12 +70,21 @@
 
     <span class="c1"># Set by the --update flag to tell tests that compare against some saved</span>
     <span class="c1"># data to update that data instead of failing</span>
-    <span class="n">UPDATE</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">_UPDATE</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="n">KEEP_PATHS</span> <span class="o">=</span> <span class="p">[</span>
         <span class="sa">r</span><span class="s2">&quot;.*/__pycache__/.*&quot;</span><span class="p">,</span>
         <span class="sa">r</span><span class="s2">&quot;.*\.pyc&quot;</span><span class="p">,</span>
     <span class="p">]</span>
+
+<div class="viewcode-block" id="SymforceTestCaseMixin.should_update"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.should_update">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">should_update</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="c1"># NOTE(aaron):  This needs to be accessible before main() is called, so we do it here</span>
+        <span class="c1"># instead.  This should also be called from main to make sure it runs at least once</span>
+        <span class="k">if</span> <span class="s2">&quot;--update&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
+            <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">_UPDATE</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;--update&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">_UPDATE</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.__init__"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">methodName</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;runTest&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">methodName</span><span class="p">)</span>
@@ -89,11 +98,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call this to run all tests in scope.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Sneak through options to expose to tests</span>
-        <span class="k">if</span> <span class="s2">&quot;--update&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span>
-            <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">UPDATE</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;--update&quot;</span><span class="p">)</span>
-
+        <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">should_update</span><span class="p">()</span>
         <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.assertStorageNear"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.assertStorageNear">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -163,7 +168,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SymforceTestCaseMixin.make_output_dir"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.make_output_dir">[docs]</a>    <span class="k">def</span> <span class="nf">make_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/tmp&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="SymforceTestCaseMixin.make_output_dir"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.make_output_dir">[docs]</a>    <span class="k">def</span> <span class="nf">make_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a temporary output directory, which will be automatically removed (regardless of</span>
 <span class="sd">        exceptions) on shutdown, unless logger.level is DEBUG</span>
@@ -175,7 +180,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The absolute path to the created output directory</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">output_dir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">directory</span><span class="p">)</span>
+        <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">directory</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating temp directory: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output_dir</span></div>
@@ -191,7 +196,7 @@
         <span class="n">codegen_config</span><span class="o">.</span><span class="n">DEFAULT_ZERO_EPSILON_BEHAVIOR</span> <span class="o">=</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">ZeroEpsilonBehavior</span><span class="o">.</span><span class="n">FAIL</span>
 
         <span class="c1"># Storage for temporary output directories</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_dirs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_dirs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.tearDown"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -207,19 +212,19 @@
 <span class="sd">        Compare the given data to what is saved in path, OR update the saved data if</span>
 <span class="sd">        the --update flag was passed to the test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_update</span><span class="p">():</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Updating data at: &quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
-            <span class="n">dirname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">dirname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dirname</span><span class="p">):</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
+            <span class="n">dirname</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">parent</span>
+            <span class="k">if</span> <span class="n">dirname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dirname</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">dirname</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Comparing data at: &quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">expected_data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">expected_data</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">expected_data</span><span class="p">:</span>
                 <span class="n">diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">unified_diff</span><span class="p">(</span>
@@ -233,9 +238,7 @@
                 <span class="p">)</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.compare_or_update_file"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.compare_or_update_file">[docs]</a>    <span class="k">def</span> <span class="nf">compare_or_update_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">new_file</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">code</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compare_or_update</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">code</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compare_or_update</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="n">new_file</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span></div>
 
     <span class="k">def</span> <span class="nf">_filtered_paths_in_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -252,23 +255,24 @@
 <span class="sd">        Check the contents of actual_dir match expected_dir, OR update the expected directory</span>
 <span class="sd">        if the --update flag was passed to the test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">actual_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">actual_dir</span><span class="p">)</span>
+        <span class="n">expected_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">expected_dir</span><span class="p">)</span>
+
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Comparing directories: actual=&quot;</span><span class="si">{</span><span class="n">actual_dir</span><span class="si">}</span><span class="s1">&quot;, expected=&quot;</span><span class="si">{</span><span class="n">expected_dir</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
         <span class="n">actual_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filtered_paths_in_dir</span><span class="p">(</span><span class="n">actual_dir</span><span class="p">)</span>
         <span class="n">expected_paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filtered_paths_in_dir</span><span class="p">(</span><span class="n">expected_dir</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">should_update</span><span class="p">():</span>
             <span class="c1"># If checking, make sure all file paths are the same</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">assertSequenceEqual</span><span class="p">(</span><span class="n">actual_paths</span><span class="p">,</span> <span class="n">expected_paths</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># If updating, remove any expected files not in actual</span>
             <span class="k">for</span> <span class="n">only_in_expected</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">expected_paths</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">actual_paths</span><span class="p">)):</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expected_dir</span><span class="p">,</span> <span class="n">only_in_expected</span><span class="p">))</span>
+                <span class="p">(</span><span class="n">expected_dir</span> <span class="o">/</span> <span class="n">only_in_expected</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">actual_paths</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compare_or_update_file</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expected_dir</span><span class="p">,</span> <span class="n">path</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">actual_dir</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
-            <span class="p">)</span></div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compare_or_update_file</span><span class="p">(</span><span class="n">expected_dir</span> <span class="o">/</span> <span class="n">path</span><span class="p">,</span> <span class="n">actual_dir</span> <span class="o">/</span> <span class="n">path</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

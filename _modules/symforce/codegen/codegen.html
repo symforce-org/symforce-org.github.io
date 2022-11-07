@@ -513,9 +513,9 @@
         <span class="p">)</span>
 
         <span class="c1"># Maps typenames to generated types</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">typenames_dict</span> <span class="o">=</span> <span class="n">types_codegen_data</span><span class="p">[</span><span class="s2">&quot;typenames_dict&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typenames_dict</span> <span class="o">=</span> <span class="n">types_codegen_data</span><span class="o">.</span><span class="n">typenames_dict</span>
         <span class="c1"># Maps typenames to namespaces</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">namespaces_dict</span> <span class="o">=</span> <span class="n">types_codegen_data</span><span class="p">[</span><span class="s2">&quot;namespaces_dict&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">namespaces_dict</span> <span class="o">=</span> <span class="n">types_codegen_data</span><span class="o">.</span><span class="n">namespaces_dict</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">namespaces_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unique_namespaces</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">namespaces_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
@@ -546,17 +546,17 @@
         <span class="n">templates</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">autoformat</span><span class="p">)</span>
 
         <span class="n">lcm_data</span> <span class="o">=</span> <span class="n">codegen_util</span><span class="o">.</span><span class="n">generate_lcm_types</span><span class="p">(</span>
-            <span class="n">lcm_type_dir</span><span class="o">=</span><span class="n">types_codegen_data</span><span class="p">[</span><span class="s2">&quot;lcm_type_dir&quot;</span><span class="p">],</span>
-            <span class="n">lcm_files</span><span class="o">=</span><span class="n">types_codegen_data</span><span class="p">[</span><span class="s2">&quot;lcm_files&quot;</span><span class="p">],</span>
-            <span class="n">lcm_output_dir</span><span class="o">=</span><span class="n">types_codegen_data</span><span class="p">[</span><span class="s2">&quot;lcm_bindings_output_dir&quot;</span><span class="p">],</span>
+            <span class="n">lcm_type_dir</span><span class="o">=</span><span class="n">types_codegen_data</span><span class="o">.</span><span class="n">lcm_type_dir</span><span class="p">,</span>
+            <span class="n">lcm_files</span><span class="o">=</span><span class="n">types_codegen_data</span><span class="o">.</span><span class="n">lcm_files</span><span class="p">,</span>
+            <span class="n">lcm_output_dir</span><span class="o">=</span><span class="n">types_codegen_data</span><span class="o">.</span><span class="n">lcm_bindings_output_dir</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">GeneratedPaths</span><span class="p">(</span>
             <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
-            <span class="n">lcm_type_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">types_codegen_data</span><span class="p">[</span><span class="s2">&quot;lcm_type_dir&quot;</span><span class="p">]),</span>
+            <span class="n">lcm_type_dir</span><span class="o">=</span><span class="n">types_codegen_data</span><span class="o">.</span><span class="n">lcm_type_dir</span><span class="p">,</span>
             <span class="n">function_dir</span><span class="o">=</span><span class="n">out_function_dir</span><span class="p">,</span>
-            <span class="n">python_types_dir</span><span class="o">=</span><span class="n">lcm_data</span><span class="p">[</span><span class="s2">&quot;python_types_dir&quot;</span><span class="p">],</span>
-            <span class="n">cpp_types_dir</span><span class="o">=</span><span class="n">lcm_data</span><span class="p">[</span><span class="s2">&quot;cpp_types_dir&quot;</span><span class="p">],</span>
+            <span class="n">python_types_dir</span><span class="o">=</span><span class="n">lcm_data</span><span class="o">.</span><span class="n">python_types_dir</span><span class="p">,</span>
+            <span class="n">cpp_types_dir</span><span class="o">=</span><span class="n">lcm_data</span><span class="o">.</span><span class="n">cpp_types_dir</span><span class="p">,</span>
             <span class="n">generated_files</span><span class="o">=</span><span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">output_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">templates</span><span class="o">.</span><span class="n">items</span><span class="p">],</span>
         <span class="p">)</span></div>
 

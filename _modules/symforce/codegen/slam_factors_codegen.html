@@ -51,7 +51,7 @@
 <span class="sd">a pixel in the target camera.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">codegen</span>
@@ -324,7 +324,7 @@
     <span class="k">return</span> <span class="n">whitened_residual</span></div>
 
 
-<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CodegenConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CodegenConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the SLAM package for the given language.</span>
 
@@ -333,7 +333,7 @@
 <span class="sd">        config: CodegenConfig, defaults to the default C++ config</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Subdirectory for everything we&#39;ll generate</span>
-    <span class="n">factors_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="s2">&quot;factors&quot;</span><span class="p">)</span>
+    <span class="n">factors_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;factors&quot;</span>
 
     <span class="c1"># default config to CppConfig</span>
     <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
