@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>File values.h &#8212; symforce 0.6.0 documentation</title>
+    <title>File values.h &#8212; symforce 0.6.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
@@ -268,6 +268,21 @@
 <span class="target" id="classsym_1_1Values_1ad9aaa6044ecf2330ef209e6fa6dc3f91"></span><a class="reference internal" href="../class/classsym_1_1Values.html#_CPPv4N3sym6Values7LcmTypeE" title="sym::Values::LcmType"><span class="n"><span class="pre">LcmType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">GetLcmType</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
 <dd></dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym6Values2IdEv">
+<span class="target" id="classsym_1_1Values_1a502201320349a2fdf63fb719a428f434"></span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Id</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd><p>Unique ID of this <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Values"><span class="std std-ref">Values</span></a> instance, incremented whenever the structure of the <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Values"><span class="std std-ref">Values</span></a> is changed, eg. by adding or removing entries or calling <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Values_1afd9597aa0598a965f56ce80f33877876"><span class="std std-ref">Cleanup()</span></a>. So the consumer of <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Values"><span class="std std-ref">Values</span></a> who cached its index_entry_t based on previous structure would know that the index needs to be updated.</p>
+<p>Should always be &gt; 0. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym6Values10kInvalidIdE">
+<span class="target" id="classsym_1_1Values_1acc699eee41ebf43090d94dc55e4dfa09"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kInvalidId</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><br /></dt>
+<dd></dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-functions">Protected Functions</p>
@@ -292,6 +307,24 @@
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym6Values5data_E">
 <span class="target" id="classsym_1_1Values_1a81c35047cad04c95848603c616605826"></span><a class="reference internal" href="../class/classsym_1_1Values.html#_CPPv4N3sym6Values9ArrayTypeE" title="sym::Values::ArrayType"><span class="n"><span class="pre">ArrayType</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">data_</span></span></span><a class="headerlink" href="#_CPPv4N3sym6Values5data_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym6Values10unique_id_E">
+<span class="target" id="classsym_1_1Values_1a91b07f5ff79372db79a3c3331c109a52"></span><span class="k"><span class="pre">mutable</span></span><span class="w"> </span><span class="n"><span class="pre">int64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unique_id_</span></span></span><a class="headerlink" href="#_CPPv4N3sym6Values10unique_id_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym6Values22structure_has_changed_E">
+<span class="target" id="classsym_1_1Values_1af79949b8127a5ab71e78e73fc79c2898"></span><span class="k"><span class="pre">mutable</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">structure_has_changed_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="k"><span class="pre">true</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N3sym6Values22structure_has_changed_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-static-attributes">Protected Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym6Values7next_idE">
+<span class="target" id="classsym_1_1Values_1afa8b89028d7322d5dd149e3078a58bab"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">atomic</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">int64_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">next_id</span></span></span><a class="headerlink" href="#_CPPv4N3sym6Values7next_idE" title="Permalink to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 </div>
