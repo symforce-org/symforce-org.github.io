@@ -112,7 +112,7 @@
         <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">return_key</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">sparse_matrices</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sparse_matrices</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -277,6 +277,7 @@
         <span class="n">input_types</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">ElementOrType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">output_names</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">return_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sparse_matrices</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Codegen</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -296,6 +297,7 @@
 <span class="sd">                function name.  Must be provided if `func` is a lambda</span>
 <span class="sd">            output_names: Optional if only one object is returned by the function.</span>
 <span class="sd">                If multiple objects are returned, they must be named.</span>
+<span class="sd">            sparse_matrices: Outputs with this key will be returned as sparse matrices</span>
 <span class="sd">            return_key: If multiple objects are returned, the generated function will return</span>
 <span class="sd">                the object with this name (must be in output_names)</span>
 <span class="sd">            docstring: The docstring to be used with the generated function.  Default is to use the</span>
@@ -352,6 +354,7 @@
             <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="n">return_key</span><span class="o">=</span><span class="n">return_key</span><span class="p">,</span>
+            <span class="n">sparse_matrices</span><span class="o">=</span><span class="n">sparse_matrices</span><span class="p">,</span>
             <span class="n">docstring</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">docstring</span><span class="p">),</span>
         <span class="p">)</span></div>
 
