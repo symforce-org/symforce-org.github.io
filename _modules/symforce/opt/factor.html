@@ -104,7 +104,9 @@
         <span class="c1"># call `__init__()`, and can instead call `__new__()` + `_initialize()` and pass its own</span>
         <span class="c1"># codegen object constructed using the default codegen object constructor.</span>
         <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span>
+                <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span>
             <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span>
             <span class="n">codegen_obj</span><span class="o">=</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
@@ -145,7 +147,9 @@
 <span class="sd">                numeric factor. See `Codegen.__init__()` for details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span>
+                <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span>
             <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span>

@@ -262,7 +262,9 @@
             <span class="n">optimized_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">()</span>
         <span class="n">numeric_factors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># we temp generate the factors, so skip formating to save time</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span>
+            <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_symbolic_factors</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">):</span>
             <span class="n">factor_optimized_keys</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">opt_key</span> <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">optimized_keys</span> <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">keys</span>

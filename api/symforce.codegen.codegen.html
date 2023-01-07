@@ -122,6 +122,13 @@
 
 </dd></dl>
 
+<dl class="py exception">
+<dt class="sig sig-object py" id="symforce.codegen.codegen.InvalidNamespaceError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InvalidNamespaceError</span></span><a class="reference internal" href="../_modules/symforce/codegen/codegen.html#InvalidNamespaceError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen.InvalidNamespaceError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
+<p>Exception class for attempting codegen with an invalid namespace</p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.codegen.codegen.Codegen">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Codegen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_matrices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">docstring</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen.html#Codegen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen.Codegen" title="Permalink to this definition">¶</a></dt>
@@ -263,7 +270,8 @@ be located in a subdirectory with name equal to the namespace argument.</p></li>
 <li><p><strong>lcm_bindings_output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Directory in which to output language-specific LCM bindings</p></li>
 <li><p><strong>shared_types</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Mapping between types defined as part of this codegen object (e.g. keys in
 self.inputs that map to Values objects) and previously generated external types.</p></li>
-<li><p><strong>namespace</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Namespace for the generated function and any generated types.</p></li>
+<li><p><strong>namespace</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Namespace for the generated function and any generated types.  Must be a
+valid identifier, nested namespaces are not supported.</p></li>
 <li><p><strong>generated_file_name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Stem for the filename into which the function is generated, with
 no file extension</p></li>
 <li><p><strong>skip_directory_nesting</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Generate the output file directly into output_dir instead of

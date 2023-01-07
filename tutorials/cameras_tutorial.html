@@ -150,10 +150,11 @@ div.nboutput.container div.prompt > div {
     }
 }
 
-/* disable scrollbars on prompts */
+/* disable scrollbars and line breaks on prompts */
 div.nbinput.container div.prompt pre,
 div.nboutput.container div.prompt pre {
     overflow: hidden;
+    white-space: pre;
 }
 
 /* input/output area */
@@ -303,14 +304,14 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup</span>
-<span class="kn">import</span> <span class="nn">symforce</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Setup
+import symforce
 
-<span class="n">symforce</span><span class="o">.</span><span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;sympy&quot;</span><span class="p">)</span>
-<span class="n">symforce</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s2">&quot;warning&quot;</span><span class="p">)</span>
+symforce.set_symbolic_api(&quot;sympy&quot;)
+symforce.set_log_level(&quot;warning&quot;)
 
-<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display</span>
-<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+from symforce.notebook_util import display
+import symforce.symbolic as sf
 </pre></div>
 </div>
 </div>
@@ -319,8 +320,8 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_camera_cal</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">LinearCameraCal</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;cal&quot;</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">linear_camera_cal</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>linear_camera_cal = sf.LinearCameraCal.symbolic(&quot;cal&quot;)
+display(linear_camera_cal)
 </pre></div>
 </div>
 </div>
@@ -340,9 +341,9 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">camera_point</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
-<span class="n">camera_ray</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linear_camera_cal</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">(</span><span class="n">camera_point</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">camera_ray</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>camera_point = sf.V3.symbolic(&quot;p&quot;)
+camera_ray, _ = linear_camera_cal.camera_ray_from_pixel(camera_point)
+display(camera_ray)
 </pre></div>
 </div>
 </div>
@@ -357,10 +358,10 @@ $\displaystyle \left[\begin{matrix}\frac{- cal.c_{x} + p_{0}}{cal.f_{x}}\\\frac{
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">camera_point_reprojected</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linear_camera_cal</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span>
-    <span class="n">camera_ray</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">camera_point_reprojected</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>camera_point_reprojected, _ = linear_camera_cal.pixel_from_camera_point(
+    camera_ray,
+)
+display(camera_point_reprojected)
 </pre></div>
 </div>
 </div>
@@ -376,14 +377,14 @@ $\displaystyle \left[\begin{matrix}p_{0}\\p_{1}\end{matrix}\right]$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_camera</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Camera</span><span class="p">(</span>
-    <span class="n">calibration</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">LinearCameraCal</span><span class="p">(</span>
-        <span class="n">focal_length</span><span class="o">=</span><span class="p">(</span><span class="mi">440</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span>
-        <span class="n">principal_point</span><span class="o">=</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">),</span>
-    <span class="p">),</span>
-    <span class="n">image_size</span><span class="o">=</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">),</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">linear_camera</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>linear_camera = sf.Camera(
+    calibration=sf.LinearCameraCal(
+        focal_length=(440, 400),
+        principal_point=(320, 240),
+    ),
+    image_size=(640, 480),
+)
+display(linear_camera)
 </pre></div>
 </div>
 </div>
@@ -405,17 +406,17 @@ $\displaystyle \left[\begin{matrix}p_{0}\\p_{1}\end{matrix}\right]$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point_in_FOV</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">point_outside_FOV</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="p">(</span><span class="n">point_in_FOV</span><span class="p">,</span> <span class="n">point_outside_FOV</span><span class="p">):</span>
-    <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">linear_camera</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;point=</span><span class="si">{}</span><span class="s2"> -&gt; pixel=</span><span class="si">{}</span><span class="s2">, is_valid=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">point</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
-            <span class="n">pixel</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
-            <span class="n">is_valid</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>point_in_FOV = sf.V3(0, 0, 1)
+point_outside_FOV = sf.V3(100, 0, 1)
+for point in (point_in_FOV, point_outside_FOV):
+    pixel, is_valid = linear_camera.pixel_from_camera_point(point)
+    print(
+        &quot;point={} -&gt; pixel={}, is_valid={}&quot;.format(
+            point.to_storage(),
+            pixel.to_storage(),
+            is_valid,
+        )
+    )
 </pre></div>
 </div>
 </div>
@@ -433,16 +434,16 @@ point=[100, 0, 1] -&gt; pixel=[44320, 240], is_valid=0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">linear_posed_camera</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span>
-    <span class="n">pose</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">(</span>
-        <span class="c1"># camera is spun 180 degrees about y-axis</span>
-        <span class="n">R</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-        <span class="n">t</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(),</span>
-    <span class="p">),</span>
-    <span class="n">calibration</span><span class="o">=</span><span class="n">linear_camera</span><span class="o">.</span><span class="n">calibration</span><span class="p">,</span>
-    <span class="n">image_size</span><span class="o">=</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">480</span><span class="p">),</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">linear_posed_camera</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>linear_posed_camera = sf.PosedCamera(
+    pose=sf.Pose3(
+        # camera is spun 180 degrees about y-axis
+        R=sf.Rot3.from_yaw_pitch_roll(0, sf.pi, 0),
+        t=sf.V3(),
+    ),
+    calibration=linear_camera.calibration,
+    image_size=(640, 480),
+)
+display(linear_posed_camera)
 </pre></div>
 </div>
 </div>
@@ -466,20 +467,20 @@ point=[100, 0, 1] -&gt; pixel=[44320, 240], is_valid=0
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_point</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">&quot;point in global coordinates=</span><span class="si">{}</span><span class="s2"> (in camera coordinates=</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">global_point</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
-        <span class="p">(</span><span class="n">linear_posed_camera</span><span class="o">.</span><span class="n">pose</span> <span class="o">*</span> <span class="n">global_point</span><span class="p">)</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>global_point = sf.V3(0, 0, -1)
+print(
+    &quot;point in global coordinates={} (in camera coordinates={})&quot;.format(
+        global_point.to_storage(),
+        (linear_posed_camera.pose * global_point).to_storage(),
+    )
+)
 
-<span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">linear_posed_camera</span><span class="o">.</span><span class="n">pixel_from_global_point</span><span class="p">(</span><span class="n">global_point</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span>
-    <span class="s2">&quot;global_point=</span><span class="si">{}</span><span class="s2"> -&gt; pixel=</span><span class="si">{}</span><span class="s2">, is_valid=</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-        <span class="n">global_point</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span> <span class="n">pixel</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span> <span class="n">is_valid</span>
-    <span class="p">)</span>
-<span class="p">)</span>
+pixel, is_valid = linear_posed_camera.pixel_from_global_point(global_point)
+print(
+    &quot;global_point={} -&gt; pixel={}, is_valid={}&quot;.format(
+        global_point.to_storage(), pixel.to_storage(), is_valid
+    )
+)
 </pre></div>
 </div>
 </div>
@@ -497,11 +498,11 @@ global_point=[0, 0, -1] -&gt; pixel=[320, 240], is_valid=1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">range_to_point</span> <span class="o">=</span> <span class="p">(</span><span class="n">global_point</span> <span class="o">-</span> <span class="n">linear_posed_camera</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
-<span class="n">global_point_reprojected</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">linear_posed_camera</span><span class="o">.</span><span class="n">global_point_from_pixel</span><span class="p">(</span>
-    <span class="n">pixel</span><span class="p">,</span> <span class="n">range_to_point</span><span class="o">=</span><span class="n">range_to_point</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">global_point_reprojected</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>range_to_point = (global_point - linear_posed_camera.pose.t).norm()
+global_point_reprojected, is_valid = linear_posed_camera.global_point_from_pixel(
+    pixel, range_to_point=range_to_point
+)
+display(global_point_reprojected)
 </pre></div>
 </div>
 </div>
@@ -517,19 +518,19 @@ $\displaystyle \left[\begin{matrix}0\\0\\-1.0\end{matrix}\right]$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Perturb second camera slightly from first (small angular change in roll)</span>
-<span class="n">perturbed_rotation</span> <span class="o">=</span> <span class="n">linear_posed_camera</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="n">target_posed_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span>
-    <span class="n">pose</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">perturbed_rotation</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">()),</span>
-    <span class="n">calibration</span><span class="o">=</span><span class="n">linear_camera</span><span class="o">.</span><span class="n">calibration</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="c1"># Warp pixel from source camera into target camera given inverse range</span>
-<span class="n">target_pixel</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">linear_posed_camera</span><span class="o">.</span><span class="n">warp_pixel</span><span class="p">(</span>
-    <span class="n">pixel</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="mi">320</span><span class="p">,</span> <span class="mi">240</span><span class="p">),</span>
-    <span class="n">inverse_range</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-    <span class="n">target_cam</span><span class="o">=</span><span class="n">target_posed_cam</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">target_pixel</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Perturb second camera slightly from first (small angular change in roll)
+perturbed_rotation = linear_posed_camera.pose.R * sf.Rot3.from_yaw_pitch_roll(0, 0, 0.5)
+target_posed_cam = sf.PosedCamera(
+    pose=sf.Pose3(R=perturbed_rotation, t=sf.V3()),
+    calibration=linear_camera.calibration,
+)
+# Warp pixel from source camera into target camera given inverse range
+target_pixel, is_valid = linear_posed_camera.warp_pixel(
+    pixel=sf.V2(320, 240),
+    inverse_range=1.0,
+    target_cam=target_posed_cam,
+)
+display(target_pixel)
 </pre></div>
 </div>
 </div>
@@ -545,15 +546,15 @@ $\displaystyle \left[\begin{matrix}320\\458.520995937516\end{matrix}\right]$</di
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">atan_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">ATANCameraCal</span><span class="p">(</span>
-    <span class="n">focal_length</span><span class="o">=</span><span class="p">[</span><span class="mf">380.0</span><span class="p">,</span> <span class="mf">380.0</span><span class="p">],</span>
-    <span class="n">principal_point</span><span class="o">=</span><span class="p">[</span><span class="mf">320.0</span><span class="p">,</span> <span class="mf">240.0</span><span class="p">],</span>
-    <span class="n">omega</span><span class="o">=</span><span class="mf">0.35</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">camera_ray</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">atan_cam</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">))</span>
-<span class="n">display</span><span class="p">(</span><span class="n">camera_ray</span><span class="p">)</span>
-<span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">atan_cam</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span><span class="n">camera_ray</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>atan_cam = sf.ATANCameraCal(
+    focal_length=[380.0, 380.0],
+    principal_point=[320.0, 240.0],
+    omega=0.35,
+)
+camera_ray, is_valid = atan_cam.camera_ray_from_pixel(sf.V2(50.0, 50.0))
+display(camera_ray)
+pixel, is_valid = atan_cam.pixel_from_camera_point(camera_ray)
+display(pixel)
 </pre></div>
 </div>
 </div>

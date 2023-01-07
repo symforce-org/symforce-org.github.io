@@ -106,7 +106,10 @@
                 <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">return_key</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">sorted_sparse_matrices</span><span class="p">,</span>
-                <span class="nb">tuple</span><span class="p">(</span><span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span>
+                <span class="c1"># Convert to key, value tuples recursively.  Unlike astuple, this has field names</span>
+                <span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">dict_factory</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">)</span>
+                <span class="p">),</span>
             <span class="p">)</span>
         <span class="p">)</span></div></div>
 </pre></div>

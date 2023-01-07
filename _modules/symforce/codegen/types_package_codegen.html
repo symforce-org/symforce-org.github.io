@@ -52,6 +52,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_util</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">template_util</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen.codegen_config</span> <span class="kn">import</span> <span class="n">RenderTemplateConfig</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">IndexEntry</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
 
@@ -168,14 +169,15 @@
         <span class="n">lcm_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lcm_file_name</span><span class="p">)</span>
         <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
             <span class="n">template_path</span><span class="o">=</span><span class="s2">&quot;types.lcm.jinja&quot;</span><span class="p">,</span>
-            <span class="n">output_path</span><span class="o">=</span><span class="n">lcm_type_dir</span> <span class="o">/</span> <span class="n">lcm_file_name</span><span class="p">,</span>
             <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
                 <span class="n">data</span><span class="p">,</span>
                 <span class="n">types_to_generate</span><span class="o">=</span><span class="n">types_to_generate</span><span class="p">,</span>
                 <span class="n">types_util</span><span class="o">=</span><span class="n">types_util</span><span class="p">,</span>
                 <span class="n">use_eigen_types</span><span class="o">=</span><span class="n">use_eigen_types</span><span class="p">,</span>
             <span class="p">),</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">RenderTemplateConfig</span><span class="p">(),</span>
             <span class="n">template_dir</span><span class="o">=</span><span class="n">template_util</span><span class="o">.</span><span class="n">LCM_TEMPLATE_DIR</span><span class="p">,</span>
+            <span class="n">output_path</span><span class="o">=</span><span class="n">lcm_type_dir</span> <span class="o">/</span> <span class="n">lcm_file_name</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># TODO(nathan): Not sure if all edge cases are caught in the following, could probably clean this up some</span>

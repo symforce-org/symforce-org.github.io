@@ -155,7 +155,8 @@
 
     <span class="c1"># These files are large enough that autoformatting them is very slow, so just don&#39;t do it</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">(</span>
-        <span class="n">cse_optimizations</span><span class="o">=</span><span class="p">[(</span><span class="n">cse_opts</span><span class="o">.</span><span class="n">sub_pre</span><span class="p">,</span> <span class="n">cse_opts</span><span class="o">.</span><span class="n">sub_post</span><span class="p">)],</span> <span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span>
+        <span class="n">cse_optimizations</span><span class="o">=</span><span class="p">[(</span><span class="n">cse_opts</span><span class="o">.</span><span class="n">sub_pre</span><span class="p">,</span> <span class="n">cse_opts</span><span class="o">.</span><span class="n">sub_post</span><span class="p">)],</span>
+        <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">config_noinline</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">force_no_inline</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -241,6 +242,7 @@
             <span class="n">n_symbols</span><span class="o">=</span><span class="n">N_SYMBOLS</span><span class="p">,</span>
             <span class="n">cant_allocate_on_stack</span><span class="o">=</span><span class="n">cant_allocate_on_stack</span><span class="p">,</span>
         <span class="p">),</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">codegen</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(),</span>
         <span class="n">output_path</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;matrix_multiplication_benchmark_</span><span class="si">{</span><span class="n">matrix_name</span><span class="si">}</span><span class="s2">.cc&quot;</span><span class="p">,</span>
     <span class="p">)</span></div>
 
