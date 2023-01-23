@@ -45,7 +45,6 @@
 
 <span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">Codegen</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">CppConfig</span>
@@ -122,38 +121,10 @@
     <span class="k">return</span> <span class="n">residual</span></div>
 
 
-<div class="viewcode-block" id="get_function_code"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_function_code">[docs]</a><span class="k">def</span> <span class="nf">get_function_code</span><span class="p">(</span><span class="n">codegen</span><span class="p">:</span> <span class="n">Codegen</span><span class="p">,</span> <span class="n">cleanup</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="generate_between_factors"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.generate_between_factors">[docs]</a><span class="k">def</span> <span class="nf">generate_between_factors</span><span class="p">(</span><span class="n">types</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">],</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return just the function code from a Codegen object.</span>
+<span class="sd">    Generates between factors for each type in types into output_dir.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Codegen</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">()</span>
-
-    <span class="c1"># Read</span>
-    <span class="k">assert</span> <span class="n">codegen</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.h&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">codegen</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="n">func_code</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">function_dir</span> <span class="o">/</span> <span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
-
-    <span class="c1"># Cleanup</span>
-    <span class="k">if</span> <span class="n">cleanup</span><span class="p">:</span>
-        <span class="n">python_util</span><span class="o">.</span><span class="n">remove_if_exists</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">func_code</span></div>
-
-
-<div class="viewcode-block" id="get_filename"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_filename">[docs]</a><span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="n">codegen</span><span class="p">:</span> <span class="n">Codegen</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper to get appropriate filename</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">codegen</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">codegen</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.h&quot;</span></div>
-
-
-<div class="viewcode-block" id="get_between_factors"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_between_factors">[docs]</a><span class="k">def</span> <span class="nf">get_between_factors</span><span class="p">(</span><span class="n">types</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">files_dict</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
         <span class="n">tangent_dim</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">between_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
@@ -163,7 +134,7 @@
             <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
             <span class="n">docstring</span><span class="o">=</span><span class="n">get_between_factor_docstring</span><span class="p">(</span><span class="s2">&quot;a_T_b&quot;</span><span class="p">),</span>
         <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;between_factor_</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
-        <span class="n">files_dict</span><span class="p">[</span><span class="n">get_filename</span><span class="p">(</span><span class="n">between_codegen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_function_code</span><span class="p">(</span><span class="n">between_codegen</span><span class="p">)</span>
+        <span class="n">between_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">prior_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
             <span class="n">func</span><span class="o">=</span><span class="n">prior_factor</span><span class="p">,</span>
@@ -172,14 +143,12 @@
             <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
             <span class="n">docstring</span><span class="o">=</span><span class="n">get_prior_docstring</span><span class="p">(),</span>
         <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;prior_factor_</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
-        <span class="n">files_dict</span><span class="p">[</span><span class="n">get_filename</span><span class="p">(</span><span class="n">prior_codegen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_function_code</span><span class="p">(</span><span class="n">prior_codegen</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">files_dict</span></div>
+        <span class="n">prior_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_pose3_extra_factors"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_pose3_extra_factors">[docs]</a><span class="k">def</span> <span class="nf">get_pose3_extra_factors</span><span class="p">(</span><span class="n">files_dict</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="generate_pose3_extra_factors"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.generate_pose3_extra_factors">[docs]</a><span class="k">def</span> <span class="nf">generate_pose3_extra_factors</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generates factors specific to Poses which penalize individual components</span>
+<span class="sd">    Generates factors specific to Poses which penalize individual components into output_dir.</span>
 
 <span class="sd">    This includes factors for only the position or rotation components of a Pose.  This can&#39;t be</span>
 <span class="sd">    done by wrapping the other generated functions because we need jacobians with respect to the</span>
@@ -248,6 +217,7 @@
         <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
         <span class="n">docstring</span><span class="o">=</span><span class="n">get_between_factor_docstring</span><span class="p">(</span><span class="s2">&quot;a_R_b&quot;</span><span class="p">),</span>
     <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;between_factor_pose3_rotation&quot;</span><span class="p">,</span> <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
+    <span class="n">between_rotation_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">between_position_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">between_factor_pose3_position</span><span class="p">,</span>
@@ -255,10 +225,12 @@
         <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
         <span class="n">docstring</span><span class="o">=</span><span class="n">get_between_factor_docstring</span><span class="p">(</span><span class="s2">&quot;a_t_b&quot;</span><span class="p">),</span>
     <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;between_factor_pose3_position&quot;</span><span class="p">,</span> <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
+    <span class="n">between_position_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">between_translation_norm_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">between_factor_pose3_translation_norm</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">],</span> <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">()</span>
     <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;between_factor_pose3_translation_norm&quot;</span><span class="p">,</span> <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">])</span>
+    <span class="n">between_translation_norm_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">prior_rotation_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">prior_factor_pose3_rotation</span><span class="p">,</span>
@@ -266,6 +238,7 @@
         <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
         <span class="n">docstring</span><span class="o">=</span><span class="n">get_prior_docstring</span><span class="p">(),</span>
     <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;prior_factor_pose3_rotation&quot;</span><span class="p">,</span> <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
+    <span class="n">prior_rotation_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">prior_position_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
         <span class="n">func</span><span class="o">=</span><span class="n">prior_factor_pose3_position</span><span class="p">,</span>
@@ -273,31 +246,15 @@
         <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
         <span class="n">docstring</span><span class="o">=</span><span class="n">get_prior_docstring</span><span class="p">(),</span>
     <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;prior_factor_pose3_position&quot;</span><span class="p">,</span> <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">])</span>
-
-    <span class="n">files_dict</span><span class="p">[</span><span class="n">get_filename</span><span class="p">(</span><span class="n">between_rotation_codegen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_function_code</span><span class="p">(</span><span class="n">between_rotation_codegen</span><span class="p">)</span>
-    <span class="n">files_dict</span><span class="p">[</span><span class="n">get_filename</span><span class="p">(</span><span class="n">between_position_codegen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_function_code</span><span class="p">(</span><span class="n">between_position_codegen</span><span class="p">)</span>
-    <span class="n">files_dict</span><span class="p">[</span><span class="n">get_filename</span><span class="p">(</span><span class="n">between_translation_norm_codegen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_function_code</span><span class="p">(</span>
-        <span class="n">between_translation_norm_codegen</span>
-    <span class="p">)</span>
-    <span class="n">files_dict</span><span class="p">[</span><span class="n">get_filename</span><span class="p">(</span><span class="n">prior_rotation_codegen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_function_code</span><span class="p">(</span><span class="n">prior_rotation_codegen</span><span class="p">)</span>
-    <span class="n">files_dict</span><span class="p">[</span><span class="n">get_filename</span><span class="p">(</span><span class="n">prior_position_codegen</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_function_code</span><span class="p">(</span><span class="n">prior_position_codegen</span><span class="p">)</span></div>
+    <span class="n">prior_position_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prior factors and between factors for C++.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Compute code</span>
-    <span class="n">files_dict</span> <span class="o">=</span> <span class="n">get_between_factors</span><span class="p">(</span><span class="n">types</span><span class="o">=</span><span class="n">TYPES</span><span class="p">)</span>
-    <span class="n">get_pose3_extra_factors</span><span class="p">(</span><span class="n">files_dict</span><span class="p">)</span>
-
-    <span class="c1"># Create output dir</span>
-    <span class="n">factors_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;factors&quot;</span>
-    <span class="n">factors_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="c1"># Write out</span>
-    <span class="k">for</span> <span class="n">filename</span><span class="p">,</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">files_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="p">(</span><span class="n">factors_dir</span> <span class="o">/</span> <span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></div>
+    <span class="n">generate_between_factors</span><span class="p">(</span><span class="n">types</span><span class="o">=</span><span class="n">TYPES</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;factors&quot;</span><span class="p">)</span>
+    <span class="n">generate_pose3_extra_factors</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;factors&quot;</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

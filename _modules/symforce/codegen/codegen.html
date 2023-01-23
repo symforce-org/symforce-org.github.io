@@ -101,6 +101,12 @@
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
+<div class="viewcode-block" id="InvalidNameError"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen.html#symforce.codegen.codegen.InvalidNameError">[docs]</a><span class="k">class</span> <span class="nc">InvalidNameError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception class for attempting codegen with an invalid function name</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
 <div class="viewcode-block" id="Codegen"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen.html#symforce.codegen.codegen.Codegen">[docs]</a><span class="k">class</span> <span class="nc">Codegen</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class used for generating code from symbolic expressions or functions.</span>
@@ -432,7 +438,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">input_name</span><span class="p">,</span> <span class="n">input_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">input_symbols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">input_value</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">):</span>
+                <span class="c1"># DataBuffers have no storage, so we look for their exact symbol</span>
+                <span class="n">input_symbols</span> <span class="o">=</span> <span class="p">{</span><span class="n">input_value</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">input_symbols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">input_value</span><span class="p">))</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">input_symbols</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_symbols</span><span class="p">):</span>
                 <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">results</span>
@@ -481,6 +491,11 @@
         <span class="k">assert</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="p">),</span> <span class="s2">&quot;Name should be set either at construction or by with_jacobians&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">InvalidNameError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;Invalid function name &quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;. `name` must be a valid identifier.&#39;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">namespace</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">InvalidNamespaceError</span><span class="p">(</span>

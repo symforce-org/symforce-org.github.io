@@ -312,6 +312,7 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.LinearizationMode"><code class="docutils literal notranslate"><span class="pre">LinearizationMode</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.GeneratedPaths"><code class="docutils literal notranslate"><span class="pre">GeneratedPaths</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.InvalidNamespaceError"><code class="docutils literal notranslate"><span class="pre">InvalidNamespaceError</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.InvalidNameError"><code class="docutils literal notranslate"><span class="pre">InvalidNameError</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.Codegen"><code class="docutils literal notranslate"><span class="pre">Codegen</span></code></a></li>
 </ul>
 </li>
@@ -352,10 +353,8 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_prior_docstring"><code class="docutils literal notranslate"><span class="pre">get_prior_docstring()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.between_factor"><code class="docutils literal notranslate"><span class="pre">between_factor()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.prior_factor"><code class="docutils literal notranslate"><span class="pre">prior_factor()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_function_code"><code class="docutils literal notranslate"><span class="pre">get_function_code()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_filename"><code class="docutils literal notranslate"><span class="pre">get_filename()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_between_factors"><code class="docutils literal notranslate"><span class="pre">get_between_factors()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.get_pose3_extra_factors"><code class="docutils literal notranslate"><span class="pre">get_pose3_extra_factors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.generate_between_factors"><code class="docutils literal notranslate"><span class="pre">generate_between_factors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.generate_pose3_extra_factors"><code class="docutils literal notranslate"><span class="pre">generate_pose3_extra_factors()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.generate"><code class="docutils literal notranslate"><span class="pre">generate()</span></code></a></li>
 </ul>
 </li>
@@ -703,6 +702,7 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.atan2"><code class="docutils literal notranslate"><span class="pre">atan2()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.asin_safe"><code class="docutils literal notranslate"><span class="pre">asin_safe()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.acos_safe"><code class="docutils literal notranslate"><span class="pre">acos_safe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.clamp"><code class="docutils literal notranslate"><span class="pre">clamp()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.set_eval_on_sympify"><code class="docutils literal notranslate"><span class="pre">set_eval_on_sympify()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.simplify"><code class="docutils literal notranslate"><span class="pre">simplify()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.limit"><code class="docutils literal notranslate"><span class="pre">limit()</span></code></a></li>
@@ -1036,6 +1036,10 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.is_negative"><code class="docutils literal notranslate"><span class="pre">is_negative()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.is_nonnegative"><code class="docutils literal notranslate"><span class="pre">is_nonnegative()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.is_nonpositive"><code class="docutils literal notranslate"><span class="pre">is_nonpositive()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.less_equal"><code class="docutils literal notranslate"><span class="pre">less_equal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.greater_equal"><code class="docutils literal notranslate"><span class="pre">greater_equal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.less"><code class="docutils literal notranslate"><span class="pre">less()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.greater"><code class="docutils literal notranslate"><span class="pre">greater()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.logical_and"><code class="docutils literal notranslate"><span class="pre">logical_and()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.logical_or"><code class="docutils literal notranslate"><span class="pre">logical_or()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.logic.html#symforce.logic.logical_not"><code class="docutils literal notranslate"><span class="pre">logical_not()</span></code></a></li>
@@ -1333,6 +1337,10 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_negative"><code class="docutils literal notranslate"><span class="pre">is_negative()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_nonnegative"><code class="docutils literal notranslate"><span class="pre">is_nonnegative()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_nonpositive"><code class="docutils literal notranslate"><span class="pre">is_nonpositive()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.less_equal"><code class="docutils literal notranslate"><span class="pre">less_equal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.greater_equal"><code class="docutils literal notranslate"><span class="pre">greater_equal()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.less"><code class="docutils literal notranslate"><span class="pre">less()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.greater"><code class="docutils literal notranslate"><span class="pre">greater()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.logical_and"><code class="docutils literal notranslate"><span class="pre">logical_and()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.logical_or"><code class="docutils literal notranslate"><span class="pre">logical_or()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.logical_not"><code class="docutils literal notranslate"><span class="pre">logical_not()</span></code></a></li>
@@ -1345,6 +1353,7 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.atan2"><code class="docutils literal notranslate"><span class="pre">atan2()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.asin_safe"><code class="docutils literal notranslate"><span class="pre">asin_safe()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.acos_safe"><code class="docutils literal notranslate"><span class="pre">acos_safe()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.clamp"><code class="docutils literal notranslate"><span class="pre">clamp()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_eval_on_sympify"><code class="docutils literal notranslate"><span class="pre">set_eval_on_sympify()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.simplify"><code class="docutils literal notranslate"><span class="pre">simplify()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.limit"><code class="docutils literal notranslate"><span class="pre">limit()</span></code></a></li>
@@ -1489,6 +1498,8 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21.SHAPE"><code class="docutils literal notranslate"><span class="pre">Matrix21.SHAPE</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21.unit_x"><code class="docutils literal notranslate"><span class="pre">Matrix21.unit_x()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21.unit_y"><code class="docutils literal notranslate"><span class="pre">Matrix21.unit_y()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21.x"><code class="docutils literal notranslate"><span class="pre">Matrix21.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21.y"><code class="docutils literal notranslate"><span class="pre">Matrix21.y</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31"><code class="docutils literal notranslate"><span class="pre">Matrix31</span></code></a><ul>
@@ -1496,6 +1507,9 @@ See <cite>symforce.symbolic.epsilon</cite> for more information.</p>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31.unit_x"><code class="docutils literal notranslate"><span class="pre">Matrix31.unit_x()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31.unit_y"><code class="docutils literal notranslate"><span class="pre">Matrix31.unit_y()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31.unit_z"><code class="docutils literal notranslate"><span class="pre">Matrix31.unit_z()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31.x"><code class="docutils literal notranslate"><span class="pre">Matrix31.x</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31.y"><code class="docutils literal notranslate"><span class="pre">Matrix31.y</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31.z"><code class="docutils literal notranslate"><span class="pre">Matrix31.z</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix41"><code class="docutils literal notranslate"><span class="pre">Matrix41</span></code></a><ul>

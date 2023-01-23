@@ -303,12 +303,13 @@
 <span class="sd">    Args:</span>
 <span class="sd">        new_epsilon: The new default epsilon to use</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">_have_used_epsilon</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">_epsilon</span>  <span class="c1"># pylint: disable=global-statement</span>
+
+    <span class="k">if</span> <span class="n">_have_used_epsilon</span> <span class="ow">and</span> <span class="n">new_epsilon</span> <span class="o">!=</span> <span class="n">_epsilon</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">AlreadyUsedEpsilon</span><span class="p">(</span>
             <span class="s2">&quot;Cannot set return value of epsilon after it has already been called.&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">global</span> <span class="n">_epsilon</span>  <span class="c1"># pylint: disable=global-statement</span>
     <span class="n">_epsilon</span> <span class="o">=</span> <span class="n">new_epsilon</span>
 
 

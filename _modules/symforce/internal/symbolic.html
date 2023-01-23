@@ -479,6 +479,21 @@
     <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">x_safe</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="clamp"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.clamp">[docs]</a><span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns min_value if x &lt; min_value</span>
+<span class="sd">    Returns x if min_value &lt; x &lt; max_value</span>
+<span class="sd">    Returns max_value if x &gt; max_value</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: Value to clamp between min_value and max_value</span>
+<span class="sd">        min_value: Scalar of same type and units as x; minimum value to return</span>
+<span class="sd">        max_value: Scalar of same type and units as x; maximum value to return. Must be greater</span>
+<span class="sd">            than min_value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Max</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span></div>
+
+
 <div class="viewcode-block" id="set_eval_on_sympify"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.set_eval_on_sympify">[docs]</a><span class="k">def</span> <span class="nf">set_eval_on_sympify</span><span class="p">(</span><span class="n">eval_on_sympy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    When using the symengine backed, set whether we should eval args when converting objects to</span>
