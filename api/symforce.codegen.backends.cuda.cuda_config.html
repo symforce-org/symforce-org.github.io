@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>symforce.codegen.backends.cuda.cuda_config module &#8212; symforce 0.8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="symforce.codegen.backends.python package" href="symforce.codegen.backends.python.html" />
+    <link rel="prev" title="symforce.codegen.backends.cuda.cuda_code_printer module" href="symforce.codegen.backends.cuda.cuda_code_printer.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-symforce.codegen.backends.cuda.cuda_config">
+<span id="symforce-codegen-backends-cuda-cuda-config-module"></span><h1>symforce.codegen.backends.cuda.cuda_config module<a class="headerlink" href="#module-symforce.codegen.backends.cuda.cuda_config" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CudaConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_comment_line_prefix='</span> <span class="pre">*</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_length=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_eigen_types=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_template_config=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse_optimizations=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_epsilon_behavior=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override_methods=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_imports=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar_type=ScalarType.FLOAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inline=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builtin_vector_variables=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cuda/cuda_config.html#CudaConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a></p>
+<p>Code generation config for the CUDA backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_comment_line_prefix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Prefix applied to each line in a docstring</p></li>
+<li><p><strong>line_length</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Maximum allowed line length in docstrings; used for formatting docstrings.</p></li>
+<li><p><strong>use_eigen_types</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Use eigen_lcm types for vectors instead of lists</p></li>
+<li><p><strong>autoformat</strong> – Run a code formatter on the generated code</p></li>
+<li><p><strong>custom_preamble</strong> – An optional string to be prepended on the front of the rendered template</p></li>
+<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Optimizations argument to pass to sf.cse</p></li>
+<li><p><strong>zero_epsilon_behavior</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.ZeroEpsilonBehavior" title="symforce.codegen.codegen_config.ZeroEpsilonBehavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZeroEpsilonBehavior</span></code></a>) – What should codegen do if a default epsilon is not set?</p></li>
+<li><p><strong>override_methods</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Add special function overrides in dictionary with symforce function keys
+(e.g. sf.sin) and a string for the new method (e.g. fast_math::sin_lut), note that this bypasses
+the default namespace (so std:: won’t be added in front automatically). Note that the keys here
+need to be sympy keys, not symengine (i.e sympy.sin NOT sf.sin with symengine backend). Symengine to
+sympy conversion does not work for Function types. Note that this function works in the code printer,
+and should only be used for replacing functions that compute the same thing but in a different way,
+e.g. replacing <cite>sin</cite> with <cite>my_lib::sin</cite>. It should _not_ be used for substituting a function
+with a different function, which will break derivatives and certain simplifications,
+e.g. you should not use this to replace <cite>sin</cite> with <cite>cos</cite> or <cite>sin</cite> with <cite>my_lib::cos</cite></p></li>
+<li><p><strong>extra_imports</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Add extra imports to the file if you use custom overrides for some functions
+(i.e. add fast_math.h). Note that these are only added on a call to <cite>generate_function</cite>, i.e.
+you can’t define custom functions in e.g. the geo package using this</p></li>
+<li><p><strong>scalar_type</strong> (<a class="reference internal" href="symforce.codegen.backends.cuda.cuda_code_printer.html#symforce.codegen.backends.cuda.cuda_code_printer.ScalarType" title="symforce.codegen.backends.cuda.cuda_code_printer.ScalarType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScalarType</span></code></a>) – The scalar type to use (float or double)</p></li>
+<li><p><strong>inline</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to generate inline functions (in the header) or a separate <cite>.cu</cite> file
+containing the function definition</p></li>
+<li><p><strong>builtin_vector_variables</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Names of inputs and outputs that should use CUDA’s
+[builtin vector types](<a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#built-in-vector-types">https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#built-in-vector-types</a>)
+instead of pointers to scalars</p></li>
+<li><p><strong>render_template_config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.RenderTemplateConfig" title="symforce.codegen.codegen_config.RenderTemplateConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">RenderTemplateConfig</span></code></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.doc_comment_line_prefix">
+<span class="sig-name descname"><span class="pre">doc_comment_line_prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span> <span class="pre">*</span> <span class="pre">'</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.doc_comment_line_prefix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.line_length">
+<span class="sig-name descname"><span class="pre">line_length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.line_length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.use_eigen_types">
+<span class="sig-name descname"><span class="pre">use_eigen_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.use_eigen_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.override_methods">
+<span class="sig-name descname"><span class="pre">override_methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Function</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.override_methods" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.extra_imports">
+<span class="sig-name descname"><span class="pre">extra_imports</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.extra_imports" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.scalar_type">
+<span class="sig-name descname"><span class="pre">scalar_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.codegen.backends.cuda.cuda_code_printer.html#symforce.codegen.backends.cuda.cuda_code_printer.ScalarType" title="symforce.codegen.backends.cuda.cuda_code_printer.ScalarType"><span class="pre">ScalarType</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">FloatType(String('float32'),</span> <span class="pre">nbits=Integer(32),</span> <span class="pre">nmant=Integer(23),</span> <span class="pre">nexp=Integer(8))</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.scalar_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.inline">
+<span class="sig-name descname"><span class="pre">inline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.inline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.builtin_vector_variables">
+<span class="sig-name descname"><span class="pre">builtin_vector_variables</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.builtin_vector_variables" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.backend_name">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">backend_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cuda/cuda_config.html#CudaConfig.backend_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.backend_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>String name for the backend. This should match the directory name in codegen/backends
+and will be used to namespace by backend in generated code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.template_dir">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">template_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cuda/cuda_config.html#CudaConfig.template_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.template_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directory for jinja templates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Path</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.templates_to_render">
+<span class="sig-name descname"><span class="pre">templates_to_render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generated_file_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cuda/cuda_config.html#CudaConfig.templates_to_render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.templates_to_render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a single symbolic function’s filename, provide one or more Jinja templates to
+render and the relative output paths where they should go.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>generated_file_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.printer">
+<span class="sig-name descname"><span class="pre">printer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cuda/cuda_config.html#CudaConfig.printer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.printer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an instance of the code printer to use for this language.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CodePrinter</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.format_matrix_accessor">
+<span class="sig-name descname"><span class="pre">format_matrix_accessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cuda/cuda_config.html#CudaConfig.format_matrix_accessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.format_matrix_accessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format accessor for matrix types.</p>
+<p>Assumes matrices are row-major.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p></li>
+<li><p><strong>i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>j</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>shape</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.format_eigen_lcm_accessor">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">format_eigen_lcm_accessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cuda/cuda_config.html#CudaConfig.format_eigen_lcm_accessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.format_eigen_lcm_accessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format accessor for eigen_lcm types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p></li>
+<li><p><strong>i</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_comment_line_prefix='</span> <span class="pre">*</span> <span class="pre">'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_length=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_eigen_types=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_template_config=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse_optimizations=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_epsilon_behavior=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">override_methods=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_imports=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scalar_type=ScalarType.FLOAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inline=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builtin_vector_variables=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doc_comment_line_prefix</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p></li>
+<li><p><strong>line_length</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>use_eigen_types</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>render_template_config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.RenderTemplateConfig" title="symforce.codegen.codegen_config.RenderTemplateConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">RenderTemplateConfig</span></code></a>) – </p></li>
+<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – </p></li>
+<li><p><strong>zero_epsilon_behavior</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.ZeroEpsilonBehavior" title="symforce.codegen.codegen_config.ZeroEpsilonBehavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZeroEpsilonBehavior</span></code></a>) – </p></li>
+<li><p><strong>override_methods</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – </p></li>
+<li><p><strong>extra_imports</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – </p></li>
+<li><p><strong>scalar_type</strong> (<a class="reference internal" href="symforce.codegen.backends.cuda.cuda_code_printer.html#symforce.codegen.backends.cuda.cuda_code_printer.ScalarType" title="symforce.codegen.backends.cuda.cuda_code_printer.ScalarType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScalarType</span></code></a>) – </p></li>
+<li><p><strong>inline</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+<li><p><strong>builtin_vector_variables</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Set</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">symforce</a></h1>
+
+
+
+<p class="blurb">Fast symbolic computation, code generation, and nonlinear optimization for robotics</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=symforce-org&repo=symforce&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="symforce.html">symforce package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="symforce.benchmarks.html">symforce.benchmarks package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cam.html">symforce.cam package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="symforce.codegen.html">symforce.codegen package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.examples.html">symforce.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.geo.html">symforce.geo package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.internal.html">symforce.internal package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.ops.html">symforce.ops package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.slam.html">symforce.slam package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.test_util.html">symforce.test_util package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.values.html">symforce.values package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html">symforce.symbolic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.typing_util.html">symforce.typing_util module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-py/sym.html">sym package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/filelist.html">File list</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/filelist.html">File list</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="symforce.html">symforce package</a><ul>
+  <li><a href="symforce.codegen.html">symforce.codegen package</a><ul>
+  <li><a href="symforce.codegen.backends.html">symforce.codegen.backends package</a><ul>
+  <li><a href="symforce.codegen.backends.cuda.html">symforce.codegen.backends.cuda package</a><ul>
+      <li>Previous: <a href="symforce.codegen.backends.cuda.cuda_code_printer.html" title="previous chapter">symforce.codegen.backends.cuda.cuda_code_printer module</a></li>
+      <li>Next: <a href="symforce.codegen.backends.python.html" title="next chapter">symforce.codegen.backends.python package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Skydio, Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/symforce.codegen.backends.cuda.cuda_config.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

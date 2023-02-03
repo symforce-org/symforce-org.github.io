@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>symforce.geo.unit3 module &#8212; symforce 0.8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="symforce.internal package" href="symforce.internal.html" />
+    <link rel="prev" title="symforce.geo.rot3 module" href="symforce.geo.rot3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-symforce.geo.unit3">
+<span id="symforce-geo-unit3-module"></span><h1>symforce.geo.unit3 module<a class="headerlink" href="#module-symforce.geo.unit3" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unit3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup" title="symforce.ops.interfaces.lie_group.LieGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">LieGroup</span></code></a></p>
+<p>Direction in R^3, represented as a Rot3 that transforms [0, 0, 1] to the desired direction.
+The storage is therefore a quaternion and the tangent space is 2 dimensional.
+Most operations are implemented using operations from Rot3.</p>
+<p>Note: an alternative implementation could directly store a unit vector and define its boxplus
+manifold as described in Appendix B.2 of [Hertzberg 2013]. This can be done by finding the
+Householder reflector of x and use it to transform the exponential map of delta, which is a
+small perturbation in the tangent space (R^2). Namely,</p>
+<p>x.retract(delta) = x [+] delta = Rx * Exp(delta), where
+Exp(delta) = [sinc(||delta||) * delta, cos(||delta||)], and
+Rx = (I - 2 vv^T / (v^Tv))X, v = x - e_z != 0, X is a matrix negating 2nd vector component</p>
+<blockquote>
+<div><p>= I                     , x = e_z</p>
+</div></blockquote>
+<p>[Hertzberg 2013] Integrating Generic Sensor Fusion Algorithms with Sound State Representations
+through Encapsulation of Manifolds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rot3</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>]) – </p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.E_Z">
+<span class="sig-name descname"><span class="pre">E_Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[0]</span> <span class="pre">[0]</span> <span class="pre">[1]</span> </em><a class="headerlink" href="#symforce.geo.unit3.Unit3.E_Z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a rot3, or identity if none provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rot3</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>]) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.storage_dim">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_dim</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.storage_dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.storage_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dimension of underlying storage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.to_storage">
+<span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.to_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+This is used purely for plumbing, it is NOT like a tangent space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.from_storage">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.from_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.symbolic">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.symbolic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
+to sf.Symbol (for example, sympy assumptions).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.identity">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.compose">
+<span class="sig-name descname"><span class="pre">compose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.compose"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.compose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the group operation with other.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.tangent_dim">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tangent_dim</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.tangent_dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.tangent_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dimension of the embedded manifold</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.from_tangent">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.from_tangent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mapping from the tangent space vector about identity into a group element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p></li>
+<li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.to_tangent">
+<span class="sig-name descname"><span class="pre">to_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.to_tangent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mapping from this element to the tangent space vector about identity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.storage_D_tangent">
+<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix42" title="symforce.geo.matrix.Matrix42"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix42</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.tangent_D_storage">
+<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix24" title="symforce.geo.matrix.Matrix24"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix24</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.to_rotation">
+<span class="sig-name descname"><span class="pre">to_rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.to_rotation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.to_unit_vector">
+<span class="sig-name descname"><span class="pre">to_unit_vector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_unit_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.to_unit_vector" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.from_vector">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.from_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Unit3 that points along the direction of vector a. a does not have to be a unit
+vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.random">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random element of Unit3, by generating a random rotation first and then rotating
+e_z to get a random direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">symforce</a></h1>
+
+
+
+<p class="blurb">Fast symbolic computation, code generation, and nonlinear optimization for robotics</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=symforce-org&repo=symforce&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="symforce.html">symforce package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="symforce.benchmarks.html">symforce.benchmarks package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cam.html">symforce.cam package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.codegen.html">symforce.codegen package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.examples.html">symforce.examples package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="symforce.geo.html">symforce.geo package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.internal.html">symforce.internal package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.ops.html">symforce.ops package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.slam.html">symforce.slam package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.test_util.html">symforce.test_util package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.values.html">symforce.values package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html">symforce.symbolic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.typing_util.html">symforce.typing_util module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-py/sym.html">sym package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/filelist.html">File list</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/filelist.html">File list</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="symforce.html">symforce package</a><ul>
+  <li><a href="symforce.geo.html">symforce.geo package</a><ul>
+      <li>Previous: <a href="symforce.geo.rot3.html" title="previous chapter">symforce.geo.rot3 module</a></li>
+      <li>Next: <a href="symforce.internal.html" title="next chapter">symforce.internal package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Skydio, Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/symforce.geo.unit3.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

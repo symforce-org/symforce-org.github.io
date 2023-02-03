@@ -1,0 +1,503 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>symforce.slam.imu_preintegration.manifold_symbolic &#8212; symforce 0.8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css" />
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for symforce.slam.imu_preintegration.manifold_symbolic</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># SymForce - Copyright 2022, Skydio, Inc.</span>
+<span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span> <span class="nn">symforce.jacobian_helpers</span> <span class="kn">import</span> <span class="n">tangent_jacobians</span>
+
+
+<div class="viewcode-block" id="internal_imu_residual"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.internal_imu_residual">[docs]</a><span class="k">def</span> <span class="nf">internal_imu_residual</span><span class="p">(</span>
+    <span class="n">pose_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">vel_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">pose_j</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">vel_j</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">accel_bias_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_bias_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="c1"># Preintegrated measurements: state</span>
+    <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span>
+    <span class="n">Dv</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">Dp</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="c1"># Other pre-integrated quantities</span>
+    <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">,</span>
+    <span class="n">DR_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dv_D_accel_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dv_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dp_D_accel_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dp_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="c1"># other</span>
+    <span class="n">accel_bias_hat</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_bias_hat</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gravity</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">V9</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An internal helper function to linearize the difference between the orientation, velocity, and</span>
+<span class="sd">    position at one time step and those of another time step. The expected difference is calculated</span>
+<span class="sd">    from the preintegrated IMU measurements between those time steps.</span>
+
+<span class="sd">    NOTE: If you are looking for a residual for an IMU factor, do not use this. Instead use</span>
+<span class="sd">    the one found in symforce/slam/imu_preintegration/imu_factor.h.</span>
+
+<span class="sd">    Time step i is the time of the first IMU measurement of the interval.</span>
+<span class="sd">    Time step j is the time after the last IMU measurement of the interval.</span>
+
+<span class="sd">    Assumes sqrt_info is lower triangular and only reads the lower triangle.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pose_i (sf.Pose3): Pose at time step i (world_T_body)</span>
+<span class="sd">        vel_i (sf.V3): Velocity at time step i (world frame)</span>
+<span class="sd">        pose_j (sf.Pose3): Pose at time step j (world_T_body)</span>
+<span class="sd">        vel_j (sf.V3): Velocity at time step j (world frame)</span>
+<span class="sd">        accel_bias_i (sf.V3): The accelerometer bias between timesteps i and j</span>
+<span class="sd">        gyro_bias_i (sf.V3): The gyroscope bias between timesteps i and j</span>
+<span class="sd">        DR (sf.Rot3): Preintegrated estimate for pose_i.R.inverse() * pose_j.R</span>
+<span class="sd">        Dv (sf.V3): Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</span>
+<span class="sd">        Dp (sf.V3): Preintegrated estimate for position change (before velocity and gravity</span>
+<span class="sd">            corrections) in the body frame at timestep i:</span>
+<span class="sd">            R_i^T (p_j - p_i - v_i Delta t - 1/2 g Delta t^2),</span>
+<span class="sd">            where R_i = pose_i.R, p_i = pose_i.t, p_j = pose_j.t, and v_i = vel_i</span>
+<span class="sd">        sqrt_info (sf.M99): sqrt info matrix of DR(&#39;s tangent space), Dv, Dp</span>
+<span class="sd">        DR_D_gyro_bias (sf.M33): Derivative of DR w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
+<span class="sd">        Dv_D_accel_bias (sf.M33): Derivative of Dv w.r.t. accel_bias evaluated at accel_bias_hat</span>
+<span class="sd">        Dv_D_gyro_bias (sf.M33): Derivative of Dv w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
+<span class="sd">        Dp_D_accel_bias (sf.M33): Derivative of Dp w.r.t. accel_bias evaluated at accel_bias_hat</span>
+<span class="sd">        Dp_D_gyro_bias (sf.M33): Derivative of Dp w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
+<span class="sd">        accel_bias_hat (sf.V3): The accelerometer bias used during preintegration</span>
+<span class="sd">        gyro_bias_hat (sf.V3): The gyroscope bias used during preintegration</span>
+<span class="sd">        gravity (sf.V3): Acceleration due to gravity (in the same frame as pose_x and vel_x),</span>
+<span class="sd">            i.e., the vector which when added to the accelerometer measurements gives the</span>
+<span class="sd">            true acceleration (up to bias and noise) of the IMU.</span>
+<span class="sd">        dt (T.Scalar): The time between timestep i and j: t_j - t_i</span>
+<span class="sd">        epsilon (T.Scalar): epsilon used for numerical stability</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 9dof product residual between the orientations, then velocities, then positions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">delta_gyro_bias</span> <span class="o">=</span> <span class="n">gyro_bias_i</span> <span class="o">-</span> <span class="n">gyro_bias_hat</span>
+    <span class="n">delta_accel_bias</span> <span class="o">=</span> <span class="n">accel_bias_i</span> <span class="o">-</span> <span class="n">accel_bias_hat</span>
+
+    <span class="c1"># Correct preintegrated measurements for updated bias estimates</span>
+    <span class="n">corrected_DR</span> <span class="o">=</span> <span class="n">DR</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">DR_D_gyro_bias</span> <span class="o">*</span> <span class="n">delta_gyro_bias</span><span class="p">)</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span> <span class="n">epsilon</span>
+    <span class="p">)</span>
+    <span class="n">corrected_Dv</span> <span class="o">=</span> <span class="n">Dv</span> <span class="o">+</span> <span class="n">Dv_D_gyro_bias</span> <span class="o">*</span> <span class="n">delta_gyro_bias</span> <span class="o">+</span> <span class="n">Dv_D_accel_bias</span> <span class="o">*</span> <span class="n">delta_accel_bias</span>
+    <span class="n">corrected_Dp</span> <span class="o">=</span> <span class="n">Dp</span> <span class="o">+</span> <span class="n">Dp_D_gyro_bias</span> <span class="o">*</span> <span class="n">delta_gyro_bias</span> <span class="o">+</span> <span class="n">Dp_D_accel_bias</span> <span class="o">*</span> <span class="n">delta_accel_bias</span>
+
+    <span class="n">res_R</span> <span class="o">=</span> <span class="p">(</span><span class="n">corrected_DR</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="n">pose_i</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="n">pose_j</span><span class="o">.</span><span class="n">R</span><span class="p">)</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">res_v</span> <span class="o">=</span> <span class="n">pose_i</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">vel_j</span> <span class="o">-</span> <span class="n">vel_i</span> <span class="o">-</span> <span class="n">gravity</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span> <span class="o">-</span> <span class="n">corrected_Dv</span>
+    <span class="n">res_p</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">pose_i</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">pose_j</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">pose_i</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">vel_i</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">-</span> <span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gravity</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">corrected_Dp</span>
+    <span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V9</span><span class="p">(</span><span class="o">*</span><span class="n">res_R</span><span class="p">,</span> <span class="o">*</span><span class="n">res_v</span><span class="p">,</span> <span class="o">*</span><span class="n">res_p</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">M91</span><span class="p">(</span><span class="n">sqrt_info</span><span class="o">.</span><span class="n">lower_triangle</span><span class="p">()</span> <span class="o">*</span> <span class="n">res</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="right_jacobian"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.right_jacobian">[docs]</a><span class="k">def</span> <span class="nf">right_jacobian</span><span class="p">(</span><span class="n">tangent</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The right jacobian J(v) is d/du Log(Exp(v)^{-1} Exp(v + u)), i.e., a matrix such that</span>
+<span class="sd">    Exp(v + dv) ~= Exp(v) Exp(J(v) dv), where v and u are tangent vectors of SO(3).</span>
+
+<span class="sd">    Returns J(tangent).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># NOTE(brad): We use sqrt(epsilon) to ensure cos(norm) is far enough from 1 to mitigate</span>
+    <span class="c1"># the effects of catastrophic cancellation in 1 - cos(norm) below.</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">tangent</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">epsilon</span><span class="p">))</span>
+    <span class="n">tangent_hat</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">skew_symmetric</span><span class="p">(</span><span class="n">tangent</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">-=</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">norm</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">tangent_hat</span>
+    <span class="n">out</span> <span class="o">+=</span> <span class="p">((</span><span class="n">norm</span> <span class="o">-</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">norm</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">norm</span> <span class="o">**</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">tangent_hat</span> <span class="o">*</span> <span class="n">tangent_hat</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="handwritten_new_state_D_state_gyro_accel"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.handwritten_new_state_D_state_gyro_accel">[docs]</a><span class="k">def</span> <span class="nf">handwritten_new_state_D_state_gyro_accel</span><span class="p">(</span>
+    <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">corrected_gyro</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">corrected_accel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M93</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M93</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the derivatives of the new state (meaning the DR, Dv, and Dp) w.r.t. the previous state,</span>
+<span class="sd">    gyroscope measurement, and the accelerometer mesaurement.</span>
+
+
+<span class="sd">    Args:</span>
+<span class="sd">        DR (sf.Rot3): Preintegrated DR of the previous state</span>
+<span class="sd">        corrected_gyro (sf.V3): gyroscope measurment corrected for IMU bias</span>
+<span class="sd">        corrected_accel (sf.V3): accelerometer measurement corrected for IMU bias</span>
+<span class="sd">        dt (T.Scalar): Time difference between the previous time step and the new time step</span>
+<span class="sd">        epsilon (T.Scalar): epsilon for numerical stability</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        T.Tuple[sf.M99, sf.M93, sf.M93]: new_state_D_old_state, new_state_D_gyro_measurement, new_state_D_accel_measurement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># calculate new_state_D_old_state</span>
+    <span class="n">DR_update</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">corrected_gyro</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">new_DR_D_old_DR</span> <span class="o">=</span> <span class="n">DR_update</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span>
+    <span class="n">new_DR_D_old_Dv</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+    <span class="n">new_DR_D_old_Dp</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+
+    <span class="n">new_Dv_D_old_DR</span> <span class="o">=</span> <span class="o">-</span><span class="n">DR</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">skew_symmetric</span><span class="p">(</span><span class="n">corrected_accel</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">new_Dv_D_old_Dv</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
+    <span class="n">new_Dv_D_old_Dp</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+
+    <span class="n">new_Dp_D_old_DR</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="o">-</span><span class="n">DR</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">skew_symmetric</span><span class="p">(</span><span class="n">corrected_accel</span> <span class="o">*</span> <span class="n">dt</span><span class="p">))</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="p">)</span>
+    <span class="n">new_Dp_D_old_Dv</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
+    <span class="n">new_Dp_D_old_Dp</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
+
+    <span class="n">new_state_D_old_state</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">new_DR_D_old_DR</span><span class="p">,</span> <span class="n">new_DR_D_old_Dv</span><span class="p">,</span> <span class="n">new_DR_D_old_Dp</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">new_Dv_D_old_DR</span><span class="p">,</span> <span class="n">new_Dv_D_old_Dv</span><span class="p">,</span> <span class="n">new_Dv_D_old_Dp</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">new_Dp_D_old_DR</span><span class="p">,</span> <span class="n">new_Dp_D_old_Dv</span><span class="p">,</span> <span class="n">new_Dp_D_old_Dp</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># calculate new_D_gyro</span>
+    <span class="n">new_DR_D_gyro</span> <span class="o">=</span> <span class="n">right_jacobian</span><span class="p">(</span><span class="n">corrected_gyro</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">new_DvDp_D_gyro</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M63</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+
+    <span class="n">new_state_D_gyro</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">new_DR_D_gyro</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">new_DvDp_D_gyro</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># calculate new_D_accel</span>
+    <span class="n">new_DR_D_accel</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+    <span class="n">new_Dv_D_accel</span> <span class="o">=</span> <span class="n">DR</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">new_Dp_D_accel</span> <span class="o">=</span> <span class="n">DR</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">new_state_D_accel</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">new_DR_D_accel</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">new_Dv_D_accel</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">new_Dp_D_accel</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">(</span><span class="n">new_state_D_old_state</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">M93</span><span class="p">(</span><span class="n">new_state_D_gyro</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">M93</span><span class="p">(</span><span class="n">new_state_D_accel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="imu_manifold_preintegration_update"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.imu_manifold_preintegration_update">[docs]</a><span class="k">def</span> <span class="nf">imu_manifold_preintegration_update</span><span class="p">(</span>
+    <span class="c1"># Initial state</span>
+    <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span>
+    <span class="n">Dv</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">Dp</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">covariance</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">,</span>
+    <span class="n">DR_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dv_D_accel_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dv_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dp_D_accel_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dp_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="c1"># Biases and noise model</span>
+    <span class="n">accel_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">accel_cov_diagonal</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_cov_diagonal</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="c1"># Measurement</span>
+    <span class="n">accel_measurement</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_measurement</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="c1"># Singularity handling,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="c1"># Configuration</span>
+    <span class="n">use_handwritten_derivatives</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An internal helper function to update a set of preintegrated IMU measurements with a new pair of</span>
+<span class="sd">    gyroscope and accelerometer measurements. Returns the updated preintegrated measurements.</span>
+
+<span class="sd">    NOTE: If you are interested in this function, you should likely be using the</span>
+<span class="sd">    IntegrateMeasurement method of the PreintegratedImuMeasurements class located in</span>
+<span class="sd">    symforce/slam/imu_preintegration/preintegrated_imu_measurements.h.</span>
+
+<span class="sd">    When integrating the first measurement, DR should be the identity, Dv, Dp, covariance, and the</span>
+<span class="sd">    derivatives w.r.t. to bias should all be 0.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        DR (sf.Rot3): Preintegrated change in orientation</span>
+<span class="sd">        Dv (sf.V3): Preintegrated change in velocity</span>
+<span class="sd">        Dp (sf.V3): Preintegrated change in position</span>
+<span class="sd">        covariance (sf.M99): Covariance [DR, Dv, Dp] in local coordinates of mean</span>
+<span class="sd">        DR_D_gyro_bias (sf.M33): Derivative of DR w.r.t. gyro_bias</span>
+<span class="sd">        Dv_D_accel_bias (sf.M33): Derivative of Dv w.r.t. accel_bias</span>
+<span class="sd">        Dv_D_gyro_bias (sf.M33): Derivative of Dv w.r.t. gyro_bias</span>
+<span class="sd">        Dp_D_accel_bias (sf.M33): Derivative of Dp w.r.t. accel_bias</span>
+<span class="sd">        Dp_D_gyro_bias (sf.M33): Derivative of Dp w.r.t. gyro_bias</span>
+<span class="sd">        accel_bias (sf.V3): Initial guess for the accelerometer measurement bias</span>
+<span class="sd">        gyro_bias (sf.V3): Initial guess for the gyroscope measurement bias</span>
+<span class="sd">        accel_cov_diagonal (sf.M33): The diagonal of the covariance of the accelerometer measurement</span>
+<span class="sd">        gyro_cov_diagonal (sf.M33): The diagonal of the covariance of the gyroscope measurement</span>
+<span class="sd">        accel_measurement (sf.V3): The accelerometer measurement</span>
+<span class="sd">        gyro_measurement (sf.V3): The gyroscope measurement</span>
+<span class="sd">        dt (T.Scalar): The time between the new measurements and the last</span>
+<span class="sd">        epsilon (T.Scalar): epsilon for numerical stability</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        T.Tuple[sf.Rot3, sf.V3, sf.V3, sf.M99, sf.M33, sf.M33, sf.M33, sf.M33, sf.M33]:</span>
+<span class="sd">            new_DR,</span>
+<span class="sd">            new_Dv,</span>
+<span class="sd">            new_Dp,</span>
+<span class="sd">            new_covariance,</span>
+<span class="sd">            new_DR_D_gyro_bias,</span>
+<span class="sd">            new_Dv_D_accel_bias,</span>
+<span class="sd">            new_Dv_D_gyro_bias,</span>
+<span class="sd">            new_Dp_D_accel_bias</span>
+<span class="sd">            new_Dp_D_gyro_bias,</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Correct for IMU bias</span>
+    <span class="n">corrected_accel</span> <span class="o">=</span> <span class="n">accel_measurement</span> <span class="o">-</span> <span class="n">accel_bias</span>
+    <span class="n">corrected_gyro</span> <span class="o">=</span> <span class="n">gyro_measurement</span> <span class="o">-</span> <span class="n">gyro_bias</span>
+
+    <span class="c1"># Integrate the state</span>
+    <span class="n">new_DR</span><span class="p">,</span> <span class="n">new_Dv</span><span class="p">,</span> <span class="n">new_Dp</span> <span class="o">=</span> <span class="n">integrate_state</span><span class="p">(</span>
+        <span class="n">DR</span><span class="p">,</span>
+        <span class="n">Dv</span><span class="p">,</span>
+        <span class="n">Dp</span><span class="p">,</span>
+        <span class="n">accel</span><span class="o">=</span><span class="n">corrected_accel</span><span class="p">,</span>
+        <span class="n">gyro</span><span class="o">=</span><span class="n">corrected_gyro</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># NOTE(Brad): Both ways of calculating the derivatives of new_state should be the same.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">use_handwritten_derivatives</span><span class="p">:</span>
+        <span class="c1"># Definitely correct, but not very amenable to CSE</span>
+        <span class="k">def</span> <span class="nf">new_state_D</span><span class="p">(</span><span class="n">wrt_variables</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">tangent_jacobians</span><span class="p">(</span><span class="n">new_DR</span><span class="p">,</span> <span class="n">wrt_variables</span><span class="p">),</span>
+                    <span class="n">tangent_jacobians</span><span class="p">(</span><span class="n">new_Dv</span><span class="p">,</span> <span class="n">wrt_variables</span><span class="p">),</span>
+                    <span class="n">tangent_jacobians</span><span class="p">(</span><span class="n">new_Dp</span><span class="p">,</span> <span class="n">wrt_variables</span><span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="n">new_state_D_state</span> <span class="o">=</span> <span class="n">new_state_D</span><span class="p">([</span><span class="n">DR</span><span class="p">,</span> <span class="n">Dv</span><span class="p">,</span> <span class="n">Dp</span><span class="p">])</span>
+        <span class="n">new_state_D_gyro_bias</span> <span class="o">=</span> <span class="n">new_state_D</span><span class="p">([</span><span class="n">gyro_bias</span><span class="p">])</span>
+        <span class="n">new_state_D_accel_bias</span> <span class="o">=</span> <span class="n">new_state_D</span><span class="p">([</span><span class="n">accel_bias</span><span class="p">])</span>
+
+        <span class="n">new_state_D_gyro</span> <span class="o">=</span> <span class="n">new_state_D</span><span class="p">([</span><span class="n">gyro_measurement</span><span class="p">])</span>
+        <span class="n">new_state_D_accel</span> <span class="o">=</span> <span class="n">new_state_D</span><span class="p">([</span><span class="n">accel_measurement</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Handwritten derivatives, reduces op count by ~20%</span>
+        <span class="p">(</span>
+            <span class="n">new_state_D_state</span><span class="p">,</span>
+            <span class="n">new_state_D_gyro</span><span class="p">,</span>
+            <span class="n">new_state_D_accel</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">=</span> <span class="n">handwritten_new_state_D_state_gyro_accel</span><span class="p">(</span>
+            <span class="n">DR</span><span class="p">,</span> <span class="n">corrected_gyro</span><span class="p">,</span> <span class="n">corrected_accel</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">epsilon</span>
+        <span class="p">)</span>
+        <span class="n">new_state_D_gyro_bias</span> <span class="o">=</span> <span class="o">-</span><span class="n">new_state_D_gyro</span>
+        <span class="n">new_state_D_accel_bias</span> <span class="o">=</span> <span class="o">-</span><span class="n">new_state_D_accel</span>
+
+    <span class="n">new_covariance</span> <span class="o">=</span> <span class="n">new_state_D_state</span> <span class="o">*</span> <span class="n">covariance</span> <span class="o">*</span> <span class="n">new_state_D_state</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">new_covariance</span> <span class="o">+=</span> <span class="n">new_state_D_gyro</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">gyro_cov_diagonal</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">new_state_D_gyro</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">new_covariance</span> <span class="o">+=</span> <span class="n">new_state_D_accel</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">accel_cov_diagonal</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">new_state_D_accel</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">state_D_bias</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="n">DR_D_gyro_bias</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">zero</span><span class="p">()],</span>
+            <span class="p">[</span><span class="n">Dv_D_gyro_bias</span><span class="p">,</span> <span class="n">Dv_D_accel_bias</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">Dp_D_gyro_bias</span><span class="p">,</span> <span class="n">Dp_D_accel_bias</span><span class="p">],</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">new_state_D_bias</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">([[</span><span class="n">new_state_D_gyro_bias</span><span class="p">,</span> <span class="n">new_state_D_accel_bias</span><span class="p">]])</span>
+
+    <span class="n">new_state_D_bias</span> <span class="o">=</span> <span class="n">new_state_D_state</span> <span class="o">*</span> <span class="n">state_D_bias</span> <span class="o">+</span> <span class="n">new_state_D_bias</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">new_DR</span><span class="p">,</span>
+        <span class="n">new_Dv</span><span class="p">,</span>
+        <span class="n">new_Dp</span><span class="p">,</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">(</span><span class="n">new_covariance</span><span class="p">),</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">(</span><span class="n">new_state_D_bias</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]),</span>  <span class="c1"># new_DR_D_gyro_bias</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">(</span><span class="n">new_state_D_bias</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]),</span>  <span class="c1"># new_Dv_D_accel_bias</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">(</span><span class="n">new_state_D_bias</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]),</span>  <span class="c1"># new_Dv_D_gyro_bias</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">(</span><span class="n">new_state_D_bias</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">]),</span>  <span class="c1"># new_Dp_D_accel_bias</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">(</span><span class="n">new_state_D_bias</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]),</span>  <span class="c1"># new_Dp_D_gyro_bias</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="integrate_state"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.integrate_state">[docs]</a><span class="k">def</span> <span class="nf">integrate_state</span><span class="p">(</span>
+    <span class="c1"># state</span>
+    <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span>
+    <span class="n">Dv</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">Dp</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">accel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given the old preintegrated state and the new IMU measurements, calculates the</span>
+<span class="sd">    new preintegrated state.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        T.Tuple[sf.Rot3, sf.V3, sf.V3]: (new_DR, new_Dv, new_Dp)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_DR</span> <span class="o">=</span> <span class="n">DR</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">gyro</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">new_Dv</span> <span class="o">=</span> <span class="n">Dv</span> <span class="o">+</span> <span class="n">DR</span> <span class="o">*</span> <span class="n">accel</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">new_Dp</span> <span class="o">=</span> <span class="n">Dp</span> <span class="o">+</span> <span class="n">Dv</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">DR</span> <span class="o">*</span> <span class="n">accel</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">new_DR</span><span class="p">,</span> <span class="n">new_Dv</span><span class="p">,</span> <span class="n">new_Dp</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../../index.html">symforce</a></h1>
+
+
+
+<p class="blurb">Fast symbolic computation, code generation, and nonlinear optimization for robotics</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=symforce-org&repo=symforce&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../development.html">Development Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/symforce.html">symforce package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api-gen-py/sym.html">sym package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api-gen-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api-gen-cpp/filelist.html">File list</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api-cpp/filelist.html">File list</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../index.html">Module code</a><ul>
+  <li><a href="../../../symforce.html">symforce</a><ul>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Skydio, Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

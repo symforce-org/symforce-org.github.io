@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>symforce.slam.imu_preintegration.manifold_symbolic module &#8212; symforce 0.8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="symforce.test_util package" href="symforce.test_util.html" />
+    <link rel="prev" title="symforce.slam.imu_preintegration.generate module" href="symforce.slam.imu_preintegration.generate.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-symforce.slam.imu_preintegration.manifold_symbolic">
+<span id="symforce-slam-imu-preintegration-manifold-symbolic-module"></span><h1>symforce.slam.imu_preintegration.manifold_symbolic module<a class="headerlink" href="#module-symforce.slam.imu_preintegration.manifold_symbolic" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.slam.imu_preintegration.manifold_symbolic.internal_imu_residual">
+<span class="sig-name descname"><span class="pre">internal_imu_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_j</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_bias_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_bias_i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqrt_info</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DR_D_gyro_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dv_D_accel_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dv_D_gyro_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dp_D_accel_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dp_D_gyro_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_bias_hat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_bias_hat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/slam/imu_preintegration/manifold_symbolic.html#internal_imu_residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.slam.imu_preintegration.manifold_symbolic.internal_imu_residual" title="Permalink to this definition">¶</a></dt>
+<dd><p>An internal helper function to linearize the difference between the orientation, velocity, and
+position at one time step and those of another time step. The expected difference is calculated
+from the preintegrated IMU measurements between those time steps.</p>
+<p>NOTE: If you are looking for a residual for an IMU factor, do not use this. Instead use
+the one found in symforce/slam/imu_preintegration/imu_factor.h.</p>
+<p>Time step i is the time of the first IMU measurement of the interval.
+Time step j is the time after the last IMU measurement of the interval.</p>
+<p>Assumes sqrt_info is lower triangular and only reads the lower triangle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_i</strong> (<em>sf.Pose3</em>) – Pose at time step i (world_T_body)</p></li>
+<li><p><strong>vel_i</strong> (<em>sf.V3</em>) – Velocity at time step i (world frame)</p></li>
+<li><p><strong>pose_j</strong> (<em>sf.Pose3</em>) – Pose at time step j (world_T_body)</p></li>
+<li><p><strong>vel_j</strong> (<em>sf.V3</em>) – Velocity at time step j (world frame)</p></li>
+<li><p><strong>accel_bias_i</strong> (<em>sf.V3</em>) – The accelerometer bias between timesteps i and j</p></li>
+<li><p><strong>gyro_bias_i</strong> (<em>sf.V3</em>) – The gyroscope bias between timesteps i and j</p></li>
+<li><p><strong>DR</strong> (<em>sf.Rot3</em>) – Preintegrated estimate for pose_i.R.inverse() * pose_j.R</p></li>
+<li><p><strong>Dv</strong> (<em>sf.V3</em>) – Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</p></li>
+<li><p><strong>Dp</strong> (<em>sf.V3</em>) – Preintegrated estimate for position change (before velocity and gravity
+corrections) in the body frame at timestep i:
+R_i^T (p_j - p_i - v_i Delta t - 1/2 g Delta t^2),
+where R_i = pose_i.R, p_i = pose_i.t, p_j = pose_j.t, and v_i = vel_i</p></li>
+<li><p><strong>sqrt_info</strong> (<em>sf.M99</em>) – sqrt info matrix of DR(‘s tangent space), Dv, Dp</p></li>
+<li><p><strong>DR_D_gyro_bias</strong> (<em>sf.M33</em>) – Derivative of DR w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
+<li><p><strong>Dv_D_accel_bias</strong> (<em>sf.M33</em>) – Derivative of Dv w.r.t. accel_bias evaluated at accel_bias_hat</p></li>
+<li><p><strong>Dv_D_gyro_bias</strong> (<em>sf.M33</em>) – Derivative of Dv w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
+<li><p><strong>Dp_D_accel_bias</strong> (<em>sf.M33</em>) – Derivative of Dp w.r.t. accel_bias evaluated at accel_bias_hat</p></li>
+<li><p><strong>Dp_D_gyro_bias</strong> (<em>sf.M33</em>) – Derivative of Dp w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
+<li><p><strong>accel_bias_hat</strong> (<em>sf.V3</em>) – The accelerometer bias used during preintegration</p></li>
+<li><p><strong>gyro_bias_hat</strong> (<em>sf.V3</em>) – The gyroscope bias used during preintegration</p></li>
+<li><p><strong>gravity</strong> (<em>sf.V3</em>) – Acceleration due to gravity (in the same frame as pose_x and vel_x),
+i.e., the vector which when added to the accelerometer measurements gives the
+true acceleration (up to bias and noise) of the IMU.</p></li>
+<li><p><strong>dt</strong> (<em>T.Scalar</em>) – The time between timestep i and j: t_j - t_i</p></li>
+<li><p><strong>epsilon</strong> (<em>T.Scalar</em>) – epsilon used for numerical stability</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Outputs:</dt><dd><p>res: 9dof product residual between the orientations, then velocities, then positions.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix91" title="symforce.geo.matrix.Matrix91"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix91</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.slam.imu_preintegration.manifold_symbolic.right_jacobian">
+<span class="sig-name descname"><span class="pre">right_jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tangent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/slam/imu_preintegration/manifold_symbolic.html#right_jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.slam.imu_preintegration.manifold_symbolic.right_jacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>The right jacobian J(v) is d/du Log(Exp(v)^{-1} Exp(v + u)), i.e., a matrix such that
+Exp(v + dv) ~= Exp(v) Exp(J(v) dv), where v and u are tangent vectors of SO(3).</p>
+<p>Returns J(tangent).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tangent</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix33</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.slam.imu_preintegration.manifold_symbolic.handwritten_new_state_D_state_gyro_accel">
+<span class="sig-name descname"><span class="pre">handwritten_new_state_D_state_gyro_accel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrected_gyro</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrected_accel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/slam/imu_preintegration/manifold_symbolic.html#handwritten_new_state_D_state_gyro_accel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.slam.imu_preintegration.manifold_symbolic.handwritten_new_state_D_state_gyro_accel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the derivatives of the new state (meaning the DR, Dv, and Dp) w.r.t. the previous state,
+gyroscope measurement, and the accelerometer mesaurement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>DR</strong> (<em>sf.Rot3</em>) – Preintegrated DR of the previous state</p></li>
+<li><p><strong>corrected_gyro</strong> (<em>sf.V3</em>) – gyroscope measurment corrected for IMU bias</p></li>
+<li><p><strong>corrected_accel</strong> (<em>sf.V3</em>) – accelerometer measurement corrected for IMU bias</p></li>
+<li><p><strong>dt</strong> (<em>T.Scalar</em>) – Time difference between the previous time step and the new time step</p></li>
+<li><p><strong>epsilon</strong> (<em>T.Scalar</em>) – epsilon for numerical stability</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new_state_D_old_state, new_state_D_gyro_measurement, new_state_D_accel_measurement</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>T.Tuple[sf.M99, sf.M93, sf.M93]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.slam.imu_preintegration.manifold_symbolic.imu_manifold_preintegration_update">
+<span class="sig-name descname"><span class="pre">imu_manifold_preintegration_update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DR_D_gyro_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dv_D_accel_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dv_D_gyro_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dp_D_accel_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dp_D_gyro_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_bias</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_cov_diagonal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_cov_diagonal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_measurement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_measurement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_handwritten_derivatives</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/slam/imu_preintegration/manifold_symbolic.html#imu_manifold_preintegration_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.slam.imu_preintegration.manifold_symbolic.imu_manifold_preintegration_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>An internal helper function to update a set of preintegrated IMU measurements with a new pair of
+gyroscope and accelerometer measurements. Returns the updated preintegrated measurements.</p>
+<p>NOTE: If you are interested in this function, you should likely be using the
+IntegrateMeasurement method of the PreintegratedImuMeasurements class located in
+symforce/slam/imu_preintegration/preintegrated_imu_measurements.h.</p>
+<p>When integrating the first measurement, DR should be the identity, Dv, Dp, covariance, and the
+derivatives w.r.t. to bias should all be 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>DR</strong> (<em>sf.Rot3</em>) – Preintegrated change in orientation</p></li>
+<li><p><strong>Dv</strong> (<em>sf.V3</em>) – Preintegrated change in velocity</p></li>
+<li><p><strong>Dp</strong> (<em>sf.V3</em>) – Preintegrated change in position</p></li>
+<li><p><strong>covariance</strong> (<em>sf.M99</em>) – Covariance [DR, Dv, Dp] in local coordinates of mean</p></li>
+<li><p><strong>DR_D_gyro_bias</strong> (<em>sf.M33</em>) – Derivative of DR w.r.t. gyro_bias</p></li>
+<li><p><strong>Dv_D_accel_bias</strong> (<em>sf.M33</em>) – Derivative of Dv w.r.t. accel_bias</p></li>
+<li><p><strong>Dv_D_gyro_bias</strong> (<em>sf.M33</em>) – Derivative of Dv w.r.t. gyro_bias</p></li>
+<li><p><strong>Dp_D_accel_bias</strong> (<em>sf.M33</em>) – Derivative of Dp w.r.t. accel_bias</p></li>
+<li><p><strong>Dp_D_gyro_bias</strong> (<em>sf.M33</em>) – Derivative of Dp w.r.t. gyro_bias</p></li>
+<li><p><strong>accel_bias</strong> (<em>sf.V3</em>) – Initial guess for the accelerometer measurement bias</p></li>
+<li><p><strong>gyro_bias</strong> (<em>sf.V3</em>) – Initial guess for the gyroscope measurement bias</p></li>
+<li><p><strong>accel_cov_diagonal</strong> (<em>sf.M33</em>) – The diagonal of the covariance of the accelerometer measurement</p></li>
+<li><p><strong>gyro_cov_diagonal</strong> (<em>sf.M33</em>) – The diagonal of the covariance of the gyroscope measurement</p></li>
+<li><p><strong>accel_measurement</strong> (<em>sf.V3</em>) – The accelerometer measurement</p></li>
+<li><p><strong>gyro_measurement</strong> (<em>sf.V3</em>) – The gyroscope measurement</p></li>
+<li><p><strong>dt</strong> (<em>T.Scalar</em>) – The time between the new measurements and the last</p></li>
+<li><p><strong>epsilon</strong> (<em>T.Scalar</em>) – epsilon for numerical stability</p></li>
+<li><p><strong>use_handwritten_derivatives</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new_DR,
+new_Dv,
+new_Dp,
+new_covariance,
+new_DR_D_gyro_bias,
+new_Dv_D_accel_bias,
+new_Dv_D_gyro_bias,
+new_Dp_D_accel_bias
+new_Dp_D_gyro_bias,</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>T.Tuple[sf.Rot3, sf.V3, sf.V3, sf.M99, sf.M33, sf.M33, sf.M33, sf.M33, sf.M33]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.slam.imu_preintegration.manifold_symbolic.integrate_state">
+<span class="sig-name descname"><span class="pre">integrate_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Dp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/slam/imu_preintegration/manifold_symbolic.html#integrate_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.slam.imu_preintegration.manifold_symbolic.integrate_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given the old preintegrated state and the new IMU measurements, calculates the
+new preintegrated state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(new_DR, new_Dv, new_Dp)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>T.Tuple[sf.Rot3, sf.V3, sf.V3]</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>) – </p></li>
+<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>) – </p></li>
+<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>) – </p></li>
+<li><p><strong>accel</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>) – </p></li>
+<li><p><strong>gyro</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>) – </p></li>
+<li><p><strong>dt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+<li><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">symforce</a></h1>
+
+
+
+<p class="blurb">Fast symbolic computation, code generation, and nonlinear optimization for robotics</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=symforce-org&repo=symforce&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="symforce.html">symforce package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="symforce.benchmarks.html">symforce.benchmarks package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cam.html">symforce.cam package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.codegen.html">symforce.codegen package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.examples.html">symforce.examples package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.geo.html">symforce.geo package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.internal.html">symforce.internal package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.ops.html">symforce.ops package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.opt.html">symforce.opt package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="symforce.slam.html">symforce.slam package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.test_util.html">symforce.test_util package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.values.html">symforce.values package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.databuffer.html">symforce.databuffer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.logic.html">symforce.logic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.notebook_util.html">symforce.notebook_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.path_util.html">symforce.path_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.python_util.html">symforce.python_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html">symforce.symbolic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.type_helpers.html">symforce.type_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.typing.html">symforce.typing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.typing_util.html">symforce.typing_util module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-py/sym.html">sym package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/filelist.html">File list</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/filelist.html">File list</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="symforce.html">symforce package</a><ul>
+  <li><a href="symforce.slam.html">symforce.slam package</a><ul>
+  <li><a href="symforce.slam.imu_preintegration.html">symforce.slam.imu_preintegration package</a><ul>
+      <li>Previous: <a href="symforce.slam.imu_preintegration.generate.html" title="previous chapter">symforce.slam.imu_preintegration.generate module</a></li>
+      <li>Next: <a href="symforce.test_util.html" title="next chapter">symforce.test_util package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Skydio, Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/api/symforce.slam.imu_preintegration.manifold_symbolic.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
