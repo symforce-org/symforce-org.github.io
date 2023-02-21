@@ -602,7 +602,7 @@
     <span class="k">return</span> <span class="n">module</span><span class="p">,</span> <span class="n">added_module_names</span>
 
 
-<div class="viewcode-block" id="load_generated_package"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_package">[docs]</a><span class="k">def</span> <span class="nf">load_generated_package</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="load_generated_package"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_package">[docs]</a><span class="k">def</span> <span class="nf">load_generated_package</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">evict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dynamically load generated package (or module).</span>
 
@@ -612,7 +612,21 @@
 <span class="sd">              &quot;pkg.sub_pkg.mod&quot; for a module called &quot;mod&quot; inside of pkg.sub_pkg).</span>
 <span class="sd">        path: The path to the directory (or __init__.py) of the package, or the python</span>
 <span class="sd">              file of the module.</span>
+<span class="sd">        evict: Whether to evict the imported package from sys.modules after loading it.  This is</span>
+<span class="sd">            necessary for functions generated in the `sym` namespace, since leaving them would make</span>
+<span class="sd">            it impossible to `import sym` and get the `symforce-sym` package as expected.  For this</span>
+<span class="sd">            reason, attempting to load a generated package called `sym` with `evict=False` is</span>
+<span class="sd">            disallowed.  However, evict should be `False` for numba-compiled functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">evict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sym&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Attempted to hotload a generated package called `sym` - see &quot;</span>
+                <span class="s2">&quot;`help(load_generated_package)` for more information&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">_load_generated_package_internal</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="c1"># NOTE(brad): We remove all possibly conflicting modules from the cache. This is</span>
     <span class="c1"># to ensure that when name is executed, it loads local modules (if any) rather</span>
     <span class="c1"># than any with colliding names that have been loaded elsewhere</span>
@@ -643,7 +657,9 @@
     <span class="k">return</span> <span class="n">module</span></div>
 
 
-<div class="viewcode-block" id="load_generated_function"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_function">[docs]</a><span class="k">def</span> <span class="nf">load_generated_function</span><span class="p">(</span><span class="n">func_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_to_package</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="load_generated_function"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_function">[docs]</a><span class="k">def</span> <span class="nf">load_generated_function</span><span class="p">(</span>
+    <span class="n">func_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_to_package</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">evict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns the function with name func_name found inside the package located at</span>
 <span class="sd">    path_to_package.</span>
@@ -658,17 +674,22 @@
 <span class="sd">        generated_func = load_generated_function(&quot;my_func&quot;, codegen_data.function_dir)</span>
 <span class="sd">        generated_func(...)</span>
 
-<span class="sd">    Preconditions:</span>
-<span class="sd">        path_to_package is a python package with an `__init__.py` containing a module</span>
-<span class="sd">            defined in `func_name.py` which in turn defines an attribute named `func_name`.</span>
-<span class="sd">            Note: the precondition will be satisfied if the package was generated by</span>
-<span class="sd">            `Codegen.generate_function` from a `Codegen` function with name `func_name`.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        path_to_package: a python package with an `__init__.py` containing a module defined in</span>
+<span class="sd">            `func_name.py` which in turn defines an attribute named `func_name`. See the example</span>
+<span class="sd">            above.</span>
+<span class="sd">        evict: Whether to evict the imported package from sys.modules after loading it.  This is</span>
+<span class="sd">            necessary for functions generated in the `sym` namespace, since leaving them would make</span>
+<span class="sd">            it impossible to `import sym` and get the `symforce-sym` package as expected.  However,</span>
+<span class="sd">            this should be `False` for numba-compiled functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pkg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path_to_package</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pkg_path</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">:</span>
         <span class="n">pkg_path</span> <span class="o">=</span> <span class="n">pkg_path</span><span class="o">.</span><span class="n">parent</span>
     <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">pkg_path</span><span class="o">.</span><span class="n">name</span>
-    <span class="n">func_module</span> <span class="o">=</span> <span class="n">load_generated_package</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pkg_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pkg_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s2">.py&quot;</span><span class="p">)</span>
+    <span class="n">func_module</span> <span class="o">=</span> <span class="n">load_generated_package</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pkg_name</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pkg_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func_name</span><span class="si">}</span><span class="s2">.py&quot;</span><span class="p">,</span> <span class="n">evict</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func_module</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span></div>
 
 

@@ -319,7 +319,7 @@ flattened_original_values: nested list of original scalar values</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.load_generated_package">
-<span class="sig-name descname"><span class="pre">load_generated_package</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#load_generated_package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.load_generated_package" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_generated_package</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#load_generated_package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.load_generated_package" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dynamically load generated package (or module).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -329,6 +329,11 @@ for a package called “sub_pkg” inside of another package “pkg”, or
 “pkg.sub_pkg.mod” for a module called “mod” inside of pkg.sub_pkg).</p></li>
 <li><p><strong>path</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – The path to the directory (or __init__.py) of the package, or the python
 file of the module.</p></li>
+<li><p><strong>evict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to evict the imported package from sys.modules after loading it.  This is
+necessary for functions generated in the <cite>sym</cite> namespace, since leaving them would make
+it impossible to <cite>import sym</cite> and get the <cite>symforce-sym</cite> package as expected.  For this
+reason, attempting to load a generated package called <cite>sym</cite> with <cite>evict=False</cite> is
+disallowed.  However, evict should be <cite>False</cite> for numba-compiled functions.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -339,7 +344,7 @@ file of the module.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.load_generated_function">
-<span class="sig-name descname"><span class="pre">load_generated_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_to_package</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#load_generated_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.load_generated_function" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load_generated_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_to_package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#load_generated_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.load_generated_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the function with name func_name found inside the package located at
 path_to_package.</p>
 <p>Example usage:</p>
@@ -353,20 +358,17 @@ codegen_data = my_codegen.generate_function(output_dir=output_dir)
 generated_func = load_generated_function(“my_func”, codegen_data.function_dir)
 generated_func(…)</p>
 </div></blockquote>
-<dl class="simple">
-<dt>Preconditions:</dt><dd><dl class="simple">
-<dt>path_to_package is a python package with an <cite>__init__.py</cite> containing a module</dt><dd><p>defined in <cite>func_name.py</cite> which in turn defines an attribute named <cite>func_name</cite>.
-Note: the precondition will be satisfied if the package was generated by
-<cite>Codegen.generate_function</cite> from a <cite>Codegen</cite> function with name <cite>func_name</cite>.</p>
-</dd>
-</dl>
-</dd>
-</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>path_to_package</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – a python package with an <cite>__init__.py</cite> containing a module defined in
+<cite>func_name.py</cite> which in turn defines an attribute named <cite>func_name</cite>. See the example
+above.</p></li>
+<li><p><strong>evict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to evict the imported package from sys.modules after loading it.  This is
+necessary for functions generated in the <cite>sym</cite> namespace, since leaving them would make
+it impossible to <cite>import sym</cite> and get the <cite>symforce-sym</cite> package as expected.  However,
+this should be <cite>False</cite> for numba-compiled functions.</p></li>
 <li><p><strong>func_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p></li>
-<li><p><strong>path_to_package</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

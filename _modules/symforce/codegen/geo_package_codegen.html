@@ -129,41 +129,51 @@
             <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="n">rot3_functions</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random_from_uniform_samples</span><span class="p">,</span> <span class="n">pi</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;random_from_uniform_samples&quot;</span><span class="p">,</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="c1"># TODO(aaron): We currently can&#39;t generate custom methods with defaults - fix this, and</span>
-            <span class="c1"># pass epsilon as an argument with a default</span>
-            <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span>
-            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">],</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;to_yaw_pitch_roll&quot;</span><span class="p">,</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-    <span class="p">]</span>
-
-    <span class="c1"># TODO(brad): We don&#39;t currently generate this in python because python (unlike C++)</span>
-    <span class="c1"># has no function overloading, and we already generate a from_yaw_pitch_roll which</span>
-    <span class="c1"># instead takes yaw, pitch, and roll as seperate arguments. Figure out how to allow</span>
-    <span class="c1"># this overload to better achieve parity between C++ and python.</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">PythonConfig</span><span class="p">):</span>
-        <span class="k">pass</span>
-        <span class="c1"># rot3_functions.insert(2, Codegen.function(func=sf.Rot3.from_rotation_matrix, config=config))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">rot3_functions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+    <span class="n">rot3_functions</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">),</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-                <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ypr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="o">*</span><span class="n">ypr</span><span class="p">),</span>
-                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">],</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;from_yaw_pitch_roll&quot;</span><span class="p">,</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random_from_uniform_samples</span><span class="p">,</span> <span class="n">pi</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;random_from_uniform_samples&quot;</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="p">),</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="c1"># TODO(aaron): We currently can&#39;t generate custom methods with defaults - fix this, and</span>
+                <span class="c1"># pass epsilon as an argument with a default</span>
+                <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">],</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;to_yaw_pitch_roll&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="o">+</span> <span class="p">(</span>
+            <span class="c1"># TODO(brad): We don&#39;t currently generate this in python because python (unlike C++)</span>
+            <span class="c1"># has no function overloading, and we already generate a from_yaw_pitch_roll which</span>
+            <span class="c1"># instead takes yaw, pitch, and roll as seperate arguments. Figure out how to allow</span>
+            <span class="c1"># this overload to better achieve parity between C++ and python.</span>
+            <span class="p">[</span>
+                <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                    <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ypr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="o">*</span><span class="n">ypr</span><span class="p">),</span>
+                    <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">],</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;from_yaw_pitch_roll&quot;</span><span class="p">,</span>
+                    <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">CppConfig</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">[]</span>
         <span class="p">)</span>
+        <span class="o">+</span> <span class="p">(</span>
+            <span class="c1"># In C++, we do this with Eigen</span>
+            <span class="p">[</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_angle_axis</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">PythonConfig</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">[]</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="p">[</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_two_unit_vectors</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">pose_getter_methods</span><span class="p">(</span><span class="n">pose_type</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Codegen</span><span class="p">]:</span>
         <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
