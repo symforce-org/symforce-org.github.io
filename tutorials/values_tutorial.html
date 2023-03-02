@@ -305,15 +305,15 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Setup
-import symforce
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup</span>
+<span class="kn">import</span> <span class="nn">symforce</span>
 
-symforce.set_symbolic_api(&quot;sympy&quot;)
-symforce.set_log_level(&quot;warning&quot;)
+<span class="n">symforce</span><span class="o">.</span><span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;sympy&quot;</span><span class="p">)</span>
+<span class="n">symforce</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s2">&quot;warning&quot;</span><span class="p">)</span>
 
-import symforce.symbolic as sf
-from symforce.values import Values
-from symforce.notebook_util import display, display_code, display_code_file
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
+<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">display_code</span><span class="p">,</span> <span class="n">display_code_file</span>
 </pre></div>
 </div>
 </div>
@@ -321,11 +321,11 @@ from symforce.notebook_util import display, display_code, display_code_file
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>inputs = Values(
-    x=sf.Symbol(&quot;x&quot;),
-    y=sf.Rot2.symbolic(&quot;c&quot;),
-)
-display(inputs)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">),</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -345,8 +345,8 @@ Values(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>inputs.add(sf.Symbol(&quot;foo&quot;))
-display(inputs)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -367,10 +367,10 @@ Values(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x, y = sf.symbols(&quot;x y&quot;)
-expr = x ** 2 + sf.sin(y) / x ** 2
-inputs[&quot;states&quot;] = Values(p=expr)
-display(inputs)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;x y&quot;</span><span class="p">)</span>
+<span class="n">expr</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">expr</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -394,7 +394,7 @@ Values(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(inputs.to_storage())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -410,7 +410,7 @@ $\displaystyle \left[ x, \  c_{re}, \  c_{im}, \  foo, \  x^{2} + \frac{\sin{\le
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(inputs.items_recursive())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -430,8 +430,8 @@ $\displaystyle \left[ x, \  c_{re}, \  c_{im}, \  foo, \  x^{2} + \frac{\sin{\le
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(inputs.keys_recursive())
-display(inputs.values_recursive())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">values_recursive</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -456,8 +456,8 @@ display(inputs.values_recursive())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>index = inputs.index()
-index
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
+<span class="n">index</span>
 </pre></div>
 </div>
 </div>
@@ -482,9 +482,9 @@ OrderedDict([(&#39;x&#39;,
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>inputs2 = Values.from_storage_index(inputs.to_storage(), index)
-assert inputs == inputs2
-display(inputs)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs2</span> <span class="o">=</span> <span class="n">Values</span><span class="o">.</span><span class="n">from_storage_index</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span> <span class="n">index</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">inputs</span> <span class="o">==</span> <span class="n">inputs2</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -508,8 +508,8 @@ Values(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>item_index = inputs.index()[&quot;states&quot;].item_index
-assert item_index == inputs[&quot;states&quot;].index()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">item_index</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">index</span><span class="p">()[</span><span class="s2">&quot;states&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">item_index</span>
+<span class="k">assert</span> <span class="n">item_index</span> <span class="o">==</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -518,8 +518,8 @@ assert item_index == inputs[&quot;states&quot;].index()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>inputs[&quot;states.blah&quot;] = 3
-display(inputs)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;states.blah&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -544,8 +544,8 @@ Values(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>assert inputs[&quot;states.p&quot;] is inputs[&quot;states&quot;][&quot;p&quot;] is inputs.attr.states.p
-display(inputs.attr.states.p)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;states.p&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">][</span><span class="s2">&quot;p&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="n">inputs</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">states</span><span class="o">.</span><span class="n">p</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">states</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -561,9 +561,9 @@ $\displaystyle x^{2} + \frac{\sin{\left(y \right)}}{x^{2}}$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>with sf.scope(&quot;params&quot;):
-    s = sf.Symbol(&quot;cost&quot;)
-display(s)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;cost&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -579,14 +579,14 @@ $\displaystyle params.cost$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>v = Values()
-v.add(sf.Symbol(&quot;x&quot;))
-with sf.scope(&quot;foo&quot;):
-    v.add(sf.Symbol(&quot;x&quot;))
-    with sf.scope(&quot;bar&quot;):
-        v.add(sf.Symbol(&quot;x&quot;))
-display(v)
-display(v.attr.foo.bar.x)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
+<span class="n">v</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">):</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">):</span>
+        <span class="n">v</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">attr</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">bar</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -618,11 +618,11 @@ $\displaystyle foo.bar.x$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>v = Values()
-with v.scope(&quot;hello&quot;):
-    v[&quot;y&quot;] = x ** 2
-    v[&quot;z&quot;] = sf.Symbol(&quot;z&quot;)
-v
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">):</span>
+    <span class="n">v</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">v</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
+<span class="n">v</span>
 </pre></div>
 </div>
 </div>
@@ -648,17 +648,17 @@ Values(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>lie_vals = Values()
-lie_vals[&quot;scalar&quot;] = sf.Symbol(&quot;x&quot;)
-lie_vals[&quot;rot3&quot;] = sf.Rot3.symbolic(&quot;rot&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lie_vals</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
+<span class="n">lie_vals</span><span class="p">[</span><span class="s2">&quot;scalar&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">lie_vals</span><span class="p">[</span><span class="s2">&quot;rot3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;rot&quot;</span><span class="p">)</span>
 
-sub_lie_vals = Values()
-sub_lie_vals[&quot;pose3&quot;] = sf.Pose3.symbolic(&quot;pose&quot;)
-sub_lie_vals[&quot;vec&quot;] = sf.V3.symbolic(&quot;vec&quot;)
+<span class="n">sub_lie_vals</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
+<span class="n">sub_lie_vals</span><span class="p">[</span><span class="s2">&quot;pose3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;pose&quot;</span><span class="p">)</span>
+<span class="n">sub_lie_vals</span><span class="p">[</span><span class="s2">&quot;vec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;vec&quot;</span><span class="p">)</span>
 
-lie_vals[&quot;sub_vals&quot;] = sub_lie_vals
+<span class="n">lie_vals</span><span class="p">[</span><span class="s2">&quot;sub_vals&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub_lie_vals</span>
 
-display(lie_vals)
+<span class="n">display</span><span class="p">(</span><span class="n">lie_vals</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -684,8 +684,8 @@ Values(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(lie_vals.tangent_dim())
-display(len(lie_vals.to_tangent()))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">lie_vals</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lie_vals</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">()))</span>
 </pre></div>
 </div>
 </div>
@@ -708,7 +708,7 @@ $\displaystyle 13$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>display(lie_vals.storage_D_tangent())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">lie_vals</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -724,10 +724,10 @@ $\displaystyle \left[\begin{array}{ccccccccccccc}1 &amp; 0 &amp; 0 &amp; 0 &amp;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>residual = sf.Matrix(6, 1)
-residual[0:3, 0] = lie_vals[&quot;rot3&quot;] * lie_vals[&quot;sub_vals.vec&quot;]
-residual[3:6, 0] = lie_vals[&quot;sub_vals.pose3&quot;] * lie_vals[&quot;sub_vals.vec&quot;]
-display(residual)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residual</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">residual</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">lie_vals</span><span class="p">[</span><span class="s2">&quot;rot3&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">lie_vals</span><span class="p">[</span><span class="s2">&quot;sub_vals.vec&quot;</span><span class="p">]</span>
+<span class="n">residual</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">lie_vals</span><span class="p">[</span><span class="s2">&quot;sub_vals.pose3&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">lie_vals</span><span class="p">[</span><span class="s2">&quot;sub_vals.vec&quot;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -742,9 +742,9 @@ $\displaystyle \left[\begin{matrix}vec_{0} \left(- 2 rot_{y}^{2} - 2 rot_{z}^{2}
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>residual_D_tangent = residual.jacobian(lie_vals)
-display(residual_D_tangent.shape)
-display(residual_D_tangent)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residual_D_tangent</span> <span class="o">=</span> <span class="n">residual</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">lie_vals</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">residual_D_tangent</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">residual_D_tangent</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -872,7 +872,7 @@ $\displaystyle \left[\begin{array}{ccccccccccccc}0 &amp; vec_{1} \cdot \left(2 r
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="../_sources/tutorials/values_tutorial.ipynb.txt"

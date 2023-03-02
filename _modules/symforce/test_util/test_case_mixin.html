@@ -62,7 +62,7 @@
 
 
 <div class="viewcode-block" id="SymforceTestCaseMixin"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin">[docs]</a><span class="k">class</span> <span class="nc">SymforceTestCaseMixin</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Mixin for SymForce tests, adds useful helpers for code generation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -95,7 +95,7 @@
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.main"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.main">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call this to run all tests in scope.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">should_update</span><span class="p">()</span>
@@ -105,7 +105,7 @@
     <span class="k">def</span> <span class="nf">assertStorageNear</span><span class="p">(</span>
         <span class="n">actual</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">desired</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">places</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check that two elements are close. Handles sequences, scalars, and geometry types</span>
 <span class="sd">        using StorageOps.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -126,7 +126,7 @@
         <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check that two LieGroup elements are close.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">epsilon</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="nb">max</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">places</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
@@ -144,14 +144,14 @@
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.assertArrayEqual"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.assertArrayEqual">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">assertArrayEqual</span><span class="p">(</span><span class="n">actual</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">ArrayElement</span><span class="p">,</span> <span class="n">desired</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">ArrayElement</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Called by unittest base class when comparing ndarrays when &quot;assertEqual&quot; is called.</span>
 <span class="sd">        By default, &quot;assertEqual&quot; uses the &quot;==&quot; operator, which is not implemented for ndarrays.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_array_equal</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">desired</span><span class="p">,</span> <span class="n">err_msg</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.assertNotEqual"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.assertNotEqual">[docs]</a>    <span class="k">def</span> <span class="nf">assertNotEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">second</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">msg</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Overrides unittest.assertNotEqual to handle ndarrays separately. &quot;assertNotEqual&quot;</span>
 <span class="sd">        uses the &quot;!=&quot; operator, but this is not implemented for ndarrays. Instead, we check that</span>
 <span class="sd">        np.testing.assert_array_equal raises an assertion error, as numpy testing does not provide</span>
@@ -169,7 +169,7 @@
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.make_output_dir"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.make_output_dir">[docs]</a>    <span class="k">def</span> <span class="nf">make_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a temporary output directory, which will be automatically removed (regardless of</span>
 <span class="sd">        exceptions) on shutdown, unless logger.level is DEBUG</span>
 
@@ -186,7 +186,7 @@
         <span class="k">return</span> <span class="n">output_dir</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.setUp"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates list of temporary directories that will be removed before shutdown (unless debug</span>
 <span class="sd">        mode is on)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -199,7 +199,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dirs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.tearDown"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes temporary output directories (unless debug mode is on)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">tearDown</span><span class="p">()</span>
@@ -208,7 +208,7 @@
                 <span class="n">python_util</span><span class="o">.</span><span class="n">remove_if_exists</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.compare_or_update"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.compare_or_update">[docs]</a>    <span class="k">def</span> <span class="nf">compare_or_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compare the given data to what is saved in path, OR update the saved data if</span>
 <span class="sd">        the --update flag was passed to the test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -241,7 +241,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">compare_or_update</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="n">new_file</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span></div>
 
     <span class="k">def</span> <span class="nf">_filtered_paths_in_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Find the list of paths in a directory not in KEEP_PATHS, recursively.  The result is in</span>
 <span class="sd">        sorted order</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -251,7 +251,7 @@
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">path</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">files_in_dir</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">keep_regex</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
 
 <div class="viewcode-block" id="SymforceTestCaseMixin.compare_or_update_directory"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.compare_or_update_directory">[docs]</a>    <span class="k">def</span> <span class="nf">compare_or_update_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actual_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">expected_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check the contents of actual_dir match expected_dir, OR update the expected directory</span>
 <span class="sd">        if the --update flag was passed to the test.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -380,7 +380,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

@@ -62,7 +62,7 @@
 
 
 <div class="viewcode-block" id="Values"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values">[docs]</a><span class="k">class</span> <span class="nc">Values</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">MutableMapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ordered dictionary serializable storage. This class is the basis for specifying both inputs</span>
 <span class="sd">    and outputs in symforce. The hierarchy of nested values get code generated into types, and</span>
 <span class="sd">    several methods of access and introspection are provided that reduce downstream complexity.</span>
@@ -74,7 +74,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Values.__init__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create like a Python dict.</span>
 
 <span class="sd">        Args:</span>
@@ -104,25 +104,25 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Values.keys"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">KeysView</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        An object providing a view on contained keys.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Values.values"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.values">[docs]</a>    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">ValuesView</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        An object providing a view on contained values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="o">.</span><span class="n">values</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Values.items"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">ItemsView</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        An object providng a view on contained key/value pairs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Values.get"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the value for key if key is in the dictionary, else default.</span>
 
 <span class="sd">        Args:</span>
@@ -135,7 +135,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.__deepcopy__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__deepcopy__">[docs]</a>    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a deepcopy of this Values.</span>
 
 <span class="sd">        Use copy.deepcopy to call.</span>
@@ -143,13 +143,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Values.copy"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a deepcopy of this Values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.__len__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__len__">[docs]</a>    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the number of elements in this Values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="p">)</span></div>
@@ -166,7 +166,7 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Values.index"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IndexEntry</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the index with structural information to reconstruct this values</span>
 <span class="sd">        in :func:`from_storage()`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -174,7 +174,7 @@
 
 <div class="viewcode-block" id="Values.get_index_from_items"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.get_index_from_items">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_index_from_items</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IndexEntry</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Builds an index from a list of key/value pairs of objects. This function</span>
 <span class="sd">        can be called recursively either for the items of a Values object or for the</span>
 <span class="sd">        items of a list (using e.g. zip(my_keys, my_list), where my_keys are some</span>
@@ -227,7 +227,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_items_recursive</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">Values</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper for items_recursive that handles sequences</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">flat_items</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -255,14 +255,14 @@
         <span class="k">return</span> <span class="n">flat_items</span>
 
 <div class="viewcode-block" id="Values.items_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.items_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">items_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of key/value pairs for every element in this object in insertion order</span>
 <span class="sd">        of highest level dot seperated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[(</span><span class="n">key</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="p">:],</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">Values</span><span class="o">.</span><span class="n">_items_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="Values.keys_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.keys_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">keys_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of unique keys for every element in this object in insertion order</span>
 <span class="sd">        of highest level dot seperated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -272,7 +272,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Values.values_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.values_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">values_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of elements stored in this Values object in insertion order</span>
 <span class="sd">        of highest level dot seperated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -282,7 +282,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">value</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Values.subkeys_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.subkeys_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">subkeys_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of subkeys for every element in this object in insertion order</span>
 <span class="sd">        of highest level dot seperated key. Unlike keys_recursive, subkeys_recursive does not</span>
 <span class="sd">        return dot-separated keys.</span>
@@ -290,7 +290,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">()]</span></div>
 
 <div class="viewcode-block" id="Values.scalar_keys_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.scalar_keys_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">scalar_keys_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of keys to each scalar in this object in insertion order</span>
 <span class="sd">        of highest level dot seperated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -308,13 +308,13 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Values.storage_dim"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.storage_dim">[docs]</a>    <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dimension of the underlying storage</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Values.to_storage"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of unique values for every scalar element in this object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">scalar</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span></div>
@@ -323,7 +323,7 @@
     <span class="k">def</span> <span class="nf">from_storage_index</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">vector_values</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">indices</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IndexEntry</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Takes a vectorized values and corresponding indices and reconstructs the original form.</span>
 <span class="sd">        Reverse of :func:`to_storage()`.</span>
 
@@ -367,7 +367,7 @@
         <span class="k">return</span> <span class="n">values</span></div>
 
 <div class="viewcode-block" id="Values.from_storage"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.from_storage">[docs]</a>    <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Values object with the same structure as self but constructed</span>
 <span class="sd">        from a flat list representation. Opposite of `.to_storage()`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -375,7 +375,7 @@
         <span class="k">return</span> <span class="n">Values</span><span class="o">.</span><span class="n">from_storage_index</span><span class="p">(</span><span class="n">elements</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Values.symbolic"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.symbolic">[docs]</a>    <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a Values object with the same structure as self, where each element</span>
 <span class="sd">        is a symbolic element with the given name prefix. Kwargs are forwarded</span>
 <span class="sd">        to sf.Symbol (for example, sympy assumptions).</span>
@@ -386,7 +386,7 @@
         <span class="k">return</span> <span class="n">symbolic_values</span></div>
 
 <div class="viewcode-block" id="Values.evalf"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.evalf">[docs]</a>    <span class="k">def</span> <span class="nf">evalf</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Numerical evaluation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_storage_index</span><span class="p">(</span>
@@ -398,7 +398,7 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Values.identity"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.identity">[docs]</a>    <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns Values object with same structure as self, but with each element as an identity element.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">identity_values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
@@ -407,7 +407,7 @@
         <span class="k">return</span> <span class="n">identity_values</span></div>
 
 <div class="viewcode-block" id="Values.compose"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Element-wise compose of each element with another Values of identical structure</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">index</span><span class="p">()</span>
@@ -417,7 +417,7 @@
         <span class="k">return</span> <span class="n">composed_values</span></div>
 
 <div class="viewcode-block" id="Values.inverse"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Element-wise inverse of this Values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">inverse_values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
@@ -430,13 +430,13 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Values.tangent_dim"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.tangent_dim">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sum of the dimensions of the embedded manifold of each element</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">())</span></div>
 
 <div class="viewcode-block" id="Values.from_tangent"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.from_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a Values object with the same structure as self, but by computing</span>
 <span class="sd">        each element using the mapping from its corresponding tangent space vector</span>
 <span class="sd">        about identity into a group element.</span>
@@ -450,7 +450,7 @@
         <span class="k">return</span> <span class="n">updated_values</span></div>
 
 <div class="viewcode-block" id="Values.to_tangent"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns flat vector representing concatentated tangent spaces of each element.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">vec</span> <span class="o">=</span> <span class="p">[]</span>
@@ -459,7 +459,7 @@
         <span class="k">return</span> <span class="n">vec</span></div>
 
 <div class="viewcode-block" id="Values.retract"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply a pertubation vec in the concatenated tangent spaces of each element. Often used in</span>
 <span class="sd">        optimization to update nonlinear values from an update step in the tangent space.</span>
 
@@ -475,7 +475,7 @@
         <span class="k">return</span> <span class="n">retracted_values</span></div>
 
 <div class="viewcode-block" id="Values.local_coordinates"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes a pertubation in the combined tangent space around self to produce b. Often used</span>
 <span class="sd">        in optimization to minimize the distance between two group elements.</span>
 
@@ -489,7 +489,7 @@
         <span class="k">return</span> <span class="n">vec</span></div>
 
 <div class="viewcode-block" id="Values.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a matrix with dimensions (storage_dim x tangent_dim) which represents</span>
 <span class="sd">        the jacobian of the flat storage space of self wrt to the flat tangent space of</span>
 <span class="sd">        self. The resulting jacobian is a block diagonal matrix, where each block corresponds</span>
@@ -509,7 +509,7 @@
         <span class="k">return</span> <span class="n">storage_D_tangent</span></div>
 
 <div class="viewcode-block" id="Values.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a matrix with dimensions (tangent_dim x storage_dim) which represents</span>
 <span class="sd">        the jacobian of the flat tangent space of self wrt to the flat storage space of</span>
 <span class="sd">        self. The resulting jacobian is a block diagonal matrix, where each block corresponds</span>
@@ -533,7 +533,7 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Values.format"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pretty format as an indented tree.</span>
 
 <span class="sd">        Args:</span>
@@ -556,7 +556,7 @@
         <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">indent_str</span> <span class="o">+</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.__repr__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        String representation, simply calls :func:`format()`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">()</span></div>
@@ -568,7 +568,7 @@
     <span class="k">def</span> <span class="nf">_get_subvalues_key_and_indices</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">create</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Values</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Given a key, compute the full key name by applying name scopes, and find</span>
 <span class="sd">        the innermost values that contains that full key. Return the innermost values,</span>
 <span class="sd">        the child key within that, and the attached indices.</span>
@@ -639,7 +639,7 @@
         <span class="n">should_set</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">set_target</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Recurse into a nested sequence, using multi-dimensional `indices`, and return the entry in</span>
 <span class="sd">        the innermost level.</span>
 
@@ -715,7 +715,7 @@
         <span class="k">return</span> <span class="n">item</span>
 
 <div class="viewcode-block" id="Values.__setitem__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__setitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set an entry at a given path in the Values, creating the path if it doesn&#39;t exist</span>
 
 <span class="sd">        This means that intermediate Values objects along the path will be created.  Intermediate</span>
@@ -770,7 +770,7 @@
 
 <div class="viewcode-block" id="Values.scope"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.scope">[docs]</a>    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
     <span class="k">def</span> <span class="nf">scope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Context manager to apply a name scope to both keys added to the values</span>
 <span class="sd">        and new symbols created within the with block.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -778,14 +778,14 @@
             <span class="k">yield</span> <span class="kc">None</span></div>
 
     <span class="k">def</span> <span class="nf">_remove_scope</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Strips the current Values scope off of the given key if present.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__scopes__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span>
         <span class="k">return</span> <span class="n">key</span><span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="p">:]</span>
 
 <div class="viewcode-block" id="Values.add"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a symbol into the values using its given name, either a Symbol or a string.</span>
 <span class="sd">        Allows avoiding duplication of the sort `v[&#39;foo&#39;] = sf.Symbol(&#39;foo&#39;)`.</span>
 
@@ -808,7 +808,7 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Values.__eq__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__eq__">[docs]</a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Exact equality check.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Values</span><span class="p">):</span>
@@ -817,7 +817,7 @@
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="Values.subs"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.subs">[docs]</a>    <span class="k">def</span> <span class="nf">subs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Substitute given values of each scalar element into a new instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span>
@@ -825,14 +825,14 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.simplify"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Simplify each scalar element into a new instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())))</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_apply_to_leaves</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Recursive implementation of `.apply_to_leaves`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Values</span><span class="p">):</span>
@@ -851,20 +851,20 @@
             <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Values.apply_to_leaves"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.apply_to_leaves">[docs]</a>    <span class="k">def</span> <span class="nf">apply_to_leaves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply the given function to each leaf node of the Values, and return</span>
 <span class="sd">        a new Values. This currently also converts any dataclasses to Values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Values</span><span class="o">.</span><span class="n">_apply_to_leaves</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.dataclasses_to_values"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.dataclasses_to_values">[docs]</a>    <span class="k">def</span> <span class="nf">dataclasses_to_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Recursively convert dataclasses to Values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_leaves</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.to_numerical"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.to_numerical">[docs]</a>    <span class="k">def</span> <span class="nf">to_numerical</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert any symbolic types in this Values to numerical quantities. This currently</span>
 <span class="sd">        also converts any dataclasses to Values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -894,7 +894,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_leaves</span><span class="p">(</span><span class="n">_leaf_to_numerical</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.to_dict"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts this Values object and any Values or Dataclass objects contained within it to dict</span>
 <span class="sd">        objects. This is different from self.dict because self.dict can have leaves which are</span>
 <span class="sd">        Values objects, whereas the dict returned by this function recursively converts all Values</span>
@@ -918,7 +918,7 @@
         <span class="k">return</span> <span class="n">_to_dict_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Values.__getstate__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__getstate__">[docs]</a>    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Called when pickling this Values. Because some symengine objects cannot be pickled, we first</span>
 <span class="sd">        convert any symbolic types to numerical types, and then store the data + index.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -926,7 +926,7 @@
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;storage&quot;</span><span class="p">:</span> <span class="n">storage</span><span class="p">,</span> <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">()}</span></div>
 
 <div class="viewcode-block" id="Values.__setstate__"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.__setstate__">[docs]</a>    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Called when unpickling a Values object. Rebuilds the Values object using the storage data</span>
 <span class="sd">        and index of the pickled object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1044,7 +1044,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

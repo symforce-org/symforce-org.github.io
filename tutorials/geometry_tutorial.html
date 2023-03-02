@@ -305,15 +305,15 @@ div.rendered_html tbody tr:hover {
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Setup
-import symforce
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup</span>
+<span class="kn">import</span> <span class="nn">symforce</span>
 
-symforce.set_symbolic_api(&quot;sympy&quot;)
-symforce.set_log_level(&quot;warning&quot;)
+<span class="n">symforce</span><span class="o">.</span><span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;sympy&quot;</span><span class="p">)</span>
+<span class="n">symforce</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s2">&quot;warning&quot;</span><span class="p">)</span>
 
-from symforce.notebook_util import display
-import symforce.symbolic as sf
-from symforce import ops
+<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
 </pre></div>
 </div>
 </div>
@@ -325,8 +325,8 @@ from symforce import ops
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Identity definition
-display(sf.Rot3())
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Identity definition</span>
+<span class="n">display</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -342,8 +342,8 @@ display(sf.Rot3())
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Symbolic definition
-display(sf.Rot3.symbolic(&quot;R&quot;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Symbolic definition</span>
+<span class="n">display</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -359,22 +359,22 @@ display(sf.Rot3.symbolic(&quot;R&quot;))
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># To/From rotation matrix
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># To/From rotation matrix</span>
 
-# Rotate about x-axis
-theta = sf.Symbol(&quot;theta&quot;)
-R_mat = sf.Matrix(
-    [
-        [1, 0, 0],
-        [0, sf.cos(theta), -sf.sin(theta)],
-        [0, sf.sin(theta), sf.cos(theta)],
-    ]
-)
-R = sf.Rot3.from_rotation_matrix(R_mat)
+<span class="c1"># Rotate about x-axis</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">)</span>
+<span class="n">R_mat</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="o">-</span><span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_rotation_matrix</span><span class="p">(</span><span class="n">R_mat</span><span class="p">)</span>
 
-display(R_mat)
-display(R)  # Note the additional expressions required to avoid numerical errors
-display(R.to_rotation_matrix())
+<span class="n">display</span><span class="p">(</span><span class="n">R_mat</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>  <span class="c1"># Note the additional expressions required to avoid numerical errors</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -404,12 +404,12 @@ $\displaystyle \left[\begin{matrix}- 2 \left(\frac{1}{2} - \frac{\min\left(1 - \
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># To/From Euler angles
-R = sf.Rot3.from_yaw_pitch_roll(0, 0, theta)  # Yaw rotation only
-ypr = R.to_yaw_pitch_roll()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># To/From Euler angles</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>  <span class="c1"># Yaw rotation only</span>
+<span class="n">ypr</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">()</span>
 
-display(R)
-display(ops.StorageOps.simplify(list(ypr)))  # Simplify YPR expression
+<span class="n">display</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">ypr</span><span class="p">)))</span>  <span class="c1"># Simplify YPR expression</span>
 </pre></div>
 </div>
 </div>
@@ -432,12 +432,12 @@ $\displaystyle \left[ 0, \  0, \  \operatorname{atan}_{2}{\left(\sin{\left(\thet
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># From axis-angle representation
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># From axis-angle representation</span>
 
-# Rotate about x-axis
-R = sf.Rot3.from_angle_axis(angle=theta, axis=sf.Vector3(1, 0, 0))
+<span class="c1"># Rotate about x-axis</span>
+<span class="n">R</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_angle_axis</span><span class="p">(</span><span class="n">angle</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 
-display(R)
+<span class="n">display</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -454,16 +454,16 @@ display(R)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Rotation defining orientation of body frame wrt world frame
-world_R_body = sf.Rot3.symbolic(&quot;R&quot;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rotation defining orientation of body frame wrt world frame</span>
+<span class="n">world_R_body</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">)</span>
 
-# Point written in body frame
-body_t_point = sf.Vector3.symbolic(&quot;p&quot;)
+<span class="c1"># Point written in body frame</span>
+<span class="n">body_t_point</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
 
-# Point written in world frame
-world_t_point = world_R_body * body_t_point
+<span class="c1"># Point written in world frame</span>
+<span class="n">world_t_point</span> <span class="o">=</span> <span class="n">world_R_body</span> <span class="o">*</span> <span class="n">body_t_point</span>
 
-display(world_t_point)
+<span class="n">display</span><span class="p">(</span><span class="n">world_t_point</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -479,13 +479,13 @@ $\displaystyle \left[\begin{matrix}p_{0} \left(- 2 R_{y}^{2} - 2 R_{z}^{2} + 1\r
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>body_R_cam = sf.Rot3.symbolic(&quot;R_cam&quot;)
-world_R_cam = world_R_body * body_R_cam
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">body_R_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;R_cam&quot;</span><span class="p">)</span>
+<span class="n">world_R_cam</span> <span class="o">=</span> <span class="n">world_R_body</span> <span class="o">*</span> <span class="n">body_R_cam</span>
 
-# Rotation inverse = negate vector part of quaternion
-cam_R_body = body_R_cam.inverse()
-display(body_R_cam)
-display(cam_R_body)
+<span class="c1"># Rotation inverse = negate vector part of quaternion</span>
+<span class="n">cam_R_body</span> <span class="o">=</span> <span class="n">body_R_cam</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">body_R_cam</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">cam_R_body</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -510,8 +510,8 @@ display(cam_R_body)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>world_R_body_numeric = sf.Rot3.from_yaw_pitch_roll(0.1, -2.3, 0.7)
-display(world_t_point.subs(world_R_body, world_R_body_numeric))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world_R_body_numeric</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">world_t_point</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">world_R_body</span><span class="p">,</span> <span class="n">world_R_body_numeric</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -530,9 +530,9 @@ $\displaystyle \left[\begin{matrix}- 0.662947416398295 p_{0} - 0.554353314451006
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Symbolic construction
-world_T_body = sf.Pose3.symbolic(&quot;T&quot;)
-display(world_T_body)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Symbolic construction</span>
+<span class="n">world_T_body</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;T&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">world_T_body</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -548,16 +548,16 @@ display(world_T_body)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Construction from a rotation and translation
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construction from a rotation and translation</span>
 
-# Orientation of body frame wrt world frame
-world_R_body = sf.Rot3.symbolic(&quot;R&quot;)
+<span class="c1"># Orientation of body frame wrt world frame</span>
+<span class="n">world_R_body</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;R&quot;</span><span class="p">)</span>
 
-# Position of body frame wrt world frame written in the world frame
-world_t_body = sf.Vector3.symbolic(&quot;t&quot;)
+<span class="c1"># Position of body frame wrt world frame written in the world frame</span>
+<span class="n">world_t_body</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
 
-world_T_body = sf.Pose3(R=world_R_body, t=world_t_body)
-display(world_T_body)
+<span class="n">world_T_body</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">world_R_body</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">world_t_body</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">world_T_body</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -574,15 +574,15 @@ display(world_T_body)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compose pose with a pose
-body_T_cam = sf.Pose3.symbolic(&quot;T_cam&quot;)
-world_T_cam = world_T_body * body_T_cam
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compose pose with a pose</span>
+<span class="n">body_T_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;T_cam&quot;</span><span class="p">)</span>
+<span class="n">world_T_cam</span> <span class="o">=</span> <span class="n">world_T_body</span> <span class="o">*</span> <span class="n">body_T_cam</span>
 
-# Compose pose with a point
-body_t_point = sf.Vector3.symbolic(&quot;p&quot;)  # Position in body frame
-# Equivalent to: world_R_body * body_t_point + world_t_body
-world_t_point = world_T_body * body_t_point
-display(world_t_point)
+<span class="c1"># Compose pose with a point</span>
+<span class="n">body_t_point</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>  <span class="c1"># Position in body frame</span>
+<span class="c1"># Equivalent to: world_R_body * body_t_point + world_t_body</span>
+<span class="n">world_t_point</span> <span class="o">=</span> <span class="n">world_T_body</span> <span class="o">*</span> <span class="n">body_t_point</span>
+<span class="n">display</span><span class="p">(</span><span class="n">world_t_point</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -597,10 +597,10 @@ $\displaystyle \left[\begin{matrix}p_{0} \left(- 2 R_{y}^{2} - 2 R_{z}^{2} + 1\r
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Invert a pose
-body_T_world = world_T_body.inverse()
-display(world_T_body)
-display(body_T_world)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Invert a pose</span>
+<span class="n">body_T_world</span> <span class="o">=</span> <span class="n">world_T_body</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">world_T_body</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">body_T_world</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -628,27 +628,27 @@ display(body_T_world)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Matrix construction. The statements below all create the same 2x3 matrix object
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrix construction. The statements below all create the same 2x3 matrix object</span>
 
-# Construction from 2D list
-m1 = sf.Matrix([[1, 2, 3], [4, 5, 6]])
+<span class="c1"># Construction from 2D list</span>
+<span class="n">m1</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
 
-# Construction using specified size + data
-m2 = sf.Matrix(2, 3, [1, 2, 3, 4, 5, 6])
+<span class="c1"># Construction using specified size + data</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 
-# sf.MatrixNM creates a matrix with shape NxM (defined by default for 6x6
-# matrices and smaller)
-m3 = sf.Matrix23(1, 2, 3, 4, 5, 6)
-m4 = sf.Matrix23([1, 2, 3, 4, 5, 6])
+<span class="c1"># sf.MatrixNM creates a matrix with shape NxM (defined by default for 6x6</span>
+<span class="c1"># matrices and smaller)</span>
+<span class="n">m3</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix23</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">m4</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix23</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 
-# Construction using aliases
-m5 = sf.M([[1, 2, 3], [4, 5, 6]])
-m6 = sf.M(2, 3, [1, 2, 3, 4, 5, 6])
-m7 = sf.M23(1, 2, 3, 4, 5, 6)
-m8 = sf.M23([1, 2, 3, 4, 5, 6])
+<span class="c1"># Construction using aliases</span>
+<span class="n">m5</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">m6</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">m7</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M23</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="n">m8</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M23</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 
-# Construction from block matrices of appropriate dimensions
-m9 = sf.Matrix23.block_matrix([[sf.M13([1, 2, 3])], [sf.M13([3, 4, 5])]])
+<span class="c1"># Construction from block matrices of appropriate dimensions</span>
+<span class="n">m9</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix23</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">([[</span><span class="n">sf</span><span class="o">.</span><span class="n">M13</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])],</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">M13</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])]])</span>
 </pre></div>
 </div>
 </div>
@@ -656,19 +656,19 @@ m9 = sf.Matrix23.block_matrix([[sf.M13([1, 2, 3])], [sf.M13([3, 4, 5])]])
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Vector constructors. The statements below all create the same 3x1 vector object
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vector constructors. The statements below all create the same 3x1 vector object</span>
 
-# Construction from 2D list
-v1 = sf.Matrix([[1], [2], [3]])
+<span class="c1"># Construction from 2D list</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">]])</span>
 
-# Construction from 1D list. We assume a 1D list represents a column vector.
-v2 = sf.Matrix([1, 2, 3])
+<span class="c1"># Construction from 1D list. We assume a 1D list represents a column vector.</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 
-# Construction using aliases (defined by default for 9x1 vectors and smaller)
-v3 = sf.Matrix31(1, 2, 3)
-v4 = sf.M31(1, 2, 3)
-v5 = sf.Vector3(1, 2, 3)
-v6 = sf.V3(1, 2, 3)
+<span class="c1"># Construction using aliases (defined by default for 9x1 vectors and smaller)</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix31</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">v4</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M31</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">v5</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">v6</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -677,13 +677,13 @@ v6 = sf.V3(1, 2, 3)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Matrix of zeros
-z1 = sf.Matrix23.zero()
-z2 = sf.Matrix.zeros(2, 3)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrix of zeros</span>
+<span class="n">z1</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix23</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+<span class="n">z2</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-# Matrix of ones
-o1 = sf.Matrix23.one()
-o2 = sf.Matrix.ones(2, 3)
+<span class="c1"># Matrix of ones</span>
+<span class="n">o1</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix23</span><span class="o">.</span><span class="n">one</span><span class="p">()</span>
+<span class="n">o2</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -692,14 +692,14 @@ o2 = sf.Matrix.ones(2, 3)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zero_matrix = sf.Matrix33.zero()
-identity_matrix = sf.Matrix33.eye()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zero_matrix</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="o">.</span><span class="n">zero</span><span class="p">()</span>
+<span class="n">identity_matrix</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
 
-# We could also write:
-zero_matrix = ops.GroupOps.identity(sf.Matrix33)
+<span class="c1"># We could also write:</span>
+<span class="n">zero_matrix</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="p">)</span>
 
-display(zero_matrix)
-display(identity_matrix)
+<span class="n">display</span><span class="p">(</span><span class="n">zero_matrix</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">identity_matrix</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -722,10 +722,10 @@ $\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0\\0 &amp; 1 &amp; 0\\0 &amp;
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Matrix multiplication
-m23 = sf.M23.symbolic(&quot;lhs&quot;)
-m31 = sf.V3.symbolic(&quot;rhs&quot;)
-display(m23 * m31)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrix multiplication</span>
+<span class="n">m23</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M23</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;lhs&quot;</span><span class="p">)</span>
+<span class="n">m31</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;rhs&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m23</span> <span class="o">*</span> <span class="n">m31</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -740,11 +740,11 @@ $\displaystyle \left[\begin{matrix}lhs_{0 0} rhs_{0} + lhs_{0 1} rhs_{1} + lhs_{
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Vector operations
-norm = m31.norm()
-squared_norm = m31.squared_norm()
-unit_vec = m31.normalized()
-display(unit_vec)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Vector operations</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">m31</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+<span class="n">squared_norm</span> <span class="o">=</span> <span class="n">m31</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span>
+<span class="n">unit_vec</span> <span class="o">=</span> <span class="n">m31</span><span class="o">.</span><span class="n">normalized</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">unit_vec</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -759,8 +759,8 @@ $\displaystyle \left[\begin{matrix}\frac{rhs_{0}}{\sqrt{rhs_{0}^{2} + rhs_{1}^{2
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>m33 = 5 * sf.Matrix33.eye()  # Element-wise multiplication with scalar
-display(m33.inv())  # Matrix inverse
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m33</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>  <span class="c1"># Element-wise multiplication with scalar</span>
+<span class="n">display</span><span class="p">(</span><span class="n">m33</span><span class="o">.</span><span class="n">inv</span><span class="p">())</span>  <span class="c1"># Matrix inverse</span>
 </pre></div>
 </div>
 </div>
@@ -776,10 +776,10 @@ $\displaystyle \left[\begin{matrix}\frac{1}{5} &amp; 0 &amp; 0\\0 &amp; \frac{1}
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>R0 = sf.Rot3.symbolic(&quot;R0&quot;)
-R1 = sf.Rot3.symbolic(&quot;R1&quot;)
-residual = sf.M(R0.local_coordinates(R1))
-display(residual)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">R0</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;R0&quot;</span><span class="p">)</span>
+<span class="n">R1</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;R1&quot;</span><span class="p">)</span>
+<span class="n">residual</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">R0</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="n">R1</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">residual</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -794,11 +794,11 @@ $\displaystyle \left[\begin{matrix}\frac{2 \cdot \left(2 \min\left(0, \operatorn
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>jacobian = residual.jacobian(R1)
-# The jacobian is quite a complex symbolic expression, so we don&#39;t display it for
-# convenience.
-# The shape is equal to (dimension of residual) x (dimension of tangent space)
-display(jacobian.shape)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jacobian</span> <span class="o">=</span> <span class="n">residual</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">R1</span><span class="p">)</span>
+<span class="c1"># The jacobian is quite a complex symbolic expression, so we don&#39;t display it for</span>
+<span class="c1"># convenience.</span>
+<span class="c1"># The shape is equal to (dimension of residual) x (dimension of tangent space)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">jacobian</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -824,11 +824,11 @@ $\displaystyle \left( 3, \  3\right)$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Serialization to scalar list
-rot = sf.Rot3()
-elements = rot.to_storage()
-assert len(elements) == rot.storage_dim()
-display(elements)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Serialization to scalar list</span>
+<span class="n">rot</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">()</span>
+<span class="n">elements</span> <span class="o">=</span> <span class="n">rot</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span> <span class="o">==</span> <span class="n">rot</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -843,9 +843,9 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Construction from scalar list
-rot2 = sf.Rot3.from_storage(elements)
-assert rot == rot2
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construction from scalar list</span>
+<span class="n">rot2</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">rot</span> <span class="o">==</span> <span class="n">rot2</span>
 </pre></div>
 </div>
 </div>
@@ -853,14 +853,14 @@ assert rot == rot2
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Symbolic operations
-rot_sym = sf.Rot3.symbolic(&quot;rot_sym&quot;)
-rot_num = rot_sym.subs(rot_sym, rot)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Symbolic operations</span>
+<span class="n">rot_sym</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;rot_sym&quot;</span><span class="p">)</span>
+<span class="n">rot_num</span> <span class="o">=</span> <span class="n">rot_sym</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">rot_sym</span><span class="p">,</span> <span class="n">rot</span><span class="p">)</span>
 
-display(rot_sym)
-display(rot_num)
-display(rot_num.simplify())  # Simplify internal symbolic expressions
-display(rot_num.evalf())  # Numerical evaluation
+<span class="n">display</span><span class="p">(</span><span class="n">rot_sym</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">rot_num</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">rot_num</span><span class="o">.</span><span class="n">simplify</span><span class="p">())</span>  <span class="c1"># Simplify internal symbolic expressions</span>
+<span class="n">display</span><span class="p">(</span><span class="n">rot_num</span><span class="o">.</span><span class="n">evalf</span><span class="p">())</span>  <span class="c1"># Numerical evaluation</span>
 </pre></div>
 </div>
 </div>
@@ -910,12 +910,12 @@ display(rot_num.evalf())  # Numerical evaluation
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Construct two random rotations
-R1 = sf.Rot3.random()
-R2 = sf.Rot3.random()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construct two random rotations</span>
+<span class="n">R1</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 
-# Composition
-display(R1.compose(R2))  # For rotations this is the same as R1 * R2
+<span class="c1"># Composition</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R1</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">R2</span><span class="p">))</span>  <span class="c1"># For rotations this is the same as R1 * R2</span>
 </pre></div>
 </div>
 </div>
@@ -924,17 +924,17 @@ display(R1.compose(R2))  # For rotations this is the same as R1 * R2
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.438591446654565, 0.730052786020432, -0.251514154051820, 0.459783756625719]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.951645933375962, 0.192594628686414, -0.160200502737355, -0.177800802621462]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Identity
-R_identity = sf.Rot3.identity()
-display(R1)
-display(R_identity * R1)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Identity</span>
+<span class="n">R_identity</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R1</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R_identity</span> <span class="o">*</span> <span class="n">R1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -943,7 +943,7 @@ display(R_identity * R1)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.310605455452151, -0.0417941310026641, 0.776114465982391, -0.547196342595564]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.938003960889566, 0.310556192376103, -0.0675903197306903, 0.138329206645037]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -951,17 +951,17 @@ display(R_identity * R1)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.310605455452151, -0.0417941310026641, 0.776114465982391, -0.547196342595564]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.938003960889566, 0.310556192376103, -0.0675903197306903, 0.138329206645037]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Inverse
-R1_inv = R1.inverse()
-display(R_identity)
-display(R1_inv * R1)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inverse</span>
+<span class="n">R1_inv</span> <span class="o">=</span> <span class="n">R1</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R_identity</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R1_inv</span> <span class="o">*</span> <span class="n">R1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -985,10 +985,10 @@ display(R1_inv * R1)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Between
-R_delta = R1.between(R2)
-display(R1 * R_delta)
-display(R2)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Between</span>
+<span class="n">R_delta</span> <span class="o">=</span> <span class="n">R1</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">R2</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R1</span> <span class="o">*</span> <span class="n">R_delta</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -997,7 +997,7 @@ display(R2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.458908420290895, -0.642541449887594, -0.0107893698049154, -0.613536581192740]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.00159629547811903, 0.296449361465255, 0.442016040568000, -0.846603241080601]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1005,7 +1005,7 @@ display(R2)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.458908420290895, -0.642541449887594, -0.0107893698049154, -0.613536581192740]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.00159629547811903, 0.296449361465255, 0.442016040568000, -0.846603241080601]&gt;&gt;
 </pre></div></div>
 </div>
 </section>
@@ -1024,14 +1024,14 @@ SymForce, objects which are a Lie Group can:</p>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># To/From tangent space vector about identity element
-R1 = sf.Rot3.random()
-tangent_vec = R1.to_tangent()
-R1_recovered = sf.Rot3.from_tangent(tangent_vec)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># To/From tangent space vector about identity element</span>
+<span class="n">R1</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+<span class="n">tangent_vec</span> <span class="o">=</span> <span class="n">R1</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">()</span>
+<span class="n">R1_recovered</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">tangent_vec</span><span class="p">)</span>
 
-assert len(tangent_vec) == R1.tangent_dim()
-display(R1)
-display(R1_recovered)
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tangent_vec</span><span class="p">)</span> <span class="o">==</span> <span class="n">R1</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R1</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">R1_recovered</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1040,7 +1040,7 @@ display(R1_recovered)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.303975466820501, -0.740835628355739, 0.348990697922879, -0.486792543177603]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.765287563295439, 0.442847700178847, -0.340512918024075, -0.319799644418758]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1048,23 +1048,23 @@ display(R1_recovered)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.303975466820501, 0.740835628355739, -0.348990697922879, 0.486792543177603]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.765287563295439, -0.442847700178847, 0.340512918024075, 0.319799644418759]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Tangent space perturbations
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tangent space perturbations</span>
 
-# Perturb R1 by the given vector in the tangent space around R1
-R2 = R1.retract([0.1, 2.3, -0.5])
+<span class="c1"># Perturb R1 by the given vector in the tangent space around R1</span>
+<span class="n">R2</span> <span class="o">=</span> <span class="n">R1</span><span class="o">.</span><span class="n">retract</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">2.3</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">])</span>
 
-# Compute the tangent vector pointing from R1 to R2, in the tangent space
-# around R1
-recovered_tangent_vec = R1.local_coordinates(R2)
+<span class="c1"># Compute the tangent vector pointing from R1 to R2, in the tangent space</span>
+<span class="c1"># around R1</span>
+<span class="n">recovered_tangent_vec</span> <span class="o">=</span> <span class="n">R1</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="n">R2</span><span class="p">)</span>
 
-display(recovered_tangent_vec)
+<span class="n">display</span><span class="p">(</span><span class="n">recovered_tangent_vec</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1079,16 +1079,16 @@ $\displaystyle \left[ 0.1, \  2.3, \  -0.5\right]$</div></div>
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Jacobian of storage w.r.t tangent space perturbation
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Jacobian of storage w.r.t tangent space perturbation</span>
 
-# We chain storage_D_tangent together with jacobians of larger symbolic
-# expressions taken with respect to the symbolic elements of the object (e.g. a
-# quaternion for rotations) to compute the jacobian wrt the tanget space about
-# the element.
-# I.e. residual_D_tangent = residual_D_storage * storage_D_tangent
+<span class="c1"># We chain storage_D_tangent together with jacobians of larger symbolic</span>
+<span class="c1"># expressions taken with respect to the symbolic elements of the object (e.g. a</span>
+<span class="c1"># quaternion for rotations) to compute the jacobian wrt the tanget space about</span>
+<span class="c1"># the element.</span>
+<span class="c1"># I.e. residual_D_tangent = residual_D_storage * storage_D_tangent</span>
 
-jacobian = R1.storage_D_tangent()
-assert jacobian.shape == (R1.storage_dim(), R1.tangent_dim())
+<span class="n">jacobian</span> <span class="o">=</span> <span class="n">R1</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">jacobian</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">R1</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="n">R1</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -1220,7 +1220,7 @@ space operations analogous to <code class="docutils literal notranslate"><span c
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="../_sources/tutorials/geometry_tutorial.ipynb.txt"

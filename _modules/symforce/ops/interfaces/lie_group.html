@@ -49,7 +49,7 @@
 
 
 <div class="viewcode-block" id="LieGroup"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup">[docs]</a><span class="k">class</span> <span class="nc">LieGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Interface for objects that implement the lie group concept. Because this</span>
 <span class="sd">    class is registered using ClassLieGroupOps (see bottom of this file), any</span>
 <span class="sd">    object that inherits from LieGroup and that implements the functions defined</span>
@@ -65,7 +65,7 @@
 
 <div class="viewcode-block" id="LieGroup.tangent_dim"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dimension of the embedded manifold</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
@@ -74,13 +74,13 @@
     <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">LieGroupT</span><span class="p">],</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LieGroupT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mapping from the tangent space vector about identity into a group element.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="LieGroup.to_tangent"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mapping from this element to the tangent space vector about identity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
@@ -88,7 +88,7 @@
 <div class="viewcode-block" id="LieGroup.retract"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LieGroupT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Apply a tangent space perturbation vec to self. Often used in optimization</span>
 <span class="sd">        to update nonlinear values from an update step in the tangent space.</span>
 
@@ -100,7 +100,7 @@
 <div class="viewcode-block" id="LieGroup.local_coordinates"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes a tangent space perturbation around self to produce b. Often used in optimization</span>
 <span class="sd">        to minimize the distance between two group elements.</span>
 
@@ -222,7 +222,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

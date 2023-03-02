@@ -59,7 +59,7 @@
 
 
 <div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer">[docs]</a><span class="k">class</span> <span class="nc">Optimizer</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A nonlinear least-squares optimizer</span>
 
 <span class="sd">    Typical usage is to construct an Optimizer from a set of factors and keys to optimize, and then</span>
@@ -116,7 +116,7 @@
 
 <div class="viewcode-block" id="Optimizer.Params"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Params">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters for the Python Optimizer</span>
 
 <span class="sd">        Mirrors the optimizer_params_t LCM type, see documentation there for information on each</span>
@@ -141,7 +141,7 @@
 
 <div class="viewcode-block" id="Optimizer.Result"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Result">[docs]</a>    <span class="nd">@dataclass</span>
     <span class="k">class</span> <span class="nc">Result</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The result of an optimization, with additional stats and debug information</span>
 
 <span class="sd">        initial_values:</span>
@@ -254,7 +254,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">_cc_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a cc_sym.Values from the given Python Values</span>
 
 <span class="sd">        This uses the stored cc_keys_map, which will be initialized if it does not exist yet.</span>
@@ -271,7 +271,7 @@
         <span class="k">return</span> <span class="n">cc_values</span>
 
 <div class="viewcode-block" id="Optimizer.optimize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_guess</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Optimize from the given initial guess, and return the optimized Values and stats</span>
 
 <span class="sd">        Args:</span>
@@ -305,13 +305,13 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Optimizer.linearize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearize">[docs]</a>    <span class="k">def</span> <span class="nf">linearize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute and return the linearization at the given Values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_values</span><span class="p">(</span><span class="n">values</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Optimizer.load_iteration_values"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.load_iteration_values">[docs]</a>    <span class="k">def</span> <span class="nf">load_iteration_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values_msg</span><span class="p">:</span> <span class="n">values_t</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load a values_t message into a Python Values by first creating a C++ Values, then</span>
 <span class="sd">        converting back to the python key names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -326,7 +326,7 @@
         <span class="k">return</span> <span class="n">py_values</span></div>
 
 <div class="viewcode-block" id="Optimizer.linearization_index"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index">[docs]</a>    <span class="k">def</span> <span class="nf">linearization_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">index_entry_t</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the index mapping keys to their positions in the linearized state vector.  Useful for</span>
 <span class="sd">        extracting blocks from the problem jacobian, hessian, or RHS</span>
 
@@ -336,7 +336,7 @@
         <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">index</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="Optimizer.linearization_index_entry"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index_entry">[docs]</a>    <span class="k">def</span> <span class="nf">linearization_index_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">index_entry_t</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the index entry for a given key in the linearized state vector.  Useful for extracting</span>
 <span class="sd">        blocks from the problem jacobian, hessian, or RHS</span>
 
@@ -453,7 +453,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

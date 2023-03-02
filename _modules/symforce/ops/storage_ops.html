@@ -50,20 +50,20 @@
 
 
 <div class="viewcode-block" id="StorageOps"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps">[docs]</a><span class="k">class</span> <span class="nc">StorageOps</span><span class="p">(</span><span class="n">Ops</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    API for symbolic data types that can be serialized to and from a vector of scalar quantities.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="StorageOps.storage_dim"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps.storage_dim">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">ElementOrType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Size of the element&#39;s storage, aka the number of scalar values it contains.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StorageOps.to_storage"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps.to_storage">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Serialization of the underlying storage into a list. This is NOT a tangent space.</span>
 
 <span class="sd">        Args:</span>
@@ -75,14 +75,14 @@
 
 <div class="viewcode-block" id="StorageOps.from_storage"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps.from_storage">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">ElementOrType</span><span class="p">,</span> <span class="n">elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from a flat list representation. Opposite of `.to_storage()`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">implementation</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">elements</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StorageOps.symbolic"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps.symbolic">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">ElementOrType</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a symbolic element with the given name prefix.</span>
 
 <span class="sd">        Args:</span>
@@ -97,7 +97,7 @@
 
 <div class="viewcode-block" id="StorageOps.evalf"><a class="viewcode-back" href="../../../api/symforce.ops.storage_ops.html#symforce.ops.storage_ops.StorageOps.evalf">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">evalf</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluate to a numerical quantity (rationals, trig functions, etc).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -231,7 +231,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

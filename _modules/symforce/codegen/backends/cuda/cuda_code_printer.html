@@ -58,7 +58,7 @@
 
 
 <div class="viewcode-block" id="CudaCodePrinter"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_code_printer.html#symforce.codegen.backends.cuda.cuda_code_printer.CudaCodePrinter">[docs]</a><span class="k">class</span> <span class="nc">CudaCodePrinter</span><span class="p">(</span><span class="n">C11CodePrinter</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    SymForce code printer for CUDA. Based on the SymPy C printer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -98,7 +98,7 @@
     <span class="c1"># of CodePrinter. I don&#39;t know of any other way to resolve this issue other than to</span>
     <span class="c1"># to type ignore.</span>
     <span class="k">def</span> <span class="nf">_print_Heaviside</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Heaviside</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Heaviside is not supported by default in C++, so we add a version here.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">*((((</span><span class="si">{1}</span><span class="s2">) &gt;= 0) - ((</span><span class="si">{1}</span><span class="s2">) &lt; 0)) + 1)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -106,7 +106,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_print_MatrixElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">matexpr</span><span class="o">.</span><span class="n">MatrixElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        default printer doesn&#39;t cast to int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">[static_cast&lt;size_t&gt;(</span><span class="si">{}</span><span class="s2">)]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -219,7 +219,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

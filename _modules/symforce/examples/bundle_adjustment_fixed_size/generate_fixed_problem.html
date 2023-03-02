@@ -57,7 +57,7 @@
 
 
 <div class="viewcode-block" id="FixedBundleAdjustmentProblem"><a class="viewcode-back" href="../../../../api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html#symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.FixedBundleAdjustmentProblem">[docs]</a><span class="k">class</span> <span class="nc">FixedBundleAdjustmentProblem</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The setup is that we have N camera views for which we have poses that we want to refine.</span>
 <span class="sd">    Camera 0 is taken as the source camera - we don&#39;t optimize its pose and treat it as the</span>
 <span class="sd">    source for all matches. We have feature correspondences from camera 0 into each other camera.</span>
@@ -69,7 +69,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="FixedBundleAdjustmentProblem.__init__"><a class="viewcode-back" href="../../../../api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html#symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.FixedBundleAdjustmentProblem.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_views</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_landmarks</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            num_views: Number of poses/images given</span>
 <span class="sd">            num_landmarks: Number of landmarks in base camera image</span>
@@ -85,7 +85,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">residual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_residual</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="FixedBundleAdjustmentProblem.generate"><a class="viewcode-back" href="../../../../api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html#symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.FixedBundleAdjustmentProblem.generate">[docs]</a>    <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates functions from symbolic expressions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -97,7 +97,7 @@
         <span class="n">linearization_func</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">namespace</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_build_codegen_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create Codegen object for the linearization function</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Building linearization function&quot;</span><span class="p">)</span>
@@ -112,7 +112,7 @@
             <span class="n">outputs</span><span class="o">=</span><span class="n">outputs</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">codegen</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">(),</span>
             <span class="n">docstring</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
-                <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">                This function was autogenerated. Do not modify by hand.</span>
 
 <span class="sd">                Computes the linearization of the residual around the given state,</span>
@@ -133,7 +133,7 @@
         <span class="k">return</span> <span class="n">linearization_func</span>
 
     <span class="k">def</span> <span class="nf">_optimized_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of keys to be optimized:</span>
 
 <span class="sd">         * Pose for each camera view except for 0 which is assumed fixed.</span>
@@ -146,7 +146,7 @@
         <span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_build_residual</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Build the symbolic residual for which we will minimize the sum of squares.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">residual</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
@@ -317,7 +317,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

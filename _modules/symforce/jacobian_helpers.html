@@ -48,7 +48,7 @@
 
 
 <div class="viewcode-block" id="tangent_jacobians"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute jacobians of expr, a Lie Group element which is a function of the Lie Group elements in</span>
 <span class="sd">    args.  Jacobians are derivatives in the tangent space of expr with respect to changes in the</span>
 <span class="sd">    tangent space of the arg, as opposed to jacobians of the storage of either which could be</span>
@@ -68,7 +68,7 @@
 <div class="viewcode-block" id="tangent_jacobians_first_order"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians_first_order">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians_first_order</span><span class="p">(</span>
     <span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An implementation of tangent_jacobians (so imagine tangent_jacobian&#39;s doc-string is cut and</span>
 <span class="sd">    pasted here).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -88,7 +88,7 @@
     <span class="n">jacobians</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">infinitesimal_retract</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a first order approximation to LieGroupOps.retract(v)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">StorageOps</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span>
@@ -97,7 +97,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">infinitesimal_local_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a first order (in b - a) approximation to LieGroupOps.local_coordinates(a, b)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_D_storage</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
@@ -105,7 +105,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">safe_subs</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">old</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Substitutes occurances of old in expr with new. This is safe to use even when the</span>
 <span class="sd">        components of new contain symbols in old that we are replacing.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -129,7 +129,7 @@
 
 
 <div class="viewcode-block" id="tangent_jacobians_chain_rule"><a class="viewcode-back" href="../../api/symforce.jacobian_helpers.html#symforce.jacobian_helpers.tangent_jacobians_chain_rule">[docs]</a><span class="k">def</span> <span class="nf">tangent_jacobians_chain_rule</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An implementation of tangent_jacobians (so imagine tangent_jacobian&#39;s doc-string is cut and</span>
 <span class="sd">    pasted here).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -266,7 +266,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

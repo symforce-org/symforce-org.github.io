@@ -58,13 +58,13 @@
 
 
 <div class="viewcode-block" id="Rot3"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3">[docs]</a><span class="k">class</span> <span class="nc">Rot3</span><span class="p">(</span><span class="n">LieGroup</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Group of three-dimensional orthogonal matrices with determinant +1, representing</span>
 <span class="sd">    rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Rot3.__init__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">Quaternion</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from a unit quaternion, or identity if none provided.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">q</span> <span class="k">if</span> <span class="n">q</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Quaternion</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
@@ -125,7 +125,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Quaternion</span><span class="p">(</span><span class="n">xyz</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">theta</span> <span class="o">*</span> <span class="n">vm</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="Rot3.logmap_acos_clamp_max"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.logmap_acos_clamp_max">[docs]</a>    <span class="k">def</span> <span class="nf">logmap_acos_clamp_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Implementation of logmap that uses epsilon with the Min function to</span>
 <span class="sd">        avoid the singularity in the sqrt at w == 1</span>
 
@@ -147,7 +147,7 @@
         <span class="k">return</span> <span class="n">Matrix33</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="o">-</span><span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">]])</span></div>
 
 <div class="viewcode-block" id="Rot3.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix43</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Note: generated from symforce/notebooks/storage_D_tangent.ipynb</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -164,7 +164,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix34</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Note: generated from symforce/notebooks/tangent_D_storage.ipynb</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">Matrix34</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
@@ -182,7 +182,7 @@
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="Rot3.__mul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Vector3</span><span class="p">,</span> <span class="n">Rot3</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Vector3</span><span class="p">,</span> <span class="n">Rot3</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Left-multiplication. Either rotation concatenation or point transform.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">):</span>
@@ -193,7 +193,7 @@
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported type: &quot;</span><span class="si">{</span><span class="n">right</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.to_rotation_matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.to_rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix33</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts to a rotation matrix</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Matrix33</span><span class="p">(</span>
@@ -218,7 +218,7 @@
 
 <div class="viewcode-block" id="Rot3.from_rotation_matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.from_rotation_matrix">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_rotation_matrix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="n">Matrix33</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from a rotation matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -258,7 +258,7 @@
         <span class="c1"># R[i, i] = 2(w^2 + q_i^2)</span>
 
         <span class="k">def</span> <span class="nf">from_rotation_matrix_w_not_0</span><span class="p">(</span><span class="n">R</span><span class="p">:</span> <span class="n">Matrix33</span><span class="p">,</span> <span class="n">valid_input</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Quaternion</span><span class="p">:</span>
-            <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            If valid_input is 0, returns the zero quaternion.</span>
 <span class="sd">            If valid_input is 1, returns a quaternion q such that qv(q^-1) = Rv for all vectors v</span>
 <span class="sd">            Numerical performance is best when |w| is not close to 0</span>
@@ -281,7 +281,7 @@
             <span class="k">return</span> <span class="n">Quaternion</span><span class="p">(</span><span class="n">xyz</span><span class="o">=</span><span class="n">V3</span><span class="p">(</span><span class="o">*</span><span class="n">xyz</span><span class="p">),</span> <span class="n">w</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">from_rotation_matrix_qi_not_0</span><span class="p">(</span><span class="n">R</span><span class="p">:</span> <span class="n">Matrix33</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">valid_input</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Quaternion</span><span class="p">:</span>
-            <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            If valid_input is 0, returns the zero quaternion.</span>
 <span class="sd">            If valid_input is 1, returns a quaternion q such that qv(q^-1) = Rv for all vectors v</span>
 <span class="sd">            Numerical performance is best when |q_i| is not close to 0</span>
@@ -323,7 +323,7 @@
 <div class="viewcode-block" id="Rot3.to_yaw_pitch_roll"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.to_yaw_pitch_roll">[docs]</a>    <span class="k">def</span> <span class="nf">to_yaw_pitch_roll</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the yaw, pitch, and roll Euler angles in radians of this rotation</span>
 
 <span class="sd">        Returns:</span>
@@ -348,7 +348,7 @@
     <span class="k">def</span> <span class="nf">from_yaw_pitch_roll</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">yaw</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pitch</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">roll</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from yaw, pitch, and roll Euler angles in radians</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
@@ -359,7 +359,7 @@
 
 <div class="viewcode-block" id="Rot3.from_angle_axis"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.from_angle_axis">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_angle_axis</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from an angle in radians and a (normalized) axis as a 3-vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Quaternion</span><span class="p">(</span><span class="n">xyz</span><span class="o">=</span><span class="n">axis</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">w</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)))</span></div>
@@ -368,7 +368,7 @@
     <span class="k">def</span> <span class="nf">from_two_unit_vectors</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a rotation that transforms a to b. Both inputs are three-vectors that</span>
 <span class="sd">        are expected to be normalized.</span>
 
@@ -392,14 +392,14 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.angle_between"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.angle_between">[docs]</a>    <span class="k">def</span> <span class="nf">angle_between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the angle between this rotation and the other in radians.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">))</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.random"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.random">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a random element of SO3.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Quaternion</span><span class="o">.</span><span class="n">unit_random</span><span class="p">())</span></div>
@@ -408,7 +408,7 @@
     <span class="k">def</span> <span class="nf">random_from_uniform_samples</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">u1</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">u2</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">u3</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">pi</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">pi</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a random element of SO3 from three variables uniformly sampled in [0, 1].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Quaternion</span><span class="o">.</span><span class="n">unit_random_from_uniform_samples</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">u3</span><span class="p">,</span> <span class="n">pi</span><span class="p">))</span></div></div>
@@ -519,7 +519,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

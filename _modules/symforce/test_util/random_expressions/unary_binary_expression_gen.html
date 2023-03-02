@@ -67,7 +67,7 @@
 
 
 <div class="viewcode-block" id="UnaryBinaryExpressionGen"><a class="viewcode-back" href="../../../../api/symforce.test_util.random_expressions.unary_binary_expression_gen.html#symforce.test_util.random_expressions.unary_binary_expression_gen.UnaryBinaryExpressionGen">[docs]</a><span class="k">class</span> <span class="nc">UnaryBinaryExpressionGen</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper to generate random symbolic expressions composed of a set of given unary and</span>
 <span class="sd">    binary operators. The user provides these operators, each with an assigned probability.</span>
 <span class="sd">    Then they can sample expressions given a target number of operations.</span>
@@ -111,7 +111,7 @@
     <span class="k">def</span> <span class="nf">_next_row_of_D</span><span class="p">(</span>
         <span class="n">num_leaves</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_ops</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">prev_row</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">p1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">p2</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute a row of D (actually D.T) from the previous row</span>
 
 <span class="sd">        This is much faster when jitted with Numba, and we keep it outside of generate_D so it only</span>
@@ -126,7 +126,7 @@
     <span class="k">def</span> <span class="nf">generate_D</span><span class="p">(</span>
         <span class="n">max_ops</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_leaves</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Enumerate the number of possible unary-binary trees that can be generated from empty nodes.</span>
 <span class="sd">        D[e][n] represents the number of different binary trees with n nodes that</span>
 <span class="sd">        can be generated from e empty nodes, using the following recursion:</span>
@@ -153,7 +153,7 @@
 <div class="viewcode-block" id="UnaryBinaryExpressionGen.sample_next_pos"><a class="viewcode-back" href="../../../../api/symforce.test_util.random_expressions.unary_binary_expression_gen.html#symforce.test_util.random_expressions.unary_binary_expression_gen.UnaryBinaryExpressionGen.sample_next_pos">[docs]</a>    <span class="k">def</span> <span class="nf">sample_next_pos</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">nb_empty</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">nb_ops</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_leaves</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p1</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">p2</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sample the position of the next node (unary-binary case).</span>
 <span class="sd">        Sample a position in {0, ..., `nb_empty` - 1}, along with an arity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -176,7 +176,7 @@
         <span class="k">return</span> <span class="n">e</span><span class="p">,</span> <span class="n">arity</span></div>
 
 <div class="viewcode-block" id="UnaryBinaryExpressionGen.build_tree_sequence"><a class="viewcode-back" href="../../../../api/symforce.test_util.random_expressions.unary_binary_expression_gen.html#symforce.test_util.random_expressions.unary_binary_expression_gen.UnaryBinaryExpressionGen.build_tree_sequence">[docs]</a>    <span class="k">def</span> <span class="nf">build_tree_sequence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_ops_target</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a prefix notation sequence of the expression tree.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">D</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">num_ops_target</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">D</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
@@ -222,7 +222,7 @@
         <span class="k">return</span> <span class="n">stack</span></div>
 
 <div class="viewcode-block" id="UnaryBinaryExpressionGen.seq_to_expr"><a class="viewcode-back" href="../../../../api/symforce.test_util.random_expressions.unary_binary_expression_gen.html#symforce.test_util.random_expressions.unary_binary_expression_gen.UnaryBinaryExpressionGen.seq_to_expr">[docs]</a>    <span class="k">def</span> <span class="nf">seq_to_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seq</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a prefix notation sequence into a sympy expression.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -248,14 +248,14 @@
         <span class="k">return</span> <span class="n">_seq_to_expr</span><span class="p">(</span><span class="n">seq</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="UnaryBinaryExpressionGen.build_expr"><a class="viewcode-back" href="../../../../api/symforce.test_util.random_expressions.unary_binary_expression_gen.html#symforce.test_util.random_expressions.unary_binary_expression_gen.UnaryBinaryExpressionGen.build_expr">[docs]</a>    <span class="k">def</span> <span class="nf">build_expr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_ops_target</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an expression with the given op target.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">seq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_tree_sequence</span><span class="p">(</span><span class="n">num_ops_target</span><span class="o">=</span><span class="n">num_ops_target</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">seq_to_expr</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="UnaryBinaryExpressionGen.build_expr_vec"><a class="viewcode-back" href="../../../../api/symforce.test_util.random_expressions.unary_binary_expression_gen.html#symforce.test_util.random_expressions.unary_binary_expression_gen.UnaryBinaryExpressionGen.build_expr_vec">[docs]</a>    <span class="k">def</span> <span class="nf">build_expr_vec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_ops_target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_exprs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a vector of expressions with the total given op target. If no num_exprs</span>
 <span class="sd">        is provided, uses an approximate square root of the num_ops_target.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -283,7 +283,7 @@
         <span class="n">binary_ops</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">OpProbability</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_BINARY_OPS</span><span class="p">,</span>
         <span class="n">leaves</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_LEAVES</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnaryBinaryExpressionGen</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct with a reasonable default op distribution.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">unary_ops</span><span class="o">=</span><span class="n">unary_ops</span><span class="p">,</span> <span class="n">binary_ops</span><span class="o">=</span><span class="n">binary_ops</span><span class="p">,</span> <span class="n">leaves</span><span class="o">=</span><span class="n">leaves</span><span class="p">)</span></div></div>
@@ -394,7 +394,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

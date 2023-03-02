@@ -49,7 +49,7 @@
 
 
 <div class="viewcode-block" id="CppCodePrinter"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cpp.cpp_code_printer.html#symforce.codegen.backends.cpp.cpp_code_printer.CppCodePrinter">[docs]</a><span class="k">class</span> <span class="nc">CppCodePrinter</span><span class="p">(</span><span class="n">CXX11CodePrinter</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Symforce customized code printer for C++. Modifies the Sympy printing</span>
 <span class="sd">    behavior for codegen compatibility and efficiency.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -79,21 +79,21 @@
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">_print_expr</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_print_Rational</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Rational</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Cast all literals to Scalar at compile time instead of using a suffix at codegen time</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Scalar(</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">)/Scalar(</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">q</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="nf">_print_Float</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flt</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Cast all literals to Scalar at compile time instead of using a suffix at codegen time</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Scalar(</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_print_Float</span><span class="p">(</span><span class="n">flt</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="nf">_print_ImaginaryUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Don&#39;t use this method - if you need complex number support, use the ComplexCppCodePrinter</span>
 <span class="sd">        subclass</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -104,7 +104,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_print_Pow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Pow</span><span class="p">,</span> <span class="n">rational</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Convert small powers into multiplies, divides, and square roots.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -144,7 +144,7 @@
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_ns</span><span class="si">}</span><span class="s2">pow(</span><span class="si">{</span><span class="n">base_str</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">exp_str</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="nf">_print_Max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Max</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Emit template type to avoid deduction errors.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -159,7 +159,7 @@
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">max&lt;Scalar&gt;(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">rhs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_print_Min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Min</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Emit template type to avoid deduction errors.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -182,7 +182,7 @@
     <span class="c1"># of CodePrinter. I don&#39;t know of any other way to resolve this issue other than to</span>
     <span class="c1"># to type ignore.</span>
     <span class="k">def</span> <span class="nf">_print_Heaviside</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Heaviside</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Heaviside is not supported by default in C++, so we add a version here.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">*((((</span><span class="si">{1}</span><span class="s2">) &gt;= 0) - ((</span><span class="si">{1}</span><span class="s2">) &lt; 0)) + 1)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -190,7 +190,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_print_MatrixElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">matrices</span><span class="o">.</span><span class="n">expressions</span><span class="o">.</span><span class="n">matexpr</span><span class="o">.</span><span class="n">MatrixElement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        default printer doesn&#39;t cast to int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">[static_cast&lt;size_t&gt;(</span><span class="si">{}</span><span class="s2">)]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -200,7 +200,7 @@
 
 <div class="viewcode-block" id="ComplexCppCodePrinter"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cpp.cpp_code_printer.html#symforce.codegen.backends.cpp.cpp_code_printer.ComplexCppCodePrinter">[docs]</a><span class="k">class</span> <span class="nc">ComplexCppCodePrinter</span><span class="p">(</span><span class="n">CppCodePrinter</span><span class="p">):</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
     <span class="k">def</span> <span class="nf">_print_Integer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Cast all integers to Scalar, since binary ops between integers and complex aren&#39;t</span>
 <span class="sd">              defined</span>
@@ -208,7 +208,7 @@
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Scalar(</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="nf">_print_ImaginaryUnit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Print 1i instead of I</span>
 <span class="sd">            * Cast to Scalar, since the literal is of type std::complex&lt;double&gt;</span>
@@ -321,7 +321,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

@@ -95,11 +95,11 @@
 
 <span class="k">def</span> <span class="nf">_print_known_func</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">PyTorchCodePrinter</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">_known_functions_torch</span><span class="p">[</span><span class="n">expr</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;torch.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">,</span> <span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">))</span><span class="si">}</span><span class="s2">)&quot;</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;torch.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">,</span><span class="w"> </span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">))</span><span class="si">}</span><span class="s2">)&quot;</span>  <span class="c1"># pylint: disable=protected-access</span>
 
 
 <div class="viewcode-block" id="PyTorchCodePrinter"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.pytorch.pytorch_code_printer.html#symforce.codegen.backends.pytorch.pytorch_code_printer.PyTorchCodePrinter">[docs]</a><span class="k">class</span> <span class="nc">PyTorchCodePrinter</span><span class="p">(</span><span class="n">CodePrinter</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Symforce customized code printer for PyTorch. Modifies the Sympy printing</span>
 <span class="sd">    behavior for codegen compatibility and efficiency.</span>
 
@@ -150,21 +150,21 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print_Mod</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Mod</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_print_Integer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Cast all integers to Tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;torch.tensor(</span><span class="si">{</span><span class="n">expr</span><span class="o">.</span><span class="n">p</span><span class="si">}</span><span class="s2">, **tensor_kwargs)&quot;</span>
 
     <span class="k">def</span> <span class="nf">_print_NumberSymbol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Cast all NumberSymbols to Tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;torch.tensor(</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_print_NumberSymbol</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="si">}</span><span class="s2">, **tensor_kwargs)&quot;</span>
 
     <span class="k">def</span> <span class="nf">_print_Zero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Customizations:</span>
 <span class="sd">            * Cast Zero to Tensor</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -324,7 +324,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

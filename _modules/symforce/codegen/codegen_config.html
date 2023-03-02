@@ -54,7 +54,7 @@
 
 
 <div class="viewcode-block" id="ZeroEpsilonBehavior"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.ZeroEpsilonBehavior">[docs]</a><span class="k">class</span> <span class="nc">ZeroEpsilonBehavior</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Options for what to do when attempting to generate code with the default epsilon set to 0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -70,7 +70,7 @@
 
 <div class="viewcode-block" id="RenderTemplateConfig"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.RenderTemplateConfig">[docs]</a><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">RenderTemplateConfig</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Arguments to template_util.render_template</span>
 
 <span class="sd">    Args:</span>
@@ -85,7 +85,7 @@
 <span class="c1"># TODO(hayk): This type ignore is fixed by https://github.com/python/mypy/pull/13398 in mypy 0.981</span>
 <div class="viewcode-block" id="CodegenConfig"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig">[docs]</a><span class="nd">@dataclass</span>  <span class="c1"># type: ignore[misc]</span>
 <span class="k">class</span> <span class="nc">CodegenConfig</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for backend-specific arguments for code generation.</span>
 
 <span class="sd">    Args:</span>
@@ -113,7 +113,7 @@
 <div class="viewcode-block" id="CodegenConfig.backend_name"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.backend_name">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">backend_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        String name for the backend. This should match the directory name in codegen/backends</span>
 <span class="sd">        and will be used to namespace by backend in generated code.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -122,14 +122,14 @@
 <div class="viewcode-block" id="CodegenConfig.template_dir"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.template_dir">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">template_dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Directory for jinja templates.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="CodegenConfig.templates_to_render"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.templates_to_render">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">templates_to_render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generated_file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Given a single symbolic function&#39;s filename, provide one or more Jinja templates to</span>
 <span class="sd">        render and the relative output paths where they should go.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -137,7 +137,7 @@
 
 <div class="viewcode-block" id="CodegenConfig.printer"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.printer">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodePrinter</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return an instance of the code printer to use for this language.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
@@ -145,7 +145,7 @@
     <span class="c1"># TODO(hayk): Move this into code printer.</span>
 <div class="viewcode-block" id="CodegenConfig.format_data_accessor"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.format_data_accessor">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">format_data_accessor</span><span class="p">(</span><span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format data for accessing a data array in code.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s2">.data[</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">]&quot;</span></div>
@@ -159,7 +159,7 @@
 
 <div class="viewcode-block" id="CodegenConfig.format_matrix_accessor"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.format_matrix_accessor">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format_matrix_accessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format accessor for 2D matrices.</span>
 <span class="sd">        Raises an index exception if either of the following is false:</span>
 <span class="sd">            0 &lt;= i &lt; shape[0]</span>
@@ -170,7 +170,7 @@
 <div class="viewcode-block" id="CodegenConfig.format_eigen_lcm_accessor"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig.format_eigen_lcm_accessor">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">format_eigen_lcm_accessor</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format accessor for eigen_lcm types.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div></div>
@@ -281,7 +281,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

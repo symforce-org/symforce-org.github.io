@@ -58,7 +58,7 @@
 
 
 <div class="viewcode-block" id="OptimizationProblem"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem">[docs]</a><span class="k">class</span> <span class="nc">OptimizationProblem</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An optimization problem.</span>
 
 <span class="sd">    Defined by a collection of `SubProblem`s, each of which defines a set of inputs (variables in</span>
@@ -96,7 +96,7 @@
 
 <div class="viewcode-block" id="OptimizationProblem.split_residual_blocks"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.split_residual_blocks">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">split_residual_blocks</span><span class="p">(</span><span class="n">residual_blocks</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Values</span><span class="p">,</span> <span class="n">Values</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Split residual_blocks into residuals and extra_values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">residuals</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
@@ -109,13 +109,13 @@
         <span class="k">return</span> <span class="n">residuals</span><span class="p">,</span> <span class="n">extra_values</span></div>
 
 <div class="viewcode-block" id="OptimizationProblem.keys"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the set of all keys specified by the subproblems</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="OptimizationProblem.optimized_keys"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.optimized_keys">[docs]</a>    <span class="k">def</span> <span class="nf">optimized_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the set of optimized keys, as specified by the subproblems</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
@@ -149,7 +149,7 @@
         <span class="n">sparse_linearization</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">CppConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate everything needed to optimize `problem` in C++. This currently assumes there is</span>
 <span class="sd">        only one factor generated for the optimization problem.</span>
 
@@ -184,7 +184,7 @@
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Factor</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of symbolic factors for this problem for analysis purposes. If the factors</span>
 <span class="sd">        are to be passed to an optimizer, use `make_numeric_factors` instead.</span>
 
@@ -203,7 +203,7 @@
         <span class="n">dots_and_brackets_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\.\[\]]+&quot;</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">dots_and_brackets_to_underscores</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-            <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Converts all &quot;.&quot; and &quot;[]&quot; in the given string to underscores such that the resulting</span>
 <span class="sd">            string is a valid/readable variable name.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
@@ -214,7 +214,7 @@
             <span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">compute_jacobians</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-            <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Functor that computes the jacobians of the residual with respect to a set of keys</span>
 
 <span class="sd">            The set of keys is not known when make_symbolic_factors is called, because we may want</span>
@@ -248,7 +248,7 @@
 <div class="viewcode-block" id="OptimizationProblem.make_numeric_factors"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.make_numeric_factors">[docs]</a>    <span class="k">def</span> <span class="nf">make_numeric_factors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optimized_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">NumericFactor</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a list of `NumericFactor`s for this problem, for example to pass to `Optimizer`.</span>
 
 <span class="sd">        Args:</span>
@@ -276,7 +276,7 @@
 <div class="viewcode-block" id="build_inputs"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.build_inputs">[docs]</a><span class="k">def</span> <span class="nf">build_inputs</span><span class="p">(</span>
     <span class="n">subproblems</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">SubProblem</span><span class="p">],</span> <span class="n">shared_inputs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Build the inputs Values for a set of subproblems.  The resulting values is structured as:</span>
 
 <span class="sd">        Values(</span>
@@ -411,7 +411,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

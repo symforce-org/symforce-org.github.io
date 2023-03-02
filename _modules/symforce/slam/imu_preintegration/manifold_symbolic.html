@@ -71,7 +71,7 @@
     <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">V9</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An internal helper function to linearize the difference between the orientation, velocity, and</span>
 <span class="sd">    position at one time step and those of another time step. The expected difference is calculated</span>
 <span class="sd">    from the preintegrated IMU measurements between those time steps.</span>
@@ -137,7 +137,7 @@
 
 
 <div class="viewcode-block" id="right_jacobian"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.right_jacobian">[docs]</a><span class="k">def</span> <span class="nf">right_jacobian</span><span class="p">(</span><span class="n">tangent</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The right jacobian J(v) is d/du Log(Exp(v)^{-1} Exp(v + u)), i.e., a matrix such that</span>
 <span class="sd">    Exp(v + dv) ~= Exp(v) Exp(J(v) dv), where v and u are tangent vectors of SO(3).</span>
 
@@ -156,7 +156,7 @@
 <div class="viewcode-block" id="handwritten_new_state_D_state_gyro_accel"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.handwritten_new_state_D_state_gyro_accel">[docs]</a><span class="k">def</span> <span class="nf">handwritten_new_state_D_state_gyro_accel</span><span class="p">(</span>
     <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">corrected_gyro</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">corrected_accel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M93</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M93</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the derivatives of the new state (meaning the DR, Dv, and Dp) w.r.t. the previous state,</span>
 <span class="sd">    gyroscope measurement, and the accelerometer mesaurement.</span>
 
@@ -247,7 +247,7 @@
     <span class="c1"># Configuration</span>
     <span class="n">use_handwritten_derivatives</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An internal helper function to update a set of preintegrated IMU measurements with a new pair of</span>
 <span class="sd">    gyroscope and accelerometer measurements. Returns the updated preintegrated measurements.</span>
 
@@ -373,7 +373,7 @@
     <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
     <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given the old preintegrated state and the new IMU measurements, calculates the</span>
 <span class="sd">    new preintegrated state.</span>
 
@@ -492,7 +492,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 

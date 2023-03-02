@@ -52,7 +52,7 @@
 
 
 <div class="viewcode-block" id="PosedCamera"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera">[docs]</a><span class="k">class</span> <span class="nc">PosedCamera</span><span class="p">(</span><span class="n">Camera</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Camera with a given pose, camera calibration, and an optionally specified image size.</span>
 <span class="sd">    If the image size is specified, we use it to check whether pixels (either given or computed by</span>
 <span class="sd">    projection of 3D points into the image frame) are in the image frame and thus valid/invalid.</span>
@@ -75,7 +75,7 @@
 <div class="viewcode-block" id="PosedCamera.pixel_from_global_point"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera.pixel_from_global_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_global_point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms the given point into the camera frame using the given camera pose and then</span>
 <span class="sd">        uses the given camera calibration to compute the resulted pixel coordinates of the</span>
 <span class="sd">        projected point.</span>
@@ -95,7 +95,7 @@
 <div class="viewcode-block" id="PosedCamera.global_point_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera.global_point_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">global_point_from_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">range_to_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes a point written in the global frame along the ray passing through the center</span>
 <span class="sd">        of the given pixel. The point is positioned at a given range along the ray.</span>
 
@@ -121,7 +121,7 @@
         <span class="n">target_cam</span><span class="p">:</span> <span class="n">PosedCamera</span><span class="p">,</span>
         <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Project a pixel in this camera into another camera.</span>
 
 <span class="sd">        Args:</span>
@@ -164,7 +164,7 @@
         <span class="k">return</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid_point</span> <span class="o">*</span> <span class="n">is_valid_projection</span></div>
 
 <div class="viewcode-block" id="PosedCamera.subs"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera.subs">[docs]</a>    <span class="k">def</span> <span class="nf">subs</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">PosedCameraT</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PosedCameraT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Substitute given values of each scalar element into a new instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
@@ -281,7 +281,7 @@
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
     </div>
 
