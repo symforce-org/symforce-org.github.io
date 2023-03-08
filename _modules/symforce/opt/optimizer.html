@@ -65,6 +65,22 @@
 <span class="sd">    Typical usage is to construct an Optimizer from a set of factors and keys to optimize, and then</span>
 <span class="sd">    call `optimize` repeatedly with a `Values`.</span>
 
+<span class="sd">    Example creation with a single `Factor`:</span>
+
+<span class="sd">        factor = Factor(</span>
+<span class="sd">            [my_key_0, my_key_1, my_key_2], my_residual_function</span>
+<span class="sd">        )</span>
+<span class="sd">        optimizer = Optimizer(</span>
+<span class="sd">            factors=[factor],</span>
+<span class="sd">            optimized_keys=[my_key_0, my_key_1],</span>
+<span class="sd">        )</span>
+
+<span class="sd">    And usage:</span>
+
+<span class="sd">        initial_guess = Values(...)</span>
+<span class="sd">        result = optimizer.optimize(initial_guess)</span>
+<span class="sd">        print(result.optimized_values)</span>
+
 <span class="sd">    Example creation with an `OptimizationProblem` using `make_numeric_factors()`. The linearization</span>
 <span class="sd">    functions are generated in `make_numeric_factors()` and are linearized with respect to</span>
 <span class="sd">    `problem.optimized_keys()`.</span>
@@ -81,22 +97,6 @@
 <span class="sd">        problem = OptimizationProblem(subproblems=[...], residual_blocks=...)</span>
 <span class="sd">        factors = problem.make_symbolic_factors(&quot;my_problem&quot;)</span>
 <span class="sd">        optimizer = Optimizer(factors, problem.optimized_keys())</span>
-
-<span class="sd">    Example creation with a single `Factor`:</span>
-
-<span class="sd">        factor = Factor(</span>
-<span class="sd">            [my_key_0, my_key_1, my_key_2], my_residual_function</span>
-<span class="sd">        )</span>
-<span class="sd">        optimizer = Optimizer(</span>
-<span class="sd">            factors=[factor],</span>
-<span class="sd">            optimized_keys=[my_key_0, my_key_1],</span>
-<span class="sd">        )</span>
-
-<span class="sd">    And usage:</span>
-
-<span class="sd">        initial_guess = Values(...)</span>
-<span class="sd">        result = optimizer.optimize(initial_guess)</span>
-<span class="sd">        print(result.optimized_values)</span>
 
 <span class="sd">    Wraps the C++ `sym::Optimizer` class in `opt/optimizer.h`, so the API is mostly the same and</span>
 <span class="sd">    optimization results will be identical.</span>

@@ -47,23 +47,6 @@
 <p>A nonlinear least-squares optimizer</p>
 <p>Typical usage is to construct an Optimizer from a set of factors and keys to optimize, and then
 call <cite>optimize</cite> repeatedly with a <cite>Values</cite>.</p>
-<p>Example creation with an <cite>OptimizationProblem</cite> using <cite>make_numeric_factors()</cite>. The linearization
-functions are generated in <cite>make_numeric_factors()</cite> and are linearized with respect to
-<cite>problem.optimized_keys()</cite>.</p>
-<blockquote>
-<div><p>problem = OptimizationProblem(subproblems=[…], residual_blocks=…)
-factors = problem.make_numeric_factors(“my_problem”)
-optimizer = Optimizer(factors)</p>
-</div></blockquote>
-<p>Example creation with an <cite>OptimizationProblem</cite> using <cite>make_symbolic_factors()</cite>. The symbolic
-factors are converted into numeric factors when the optimizer is created, and are linearized
-with respect to the “optimized keys” passed to the optimizer. The linearization functions
-are generated when converting to numeric factors when the optimizer is created.</p>
-<blockquote>
-<div><p>problem = OptimizationProblem(subproblems=[…], residual_blocks=…)
-factors = problem.make_symbolic_factors(“my_problem”)
-optimizer = Optimizer(factors, problem.optimized_keys())</p>
-</div></blockquote>
 <p>Example creation with a single <cite>Factor</cite>:</p>
 <blockquote>
 <div><dl class="simple">
@@ -83,6 +66,23 @@ optimized_keys=[my_key_0, my_key_1],</p>
 <div><p>initial_guess = Values(…)
 result = optimizer.optimize(initial_guess)
 print(result.optimized_values)</p>
+</div></blockquote>
+<p>Example creation with an <cite>OptimizationProblem</cite> using <cite>make_numeric_factors()</cite>. The linearization
+functions are generated in <cite>make_numeric_factors()</cite> and are linearized with respect to
+<cite>problem.optimized_keys()</cite>.</p>
+<blockquote>
+<div><p>problem = OptimizationProblem(subproblems=[…], residual_blocks=…)
+factors = problem.make_numeric_factors(“my_problem”)
+optimizer = Optimizer(factors)</p>
+</div></blockquote>
+<p>Example creation with an <cite>OptimizationProblem</cite> using <cite>make_symbolic_factors()</cite>. The symbolic
+factors are converted into numeric factors when the optimizer is created, and are linearized
+with respect to the “optimized keys” passed to the optimizer. The linearization functions
+are generated when converting to numeric factors when the optimizer is created.</p>
+<blockquote>
+<div><p>problem = OptimizationProblem(subproblems=[…], residual_blocks=…)
+factors = problem.make_symbolic_factors(“my_problem”)
+optimizer = Optimizer(factors, problem.optimized_keys())</p>
 </div></blockquote>
 <p>Wraps the C++ <cite>sym::Optimizer</cite> class in <cite>opt/optimizer.h</cite>, so the API is mostly the same and
 optimization results will be identical.</p>
