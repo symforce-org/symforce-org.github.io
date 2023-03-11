@@ -90,6 +90,19 @@
 
     <span class="n">_generated_residual_cache</span> <span class="o">=</span> <span class="n">GeneratedResidualCache</span><span class="p">()</span>
 
+<div class="viewcode-block" id="Factor.default_codegen_config"><a class="viewcode-back" href="../../../api/symforce.opt.factor.html#symforce.opt.factor.Factor.default_codegen_config">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">default_codegen_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PythonConfig</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The default codegen config used by the Factor class</span>
+
+<span class="sd">        This is a PythonConfig with settings appropriate for converting to a NumericFactor (no</span>
+<span class="sd">        autoformat, return 2d vectors)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PythonConfig</span><span class="p">(</span>
+            <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="n">return_2d_vectors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="Factor.__init__"><a class="viewcode-back" href="../../../api/symforce.opt.factor.html#symforce.opt.factor.Factor.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -104,9 +117,8 @@
         <span class="c1"># call `__init__()`, and can instead call `__new__()` + `_initialize()` and pass its own</span>
         <span class="c1"># codegen object constructed using the default codegen object constructor.</span>
         <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span>
-                <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_codegen_config</span><span class="p">()</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span>
             <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span>
             <span class="n">codegen_obj</span><span class="o">=</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
@@ -147,9 +159,8 @@
 <span class="sd">                numeric factor. See `Codegen.__init__()` for details.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span>
-                <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">default_codegen_config</span><span class="p">()</span>
+
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="n">instance</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span>
             <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span>
@@ -301,6 +312,16 @@
             <span class="n">namespace</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;sym_</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="c1"># Compute the linearization of the residual and generate code</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codegen</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">PythonConfig</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot convert to a NumericFactor with config of type &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">codegen</span><span class="o">.</span><span class="n">config</span><span class="p">)</span><span class="si">}</span><span class="s2">; use PythonConfig instead&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">codegen</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">return_2d_vectors</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot convert to a NumericFactor with config.return_2d_vectors=False&quot;</span>
+            <span class="p">)</span>
+
         <span class="n">output_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">optimized_keys</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">sparse_linearization</span><span class="p">)</span>
 
         <span class="c1"># Load the generated function</span>

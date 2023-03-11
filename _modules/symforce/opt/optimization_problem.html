@@ -50,7 +50,6 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_config</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen.backends.cpp.cpp_config</span> <span class="kn">import</span> <span class="n">CppConfig</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen.backends.python.python_config</span> <span class="kn">import</span> <span class="n">PythonConfig</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.factor</span> <span class="kn">import</span> <span class="n">Factor</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.numeric_factor</span> <span class="kn">import</span> <span class="n">NumericFactor</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.sub_problem</span> <span class="kn">import</span> <span class="n">SubProblem</span>
@@ -192,11 +191,9 @@
 <span class="sd">            name: Name of factors. Note that the generated linearization functions will have</span>
 <span class="sd">                &quot;_factor&quot; appended to the function name (see</span>
 <span class="sd">                Codegen._pick_name_for_function_with_derivatives for details).</span>
-<span class="sd">            config: Language the factors will be generated in when `.generate()` is called.</span>
+<span class="sd">            config: Language the factors will be generated in when `.generate()` is called.  If not</span>
+<span class="sd">                provided, uses the same default as the Factor constructor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">()</span>
-
         <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
 
         <span class="n">leading_trailing_dots_and_brackets_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^[\.\[\]]+|[\.\[\]]+$&quot;</span><span class="p">)</span>
@@ -261,11 +258,7 @@
         <span class="k">if</span> <span class="n">optimized_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">optimized_keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">()</span>
         <span class="n">numeric_factors</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># we temp generate the factors, so skip formating to save time</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">PythonConfig</span><span class="p">(</span>
-            <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_symbolic_factors</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_symbolic_factors</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="n">factor_optimized_keys</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">opt_key</span> <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">optimized_keys</span> <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">keys</span>
             <span class="p">]</span>
