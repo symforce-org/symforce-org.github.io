@@ -222,7 +222,7 @@ parameter</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration_stats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exited</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_stats</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>The result of an optimization, with additional stats and debug information</p>
 <dl class="simple">
@@ -230,16 +230,25 @@ parameter</p>
 </dd>
 <dt>optimized_values:</dt><dd><p>The best Values achieved during the optimization (Values with the smallest error)</p>
 </dd>
-<dt>iteration_stats:</dt><dd><p>Per-iteration stats, if requested, like the error per iteration.  If debug stats are
+<dt>iterations:</dt><dd><p>Per-iteration stats, if requested, like the error per iteration.  If debug stats are
 turned on, also the Values and linearization per iteration.</p>
+</dd>
+<dt>best_index:</dt><dd><p>The index into iterations for the iteration that produced the smallest error.  I.e.
+<cite>result.iterations[best_index].values == optimized_values</cite>.  This is not guaranteed
+to be the last iteration, if the optimizer tried additional steps which did not reduce
+the error</p>
 </dd>
 <dt>early_exited:</dt><dd><p>Did the optimization early exit?  This can happen because it converged successfully,
 of because it was unable to make progress</p>
 </dd>
-<dt>best_index:</dt><dd><p>The index into iteration_stats for the iteration that produced the smallest error.  I.e.
-<cite>result.iteration_stats[best_index].values == optimized_values</cite>.  This is not guaranteed
-to be the last iteration, if the optimizer tried additional steps which did not reduce
-the error</p>
+<dt>best_linearization:</dt><dd><p>The linearization at best_index (at optimized_values), filled out if
+populate_best_linearization=True</p>
+</dd>
+<dt>jacobian_sparsity:</dt><dd><p>The sparsity pattern of the jacobian, filled out if debug_stats=True</p>
+</dd>
+<dt>linear_solver_ordering:</dt><dd><p>The ordering used for the linear solver, filled out if debug_stats=True</p>
+</dd>
+<dt>cholesky_factor_sparsity:</dt><dd><p>The sparsity pattern of the cholesky factor L, filled out if debug_stats=True</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -247,9 +256,7 @@ the error</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>initial_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
 <li><p><strong>optimized_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
-<li><p><strong>iteration_stats</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">optimization_iteration_t</span></code>]) – </p></li>
-<li><p><strong>early_exited</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
-<li><p><strong>best_index</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>_stats</strong> (<a class="reference internal" href="../symforce.cc_sym.html#cc_sym.OptimizationStats" title="cc_sym.OptimizationStats"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationStats</span></code></a>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -263,25 +270,51 @@ the error</p>
 <span class="sig-name descname"><span class="pre">optimized_values</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><span class="pre">Values</span></a></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.optimized_values" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.iteration_stats">
-<span class="sig-name descname"><span class="pre">iteration_stats</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">optimization_iteration_t</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.iteration_stats" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.iterations">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iterations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">optimization_iteration_t</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.iterations" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.early_exited">
-<span class="sig-name descname"><span class="pre">early_exited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.early_exited" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
+<dl class="py property">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.best_index">
-<span class="sig-name descname"><span class="pre">best_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.best_index" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_index</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.best_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.early_exited">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">early_exited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.early_exited" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.best_linearization">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_linearization</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">Linearization</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.best_linearization" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.jacobian_sparsity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">jacobian_sparsity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sparse_matrix_structure_t</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.jacobian_sparsity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.linear_solver_ordering">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">linear_solver_ordering</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.linear_solver_ordering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.cholesky_factor_sparsity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cholesky_factor_sparsity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">sparse_matrix_structure_t</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.cholesky_factor_sparsity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.iteration_stats">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">iteration_stats</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">optimization_iteration_t</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.iteration_stats" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.error">
 <span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Result.error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.error" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>The lowest error achieved by the optimization (the error at optimized_values)</p>
+<dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
@@ -290,15 +323,13 @@ the error</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iteration_stats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exited</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.__init__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_stats</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>initial_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
 <li><p><strong>optimized_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – </p></li>
-<li><p><strong>iteration_stats</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">optimization_iteration_t</span></code>]) – </p></li>
-<li><p><strong>early_exited</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
-<li><p><strong>best_index</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – </p></li>
+<li><p><strong>_stats</strong> (<a class="reference internal" href="../symforce.cc_sym.html#cc_sym.OptimizationStats" title="cc_sym.OptimizationStats"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizationStats</span></code></a>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -324,12 +355,19 @@ the error</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.optimize">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_guess</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.optimize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_guess</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.optimize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Optimize from the given initial guess, and return the optimized Values and stats</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>initial_guess</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – A Values containing the initial guess, should contain at least all the
-keys required by the <cite>factors</cite> passed to the constructor</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_guess</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – A Values containing the initial guess, should contain at least all the
+keys required by the <cite>factors</cite> passed to the constructor</p></li>
+<li><p><strong>num_iterations</strong> – If &lt; 0 (the default), uses the number of iterations specified by the
+params at construction</p></li>
+<li><p><strong>populate_best_linearization</strong> – If true, the linearization at the best values will be
+filled out in the stats</p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Result" title="symforce.opt.optimizer.Optimizer.Result"><code class="xref py py-class docutils literal notranslate"><span class="pre">Result</span></code></a></p>

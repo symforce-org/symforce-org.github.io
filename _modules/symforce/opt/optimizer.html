@@ -44,11 +44,16 @@
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">dataclasses</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._index_entry_t</span> <span class="kn">import</span> <span class="n">index_entry_t</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._optimization_iteration_t</span> <span class="kn">import</span> <span class="n">optimization_iteration_t</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._optimizer_params_t</span> <span class="kn">import</span> <span class="n">optimizer_params_t</span>
+<span class="kn">from</span> <span class="nn">lcmtypes.sym._sparse_matrix_structure_t</span> <span class="kn">import</span> <span class="n">sparse_matrix_structure_t</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._values_t</span> <span class="kn">import</span> <span class="n">values_t</span>
 
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">cc_sym</span>
@@ -150,29 +155,79 @@
 <span class="sd">        optimized_values:</span>
 <span class="sd">            The best Values achieved during the optimization (Values with the smallest error)</span>
 
-<span class="sd">        iteration_stats:</span>
+<span class="sd">        iterations:</span>
 <span class="sd">            Per-iteration stats, if requested, like the error per iteration.  If debug stats are</span>
 <span class="sd">            turned on, also the Values and linearization per iteration.</span>
+
+<span class="sd">        best_index:</span>
+<span class="sd">            The index into iterations for the iteration that produced the smallest error.  I.e.</span>
+<span class="sd">            `result.iterations[best_index].values == optimized_values`.  This is not guaranteed</span>
+<span class="sd">            to be the last iteration, if the optimizer tried additional steps which did not reduce</span>
+<span class="sd">            the error</span>
 
 <span class="sd">        early_exited:</span>
 <span class="sd">            Did the optimization early exit?  This can happen because it converged successfully,</span>
 <span class="sd">            of because it was unable to make progress</span>
 
-<span class="sd">        best_index:</span>
-<span class="sd">            The index into iteration_stats for the iteration that produced the smallest error.  I.e.</span>
-<span class="sd">            `result.iteration_stats[best_index].values == optimized_values`.  This is not guaranteed</span>
-<span class="sd">            to be the last iteration, if the optimizer tried additional steps which did not reduce</span>
-<span class="sd">            the error</span>
+<span class="sd">        best_linearization:</span>
+<span class="sd">            The linearization at best_index (at optimized_values), filled out if</span>
+<span class="sd">            populate_best_linearization=True</span>
+
+<span class="sd">        jacobian_sparsity:</span>
+<span class="sd">            The sparsity pattern of the jacobian, filled out if debug_stats=True</span>
+
+<span class="sd">        linear_solver_ordering:</span>
+<span class="sd">            The ordering used for the linear solver, filled out if debug_stats=True</span>
+
+<span class="sd">        cholesky_factor_sparsity:</span>
+<span class="sd">            The sparsity pattern of the cholesky factor L, filled out if debug_stats=True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">initial_values</span><span class="p">:</span> <span class="n">Values</span>
         <span class="n">optimized_values</span><span class="p">:</span> <span class="n">Values</span>
-        <span class="n">iteration_stats</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">optimization_iteration_t</span><span class="p">]</span>
-        <span class="n">early_exited</span><span class="p">:</span> <span class="nb">bool</span>
-        <span class="n">best_index</span><span class="p">:</span> <span class="nb">int</span>
+
+        <span class="c1"># Private field holding the original stats - we expose fields of this through properties,</span>
+        <span class="c1"># since some of the conversions out of this are expensive</span>
+        <span class="n">_stats</span><span class="p">:</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">OptimizationStats</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">optimization_iteration_t</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">iterations</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">best_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">best_index</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">early_exited</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">early_exited</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">best_linearization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">best_linearization</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">jacobian_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">jacobian_sparsity</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">linear_solver_ordering</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">linear_solver_ordering</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">cholesky_factor_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">cholesky_factor_sparsity</span>
+
+        <span class="nd">@cached_property</span>
+        <span class="k">def</span> <span class="nf">iteration_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">optimization_iteration_t</span><span class="p">]:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;iteration_stats is deprecated, use iterations&quot;</span><span class="p">,</span> <span class="ne">FutureWarning</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span>
 
 <div class="viewcode-block" id="Optimizer.Result.error"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Result.error">[docs]</a>        <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration_stats</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">best_index</span><span class="p">]</span><span class="o">.</span><span class="n">new_error</span></div></div>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            The lowest error achieved by the optimization (the error at optimized_values)</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">best_index</span><span class="p">]</span><span class="o">.</span><span class="n">new_error</span></div></div>
 
 <div class="viewcode-block" id="Optimizer.__init__"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -270,13 +325,17 @@
 
         <span class="k">return</span> <span class="n">cc_values</span>
 
-<div class="viewcode-block" id="Optimizer.optimize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_guess</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer.optimize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_guess</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Optimize from the given initial guess, and return the optimized Values and stats</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            initial_guess: A Values containing the initial guess, should contain at least all the</span>
-<span class="sd">                           keys required by the `factors` passed to the constructor</span>
+<span class="sd">                keys required by the `factors` passed to the constructor</span>
+<span class="sd">            num_iterations: If &lt; 0 (the default), uses the number of iterations specified by the</span>
+<span class="sd">                params at construction</span>
+<span class="sd">            populate_best_linearization: If true, the linearization at the best values will be</span>
+<span class="sd">                filled out in the stats</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The optimization results, with additional stats and debug information.  See the</span>
@@ -285,7 +344,7 @@
         <span class="n">cc_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_values</span><span class="p">(</span><span class="n">initial_guess</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">cc_values</span><span class="p">)</span>
+            <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">cc_values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&quot;ERROR: Division by zero - check your use of epsilon!&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
 
@@ -297,11 +356,7 @@
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">(</span>
-            <span class="n">initial_values</span><span class="o">=</span><span class="n">initial_guess</span><span class="p">,</span>
-            <span class="n">optimized_values</span><span class="o">=</span><span class="n">optimized_values</span><span class="p">,</span>
-            <span class="n">iteration_stats</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">iterations</span><span class="p">,</span>
-            <span class="n">best_index</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">best_index</span><span class="p">,</span>
-            <span class="n">early_exited</span><span class="o">=</span><span class="n">stats</span><span class="o">.</span><span class="n">early_exited</span><span class="p">,</span>
+            <span class="n">initial_values</span><span class="o">=</span><span class="n">initial_guess</span><span class="p">,</span> <span class="n">optimized_values</span><span class="o">=</span><span class="n">optimized_values</span><span class="p">,</span> <span class="n">_stats</span><span class="o">=</span><span class="n">stats</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Optimizer.linearize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearize">[docs]</a>    <span class="k">def</span> <span class="nf">linearize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">:</span>
