@@ -202,6 +202,15 @@
 <div class="viewcode-block" id="Pose3.retract"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies a tangent space perturbation vec to self. Often used in optimization</span>
+<span class="sd">        to update nonlinear values from an update step in the tangent space.</span>
+
+<span class="sd">        Conceptually represents &quot;self + vec&quot; if self is a vector.</span>
+
+<span class="sd">        Implementation retracts the R and t components separately, which is different from</span>
+<span class="sd">        `compose(self, from_tangent(vec))`.  See the class docstring for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
             <span class="n">R</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="n">vec</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span>
             <span class="n">t</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">vec</span><span class="p">[</span><span class="mi">3</span><span class="p">:],</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span>
@@ -210,6 +219,16 @@
 <div class="viewcode-block" id="Pose3.local_coordinates"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes a tangent space perturbation around self to produce b. Often used in optimization</span>
+<span class="sd">        to minimize the distance between two group elements.</span>
+
+<span class="sd">        Tangent space perturbation that conceptually represents &quot;b - self&quot; if self is a vector.</span>
+
+<span class="sd">        Implementation takes local_coordinates of the R and t components separately, which is</span>
+<span class="sd">        different from `to_tangent(between(self, b))`.  See the class docstring for more</span>
+<span class="sd">        information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span> <span class="o">+</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span>
         <span class="p">)</span></div>

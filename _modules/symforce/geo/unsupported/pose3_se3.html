@@ -136,9 +136,23 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pose3_SE3.retract"><a class="viewcode-back" href="../../../../api/symforce.geo.unsupported.pose3_se3.html#symforce.geo.unsupported.pose3_se3.Pose3_SE3.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Pose3_SE3</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies a tangent space perturbation vec to self. Often used in optimization</span>
+<span class="sd">        to update nonlinear values from an update step in the tangent space.</span>
+
+<span class="sd">        Implementation is simply `compose(self, from_tangent(vec))`.</span>
+<span class="sd">        Conceptually represents &quot;self + vec&quot; if self is a vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LieGroup</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pose3_SE3.local_coordinates"><a class="viewcode-back" href="../../../../api/symforce.geo.unsupported.pose3_se3.html#symforce.geo.unsupported.pose3_se3.Pose3_SE3.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Pose3_SE3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes a tangent space perturbation around self to produce b. Often used in optimization</span>
+<span class="sd">        to minimize the distance between two group elements.</span>
+
+<span class="sd">        Implementation is simply `to_tangent(between(self, b))`.</span>
+<span class="sd">        Tangent space perturbation that conceptually represents &quot;b - self&quot; if self is a vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LieGroup</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
     <span class="c1"># -------------------------------------------------------------------------</span>

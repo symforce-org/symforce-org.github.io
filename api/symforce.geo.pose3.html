@@ -292,10 +292,11 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.retract">
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.retract" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply a tangent space perturbation vec to self. Often used in optimization
+<dd><p>Applies a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Implementation is simply <cite>compose(self, from_tangent(vec))</cite>.
-Conceptually represents “self + vec” if self is a vector.</p>
+<p>Conceptually represents “self + vec” if self is a vector.</p>
+<p>Implementation retracts the R and t components separately, which is different from
+<cite>compose(self, from_tangent(vec))</cite>.  See the class docstring for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -315,8 +316,10 @@ Conceptually represents “self + vec” if self is a vector.</p>
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.local_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Implementation is simply <cite>to_tangent(between(self, b))</cite>.
-Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
+<p>Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
+<p>Implementation takes local_coordinates of the R and t components separately, which is
+different from <cite>to_tangent(between(self, b))</cite>.  See the class docstring for more
+information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
