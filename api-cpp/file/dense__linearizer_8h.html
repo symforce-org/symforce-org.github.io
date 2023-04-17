@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>File dense_linearizer.h &#8212; symforce 0.8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="File derivative_checker.h" href="derivative__checker_8h.html" />
+    <link rel="prev" title="File dense_linearizer.cc" href="dense__linearizer_8cc.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="file-dense-linearizer-h">
+<h1>File dense_linearizer.h<a class="headerlink" href="#file-dense-linearizer-h" title="Permalink to this heading">¶</a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv43sym">
+<span class="target" id="namespacesym"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">sym</span></span></span><br /></dt>
+<dd><p>Utilities for converting various types of factor functors into what’s needed for the polymorphic std::function that’s actually stored and used by <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Factor"><span class="std std-ref">sym::Factor</span></a></p>
+<p>Primarily intended to be included by factor.tcc and used internally there </p>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN3sym15DenseLinearizerE">
+<span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Scalar</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classsym_1_1DenseLinearizer"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DenseLinearizer</span></span></span><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer21LinearizedDenseFactorE">
+<span class="target" id="classsym_1_1DenseLinearizer_1a9708d4c0d25027df26d1e76fb7402a15"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LinearizedDenseFactor</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Factor.html#_CPPv4I0EN3sym6FactorE" title="sym::Factor"><span class="n"><span class="pre">Factor</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">LinearizedDenseFactor</span></span><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer15DenseLinearizerERKNSt6stringERKNSt6vectorI6FactorI6ScalarEEERKNSt6vectorI3KeyEEb">
+<span class="target" id="classsym_1_1DenseLinearizer_1a6463c42bb1e5a6db7760c49930753625"></span><span class="sig-name descname"><span class="n"><span class="pre">DenseLinearizer</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1Factor.html#_CPPv4I0EN3sym6FactorE" title="sym::Factor"><span class="n"><span class="pre">Factor</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">factors</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key_order</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">include_jacobians</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><br /></dt>
+<dd><p>Construct a <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Linearizer"><span class="std std-ref">Linearizer</span></a> from factors and optional keys</p>
+<p>Args: name: name of linearizer used for debug information factors: Only stores a pointer, MUST be in scope for the lifetime of this object! key_order: If provided, acts as an ordered set of keys that form the state vector to optimize. Can equal the set of all factor keys or a subset of all factor keys. If not provided, it is computed from all keys for all factors using a default ordering. include_jacobians: Relinearize only allocates and fills out the jacobian if true. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym15DenseLinearizer13IsInitializedEv">
+<span class="target" id="classsym_1_1DenseLinearizer_1af5b965271de333d60e57c2e824943125"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IsInitialized</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd><p>Returns whether Relinearize has already been called once. Matters because many calculations need to be called only on the first linearization that are then cached for subsequent use. Also, if Relinearize has already been called, then the matrices in the linearization are expected to already be allocated to the right size. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym15DenseLinearizer4KeysEv">
+<span class="target" id="classsym_1_1DenseLinearizer_1a62447155240d3d6abcbad7e022fd030b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">Keys</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd><p>The keys to optimize, in the order they appear in the state vector (i.e., in rhs). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym15DenseLinearizer10StateIndexEv">
+<span class="target" id="classsym_1_1DenseLinearizer_1aaf67c7983bfaddb7497f19ff7f2e0a30"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">key_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">index_entry_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">StateIndex</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd><p>A map from all optimized keys in the problem to an index entry for the corresponding optimized values (where the offset is into the problem state vector, i.e., the rhs of a linearization).</p>
+<p>Only read if <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1DenseLinearizer_1af5b965271de333d60e57c2e824943125"><span class="std std-ref">IsInitialized()</span></a> returns true (i.e., after the first call to Relinearize). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer11RelinearizeERK6ValuesI6ScalarER18DenseLinearizationI6ScalarE">
+<span class="target" id="classsym_1_1DenseLinearizer_1ae598c443ad1dca212612c6eaef50eebd"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Relinearize</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Values.html#_CPPv4I0EN3sym6ValuesE" title="sym::Values"><span class="n"><span class="pre">Values</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <a class="reference internal" href="linearization_8h.html#_CPPv4I0EN3sym18DenseLinearizationE" title="sym::DenseLinearization"><span class="n"><span class="pre">DenseLinearization</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">linearization</span></span><span class="sig-paren">)</span><br /></dt>
+<dd><p>Update linearization at a new evaluation point. This is more efficient than reconstructing this object repeatedly. On the first call, it will allocate memory and perform analysis needed for efficient repeated relinearization.</p>
+<p>On the first call to Relinearize, the matrices in linearization will be allocated and sized correctly. On subsequent calls, the matrices of linearization are expected to already be allocated and sized correctly.</p>
+<p>TODO(aaron): This should be const except that it can initialize the object </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer20InitialLinearizationERK6ValuesI6ScalarER18DenseLinearizationI6ScalarE">
+<span class="target" id="classsym_1_1DenseLinearizer_1a2b99bcd05e4cb5a900c29e739626626e"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InitialLinearization</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Values.html#_CPPv4I0EN3sym6ValuesE" title="sym::Values"><span class="n"><span class="pre">Values</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">values</span></span>, <a class="reference internal" href="linearization_8h.html#_CPPv4I0EN3sym18DenseLinearizationE" title="sym::DenseLinearization"><span class="n"><span class="pre">DenseLinearization</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">linearization</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer20InitialLinearizationERK6ValuesI6ScalarER18DenseLinearizationI6ScalarE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Evaluates the linearizations of the factors at values into linearization, caching all values needed for relinearization along the way. Specifically:<ul class="simple">
+<li><p>Calculates state_index_</p></li>
+<li><p>Allocates all factor linearizations in lineared_dense_factors_</p></li>
+<li><p>Calculates factor_indices_</p></li>
+<li><p>Calculates factor_keyoffsets_ Sets is_initialized_ to true.</p></li>
+</ul>
+</p>
+<p>NOTE(brad): Things might break if you call it twice.</p>
+<p>Linearizes this-&gt;factors_ at values into linearization. Is different than subsequent runs because it additionally:<ul class="simple">
+<li><p>Allocates space for the dense linearized factors</p></li>
+<li><p>Figures out which parts of the problem linearization correspond to which parts of each factor linearization</p></li>
+<li><p>Allocates memory for each factor linearization of each shape</p></li>
+<li><p>Performs sanity checks that the outputs of each factor are consistent</p></li>
+<li><p>Computes indices into values for the arguments of each factor </p></li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer5name_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1ab173e806bf66f2920a37fa4b38c9d56f"></span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">name_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer5name_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer8factors_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1ab9b2428616eac581e2fe9f6d1445d03b"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1Factor.html#_CPPv4I0EN3sym6FactorE" title="sym::Factor"><span class="n"><span class="pre">Factor</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">factors_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer8factors_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer5keys_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1a62d7469d8fe17e5ce8eabc57b7db54a7"></span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">keys_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer5keys_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer12state_index_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1a44921759faf011c2a0734e8853e1817b"></span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unordered_map</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">key_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">index_entry_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">state_index_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer12state_index_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer25linearized_dense_factors_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1afeb52f7e2aa4803835adeef641df4946"></span><span class="n"><span class="pre">internal</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">LinearizedDenseFactorPool</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html#_CPPv4I0EN3sym15DenseLinearizerE" title="sym::DenseLinearizer::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">linearized_dense_factors_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer25linearized_dense_factors_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer15is_initialized_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1ab8c986f2b844ccaaef411cd750badb63"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_initialized_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer15is_initialized_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer18include_jacobians_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1a6e8f6479b81b8eae570f3069dc8c3e6e"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">include_jacobians_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer18include_jacobians_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer15factor_indices_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1a4588035675b143aba59c4d12340b1126"></span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">index_entry_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">factor_indices_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer15factor_indices_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym15DenseLinearizer18factor_keyoffsets_E">
+<span class="target" id="classsym_1_1DenseLinearizer_1a456df9f39bed9d25d97f1dc63dc4e6f2"></span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="key_8cc.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">linearization_offsets_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">factor_keyoffsets_</span></span></span><a class="headerlink" href="#_CPPv4N3sym15DenseLinearizer18factor_keyoffsets_E" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">symforce</a></h1>
+
+
+
+<p class="blurb">Fast symbolic computation, code generation, and nonlinear optimization for robotics</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=symforce-org&repo=symforce&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../development.html">Development Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/symforce.html">symforce package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api-gen-py/sym.html">sym package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api-gen-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-gen-cpp/filelist.html">File list</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../classlist.html">Class list</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../filelist.html">File list</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covariance__utils_8h.html">File covariance_utils.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dense__linearizer_8cc.html">File dense_linearizer.cc</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">File dense_linearizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="derivative__checker_8h.html">File derivative_checker.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="factor_8cc.html">File factor.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="factor_8tcc.html">File factor.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="factor__utils_8h.html">File factor_utils.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gnc__optimizer_8cc.html">File gnc_optimizer.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hash__combine_8h.html">File hash_combine.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="internal_2tic__toc_8h.html">File tic_toc.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="key_8cc.html">File key.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="key_8h.html">File key.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="levenberg__marquardt__solver_8tcc.html">File levenberg_marquardt_solver.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="levenberg__marquardt__state_8h.html">File levenberg_marquardt_state.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearization_8cc.html">File linearization.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearization_8h.html">File linearization.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearized__dense__factor__pool_8h.html">File linearized_dense_factor_pool.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearizer_8cc.html">File linearizer.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearizer_8h.html">File linearizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linearizer__utils_8h.html">File linearizer_utils.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging__configure_8cc.html">File logging_configure.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging__configure_8h.html">File logging_configure.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimization__stats_8h.html">File optimization_stats.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizer_8cc.html">File optimizer.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizer_8h.html">File optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizer_8tcc.html">File optimizer.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparse__cholesky__solver_8cc.html">File sparse_cholesky_solver.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparse__cholesky__solver_8tcc.html">File sparse_cholesky_solver.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparse__schur__solver_8cc.html">File sparse_schur_solver.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparse__schur__solver_8tcc.html">File sparse_schur_solver.tcc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="templates_8h.html">File templates.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tic__toc_8cc.html">File tic_toc.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tic__toc_8h.html">File tic_toc.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="util_8h.html">File util.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="values_8cc.html">File values.cc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="values_8h.html">File values.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="values_8tcc.html">File values.tcc</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../filelist.html">File list</a><ul>
+      <li>Previous: <a href="dense__linearizer_8cc.html" title="previous chapter">File dense_linearizer.cc</a></li>
+      <li>Next: <a href="derivative__checker_8h.html" title="next chapter">File derivative_checker.h</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Skydio, Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="../../_sources/api-cpp/file/dense__linearizer_8h.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

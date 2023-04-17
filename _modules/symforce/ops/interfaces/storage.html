@@ -46,7 +46,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
-<div class="viewcode-block" id="Storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage">[docs]</a><span class="k">class</span> <span class="nc">Storage</span><span class="p">:</span>
+<div class="viewcode-block" id="Storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage">[docs]</a><span class="k">class</span> <span class="nc">Storage</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Interface for objects that implement the storage concept. Because this</span>
 <span class="sd">    class is registered using ClassStorageOps (see bottom of this file), any</span>
@@ -63,34 +63,34 @@
     <span class="c1"># Type that represents this or any subclasses</span>
     <span class="n">StorageT</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;StorageT&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;Storage&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Storage.storage_dim"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Storage.storage_dim"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dimension of underlying storage</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Storage.__repr__"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Storage.__repr__"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        String representation of this type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Storage.to_storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="Storage.to_storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Flat list representation of the underlying storage, length of STORAGE_DIM.</span>
 <span class="sd">        This is used purely for plumbing, it is NOT like a tangent space.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Storage.from_storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Storage.from_storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">StorageT</span><span class="p">],</span> <span class="n">elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from a flat list representation. Opposite of `.to_storage()`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Storage.__eq__"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.__eq__">[docs]</a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Storage.__eq__"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.__eq__">[docs]</a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns exact equality between self and other.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -106,20 +106,20 @@
 
         <span class="k">return</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Storage.subs"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.subs">[docs]</a>    <span class="k">def</span> <span class="nf">subs</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
+<div class="viewcode-block" id="Storage.subs"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.subs">[docs]</a>    <span class="k">def</span> <span class="nf">subs</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Substitute given values of each scalar element into a new instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
     <span class="c1"># TODO(hayk): Way to get sf.simplify to work on these types directly?</span>
-<div class="viewcode-block" id="Storage.simplify"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
+<div class="viewcode-block" id="Storage.simplify"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Simplify each scalar element into a new instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())))</span></div>
 
-<div class="viewcode-block" id="Storage.symbolic"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Storage.symbolic"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">StorageT</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a symbolic element with the given name prefix. Kwargs are forwarded</span>
@@ -129,13 +129,13 @@
             <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">())]</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Storage.evalf"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.evalf">[docs]</a>    <span class="k">def</span> <span class="nf">evalf</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
+<div class="viewcode-block" id="Storage.evalf"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.evalf">[docs]</a>    <span class="k">def</span> <span class="nf">evalf</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Numerical evaluation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_storage</span><span class="p">([</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()])</span></div>
 
-<div class="viewcode-block" id="Storage.__hash__"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.Storage.__hash__">[docs]</a>    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="Storage.__hash__"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.__hash__">[docs]</a>    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Hash this object in immutable form, by combining all their scalar hashes.</span>
 

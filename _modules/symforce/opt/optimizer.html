@@ -257,6 +257,11 @@
                 <span class="c1"># We compute the linearization in the same order as `optimized_keys`</span>
                 <span class="c1"># so that e.g. columns of the generated jacobians are in the same order</span>
                 <span class="n">factor_opt_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt_key</span> <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">optimized_keys</span> <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">factor_opt_keys</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Factor </span><span class="si">{</span><span class="n">factor</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has no arguments (keys: </span><span class="si">{</span><span class="n">factor</span><span class="o">.</span><span class="n">keys</span><span class="si">}</span><span class="s2">) in &quot;</span>
+                        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;optimized_keys (</span><span class="si">{</span><span class="n">optimized_keys</span><span class="si">}</span><span class="s2">).&quot;</span>
+                    <span class="p">)</span>
                 <span class="n">numeric_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor</span><span class="o">.</span><span class="n">to_numeric_factor</span><span class="p">(</span><span class="n">factor_opt_keys</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Add unique keys to optimized keys</span>
@@ -282,6 +287,8 @@
         <span class="c1"># This works because the factors maintain a reference to this, so everything is fine as long</span>
         <span class="c1"># as the unoptimized keys are also in here before we attempt to linearize any of the factors</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Key</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">)}</span>
+        <span class="c1"># create the mapping from cc_keys back into python keys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_py_keys_from_cc_keys_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
         <span class="c1"># This stores the list of keys in the python Values, which are necessary for reconstructing</span>
         <span class="c1"># a Python Values from C++, in particular for methods that don&#39;t otherwise have a Python</span>
@@ -324,6 +331,21 @@
             <span class="n">cc_values</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cc_key</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">cc_values</span>
+
+<div class="viewcode-block" id="Optimizer.compute_all_covariances"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_all_covariances">[docs]</a>    <span class="k">def</span> <span class="nf">compute_all_covariances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the covariance matrix (J^T@J)^-1 for all optimized keys about a given linearization point</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            optimized_value: A value containing the linearization point to compute the covariance matrix about</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A dict of {optimized_key: numerical covariance matrix}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cc_covariance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">compute_all_covariances</span><span class="p">(</span>
+            <span class="n">linearization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="n">optimized_value</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_py_keys_from_cc_keys_map</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cc_covariance_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
 
 <div class="viewcode-block" id="Optimizer.optimize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_guess</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

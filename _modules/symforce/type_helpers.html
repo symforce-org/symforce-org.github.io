@@ -105,6 +105,8 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A tuple with a symbolic object for each input to func</span>
+
+<span class="sd">    See also: sf.util.symbolic_eval</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">p</span>
@@ -125,25 +127,6 @@
         <span class="n">inputs</span><span class="p">[</span><span class="n">arg_parameter</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="n">arg_type</span><span class="p">,</span> <span class="n">arg_parameter</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">inputs</span></div>
-
-
-<span class="n">_T</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_T&quot;</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="symbolic_eval"><a class="viewcode-back" href="../../api/symforce.type_helpers.html#symforce.type_helpers.symbolic_eval">[docs]</a><span class="k">def</span> <span class="nf">symbolic_eval</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">_T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Build symbolic arguments for a function, and return the function evaluated on those arguments.</span>
-
-<span class="sd">    Useful for easily visualizing what expressions a symbolic function produces</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        func: A callable; args should have type annotations, and those types should be constructible</span>
-<span class="sd">              automatically with StorageOps.symbolic</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The outputs of `func` evaluated on the constructed symbolic args</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">symbolic_inputs</span><span class="p">(</span><span class="n">func</span><span class="p">))</span></div>
 </pre></div>
 
           </div>
