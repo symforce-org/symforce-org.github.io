@@ -123,13 +123,13 @@
             <span class="n">subproblem</span><span class="o">.</span><span class="n">optimized_values</span><span class="p">()</span> <span class="k">for</span> <span class="n">subproblem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subproblems</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
         <span class="p">)</span>
 
-        <span class="n">content_addressible_inputs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">content_addressable_inputs</span> <span class="o">=</span> <span class="p">{</span>
             <span class="nb">tuple</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">)):</span> <span class="n">key</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
         <span class="p">}</span>
 
         <span class="n">optimized_keys</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">optimized_values</span><span class="p">:</span>
-            <span class="n">optimized_key</span> <span class="o">=</span> <span class="n">content_addressible_inputs</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">))]</span>
+            <span class="n">optimized_key</span> <span class="o">=</span> <span class="n">content_addressable_inputs</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">value</span><span class="p">))]</span>
             <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">optimized_key</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Variable returned by `optimized_values()` (</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">) in &quot;</span>

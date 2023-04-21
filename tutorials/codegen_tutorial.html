@@ -318,7 +318,6 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">symforce</span>
 
 <span class="n">symforce</span><span class="o">.</span><span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;symengine&quot;</span><span class="p">)</span>
@@ -379,7 +378,7 @@ div.rendered_html tbody tr:hover {
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Files generated in </span><span class="si">{}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">az_el_codegen_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">az_el_codegen_data</span><span class="o">.</span><span class="n">generated_files</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">az_el_codegen_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">az_el_codegen_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
 
 <span class="n">display_code_file</span><span class="p">(</span><span class="n">az_el_codegen_data</span><span class="o">.</span><span class="n">generated_files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;C++&quot;</span><span class="p">)</span>
 </pre></div>
@@ -390,7 +389,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Files generated in /tmp/sf_codegen_az_el_from_point_08jm2c_z:
+Files generated in /tmp/sf_codegen_az_el_from_point_tb_sn9n2:
 
   |- cpp/symforce/sym/az_el_from_point.h
 </pre></div></div>
@@ -848,7 +847,7 @@ Values(
 <span class="c1"># Print what we generated</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Files generated in </span><span class="si">{}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">double_pendulum_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">double_pendulum_data</span><span class="o">.</span><span class="n">generated_files</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">double_pendulum_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">double_pendulum_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -857,7 +856,7 @@ Values(
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Files generated in /tmp/sf_codegen_double_pendulum_wn0qg57k:
+Files generated in /tmp/sf_codegen_double_pendulum_d_1bzel9:
 
   |- lcmtypes/double_pendulum.lcm
   |- cpp/symforce/sym/double_pendulum.h
@@ -968,7 +967,7 @@ Eigen<span style="color: #666666">::</span>Matrix<span style="color: #666666">&l
 <span class="c1"># generated.</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Files generated in </span><span class="si">{}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">double_pendulum_values_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">double_pendulum_values_data</span><span class="o">.</span><span class="n">generated_files</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">double_pendulum_values_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">double_pendulum_values_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
 
 <span class="n">display_code_file</span><span class="p">(</span>
     <span class="n">double_pendulum_values_data</span><span class="o">.</span><span class="n">function_dir</span> <span class="o">/</span> <span class="s2">&quot;double_pendulum.h&quot;</span><span class="p">,</span>
@@ -982,7 +981,7 @@ Eigen<span style="color: #666666">::</span>Matrix<span style="color: #666666">&l
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Files generated in /tmp/sf_codegen_double_pendulum_kt00v1s_:
+Files generated in /tmp/sf_codegen_double_pendulum_f16yee_r:
 
   |- lcmtypes/double_pendulum.lcm
   |- cpp/symforce/double_pendulum/double_pendulum.h
@@ -1079,7 +1078,7 @@ Files generated in /tmp/sf_codegen_double_pendulum_kt00v1s_:
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Files generated in </span><span class="si">{}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">double_pendulum_python_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">double_pendulum_python_data</span><span class="o">.</span><span class="n">generated_files</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">double_pendulum_python_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  |- </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">double_pendulum_python_data</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)))</span>
 
 <span class="n">display_code_file</span><span class="p">(</span>
     <span class="n">double_pendulum_python_data</span><span class="o">.</span><span class="n">function_dir</span> <span class="o">/</span> <span class="s2">&quot;double_pendulum.py&quot;</span><span class="p">,</span>
@@ -1093,7 +1092,7 @@ Files generated in /tmp/sf_codegen_double_pendulum_kt00v1s_:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Files generated in /tmp/sf_codegen_double_pendulum_hcpid__w:
+Files generated in /tmp/sf_codegen_double_pendulum_yb64ws5a:
 
   |- lcmtypes/double_pendulum.lcm
   |- python/symforce/double_pendulum/double_pendulum.py
