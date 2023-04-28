@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>setup &#8212; symforce 0.8.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for setup</h1><div class="highlight"><pre>
+<span></span><span class="c1"># ----------------------------------------------------------------------------</span>
+<span class="c1"># SymForce - Copyright 2022, Skydio, Inc.</span>
+<span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
+<span class="c1"># ----------------------------------------------------------------------------</span>
+
+<span class="kn">import</span> <span class="nn">distutils.util</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">Extension</span>
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_namespace_packages</span>
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">find_packages</span>
+<span class="kn">from</span> <span class="nn">setuptools</span> <span class="kn">import</span> <span class="n">setup</span>
+<span class="kn">from</span> <span class="nn">setuptools.command.build_ext</span> <span class="kn">import</span> <span class="n">build_ext</span>
+<span class="kn">from</span> <span class="nn">setuptools.command.develop</span> <span class="kn">import</span> <span class="n">develop</span>
+<span class="kn">from</span> <span class="nn">setuptools.command.egg_info</span> <span class="kn">import</span> <span class="n">egg_info</span>
+<span class="kn">from</span> <span class="nn">setuptools.command.install</span> <span class="kn">import</span> <span class="n">install</span>
+
+<span class="n">SOURCE_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+
+
+<div class="viewcode-block" id="symforce_version"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.symforce_version">[docs]</a><span class="k">def</span> <span class="nf">symforce_version</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fetch the current symforce version from _version.py</span>
+
+<span class="sd">    We can&#39;t import the version here, so we have to do some text parsing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">version_file_contents</span> <span class="o">=</span> <span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;symforce&quot;</span> <span class="o">/</span> <span class="s2">&quot;_version.py&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+    <span class="n">version_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^version = &quot;(.+)&quot;$&#39;</span><span class="p">,</span> <span class="n">version_file_contents</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">version_match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">version_match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CMakeExtension"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.CMakeExtension">[docs]</a><span class="k">class</span> <span class="nc">CMakeExtension</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    CMake extension type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CMakeExtension.__init__"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.CMakeExtension.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">Extension</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">sources</span><span class="o">=</span><span class="p">[])</span></div></div>
+
+
+<div class="viewcode-block" id="PatchDevelop"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.PatchDevelop">[docs]</a><span class="k">class</span> <span class="nc">PatchDevelop</span><span class="p">(</span><span class="n">develop</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    develop is the legacy command (pre setuptools==64.0.0, which implemented</span>
+<span class="sd">    the pep 660 hook build_editable) to build a package in editable mode.</span>
+
+<span class="sd">    This will be used by setuptools &lt; 64.0.0, and not be used by</span>
+<span class="sd">    setuptools &gt;= 64.0.0 during a normal `pip install -e .` run (of course,</span>
+<span class="sd">    you could still run `python setup.py develop` to run it with any version</span>
+<span class="sd">    of setuptools).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PatchDevelop.run"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.PatchDevelop.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore[override]</span>
+        <span class="c1"># NOTE(brad): In setuptools 64.0.0, the editable_mode field of the</span>
+        <span class="c1"># build_ext was added and is set to True during a pep 660 editable</span>
+        <span class="c1"># install.</span>
+        <span class="c1"># Since we want to use this field in our CMakeBuild extension of</span>
+        <span class="c1"># build_ext to identify if we&#39;re performing an editable install</span>
+        <span class="c1"># regardless of whether we&#39;re building with develop or build_editable,</span>
+        <span class="c1"># (both before and after version 64.0.0), we patch develop to add this</span>
+        <span class="c1"># field to build_ext and set it to True.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">editable_mode</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="CMakeBuild"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.CMakeBuild">[docs]</a><span class="k">class</span> <span class="nc">CMakeBuild</span><span class="p">(</span><span class="n">build_ext</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom extension builder that runs CMake.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CMakeBuild.run"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.CMakeBuild.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Test for CMake</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;cmake&quot;</span><span class="p">,</span> <span class="s2">&quot;--version&quot;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;CMake must be installed to build the following extensions: &quot;</span>
+                <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extensions</span><span class="p">)</span>
+            <span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+        <span class="n">build_temp_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span>
+        <span class="n">build_directory</span> <span class="o">=</span> <span class="n">build_temp_path</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+
+        <span class="n">cmake_args</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=</span><span class="si">{</span><span class="n">build_directory</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-DCMAKE_SHARED_LINKER_FLAGS=-Wl,-rpath,&#39;$ORIGIN/../..&#39;&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;-DPYTHON_EXECUTABLE=</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="c1"># NOTE(brad): build_ext.editable_mode is not added until setuptools==64.0.0</span>
+        <span class="n">editable_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">editable_mode</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;editable_mode&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">editable_mode</span><span class="p">:</span>
+            <span class="c1"># NOTE(brad): If in editable mode (i.e., building with pip install -e), we</span>
+            <span class="c1"># place and expect cc_sym.so in the top-level of SOURCE_DIR. Since cc_sym needs</span>
+            <span class="c1"># to be dynamically linked to its dependencies (libsymforce_gen.so</span>
+            <span class="c1"># &amp; libsymforce_opt.so) which it finds via the RPATH, we set the RPATH to</span>
+            <span class="c1"># $ORIGIN (a keyword) which is just the directory of the lib at runtime (the macos</span>
+            <span class="c1"># analog to $ORIGIN is @loader_path). We will later place the dependencies of</span>
+            <span class="c1"># cc_sym.so in the same directory so that they will be found.</span>
+            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux2&quot;</span><span class="p">:</span>
+                <span class="n">cmake_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;-DCMAKE_BUILD_RPATH=$ORIGIN&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span><span class="p">:</span>
+                <span class="n">cmake_args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;-DCMAKE_BUILD_RPATH=@loader_path&quot;</span><span class="p">)</span>
+
+        <span class="n">cfg</span> <span class="o">=</span> <span class="s2">&quot;Debug&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="k">else</span> <span class="s2">&quot;Release&quot;</span>
+        <span class="n">build_args</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;--config&quot;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">]</span>
+
+        <span class="c1"># NOTE(hayk): Don&#39;t build tests or examples through pip.</span>
+        <span class="n">cmake_args</span> <span class="o">+=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;-DCMAKE_BUILD_TYPE=</span><span class="si">{</span><span class="n">cfg</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-DSYMFORCE_BUILD_TESTS=OFF&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-DSYMFORCE_BUILD_EXAMPLES=OFF&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Assuming Makefiles</span>
+        <span class="n">build_args</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;-j</span><span class="si">{</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_args</span> <span class="o">=</span> <span class="n">build_args</span>  <span class="c1"># pylint: disable=attribute-defined-outside-init</span>
+
+        <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">env</span><span class="p">[</span><span class="s2">&quot;CXXFLAGS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> -DVERSION_INFO=</span><span class="se">\\</span><span class="s1">&quot;</span><span class="si">{}</span><span class="se">\\</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;CXXFLAGS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_version</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="n">build_temp_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># CMakeLists.txt is in the same directory as this setup.py file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Running CMake prepare&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;cmake&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">SOURCE_DIR</span><span class="p">)]</span> <span class="o">+</span> <span class="n">cmake_args</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;Building extensions&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+        <span class="n">cmake_cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cmake&quot;</span><span class="p">,</span> <span class="s2">&quot;--build&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_args</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmake_cmd</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">editable_mode</span><span class="p">:</span>
+            <span class="c1"># NOTE(brad) When installed in editable mode, python expects to find symengine</span>
+            <span class="c1"># in the symenginepy/symengine source directory. Everything is already there</span>
+            <span class="c1"># except the compiled symengine_wrapper extension module, so we copy that there</span>
+            <span class="c1"># as well.</span>
+            <span class="n">symengine_wrapper</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+                <span class="n">build_temp_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;symengine_install/**/lib/python</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">/*-packages/symengine/lib/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s1">&#39;symengine_wrapper&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">),</span>
+                <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># NOTE(brad) For some reason that I don&#39;t fully understand, the symengine_wrapper</span>
+            <span class="c1"># shared library is neither present in symengine_install nor needed in the source</span>
+            <span class="c1"># directory on macos sometimes (for example, on the github actions macos runner).</span>
+            <span class="c1"># So, if the file&#39;s not present, we just move on.</span>
+            <span class="k">if</span> <span class="n">symengine_wrapper</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span>
+                    <span class="n">symengine_wrapper</span><span class="p">,</span>
+                    <span class="n">SOURCE_DIR</span>
+                    <span class="o">/</span> <span class="s2">&quot;third_party&quot;</span>
+                    <span class="o">/</span> <span class="s2">&quot;symenginepy&quot;</span>
+                    <span class="o">/</span> <span class="s2">&quot;symengine&quot;</span>
+                    <span class="o">/</span> <span class="s2">&quot;lib&quot;</span>
+                    <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;symengine_wrapper&quot;</span><span class="p">),</span>
+                <span class="p">)</span>
+
+            <span class="c1"># NOTE(brad) By setting the RPATH of the generated binaries to include $ORIGIN,</span>
+            <span class="c1"># we told all binaries they can expect to find any shared libraries in the same</span>
+            <span class="c1"># directory they are already in. In particular, we told cc_sym.so it can find</span>
+            <span class="c1"># its dependencies (the below shared libraries) in SOURCE_DIR (where we put it).</span>
+            <span class="c1"># Thus, we need to copy the shared libaries there as well so that cc_sym.so will</span>
+            <span class="c1"># find them when it looks.</span>
+            <span class="k">for</span> <span class="n">cc_sym_dependency</span> <span class="ow">in</span> <span class="n">build_temp_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;libsymforce_*&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span>
+                    <span class="n">cc_sym_dependency</span><span class="p">,</span>
+                    <span class="n">SOURCE_DIR</span> <span class="o">/</span> <span class="n">cc_sym_dependency</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Move from build temp to final position</span>
+        <span class="k">for</span> <span class="n">ext</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">extensions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">move_output</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CMakeBuild.move_output"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.CMakeBuild.move_output">[docs]</a>    <span class="k">def</span> <span class="nf">move_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="n">CMakeExtension</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">:</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="n">build_temp_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span>
+            <span class="n">dest_path_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_ext_fullpath</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplace</span><span class="p">:</span>
+                <span class="c1"># NOTE(brad): If building in-place, place package in lcmtypes_build dir to avoid</span>
+                <span class="c1"># collision with existing lcmtypes directory. Happens in editable installs.</span>
+                <span class="n">dest_path</span> <span class="o">=</span> <span class="n">dest_path_dir</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes_build&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dest_path</span> <span class="o">=</span> <span class="n">dest_path_dir</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">copy_tree</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">build_temp_path</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span> <span class="o">/</span> <span class="s2">&quot;python2.7&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">dest_path</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">build_temp</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="n">extension_source_paths</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;cc_sym&quot;</span><span class="p">:</span> <span class="n">build_temp</span> <span class="o">/</span> <span class="s2">&quot;pybind&quot;</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;cc_sym&quot;</span><span class="p">)}</span>
+
+        <span class="n">build_temp</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="n">dest_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_ext_fullpath</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="n">dest_directory</span> <span class="o">=</span> <span class="n">dest_path</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dest_directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span><span class="n">extension_source_paths</span><span class="p">[</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">dest_path</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span></div></div>
+
+
+<div class="viewcode-block" id="SymForceEggInfo"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.SymForceEggInfo">[docs]</a><span class="k">class</span> <span class="nc">SymForceEggInfo</span><span class="p">(</span><span class="n">egg_info</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom Egg info, that optionally rewrites local dependencies (that are stored in the symforce</span>
+<span class="sd">    repo) to package dependencies</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">user_options</span> <span class="o">=</span> <span class="n">egg_info</span><span class="o">.</span><span class="n">user_options</span> <span class="o">+</span> <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="s2">&quot;rewrite-local-dependencies=&quot;</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;Rewrite in-repo Python dependencies from `package @ file:` to `package==version`.  Can&quot;</span>
+            <span class="s2">&quot; also be provided as the environment variable SYMFORCE_REWRITE_LOCAL_DEPENDENCIES&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="SymForceEggInfo.initialize_options"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.SymForceEggInfo.initialize_options">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">initialize_options</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rewrite_local_dependencies</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># pylint: disable=attribute-defined-outside-init</span></div>
+
+<div class="viewcode-block" id="SymForceEggInfo.finalize_options"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.SymForceEggInfo.finalize_options">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">finalize_options</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rewrite_local_dependencies</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rewrite_local_dependencies</span> <span class="o">=</span> <span class="p">(</span>  <span class="c1"># pylint: disable=attribute-defined-outside-init</span>
+                <span class="nb">bool</span><span class="p">(</span><span class="n">distutils</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">strtobool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rewrite_local_dependencies</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;SYMFORCE_REWRITE_LOCAL_DEPENDENCIES&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rewrite_local_dependencies</span> <span class="o">=</span> <span class="p">(</span>  <span class="c1"># pylint: disable=attribute-defined-outside-init</span>
+                <span class="nb">bool</span><span class="p">(</span><span class="n">distutils</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">strtobool</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SYMFORCE_REWRITE_LOCAL_DEPENDENCIES&quot;</span><span class="p">]))</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SymForceEggInfo.run"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.SymForceEggInfo.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Rewrite dependencies from the local `file:` versions to generic pinned package versions.</span>
+        <span class="c1"># This is what we want when e.g. building wheels for PyPI, where those local dependencies</span>
+        <span class="c1"># are hosted as their own PyPI packages.  We can&#39;t just decide whether to do this e.g. based</span>
+        <span class="c1"># on whether we&#39;re building a wheel, since `pip install .` also builds a wheel to install.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rewrite_local_dependencies</span><span class="p">:</span>
+
+            <span class="k">def</span> <span class="nf">filter_local</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;@&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">==</span><span class="si">{</span><span class="n">symforce_version</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">return</span> <span class="n">s</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">install_requires</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="n">filter_local</span><span class="p">(</span><span class="n">requirement</span><span class="p">)</span> <span class="k">for</span> <span class="n">requirement</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">install_requires</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">extras_require</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="n">filter_local</span><span class="p">(</span><span class="n">requirement</span><span class="p">)</span> <span class="k">for</span> <span class="n">requirement</span> <span class="ow">in</span> <span class="n">v</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">extras_require</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="p">}</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="InstallWithExtras"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.InstallWithExtras">[docs]</a><span class="k">class</span> <span class="nc">InstallWithExtras</span><span class="p">(</span><span class="n">install</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom install step that:</span>
+<span class="sd">        1) Installs symenginepy so it can be imported</span>
+<span class="sd">        2) Installs additional shared libraries needed by cc_sym (e.g. libmetis)</span>
+<span class="sd">        3) Installs lcmtypes python package</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InstallWithExtras.run"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.InstallWithExtras.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+        <span class="n">build_ext_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="n">build_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+
+        <span class="c1"># Install symengine</span>
+        <span class="c1"># NOTE(aaron): We add symenginepy as a package down below, and the only remaining thing we</span>
+        <span class="c1"># need is the compiled symengine_wrapper.so, which we move into place here.  This doesn&#39;t</span>
+        <span class="c1"># include the additional Cython sources that symenginepy includes in their distributions,</span>
+        <span class="c1"># but I&#39;m honestly not sure why they include them or why you&#39;d need them.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span>
+            <span class="n">build_dir</span>
+            <span class="o">/</span> <span class="s2">&quot;symengine_install&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;lib&quot;</span>
+            <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;python</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;site-packages&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;symengine&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;lib&quot;</span>
+            <span class="o">/</span> <span class="n">build_ext_obj</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;symengine_wrapper&quot;</span><span class="p">),</span>
+            <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+            <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">install_platlib</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="o">/</span> <span class="s2">&quot;symengine&quot;</span>
+            <span class="o">/</span> <span class="s2">&quot;lib&quot;</span>
+            <span class="o">/</span> <span class="n">build_ext_obj</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;symengine_wrapper&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Configure with install prefix</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;cmake&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">SOURCE_DIR</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;-DCMAKE_INSTALL_PREFIX=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="n">build_dir</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Install other libraries needed for cc_sym.so</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;cmake&quot;</span><span class="p">,</span> <span class="s2">&quot;--build&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;--target&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">],</span>
+            <span class="n">cwd</span><span class="o">=</span><span class="n">build_dir</span><span class="p">,</span>
+            <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<span class="n">setup_requirements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;setuptools&gt;=62.3.0&quot;</span><span class="p">,</span>  <span class="c1"># For package data globs</span>
+    <span class="s2">&quot;wheel&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pip&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cmake&gt;=3.17&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cython&gt;=0.19.1&quot;</span><span class="p">,</span>
+    <span class="sa">f</span><span class="s2">&quot;skymarshal @ file://localhost/</span><span class="si">{</span><span class="n">SOURCE_DIR</span><span class="si">}</span><span class="s2">/third_party/skymarshal&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">docs_requirements</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;ipykernel&quot;</span><span class="p">,</span>
+    <span class="c1"># nbconvert depends on this, but doesn&#39;t specify the dependency</span>
+    <span class="s2">&quot;ipython-genutils&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;myst-parser&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nbsphinx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nbstripout&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pandas&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;plotly&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Sphinx&quot;</span><span class="p">,</span>
+    <span class="c1"># sphinx-autodoc-typehints &gt;=1.15 contains a bug causing it to crash parsing our typing.py</span>
+    <span class="s2">&quot;sphinx-autodoc-typehints&lt;1.15&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;breathe&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="symforce_rev"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.symforce_rev">[docs]</a><span class="k">def</span> <span class="nf">symforce_rev</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the current git sha, falling back to `main`.  Only used for images in the README, where it</span>
+<span class="sd">    isn&#39;t super important that this is very robust</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;git&quot;</span><span class="p">,</span> <span class="s2">&quot;rev-parse&quot;</span><span class="p">,</span> <span class="s2">&quot;--short&quot;</span><span class="p">,</span> <span class="s2">&quot;HEAD&quot;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CalledProcessError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;main&quot;</span></div>
+
+
+<div class="viewcode-block" id="fixed_readme"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.fixed_readme">[docs]</a><span class="k">def</span> <span class="nf">fixed_readme</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fix things in the README for PyPI</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">readme</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;README.md&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span>
+
+    <span class="c1"># Replace relative links with absolute, so images appear correctly on PyPI</span>
+    <span class="n">readme</span> <span class="o">=</span> <span class="n">readme</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="s2">&quot;docs/static/images/&quot;</span><span class="p">,</span>
+        <span class="sa">f</span><span class="s2">&quot;https://raw.githubusercontent.com/symforce-org/symforce/</span><span class="si">{</span><span class="n">symforce_rev</span><span class="p">()</span><span class="si">}</span><span class="s2">/docs/static/images/&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Remove the DARK_MODE_ONLY tags</span>
+    <span class="c1"># https://github.com/pypi/warehouse/issues/11251</span>
+    <span class="c1"># See https://stackoverflow.com/a/1732454/2791611</span>
+    <span class="n">readme</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;&lt;!--\s*DARK_MODE_ONLY\s*--&gt;((?!DARK_MODE_ONLY).)*&lt;!--\s*/DARK_MODE_ONLY\s*--&gt;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">readme</span><span class="p">,</span>
+        <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span> <span class="o">|</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">readme</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">setup</span><span class="p">(</span>
+        <span class="n">version</span><span class="o">=</span><span class="n">symforce_version</span><span class="p">(),</span>
+        <span class="n">long_description</span><span class="o">=</span><span class="n">fixed_readme</span><span class="p">(),</span>
+        <span class="n">long_description_content_type</span><span class="o">=</span><span class="s2">&quot;text/markdown&quot;</span><span class="p">,</span>
+        <span class="c1"># The SymForce package is a namespace package (important for data-only subdirectories</span>
+        <span class="c1"># specifically).  We could also treat the others as namespace packages, but that makes it</span>
+        <span class="c1"># more annoying to exclude non-package directories.</span>
+        <span class="n">packages</span><span class="o">=</span><span class="n">find_namespace_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;symforce*&quot;</span><span class="p">])</span>
+        <span class="o">+</span> <span class="n">find_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;symforce*&quot;</span><span class="p">])</span>
+        <span class="o">+</span> <span class="n">find_packages</span><span class="p">(</span><span class="n">where</span><span class="o">=</span><span class="s2">&quot;third_party/symenginepy&quot;</span><span class="p">),</span>
+        <span class="n">package_dir</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;symforce&quot;</span><span class="p">:</span> <span class="s2">&quot;symforce&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;symengine&quot;</span><span class="p">:</span> <span class="s2">&quot;third_party/symenginepy/symengine&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;lcmtypes&quot;</span><span class="p">:</span> <span class="s2">&quot;lcmtypes_build/lcmtypes&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">package_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;*.jinja&quot;</span><span class="p">,</span> <span class="s2">&quot;*.mtx&quot;</span><span class="p">,</span> <span class="s2">&quot;README*&quot;</span><span class="p">,</span> <span class="s2">&quot;.clang-format&quot;</span><span class="p">]},</span>
+        <span class="c1"># pyproject.toml doesn&#39;t allow specifying url or homepage separately, and if it&#39;s not</span>
+        <span class="c1"># specified separately PyPI sorts all the links alphabetically</span>
+        <span class="c1"># https://github.com/pypi/warehouse/issues/3097</span>
+        <span class="n">url</span><span class="o">=</span><span class="s2">&quot;https://symforce.org&quot;</span><span class="p">,</span>
+        <span class="c1"># Override the extension builder with our cmake class</span>
+        <span class="n">cmdclass</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">build_ext</span><span class="o">=</span><span class="n">CMakeBuild</span><span class="p">,</span>
+            <span class="n">install</span><span class="o">=</span><span class="n">InstallWithExtras</span><span class="p">,</span>
+            <span class="n">egg_info</span><span class="o">=</span><span class="n">SymForceEggInfo</span><span class="p">,</span>
+            <span class="n">develop</span><span class="o">=</span><span class="n">PatchDevelop</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Build C++ extension module</span>
+        <span class="n">ext_modules</span><span class="o">=</span><span class="p">[</span><span class="n">CMakeExtension</span><span class="p">(</span><span class="s2">&quot;cc_sym&quot;</span><span class="p">),</span> <span class="n">CMakeExtension</span><span class="p">(</span><span class="s2">&quot;lcmtypes&quot;</span><span class="p">)],</span>
+        <span class="c1"># Barebones packages needed to run symforce</span>
+        <span class="n">install_requires</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;clang-format&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;graphviz&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;jinja2&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;numpy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;scipy&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;skymarshal @ file://localhost/</span><span class="si">{</span><span class="n">SOURCE_DIR</span><span class="si">}</span><span class="s2">/third_party/skymarshal&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sympy~=1.11.1&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;symforce-sym @ file://localhost/</span><span class="si">{</span><span class="n">SOURCE_DIR</span><span class="si">}</span><span class="s2">/gen/python&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="n">setup_requires</span><span class="o">=</span><span class="n">setup_requirements</span><span class="p">,</span>
+        <span class="n">extras_require</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;docs&quot;</span><span class="p">:</span> <span class="n">docs_requirements</span><span class="p">,</span>
+            <span class="s2">&quot;dev&quot;</span><span class="p">:</span> <span class="n">docs_requirements</span>
+            <span class="o">+</span> <span class="p">[</span>
+                <span class="s2">&quot;click~=8.0.4&quot;</span><span class="p">,</span>  <span class="c1"># Required by black, but not specified by our version of black</span>
+                <span class="s2">&quot;argh&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;black[jupyter]==21.12b0&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;coverage&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;isort&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;jinja2~=3.0.3&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;mypy==0.910&quot;</span><span class="p">,</span>
+                <span class="c1"># Not compatible with py3.11 yet: https://github.com/numba/numba/issues/8304</span>
+                <span class="s2">&quot;numba ; python_version &lt; &#39;3.11&#39;&quot;</span><span class="p">,</span>
+                <span class="c1"># A dependency of numba, only required here because pip-tools does not automatically</span>
+                <span class="c1"># propagate python_version to dependencies</span>
+                <span class="s2">&quot;llvmlite ; python_version &lt; &#39;3.11&#39;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;pip-tools&lt;6.11&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;pybind11-stubgen&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;pylint&quot;</span><span class="p">,</span>
+                <span class="c1"># NOTE(brad): A transitive dependency of pylint. Added here only to pin the version.</span>
+                <span class="s2">&quot;lazy-object-proxy&gt;=1.9.0&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;types-jinja2&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;types-pygments&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;types-requests&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;types-setuptools&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;_setup&quot;</span><span class="p">:</span> <span class="n">setup_requirements</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">symforce</a></h1>
+
+
+
+<p class="blurb">Fast symbolic computation, code generation, and nonlinear optimization for robotics</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=symforce-org&repo=symforce&type=star&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../development.html">Development Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/sympy_tutorial.html">SymPy Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/geometry_tutorial.html">Geometry Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/ops_tutorial.html">Ops Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/cameras_tutorial.html">Cameras Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/values_tutorial.html">Values Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/codegen_tutorial.html">Codegen Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/optimization_tutorial.html">Optimization Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/epsilon_tutorial.html">Epsilon Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment/README.html">Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_fixed_size/README.html">Fixed Size Bundle Adjustment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/bundle_adjustment_in_the_large/README.html">Bundle-Adjustment-in-the-Large</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/custom_factor_generation/README.html">Custom Factor Generation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_2d_localization/README.html">Robot 2D Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/robot_3d_localization/README.html">Robot 3D Localization</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/symforce.html">symforce package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-py/sym.html">sym package</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-gen-cpp/filelist.html">File list</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/classlist.html">Class list</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-cpp/filelist.html">File list</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Skydio, Inc.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

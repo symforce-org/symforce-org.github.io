@@ -60,12 +60,12 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Group of two-dimensional rigid body transformations - SE(2).</span>
 
-<span class="sd">    There is no generated runtime analogue of this class in the `sym` package, which means you</span>
+<span class="sd">    There is no generated runtime analogue of this class in the :mod:`sym` package, which means you</span>
 <span class="sd">    cannot use it as an input or output of generated functions or as a variable in an optimized</span>
-<span class="sd">    Values.  This is intentional - in general, you should use the Pose2 class instead of this one,</span>
-<span class="sd">    because the generated expressions will be significantly more efficient.  If you are sure that</span>
-<span class="sd">    you need the different behavior of this class, it&#39;s here for reference or for use in symbolic</span>
-<span class="sd">    expressions.</span>
+<span class="sd">    Values.  This is intentional - in general, you should use the</span>
+<span class="sd">    :class:`Pose2 &lt;symforce.geo.pose2.Pose2&gt;` class instead of this one, because the generated</span>
+<span class="sd">    expressions will be significantly more efficient.  If you are sure that you need the different</span>
+<span class="sd">    behavior of this class, it&#39;s here for reference or for use in symbolic expressions.</span>
 
 <span class="sd">    The storage space is a complex (real, imag) for rotation followed by a position (x, y).</span>
 
@@ -109,7 +109,7 @@
 
 <div class="viewcode-block" id="Pose2_SE2.storage_D_tangent"><a class="viewcode-back" href="../../../../api/symforce.geo.unsupported.pose2_se2.html#symforce.geo.unsupported.pose2_se2.Pose2_SE2.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from symforce/notebooks/storage_D_tangent.ipynb</span>
+<span class="sd">        Note: generated from ``symforce/notebooks/storage_D_tangent.ipynb``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">storage_D_tangent_R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span>
         <span class="n">storage_D_tangent_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span>
@@ -119,7 +119,7 @@
 
 <div class="viewcode-block" id="Pose2_SE2.tangent_D_storage"><a class="viewcode-back" href="../../../../api/symforce.geo.unsupported.pose2_se2.html#symforce.geo.unsupported.pose2_se2.Pose2_SE2.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from symforce/notebooks/tangent_D_storage.ipynb</span>
+<span class="sd">        Note: generated from ``symforce/notebooks/tangent_D_storage.ipynb``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tangent_D_storage_R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">tangent_D_storage</span><span class="p">()</span>
         <span class="n">tangent_D_storage_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
@@ -132,8 +132,8 @@
 <span class="sd">        Applies a tangent space perturbation vec to self. Often used in optimization</span>
 <span class="sd">        to update nonlinear values from an update step in the tangent space.</span>
 
-<span class="sd">        Implementation is simply `compose(self, from_tangent(vec))`.</span>
-<span class="sd">        Conceptually represents &quot;self + vec&quot; if self is a vector.</span>
+<span class="sd">        Implementation is simply ``compose(self, from_tangent(vec))``.</span>
+<span class="sd">        Conceptually represents ``self + vec`` if self is a vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LieGroup</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
@@ -142,8 +142,8 @@
 <span class="sd">        Computes a tangent space perturbation around self to produce b. Often used in optimization</span>
 <span class="sd">        to minimize the distance between two group elements.</span>
 
-<span class="sd">        Implementation is simply `to_tangent(between(self, b))`.</span>
-<span class="sd">        Tangent space perturbation that conceptually represents &quot;b - self&quot; if self is a vector.</span>
+<span class="sd">        Implementation is simply ``to_tangent(between(self, b))``.</span>
+<span class="sd">        Tangent space perturbation that conceptually represents ``b - self`` if self is a vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">LieGroup</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 

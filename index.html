@@ -17,6 +17,8 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -103,7 +105,7 @@
 </pre></div>
 </div>
 </section>
-<section id="install">
+<section class="tex2jax_ignore mathjax_ignore" id="install">
 <h2>Install<a class="headerlink" href="#install" title="Permalink to this heading">¶</a></h2>
 <p>Install with pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>symforce
@@ -116,7 +118,7 @@
 </div>
 <p>This installs pre-compiled C++ components of SymForce on Linux and Mac using pip wheels, but does not include C++ headers. If you want to compile against C++ SymForce types (like <code class="docutils literal notranslate"><span class="pre">sym::Optimizer</span></code>), you currently need to <a href="#build-from-source">build from source</a>.</p>
 </section>
-<section id="tutorial">
+<section class="tex2jax_ignore mathjax_ignore" id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">¶</a></h2>
 <p>Let’s walk through a simple example of modeling and solving an optimization problem with SymForce. In this example a robot moves through a 2D plane and the goal is to estimate its pose at multiple time steps given noisy measurements.</p>
 <p>The robot measures:</p>
@@ -146,60 +148,42 @@ frame, we do:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">landmark_body</span> <span class="o">=</span> <span class="n">pose</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="n">landmark</span>
 </pre></div>
 </div>
-<p><img src="https://render.githubusercontent.com/render/math?math={\begin{bmatrix}  R_{re} L_0 %2B R_{im} L_1 - R_{im} t_1 - R_{re} t_0 \\  -R_{im} L_0 %2B R_{re} L_1 %2B R_{im} t_0 %2B R_{re} t_1\end{bmatrix}}#gh-light-mode-only"
-    width="250px" /></p>
-<!-- DARK_MODE_ONLY -->
-<p><img src="https://render.githubusercontent.com/render/math?math={\color{white} \begin{bmatrix}  R_{re} L_0 %2B R_{im} L_1 - R_{im} t_1 - R_{re} t_0 \\  -R_{im} L_0 %2B R_{re} L_1 %2B R_{im} t_0 %2B R_{re} t_1\end{bmatrix}}#gh-dark-mode-only"
-    width="250px" /></p>
-<!-- /DARK_MODE_ONLY -->
-<!-- $
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{bmatrix}
-  R_{re} L_0 + R_{im} L_1 - R_{im} t_1 - R_{re} t_0 \\
-  -R_{im} L_0 + R_{re} L_1 + R_{im} t_0 + R_{re} t_1
+    R_{re} L_0 + R_{im} L_1 - R_{im} t_1 - R_{re} t_0 \\
+    -R_{im} L_0 + R_{re} L_1 + R_{im} t_0 + R_{re} t_1
 \end{bmatrix}
-$ -->
+\end{split}\]</div>
 <p>You can see that <code class="docutils literal notranslate"><span class="pre">sf.Rot2</span></code> is represented internally by a complex number (𝑅𝑟𝑒, 𝑅𝑖𝑚) and we can study how it rotates the landmark 𝐿.</p>
 <p>For exploration purposes, let’s take the jacobian of the body-frame landmark with respect to the tangent space of the <code class="docutils literal notranslate"><span class="pre">Pose2</span></code>, parameterized as (𝜃, 𝑥, 𝑦):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">landmark_body</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">pose</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img src="https://render.githubusercontent.com/render/math?math={\begin{bmatrix}-L_0 R_{im} %2B L_1 R_{re} %2B t_0 R_{im} - t_1 R_{re}, %26 -R_{re}, %26 -R_{im} \\ -L_0 R_{re} - L_1 R_{im} %2B t_0 R_{re} %2B t_1 R_{im}, %26  R_{im}, %26 -R_{re}\end{bmatrix}}#gh-light-mode-only"
-    width="350px" /></p>
-<!-- DARK_MODE_ONLY -->
-<p><img src="https://render.githubusercontent.com/render/math?math={\color{white} \begin{bmatrix}-L_0 R_{im} %2B L_1 R_{re} %2B t_0 R_{im} - t_1 R_{re}, %26 -R_{re}, %26 -R_{im} \\ -L_0 R_{re} - L_1 R_{im} %2B t_0 R_{re} %2B t_1 R_{im}, %26  R_{im}, %26 -R_{re}\end{bmatrix}}#gh-dark-mode-only"
-    width="350px" /></p>
-<!-- /DARK_MODE_ONLY -->
-<!-- $
+<div class="math notranslate nohighlight">
+\[\begin{split}
 \begin{bmatrix}
-  -L_0*R_{im} + L1*R_{re} + t_0*R_{im} - t_1*R_{re}, & -R_{re}, & -R_{im} \\
-  -L_0*R_{re} - L1*R_{im} + t_0*R_{re} + t_1*R_{im}, &  R_{im}, & -R_{re}
+    -L_0 R_{im} + L_1 R_{re} + t_0 R_{im} - t_1 R_{re}, &amp; -R_{re}, &amp; -R_{im} \\
+    -L_0 R_{re} - L_1 R_{im} + t_0 R_{re} + t_1 R_{im}, &amp;  R_{im}, &amp; -R_{re}
 \end{bmatrix}
-$ -->
+\end{split}\]</div>
 <p>Note that even though the orientation is stored as a complex number, the tangent space is a scalar angle and SymForce understands that.</p>
 <p>Now compute the relative bearing angle:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sf</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">landmark_body</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">landmark_body</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<p><img src="https://render.githubusercontent.com/render/math?math={atan_2(-R_{im} L_0 %2B R_{re} L_1 %2B R_{im} t_0 %2B R_{re} t_1, R_{re} L_0 %2B R_{im} L_1 - R_{im} t_1 - R_{re} t_0)}#gh-light-mode-only"
-    width="500px" /></p>
-<!-- DARK_MODE_ONLY -->
-<p><img src="https://render.githubusercontent.com/render/math?math={\color{white} atan_2(-R_{im} L_0 %2B R_{re} L_1 %2B R_{im} t_0 %2B R_{re} t_1, R_{re} L_0 %2B R_{im} L_1 - R_{im} t_1 - R_{re} t_0)}#gh-dark-mode-only"
-    width="500px" /></p>
-<!-- /DARK_MODE_ONLY -->
-<!-- $
-atan_2(-R_{im} L_0 + R_{re} L_1 + R_{im} t_0 + R_{re} t_1, R_{re} L_0  + R_{im} L_1 - R_{im} t_1 - R_{re} t_0)
-$ -->
+<div class="math notranslate nohighlight">
+\[
+atan_2(-R_{im} L_0 + R_{re} L_1 + R_{im} t_0 + R_{re} t_1, R_{re} L_0 + R_{im} L_1 - R_{im} t_1 - R_{re} t_0)
+\]</div>
 <p>One important note is that <code class="docutils literal notranslate"><span class="pre">atan2</span></code> is singular at (0, 0). In SymForce we handle this by placing a symbol ϵ (epsilon) that preserves the value of an expression in the limit of ϵ → 0, but allows evaluating at runtime with a very small nonzero value. Functions with singularities accept an <code class="docutils literal notranslate"><span class="pre">epsilon</span></code> argument:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span>
 </pre></div>
 </div>
-<p><img src="https://render.githubusercontent.com/render/math?math={\sqrt{x_0^2 %2B x_1^2 %2B x_2^2 %2B \epsilon}}#gh-light-mode-only"
-    width="135px" /></p>
-<!-- DARK_MODE_ONLY -->
-<p><img src="https://render.githubusercontent.com/render/math?math={\color{white} \sqrt{x_0^2 %2B x_1^2 %2B x_2^2 %2B \epsilon}}#gh-dark-mode-only"
-    width="135px" /></p>
-<!-- /DARK_MODE_ONLY -->
-<!-- $\sqrt{x_0^2 + x_1^2 + x_2^2 + \epsilon}$ -->
+<div class="math notranslate nohighlight">
+\[
+\sqrt{x_0^2 + x_1^2 + x_2^2 + \epsilon}
+\]</div>
 <p>See the <a class="reference external" href="https://symforce.org/tutorials/epsilon_tutorial.html">Epsilon Tutorial</a> in the SymForce Docs for more information.</p>
 </section>
 <section id="build-an-optimization-problem">
@@ -321,7 +305,7 @@ circles represent the robot, and the dotted lines represent the bearing measurem
 </section>
 <section id="generate-runtime-c-code">
 <h3>Generate runtime C++ code<a class="headerlink" href="#generate-runtime-c-code" title="Permalink to this heading">¶</a></h3>
-<p>Let’s look under the hood to understand how that optimization worked. For each factor, SymForce introspects the form of the symbolic function, passes through symbolic inputs to build an output expression, automatically computes tangent-space jacobians of those output expressions wrt the optimized variables, and generates fast runtime code for them.</p>
+<p>Let’s look under the hood to understand how that optimization worked. For each factor, SymForce introspects the form of the symbolic function, passes through symbolic inputs to build an output expression, automatically computes tangent-space jacobians of those output expressions w.r.t. the optimized variables, and generates fast runtime code for them.</p>
 <p>The <a class="reference external" href="https://symforce.org/api/symforce.codegen.codegen.html?highlight=codegen#module-symforce.codegen.codegen"><code class="docutils literal notranslate"><span class="pre">Codegen</span></code></a> class is the central tool for generating runtime code from symbolic expressions. In this case, we pass it the bearing residual function and configure it to generate C++ code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">Codegen</span><span class="p">,</span> <span class="n">CppConfig</span>
 
@@ -534,7 +518,7 @@ $ -->
 <p>To learn more, visit the SymForce tutorials <a class="reference external" href="https://symforce.org/#guides">here</a>.</p>
 </section>
 </section>
-<section id="build-from-source">
+<section class="tex2jax_ignore mathjax_ignore" id="build-from-source">
 <h2>Build from Source<a class="headerlink" href="#build-from-source" title="Permalink to this heading">¶</a></h2>
 <p>For best results, you should build from the <a class="reference external" href="https://github.com/symforce-org/symforce/releases/latest">latest tagged release</a>.  You can also build from <code class="docutils literal notranslate"><span class="pre">main</span></code>, or from another branch, but everything is less guaranteed to work.</p>
 <p>SymForce requires Python 3.8 or later. The build is currently tested on Linux and macOS, SymForce on Windows is untested (see <a class="reference external" href="https://github.com/symforce-org/symforce/issues/145">#145</a>).  We strongly suggest creating a virtual python environment.</p>
@@ -576,14 +560,14 @@ make<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>n
 </pre></div>
 </div>
 <p>You’ll then need to add SymForce (along with <code class="docutils literal notranslate"><span class="pre">gen/python</span></code> and <code class="docutils literal notranslate"><span class="pre">third_party/skymarshal</span></code> within symforce and <code class="docutils literal notranslate"><span class="pre">lcmtypes/python2.7</span></code> within the build directory) to your PYTHONPATH in order to use them, for example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PYTHONPATH</span><span class="s2">:/path/to/symforce:/path/to/symforce/build/lcmtypes/python2.7:/path/to/symforce/gen/python:/path/to/symforce/third_party/skymarshal&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PYTHONPATH</span><span class="s2">:/path/to/symforce:/path/to/symforce/build/lcmtypes/python2.7&quot;</span>
 </pre></div>
 </div>
 <p>If you want to install SymForce to use its C++ libraries in another CMake project, you can do that with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>install
 </pre></div>
 </div>
-<p>SymForce does not currently integrate with CMake’s <code class="docutils literal notranslate"><span class="pre">find_package</span></code> (see #209), so if you do this you currently need to add its libraries as link dependencies in your CMake project manually.</p>
+<p>SymForce does not currently integrate with CMake’s <code class="docutils literal notranslate"><span class="pre">find_package</span></code> (see <a class="reference external" href="https://github.com/symforce-org/symforce/issues/209">#209</a>), so if you do this you currently need to add its libraries as link dependencies in your CMake project manually.</p>
 </section>
 <section id="verify-your-installation">
 <h3>Verify your installation:<a class="headerlink" href="#verify-your-installation" title="Permalink to this heading">¶</a></h3>
@@ -596,12 +580,12 @@ make<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>n
 <p>If you see <code class="docutils literal notranslate"><span class="pre">'sympy'</span></code> here instead of <code class="docutils literal notranslate"><span class="pre">'symengine'</span></code>, or can’t import <code class="docutils literal notranslate"><span class="pre">cc_sym</span></code>, your installation is probably broken and you should submit an <a class="reference external" href="https://github.com/symforce-org/symforce/issues">issue</a>.</p>
 </section>
 </section>
-<section id="license">
+<section class="tex2jax_ignore mathjax_ignore" id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h2>
 <p>SymForce is released under the <a class="reference external" href="https://spdx.org/licenses/Apache-2.0.html">Apache 2.0</a> license.</p>
 <p>See the <a class="reference external" href="https://github.com/symforce-org/symforce/blob/main/LICENSE">LICENSE</a> file for more information.</p>
 </section>
-<section id="sponsors">
+<section class="tex2jax_ignore mathjax_ignore" id="sponsors">
 <h2>Sponsors<a class="headerlink" href="#sponsors" title="Permalink to this heading">¶</a></h2>
 <p>SymForce is developed and maintained by <a class="reference external" href="https://skydio.com/">Skydio</a>. It is released as a free and open-source library for the robotics community.</p>
 <a href="http://skydio.com#gh-light-mode-only">
@@ -613,18 +597,17 @@ make<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>n
 </a>
 <!-- /DARK_MODE_ONLY -->
 </section>
-<section id="contributing">
+<section class="tex2jax_ignore mathjax_ignore" id="contributing">
 <h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this heading">¶</a></h2>
 <p>While SymForce already powers tens of thousands of robots at Skydio, the public library is new and we are releasing it in beta stage. This is just the beginning, and we are excited for engagement from the community. Thank you for helping us develop SymForce! The best way to get started is to file <a class="reference external" href="https://github.com/symforce-org/symforce/issues">issues</a> for bugs or desired features.</p>
 <p>There are many features we’re excited to add to SymForce and would love to see contributed by the community. Most are outlined in the issues, but some major desired contributions are:</p>
 <ul class="simple">
-<li><p>Add more backend languages, such as TypeScript, CUDA, GLSL/HLSL, and PyTorch</p></li>
-<li><p>Easily swap in approximate or architecture-specific implementations of primitive
-functions, such as trig functions</p></li>
+<li><p>Add more backend languages, such as TypeScript and GLSL/HLSL, and improvements to the experimental CUDA and PyTorch backends</p></li>
 <li><p>Support for WebAssembly compilation</p></li>
 <li><p>More Lie group types, in particular Sim(3)</p></li>
 <li><p>Support for constraints in our optimizer</p></li>
 <li><p>Integration with <a class="reference external" href="https://ispc.github.io/">ISPC</a></p></li>
+<li><p>Windows and conda packages</p></li>
 </ul>
 </section>
 </section>

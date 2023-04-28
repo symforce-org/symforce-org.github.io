@@ -1208,12 +1208,10 @@ arguments can be passed to <a class="reference internal" href="#symforce.symboli
 <span class="sig-name descname"><span class="pre">epsilon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#epsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.epsilon" title="Permalink to this definition">¶</a></dt>
 <dd><p>The default epsilon for SymForce</p>
 <p>Library functions that require an epsilon argument should use a function signature like:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>def foo(x: Scalar, epsilon: Scalar = sf.epsilon()) -&gt; Scalar:</dt><dd><p>…</p>
-</dd>
-</dl>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
 <p>This makes it easy to configure entire expressions that make extensive use of epsilon to either
 use no epsilon (i.e. 0), or a symbol, or a numerical value.  It also means that by setting the
 default to a symbol, you can confidently generate code without worrying about having forgotten
@@ -1221,14 +1219,14 @@ to pass an epsilon argument to one of these functions.</p>
 <p>For more information on how we use epsilon to prevent singularities, see the Epsilon Tutorial
 in the SymForce docs here: <a class="reference external" href="https://symforce.org/tutorials/epsilon_tutorial.html">https://symforce.org/tutorials/epsilon_tutorial.html</a></p>
 <p>For purely numerical code that just needs a good default numerical epsilon, see
-<cite>symforce.symbolic.numeric_epsilon</cite>.</p>
-<dl class="simple">
-<dt>Returns: The current default epsilon.  This is typically some kind of “Scalar”, like a float or</dt><dd><p>a Symbol.</p>
-</dd>
-</dl>
+<code class="xref py py-data docutils literal notranslate"><span class="pre">symforce.symbolic.numeric_epsilon</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The current default epsilon.  This is typically some kind of “Scalar”, like a float or a
+<a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1570,7 +1568,7 @@ returned value is 1 for true, 0 for false.</p>
 <span class="sig-name descname"><span class="pre">wrap_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#wrap_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.wrap_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap an angle to the interval [-pi, pi).  Commonly used to compute the shortest signed
 distance between two angles.</p>
-<p>See also: <cite>angle_diff</cite></p>
+<p>See also: <a class="reference internal" href="#symforce.symbolic.angle_diff" title="symforce.symbolic.angle_diff"><code class="xref py py-func docutils literal notranslate"><span class="pre">angle_diff()</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
@@ -1586,7 +1584,7 @@ distance between two angles.</p>
 <span class="sig-name descname"><span class="pre">angle_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#angle_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.angle_diff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the difference x - y, but wrapped into [-pi, pi); i.e. the angle <cite>diff</cite> closest to 0
 such that x = y + diff (mod 2pi).</p>
-<p>See also: <cite>wrap_angle</cite></p>
+<p>See also: <a class="reference internal" href="#symforce.symbolic.wrap_angle" title="symforce.symbolic.wrap_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">wrap_angle()</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1634,8 +1632,8 @@ such that x = y + diff (mod 2pi).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.symbolic.argmax_onehot">
 <span class="sig-name descname"><span class="pre">argmax_onehot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#argmax_onehot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.argmax_onehot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list l such that l[i] = 1.0 if i is the smallest index such that
-vals[i] equals Max(<a href="#id1"><span class="problematic" id="id2">*</span></a>vals). l[i] = 0.0 otherwise.</p>
+<dd><p>Returns a list <code class="docutils literal notranslate"><span class="pre">l</span></code> such that <code class="docutils literal notranslate"><span class="pre">l[i]</span> <span class="pre">=</span> <span class="pre">1.0</span></code> if <code class="docutils literal notranslate"><span class="pre">i</span></code> is the smallest index such that
+<code class="docutils literal notranslate"><span class="pre">vals[i]</span></code> equals <code class="docutils literal notranslate"><span class="pre">Max(*vals)</span></code>. <code class="docutils literal notranslate"><span class="pre">l[i]</span> <span class="pre">=</span> <span class="pre">0.0</span></code> otherwise.</p>
 <dl class="simple">
 <dt>Precondition:</dt><dd><p>vals has at least one element</p>
 </dd>
@@ -1653,8 +1651,8 @@ vals[i] equals Max(<a href="#id1"><span class="problematic" id="id2">*</span></a
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.symbolic.argmax">
 <span class="sig-name descname"><span class="pre">argmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#argmax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.argmax" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns i (as a Scalar) such that i is the smallest index such that
-vals[i] equals Max(<a href="#id3"><span class="problematic" id="id4">*</span></a>vals).</p>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">i</span></code> (as a Scalar) such that <code class="docutils literal notranslate"><span class="pre">i</span></code> is the smallest index such that
+<code class="docutils literal notranslate"><span class="pre">vals[i]</span></code> equals <code class="docutils literal notranslate"><span class="pre">Max(*vals)</span></code>.</p>
 <dl class="simple">
 <dt>Precondition:</dt><dd><p>vals has at least one element</p>
 </dd>
@@ -1721,9 +1719,13 @@ vals[i] equals Max(<a href="#id3"><span class="problematic" id="id4">*</span></a
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.symbolic.clamp">
 <span class="sig-name descname"><span class="pre">clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#clamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.clamp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns min_value if x &lt; min_value
-Returns x if min_value &lt; x &lt; max_value
-Returns max_value if x &gt; max_value</p>
+<dd><p>Clamps x between min_value and max_value</p>
+<p>Returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">min_value</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min_value</span>
+<span class="n">x</span> <span class="k">if</span> <span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">max_value</span>
+<span class="n">max_value</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">max_value</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1834,7 +1836,7 @@ Disabling eval results in more slightly ops, but greatly speeds up codegen time.
 </ol>
 </dd>
 </dl>
-<p>NOTE(harrison): <a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs are so we can share function signatures with the one we patch in</p>
+<p>NOTE(harrison): <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs are so we can share function signatures with the one we patch in</p>
 </dd></dl>
 
 <dl class="py function">
@@ -1937,7 +1939,7 @@ and are fundamental in many aspects of the scientific description of the natural
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Complex.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/complex.html#Complex.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Complex.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Complex.storage_dim" title="symforce.symbolic.Complex.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -1949,7 +1951,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Complex.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/complex.html#Complex.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Complex.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Complex.to_storage" title="symforce.symbolic.Complex.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -1964,7 +1966,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Complex.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/complex.html#Complex.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Complex.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1981,7 +1983,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Complex.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/complex.html#Complex.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Complex.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.complex.html#symforce.geo.complex.Complex" title="symforce.geo.complex.Complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Complex</span></code></a></p>
@@ -2006,7 +2008,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Complex.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/complex.html#Complex.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Complex.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.complex.html#symforce.geo.complex.Complex" title="symforce.geo.complex.Complex"><code class="xref py py-class docutils literal notranslate"><span class="pre">Complex</span></code></a></p>
@@ -2189,8 +2191,8 @@ and in applications to 3D computer graphics, robotics and computer vision.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>real_q</strong> (<a class="reference internal" href="#symforce.symbolic.Quaternion" title="symforce.symbolic.Quaternion"><em>Quaternion</em></a>) – </p></li>
-<li><p><strong>inf_q</strong> (<a class="reference internal" href="#symforce.symbolic.Quaternion" title="symforce.symbolic.Quaternion"><em>Quaternion</em></a>) – </p></li>
+<li><p><strong>real_q</strong> (<a class="reference internal" href="symforce.geo.quaternion.html#symforce.geo.quaternion.Quaternion" title="symforce.geo.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a>) – </p></li>
+<li><p><strong>inf_q</strong> (<a class="reference internal" href="symforce.geo.quaternion.html#symforce.geo.quaternion.Quaternion" title="symforce.geo.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -2210,7 +2212,7 @@ and in applications to 3D computer graphics, robotics and computer vision.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.DualQuaternion.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/dual_quaternion.html#DualQuaternion.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DualQuaternion.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.DualQuaternion.storage_dim" title="symforce.symbolic.DualQuaternion.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -2222,7 +2224,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.DualQuaternion.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/dual_quaternion.html#DualQuaternion.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DualQuaternion.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.DualQuaternion.to_storage" title="symforce.symbolic.DualQuaternion.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -2236,7 +2238,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.DualQuaternion.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/dual_quaternion.html#DualQuaternion.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DualQuaternion.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></p>
@@ -2261,7 +2263,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.DualQuaternion.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/dual_quaternion.html#DualQuaternion.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DualQuaternion.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></p>
@@ -2275,13 +2277,10 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dd><p>Left-multiply with another dual quaternion.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>other</strong> (<a class="reference internal" href="#symforce.symbolic.DualQuaternion" title="symforce.symbolic.DualQuaternion"><em>DualQuaternion</em></a>) – </p></li>
-<li><p><strong>right</strong> (<a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a>) – </p></li>
-</ul>
+<dd class="field-odd"><p><strong>right</strong> (<a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.DualQuaternion" title="symforce.symbolic.DualQuaternion">DualQuaternion</a></p>
+<dd class="field-even"><p><a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2292,10 +2291,10 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dd><p>Scalar division.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>scalar</strong> (<em>Scalar</em>) – </p>
+<dd class="field-odd"><p><strong>scalar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.DualQuaternion" title="symforce.symbolic.DualQuaternion">DualQuaternion</a></p>
+<dd class="field-even"><p><a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2306,10 +2305,10 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dd><p>Scalar division.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>scalar</strong> (<em>Scalar</em>) – </p>
+<dd class="field-odd"><p><strong>scalar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.DualQuaternion" title="symforce.symbolic.DualQuaternion">DualQuaternion</a></p>
+<dd class="field-even"><p><a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2320,7 +2319,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dd><p>Squared norm when considering the dual quaternion as 8-tuple.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Scalar</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2331,7 +2330,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dd><p>Dual quaternion conjugate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.DualQuaternion" title="symforce.symbolic.DualQuaternion">DualQuaternion</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.dual_quaternion.html#symforce.geo.dual_quaternion.DualQuaternion" title="symforce.geo.dual_quaternion.DualQuaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2386,7 +2385,7 @@ this class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Storage.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/storage.html#Storage.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Storage.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Storage.storage_dim" title="symforce.symbolic.Storage.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2401,7 +2400,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Storage.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/storage.html#Storage.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Storage.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Storage.to_storage" title="symforce.symbolic.Storage.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2468,7 +2467,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Storage.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/storage.html#Storage.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Storage.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2519,20 +2518,35 @@ its lifetime.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.storage.html#symforce.ops.interfaces.storage.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
-<p>Matrix type that wraps the Sympy Matrix class. Care has been taken to allow this class
-to create fixed-size child classes like Matrix31. Anytime __new__ is called, the appropriate
-fixed size class is returned rather than the type of the arguments. The API is meant to parallel
-the way Eigen’s C++ matrix classes work with dynamic and fixed sizes.</p>
+<p>Matrix type that wraps the SymPy Matrix class. Care has been taken to allow this class
+to create fixed-size child classes like <a class="reference internal" href="#symforce.symbolic.Matrix31" title="symforce.symbolic.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>. Anytime <a class="reference internal" href="#symforce.symbolic.Matrix.__new__" title="symforce.symbolic.Matrix.__new__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__new__()</span></code></a> is called,
+the appropriate fixed size class is returned rather than the type of the arguments. The API is
+meant to parallel the way Eigen’s C++ matrix classes work with dynamic and fixed sizes, as well
+as internal use cases within SymPy and SymEngine.</p>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">)</span> <span class="n">Matrix32</span><span class="p">()</span>  <span class="c1"># Zero constructed Matrix32</span>
+<span class="mi">2</span><span class="p">)</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]))</span>  <span class="c1"># Matrix22 with [1, 2, 3, 4] data</span>
+<span class="mi">3</span><span class="n">A</span><span class="p">)</span> <span class="n">Matrix</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>  <span class="c1"># Matrix22 with [1, 2, 3, 4] data</span>
+<span class="mi">3</span><span class="n">B</span><span class="p">)</span> <span class="n">Matrix22</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>  <span class="c1"># Matrix22 with [1, 2, 3, 4] data (must matched fixed shape)</span>
+<span class="mi">3</span><span class="n">C</span><span class="p">)</span> <span class="n">Matrix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>  <span class="c1"># Matrix41 with [1, 2, 3, 4] data - column vector assumed</span>
+<span class="mi">4</span><span class="p">)</span> <span class="n">Matrix</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># Zero constructed Matrix43</span>
+<span class="mi">5</span><span class="p">)</span> <span class="n">Matrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>  <span class="c1"># Matrix22 with [1, 2, 3, 4] data (first two are shape)</span>
+<span class="mi">6</span><span class="p">)</span> <span class="n">Matrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="n">row</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span>  <span class="c1"># Matrix22 with [0, 1, 1, 2] data</span>
+<span class="mi">7</span><span class="p">)</span> <span class="n">Matrix22</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># Matrix22 with [1, 2, 3, 4] data (must match fixed length)</span>
+</pre></div>
+</div>
 <p class="rubric">References</p>
 <p><a class="reference external" href="https://docs.sympy.org/latest/tutorial/matrices.html">https://docs.sympy.org/latest/tutorial/matrices.html</a>
 <a class="reference external" href="https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html">https://eigen.tuxfamily.org/dox/group__TutorialMatrixClass.html</a>
 <a class="reference external" href="https://en.wikipedia.org/wiki/Vector_space">https://en.wikipedia.org/wiki/Vector_space</a></p>
 <p>Matrix does not implement the group or lie group concepts using instance/class methods directly,
-because we want it to represent the group R^{NxM}, not GL(n), which leads to the <cite>identity</cite> and
-<cite>inverse</cite> methods being confusingly named.  For the group ops and lie group ops, use
-<cite>ops.GroupOps</cite> and <cite>ops.LieGroupOps</cite> respectively, which use the implementation in
-vector_class_lie_group_ops.py of the R^{NxM} group under matrix addition.  For
-the identity matrix and inverse matrix, see <cite>Matrix.eye</cite> and <cite>Matrix.inv</cite> respectively.</p>
+because we want it to represent the group R^{NxM}, not GL(n), which leads to the <code class="docutils literal notranslate"><span class="pre">identity</span></code>
+and <code class="docutils literal notranslate"><span class="pre">inverse</span></code> methods being confusingly named.  For the group ops and lie group ops, use
+<a class="reference internal" href="symforce.ops.group_ops.html#symforce.ops.group_ops.GroupOps" title="symforce.ops.group_ops.GroupOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.ops.group_ops.GroupOps</span></code></a> and <a class="reference internal" href="symforce.ops.lie_group_ops.html#symforce.ops.lie_group_ops.LieGroupOps" title="symforce.ops.lie_group_ops.LieGroupOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.ops.lie_group_ops.LieGroupOps</span></code></a>
+respectively, which use the implementation in
+<a class="reference internal" href="symforce.ops.impl.vector_class_lie_group_ops.html#module-symforce.ops.impl.vector_class_lie_group_ops" title="symforce.ops.impl.vector_class_lie_group_ops"><code class="xref py py-mod docutils literal notranslate"><span class="pre">symforce.ops.impl.vector_class_lie_group_ops</span></code></a> of the R^{NxM} group under matrix addition.
+For the identity matrix and inverse matrix, see <a class="reference internal" href="#symforce.symbolic.Matrix.eye" title="symforce.symbolic.Matrix.eye"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Matrix.eye()</span></code></a> and <a class="reference internal" href="#symforce.symbolic.Matrix.inv" title="symforce.symbolic.Matrix.inv"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Matrix.inv()</span></code></a>
+respectively.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2557,21 +2571,8 @@ the identity matrix and inverse matrix, see <cite>Matrix.eye</cite> and <cite>Ma
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.__new__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Beast of a method for creating a Matrix. Handles a variety of construction use cases
 and <em>always</em> returns a fixed size child class of Matrix rather than Matrix itself. The
-available construction options depend on whether cls is a fixed size type or not.</p>
-<p>Generally modeled after the Eigen interface, but must also support internal use within
-sympy and symengine which we cannot change.</p>
-<p class="rubric">Examples</p>
-<ol class="arabic simple">
-<li><p>Matrix32()  # Zero constructed Matrix32</p></li>
-</ol>
-<p>2) Matrix(sm.Matrix([[1, 2], [3, 4]]))  # Matrix22 with [1, 2, 3, 4] data
-3A) Matrix([[1, 2], [3, 4]])  # Matrix22 with [1, 2, 3, 4] data
-3B) Matrix22([1, 2, 3, 4])  # Matrix22 with [1, 2, 3, 4] data (must matched fixed shape)
-3C) Matrix([1, 2, 3, 4])  # Matrix41 with [1, 2, 3, 4] data - column vector assumed
-4) Matrix(4, 3)  # Zero constructed Matrix43
-5) Matrix(2, 2, [1, 2, 3, 4])  # Matrix22 with [1, 2, 3, 4] data (first two are shape)
-6) Matrix(2, 2, lambda row, col: row + col)  # Matrix22 with [0, 1, 1, 2] data
-7) Matrix22(1, 2, 3, 4)  # Matrix22 with [1, 2, 3, 4] data (must match fixed length)</p>
+available construction options depend on whether cls is a fixed size type or not.  See the
+Matrix docstring for a summary of the construction options.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2652,7 +2653,7 @@ sympy and symengine which we cannot change.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Matrix.to_storage" title="symforce.symbolic.Matrix.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2669,7 +2670,7 @@ sympy and symengine which we cannot change.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Matrix.storage_dim" title="symforce.symbolic.Matrix.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -2919,8 +2920,12 @@ class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.block_matrix">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">block_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.block_matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.block_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructs a matrix from block elements. For example:
-[[Matrix22(…), Matrix23(…)], [Matrix11(…), Matrix14(…)]] -&gt; Matrix35 with elements equal to given blocks</p>
+<dd><p>Constructs a matrix from block elements.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[[</span><span class="n">Matrix22</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">Matrix23</span><span class="p">(</span><span class="o">...</span><span class="p">)],</span> <span class="p">[</span><span class="n">Matrix11</span><span class="p">(</span><span class="o">...</span><span class="p">),</span> <span class="n">Matrix14</span><span class="p">(</span><span class="o">...</span><span class="p">)]]</span>
+</pre></div>
+</div>
+<p>constructs a <a class="reference internal" href="#symforce.symbolic.Matrix35" title="symforce.symbolic.Matrix35"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix35</span></code></a> with elements equal to given blocks</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>array</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>]]) – </p>
@@ -2970,7 +2975,7 @@ class.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.jacobian">
 <span class="sig-name descname"><span class="pre">jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tangent_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.jacobian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the jacobian with respect to the tangent space of X if tangent_space = True,
+<dd><p>Compute the jacobian with respect to the tangent space of X if <code class="docutils literal notranslate"><span class="pre">tangent_space</span> <span class="pre">=</span> <span class="pre">True</span></code>,
 otherwise returns the jacobian wih respect to the storage elements of X.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2988,7 +2993,7 @@ otherwise returns the jacobian wih respect to the storage elements of X.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.diff">
 <span class="sig-name descname"><span class="pre">diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.diff" title="Permalink to this definition">¶</a></dt>
-<dd><p>Differentiate wrt a scalar.</p>
+<dd><p>Differentiate w.r.t. a scalar.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>args</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
@@ -3055,8 +3060,9 @@ otherwise returns the jacobian wih respect to the storage elements of X.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.dot">
 <span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.dot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dot product, also known as inner product.
-dot only supports mapping 1 x n or n x 1 Matrices to scalars. Note that both matrices must have the same shape.</p>
+<dd><p>Dot product, also known as inner product.</p>
+<p>Only supports mapping <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">x</span> <span class="pre">n</span></code> or <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">x</span> <span class="pre">1</span></code> Matrices to scalars. Note that both matrices
+must have the same shape.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – </p>
@@ -3130,10 +3136,10 @@ dot only supports mapping 1 x n or n x 1 Matrices to scalars. Note that both mat
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.clamp_norm">
 <span class="sig-name descname"><span class="pre">clamp_norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.clamp_norm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.clamp_norm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clamp a vector to the given norm in a safe/differentiable way.</p>
-<p>Is _NOT_ safe if max_norm can be negative, or if derivatives are needed w.r.t. max_norm and
-max_norm can be 0 or small enough that <cite>max_squared_norm / squared_norm</cite> is truncated to 0
-in the particular floating point type being used (e.g. all of these are true if max_norm is
-optimized)</p>
+<p>Is <strong>NOT</strong> safe if max_norm can be negative, or if derivatives are needed w.r.t. max_norm and
+max_norm can be 0 or small enough that <code class="docutils literal notranslate"><span class="pre">max_squared_norm</span> <span class="pre">/</span> <span class="pre">squared_norm</span></code> is truncated to 0
+in the particular floating point type being used (e.g. all of these are true if <code class="docutils literal notranslate"><span class="pre">max_norm</span></code>
+is optimized).</p>
 <p>Currently only L2 norm is supported</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3153,7 +3159,7 @@ optimized)</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.multiply_elementwise">
 <span class="sig-name descname"><span class="pre">multiply_elementwise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rhs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.multiply_elementwise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.multiply_elementwise" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do the elementwise multiplication between self and rhs, and return the result as a new
-Matrix</p>
+<a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.symbolic.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -3187,8 +3193,9 @@ Matrix</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.__getitem__">
 <span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.__getitem__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.__getitem__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a scalar value or submatrix slice. Unlike sympy, for 1D matrices the submatrix slice is
-returned as a 1D matrix instead of as a list.</p>
+<dd><p>Get a scalar value or submatrix slice.</p>
+<p>Unlike sympy, for 1D matrices the submatrix slice is returned as a 1D matrix instead of as a
+list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>item</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – </p>
@@ -3320,13 +3327,13 @@ returned as a 1D matrix instead of as a list.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.compute_AtA">
 <span class="sig-name descname"><span class="pre">compute_AtA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lower_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.compute_AtA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.compute_AtA" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute a symmetric product A.transpose() * A</p>
+<dd><p>Compute a symmetric product <code class="docutils literal notranslate"><span class="pre">A.transpose()</span> <span class="pre">*</span> <span class="pre">A</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>lower_only</strong> (<em>bool</em>) – If given, only fill the lower half and set upper to zero</p>
+<dd class="field-odd"><p><strong>lower_only</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If given, only fill the lower half and set upper to zero</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Symmetric matrix AtA = self.transpose() * self</p>
+<dd class="field-even"><p>Symmetric matrix <code class="docutils literal notranslate"><span class="pre">AtA</span> <span class="pre">=</span> <span class="pre">self.transpose()</span> <span class="pre">*</span> <span class="pre">self</span></code></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>(<a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.symbolic.Matrix">Matrix</a>(N, N))</p>
@@ -3507,10 +3514,10 @@ returned as a 1D matrix instead of as a list.</p>
 <dd><p>Take a sequence of 1-D vectors and stack them as columns to make a single 2-D Matrix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>columns</strong> (<em>tuple</em><em>(</em><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.symbolic.Matrix"><em>Matrix</em></a><em>)</em>) – 1-D vectors</p>
+<dd class="field-odd"><p><strong>columns</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – 1-D vectors</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.symbolic.Matrix">Matrix</a></p>
+<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -3529,7 +3536,7 @@ returned as a 1D matrix instead of as a list.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.init_printing">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">init_printing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.init_printing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.init_printing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize SymPy pretty printing</p>
-<p>_ipython_display_ is sufficient in Jupyter, but this covers other locations</p>
+<p><code class="docutils literal notranslate"><span class="pre">_ipython_display_</span></code> is sufficient in Jupyter, but this covers other locations</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
@@ -5197,8 +5204,8 @@ returned as a 1D matrix instead of as a list.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.symbolic.matrix_type_from_shape">
 <span class="sig-name descname"><span class="pre">matrix_type_from_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#matrix_type_from_shape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.matrix_type_from_shape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a fixed size matrix type (like Matrix32) given a shape. Either use the statically
-defined ones or dynamically create a new one if not available.</p>
+<dd><p>Return a fixed size matrix type (like <a class="reference internal" href="#symforce.symbolic.Matrix32" title="symforce.symbolic.Matrix32"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix32</span></code></a>) given a shape</p>
+<p>Either uses the statically defined ones or dynamically creates a new one if not available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>shape</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – </p>
@@ -6235,9 +6242,10 @@ SO(2) x R2.  This means that:</p>
 <li><p>There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log</p></li>
 </ul>
 </div></blockquote>
-<p>If you need a type that has these properties in symbolic expressions, you should use Pose2_SE2.
-There is no runtime equivalent of Pose2_SE2, see the docstring on that class for more
-information.</p>
+<p>If you need a type that has these properties in symbolic expressions, you should use
+<a class="reference internal" href="symforce.geo.unsupported.pose2_se2.html#symforce.geo.unsupported.pose2_se2.Pose2_SE2" title="symforce.geo.unsupported.pose2_se2.Pose2_SE2"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.geo.unsupported.pose2_se2.Pose2_SE2</span></code></a>. There is no runtime equivalent of
+<a class="reference internal" href="symforce.geo.unsupported.pose2_se2.html#symforce.geo.unsupported.pose2_se2.Pose2_SE2" title="symforce.geo.unsupported.pose2_se2.Pose2_SE2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2_SE2</span></code></a>, see the docstring on that
+class for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6270,7 +6278,7 @@ information.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.rotation">
 <span class="sig-name descname"><span class="pre">rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.rotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor for the rotation component</p>
-<p>Does not make a copy.  Also accessible as <cite>self.R</cite></p>
+<p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.R</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot2.html#symforce.geo.rot2.Rot2" title="symforce.geo.rot2.Rot2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot2</span></code></a></p>
@@ -6282,7 +6290,7 @@ information.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.position">
 <span class="sig-name descname"><span class="pre">position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor for the position component</p>
-<p>Does not make a copy.  Also accessible as <cite>self.t</cite></p>
+<p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.t</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix21</span></code></a></p>
@@ -6304,7 +6312,7 @@ information.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Pose2.storage_dim" title="symforce.symbolic.Pose2.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -6316,7 +6324,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Pose2.to_storage" title="symforce.symbolic.Pose2.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -6330,7 +6338,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a></p>
@@ -6355,7 +6363,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a></p>
@@ -6408,7 +6416,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.storage_D_tangent">
 <span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/storage_D_tangent.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a></p>
@@ -6419,7 +6427,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.tangent_D_storage">
 <span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/tangent_D_storage.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a></p>
@@ -6432,9 +6440,9 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.retract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Conceptually represents “self + vec” if self is a vector.</p>
+<p>Conceptually represents <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">+</span> <span class="pre">vec</span></code> if self is a vector.</p>
 <p>Implementation retracts the R and t components separately, which is different from
-<cite>compose(self, from_tangent(vec))</cite>.  See the class docstring for more information.</p>
+<code class="docutils literal notranslate"><span class="pre">compose(self,</span> <span class="pre">from_tangent(vec))</span></code>.  See the class docstring for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6454,9 +6462,9 @@ to update nonlinear values from an update step in the tangent space.</p>
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.local_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
+<p>Tangent space perturbation that conceptually represents <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">-</span> <span class="pre">self</span></code> if self is a vector.</p>
 <p>Implementation takes local_coordinates of the R and t components separately, which is
-different from <cite>to_tangent(between(self, b))</cite>.  See the class docstring for more
+different from <code class="docutils literal notranslate"><span class="pre">to_tangent(between(self,</span> <span class="pre">b))</span></code>.  See the class docstring for more
 information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -6478,13 +6486,10 @@ information.</p>
 <dd><p>Left-multiply with a compatible quantity.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>right</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix21</span></code></a>]) – (Pose2 | R2)</p>
+<dd class="field-odd"><p><strong>right</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix21</span></code></a>]) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose2</span></code></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix21</span></code></a>]</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(Pose2 | R2)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -6513,10 +6518,10 @@ information.</p>
 <p>The storage is a quaternion (x, y, z, w) for rotation followed by position (x, y, z).</p>
 <p>The tangent space is 3 elements for rotation followed by 3 elements for translation in the
 non-rotated frame.</p>
-<p>For Lie group enthusiasts: This class is on the PRODUCT manifold, if you really really want
-SE(3) you should use Pose3_SE3.  On this class, the group operations (e.g. compose and between)
-operate as you’d expect for a Pose or SE(3), but the manifold operations (e.g. retract and
-local_coordinates) operate on the product manifold SO(3) x R3.  This means that:</p>
+<p>For Lie group enthusiasts: This class is on the PRODUCT manifold.  On this class, the group
+operations (e.g. compose and between) operate as you’d expect for a Pose or SE(3), but the
+manifold operations (e.g. retract and local_coordinates) operate on the product manifold
+SO(3) x R3.  This means that:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>retract(a, vec) != compose(a, from_tangent(vec))</p></li>
@@ -6524,6 +6529,10 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <li><p>There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log</p></li>
 </ul>
 </div></blockquote>
+<p>If you need a type that has these properties in symbolic expressions, you should use
+<a class="reference internal" href="symforce.geo.unsupported.pose3_se3.html#symforce.geo.unsupported.pose3_se3.Pose3_SE3" title="symforce.geo.unsupported.pose3_se3.Pose3_SE3"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.geo.unsupported.pose3_se3.Pose3_SE3</span></code></a>. There is no runtime equivalent of
+<a class="reference internal" href="symforce.geo.unsupported.pose3_se3.html#symforce.geo.unsupported.pose3_se3.Pose3_SE3" title="symforce.geo.unsupported.pose3_se3.Pose3_SE3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose3_SE3</span></code></a>, see the docstring on that
+class for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6556,7 +6565,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.rotation">
 <span class="sig-name descname"><span class="pre">rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.rotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor for the rotation component</p>
-<p>Does not make a copy.  Also accessible as <cite>self.R</cite></p>
+<p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.R</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
@@ -6568,7 +6577,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.position">
 <span class="sig-name descname"><span class="pre">position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor for the position component</p>
-<p>Does not make a copy.  Also accessible as <cite>self.t</cite></p>
+<p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.t</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a></p>
@@ -6590,7 +6599,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Pose3.storage_dim" title="symforce.symbolic.Pose3.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -6602,7 +6611,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Pose3.to_storage" title="symforce.symbolic.Pose3.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6620,7 +6629,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6638,7 +6647,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cls</strong> (<em>T.Type</em><em>[</em><em>Pose3T</em><em>]</em>) – </p>
@@ -6669,7 +6678,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
@@ -6729,7 +6738,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.storage_D_tangent">
 <span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/storage_D_tangent.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
@@ -6743,7 +6752,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.tangent_D_storage">
 <span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/tangent_D_storage.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
@@ -6759,9 +6768,9 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.retract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Conceptually represents “self + vec” if self is a vector.</p>
+<p>Conceptually represents <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">+</span> <span class="pre">vec</span></code> if self is a vector.</p>
 <p>Implementation retracts the R and t components separately, which is different from
-<cite>compose(self, from_tangent(vec))</cite>.  See the class docstring for more information.</p>
+<code class="docutils literal notranslate"><span class="pre">compose(self,</span> <span class="pre">from_tangent(vec))</span></code>.  See the class docstring for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6781,9 +6790,9 @@ to update nonlinear values from an update step in the tangent space.</p>
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.local_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
+<p>Tangent space perturbation that conceptually represents <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">-</span> <span class="pre">self</span></code> if self is a vector.</p>
 <p>Implementation takes local_coordinates of the R and t components separately, which is
-different from <cite>to_tangent(between(self, b))</cite>.  See the class docstring for more
+different from <code class="docutils literal notranslate"><span class="pre">to_tangent(between(self,</span> <span class="pre">b))</span></code>.  See the class docstring for more
 information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -6906,7 +6915,7 @@ matrices they are more compact, more numerically stable, and more efficient.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Quaternion.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/quaternion.html#Quaternion.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Quaternion.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Quaternion.storage_dim" title="symforce.symbolic.Quaternion.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -6918,7 +6927,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Quaternion.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/quaternion.html#Quaternion.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Quaternion.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Quaternion.to_storage" title="symforce.symbolic.Quaternion.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -6933,7 +6942,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Quaternion.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/quaternion.html#Quaternion.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Quaternion.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -6950,7 +6959,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Quaternion.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/quaternion.html#Quaternion.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Quaternion.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.quaternion.html#symforce.geo.quaternion.Quaternion" title="symforce.geo.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a></p>
@@ -6975,7 +6984,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Quaternion.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/quaternion.html#Quaternion.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Quaternion.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.quaternion.html#symforce.geo.quaternion.Quaternion" title="symforce.geo.quaternion.Quaternion"><code class="xref py py-class docutils literal notranslate"><span class="pre">Quaternion</span></code></a></p>
@@ -7155,7 +7164,7 @@ in 2D space. Backed by a complex number.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Rot2.storage_dim" title="symforce.symbolic.Rot2.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -7167,7 +7176,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Rot2.to_storage" title="symforce.symbolic.Rot2.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -7182,7 +7191,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -7199,7 +7208,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot2.html#symforce.geo.rot2.Rot2" title="symforce.geo.rot2.Rot2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot2</span></code></a></p>
@@ -7224,7 +7233,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot2.html#symforce.geo.rot2.Rot2" title="symforce.geo.rot2.Rot2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot2</span></code></a></p>
@@ -7290,7 +7299,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.storage_D_tangent">
 <span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/storage_D_tangent.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix21</span></code></a></p>
@@ -7301,7 +7310,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.tangent_D_storage">
 <span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/tangent_D_storage.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix12" title="symforce.geo.matrix.Matrix12"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix12</span></code></a></p>
@@ -7326,8 +7335,8 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.from_angle">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.from_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.from_angle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a Rot2 from an angle <cite>theta</cite> in radians</p>
-<p>This is equivalent to from_tangent([theta])</p>
+<dd><p>Create a Rot2 from an angle <code class="docutils literal notranslate"><span class="pre">theta</span></code> in radians</p>
+<p>This is equivalent to <code class="docutils literal notranslate"><span class="pre">from_tangent([theta])</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>theta</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
@@ -7415,7 +7424,7 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Rot3.storage_dim" title="symforce.symbolic.Rot3.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -7427,7 +7436,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Rot3.to_storage" title="symforce.symbolic.Rot3.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -7442,7 +7451,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -7459,7 +7468,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
@@ -7484,7 +7493,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
@@ -7521,23 +7530,6 @@ to sf.Symbol (for example, sympy assumptions).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="symforce.symbolic.Rot3.logmap_acos_clamp_max">
-<span class="sig-name descname"><span class="pre">logmap_acos_clamp_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.logmap_acos_clamp_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.logmap_acos_clamp_max" title="Permalink to this definition">¶</a></dt>
-<dd><p>Implementation of logmap that uses epsilon with the Min function to
-avoid the singularity in the sqrt at w == 1</p>
-<p>Also flips the sign of the quaternion of w is negative, which makes sure
-that the resulting tangent vector has norm &lt;= pi</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.to_tangent">
 <span class="sig-name descname"><span class="pre">to_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.to_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.to_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mapping from this element to the tangent space vector about identity.</p>
@@ -7567,7 +7559,7 @@ that the resulting tangent vector has norm &lt;= pi</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.storage_D_tangent">
 <span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/storage_D_tangent.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix43" title="symforce.geo.matrix.Matrix43"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix43</span></code></a></p>
@@ -7578,7 +7570,7 @@ that the resulting tangent vector has norm &lt;= pi</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.tangent_D_storage">
 <span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/tangent_D_storage.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix34" title="symforce.geo.matrix.Matrix34"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix34</span></code></a></p>
@@ -7758,19 +7750,20 @@ are expected to be normalized.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unit3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup" title="symforce.ops.interfaces.lie_group.LieGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">LieGroup</span></code></a></p>
-<p>Direction in R^3, represented as a Rot3 that transforms [0, 0, 1] to the desired direction.
-The storage is therefore a quaternion and the tangent space is 2 dimensional.
-Most operations are implemented using operations from Rot3.</p>
+<p>Direction in R^3, represented as a <a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a> that transforms
+[0, 0, 1] to the desired direction.</p>
+<p>The storage is therefore a quaternion and the tangent space is 2 dimensional.
+Most operations are implemented using operations from <a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>.</p>
 <p>Note: an alternative implementation could directly store a unit vector and define its boxplus
 manifold as described in Appendix B.2 of [Hertzberg 2013]. This can be done by finding the
 Householder reflector of x and use it to transform the exponential map of delta, which is a
-small perturbation in the tangent space (R^2). Namely,</p>
-<p>x.retract(delta) = x [+] delta = Rx * Exp(delta), where
-Exp(delta) = [sinc(||delta||) * delta, cos(||delta||)], and
-Rx = (I - 2 vv^T / (v^Tv))X, v = x - e_z != 0, X is a matrix negating 2nd vector component</p>
-<blockquote>
-<div><p>= I                     , x = e_z</p>
-</div></blockquote>
+small perturbation in the tangent space (R^2). Namely:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">Rx</span> <span class="o">*</span> <span class="n">Exp</span><span class="p">(</span><span class="n">delta</span><span class="p">),</span> <span class="n">where</span>
+<span class="n">Exp</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="n">sinc</span><span class="p">(</span><span class="o">||</span><span class="n">delta</span><span class="o">||</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span><span class="p">,</span> <span class="n">cos</span><span class="p">(</span><span class="o">||</span><span class="n">delta</span><span class="o">||</span><span class="p">)],</span> <span class="ow">and</span>
+<span class="n">Rx</span> <span class="o">=</span> <span class="p">(</span><span class="n">I</span> <span class="o">-</span> <span class="mi">2</span> <span class="n">vv</span><span class="o">^</span><span class="n">T</span> <span class="o">/</span> <span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">Tv</span><span class="p">))</span><span class="n">X</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">e_z</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">X</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">matrix</span> <span class="n">negating</span> <span class="mi">2</span><span class="n">nd</span> <span class="n">vector</span> <span class="n">component</span>
+<span class="o">=</span> <span class="n">I</span>                     <span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">e_z</span>
+</pre></div>
+</div>
 <p>[Hertzberg 2013] Integrating Generic Sensor Fusion Algorithms with Sound State Representations
 through Encapsulation of Manifolds</p>
 <dl class="field-list simple">
@@ -7786,7 +7779,7 @@ through Encapsulation of Manifolds</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a rot3, or identity if none provided.</p>
+<dd><p>Construct from a <a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>, or identity if none provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>rot3</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>]) – </p>
@@ -7808,7 +7801,7 @@ through Encapsulation of Manifolds</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.Unit3.storage_dim" title="symforce.symbolic.Unit3.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -7820,7 +7813,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.Unit3.to_storage" title="symforce.symbolic.Unit3.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -7835,7 +7828,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -7852,7 +7845,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.unit3.html#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
@@ -7877,7 +7870,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.unit3.html#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
@@ -7970,8 +7963,8 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.from_vector">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.from_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a Unit3 that points along the direction of vector a. a does not have to be a unit
-vector.</p>
+<dd><p>Return a <a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.symbolic.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a> that points along the direction of vector <code class="docutils literal notranslate"><span class="pre">a</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span></code> does not have to be a unit vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -7988,8 +7981,8 @@ vector.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.random">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.random" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a random element of Unit3, by generating a random rotation first and then rotating
-e_z to get a random direction.</p>
+<dd><p>Generate a random element of <a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.symbolic.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a>, by generating a random rotation first and then
+rotating <code class="docutils literal notranslate"><span class="pre">e_z</span></code> to get a random direction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
@@ -8053,7 +8046,7 @@ and omega representing the distortion parameter.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.ATANCameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/atan_camera_cal.html#ATANCameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.ATANCameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -8104,7 +8097,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.ATANCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/atan_camera_cal.html#ATANCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.ATANCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)
@@ -8380,7 +8372,7 @@ the dimension of each value.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.CameraCal.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/camera_cal.html#CameraCal.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.CameraCal.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.CameraCal.storage_dim" title="symforce.symbolic.CameraCal.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -8392,7 +8384,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.CameraCal.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/camera_cal.html#CameraCal.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.CameraCal.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.CameraCal.to_storage" title="symforce.symbolic.CameraCal.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -8410,7 +8402,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.CameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/camera_cal.html#CameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.CameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -8460,7 +8452,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.CameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/camera_cal.html#CameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.CameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)
@@ -8481,8 +8472,8 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.CameraCal.has_camera_ray_from_pixel">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_camera_ray_from_pixel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/camera_cal.html#CameraCal.has_camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.CameraCal.has_camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if cls has implemented the method camera_ray_from_pixel, and False
-otherwise.</p>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if cls has implemented the method <a class="reference internal" href="#symforce.symbolic.CameraCal.camera_ray_from_pixel" title="symforce.symbolic.CameraCal.camera_ray_from_pixel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">camera_ray_from_pixel()</span></code></a>, and
+<code class="docutils literal notranslate"><span class="pre">False</span></code> otherwise.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
@@ -8497,13 +8488,13 @@ otherwise.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoubleSphereCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/double_sphere_camera_cal.html#DoubleSphereCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DoubleSphereCameraCal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Camera model where a point is consecutively projected onto two unit spheres
-with centers shifted by <cite>xi</cite>, then projected into the image plane using the
-pinhole model shifted by <cite>alpha / (1 - alpha)</cite>.</p>
+with centers shifted by <code class="docutils literal notranslate"><span class="pre">xi</span></code>, then projected into the image plane using the
+pinhole model shifted by <code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">/</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">alpha)</span></code>.</p>
 <p>There are important differences here from the derivation in the paper and in other open-source
 packages with double sphere models; see notebooks/double_sphere_derivation.ipynb for more
 information.</p>
-<p>The storage for this class is:
-[ fx fy cx cy xi alpha ]</p>
+<p>The storage for this class is:</p>
+<p>[ fx fy cx cy xi alpha ]</p>
 <p>TODO(aaron): Create double_sphere_derivation.ipynb</p>
 <p>TODO(aaron): Probably want to check that values and derivatives are correct (or at least sane)
 on the valid side of the is_valid boundary</p>
@@ -8545,7 +8536,7 @@ on the valid side of the is_valid boundary</p>
 <dt class="sig sig-object py" id="symforce.symbolic.DoubleSphereCameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/double_sphere_camera_cal.html#DoubleSphereCameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DoubleSphereCameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -8616,7 +8607,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.DoubleSphereCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/double_sphere_camera_cal.html#DoubleSphereCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DoubleSphereCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)
@@ -8640,8 +8630,8 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.EquirectangularCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EquirectangularCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/equirectangular_camera_cal.html#EquirectangularCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.EquirectangularCameraCal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
-<p>Equirectangular camera model with parameters [fx, fy, cx, cy].
-(fx, fy) representing focal length; (cx, cy) representing principal point.</p>
+<p>Equirectangular camera model with parameters [fx, fy, cx, cy].</p>
+<p>(fx, fy) representing focal length; (cx, cy) representing principal point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -8681,7 +8671,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.EquirectangularCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/equirectangular_camera_cal.html#EquirectangularCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.EquirectangularCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)
@@ -8705,8 +8694,8 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.LinearCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LinearCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/linear_camera_cal.html#LinearCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.LinearCameraCal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
-<p>Standard pinhole camera w/ four parameters [fx, fy, cx, cy].
-(fx, fy) representing focal length; (cx, cy) representing principal point.</p>
+<p>Standard pinhole camera w/ four parameters [fx, fy, cx, cy].</p>
+<p>(fx, fy) representing focal length; (cx, cy) representing principal point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -8796,7 +8785,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.LinearCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/linear_camera_cal.html#LinearCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.LinearCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)
@@ -8820,15 +8808,17 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.PolynomialCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PolynomialCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_undistorted_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_fov</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0943951023931953</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PolynomialCameraCal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
-<p>Polynomial camera model in the style of OpenCV.
-Distortion is a multiplicitive factor applied to the image plane coordinates in the camera
+<p>Polynomial camera model in the style of OpenCV</p>
+<p>Distortion is a multiplicative factor applied to the image plane coordinates in the camera
 frame. Mapping between distorted image plane coordinates and image coordinates is done using
 a standard linear model.</p>
 <p>The distortion function is a 6th order even polynomial that is a function of the radius of the
-image plane coordinates.
-r = (p_img[0] ** 2 + p_img[1]**2) ** 0.5
-distorted_weight = 1 + c0 * r^2 + c1 * r^4 + c2 * r^6
-uv = p_img * distorted_weight</p>
+image plane coordinates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_img</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">p_img</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+<span class="n">distorted_weight</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">c0</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">4</span> <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">6</span>
+<span class="n">uv</span> <span class="o">=</span> <span class="n">p_img</span> <span class="o">*</span> <span class="n">distorted_weight</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -8931,7 +8921,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.PolynomialCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PolynomialCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)
@@ -8963,7 +8952,7 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.PolynomialCameraCal.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PolynomialCameraCal.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.PolynomialCameraCal.storage_dim" title="symforce.symbolic.PolynomialCameraCal.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -8975,7 +8964,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.PolynomialCameraCal.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PolynomialCameraCal.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.PolynomialCameraCal.to_storage" title="symforce.symbolic.PolynomialCameraCal.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -8990,7 +8979,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.PolynomialCameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PolynomialCameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -9010,8 +8999,8 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dt class="sig sig-object py" id="symforce.symbolic.PosedCamera">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PosedCamera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/posed_camera.html#PosedCamera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PosedCamera" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera.html#symforce.cam.camera.Camera" title="symforce.cam.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a></p>
-<p>Camera with a given pose, camera calibration, and an optionally specified image size.
-If the image size is specified, we use it to check whether pixels (either given or computed by
+<p>Camera with a given pose, camera calibration, and an optionally specified image size.</p>
+<p>If the image size is specified, we use it to check whether pixels (either given or computed by
 projection of 3D points into the image frame) are in the image frame and thus valid/invalid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -9045,7 +9034,7 @@ projection of 3D points into the image frame) are in the image frame and thus va
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.PosedCamera.pixel_from_global_point">
 <span class="sig-name descname"><span class="pre">pixel_from_global_point</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/posed_camera.html#PosedCamera.pixel_from_global_point"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PosedCamera.pixel_from_global_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transforms the given point into the camera frame using the given camera pose and then
+<dd><p>Transforms the given point into the camera frame using the given camera pose, and then
 uses the given camera calibration to compute the resulted pixel coordinates of the
 projected point.</p>
 <dl class="field-list simple">
@@ -9144,9 +9133,9 @@ is_valid: 1 if given point is valid in source camera and target camera</p>
 off the optical axis as opposed to radius within the image plane (i.e. ATANCamera)</p>
 <p>I.e. the radius in the image plane as a function of the angle theta from the camera z-axis is
 assumed to be given by:</p>
-<blockquote>
-<div><p>r(theta) = theta + d[0] * theta^3 + d[1] * theta^5 + d[2] * theta^7 + d[3] * theta^9</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">7</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">9</span>
+</pre></div>
+</div>
 <p>With no tangential coefficients, this model is over-parameterized in that we may scale all the
 distortion coefficients by a constant, and the focal length by the inverse of that constant. To
 fix this issue, we peg the first coefficient at 1. So while the distortion dimension is ‘4’,
@@ -9155,13 +9144,15 @@ the actual total number of coeffs is 5.</p>
 optical axis where projection is invertible; although the critical theta is a function of the
 other parameters, this function requires polynomial root finding, so it should be computed
 externally at runtime and set to the computed value.</p>
-<p>Paper:
-A generic camera model and calibration method for conventional, wide-angle, and fish-eye lenses
-Kannala, Juho; Brandt, Sami S.
-PAMI 2006</p>
+<p>Paper:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">generic</span> <span class="n">camera</span> <span class="n">model</span> <span class="ow">and</span> <span class="n">calibration</span> <span class="n">method</span> <span class="k">for</span> <span class="n">conventional</span><span class="p">,</span> <span class="n">wide</span><span class="o">-</span><span class="n">angle</span><span class="p">,</span> <span class="ow">and</span> <span class="n">fish</span><span class="o">-</span><span class="n">eye</span> <span class="n">lenses</span>
+<span class="n">Kannala</span><span class="p">,</span> <span class="n">Juho</span><span class="p">;</span> <span class="n">Brandt</span><span class="p">,</span> <span class="n">Sami</span> <span class="n">S</span><span class="o">.</span>
+<span class="n">PAMI</span> <span class="mi">2006</span>
+</pre></div>
+</div>
 <p>This is the simpler “P9” model without any non-radially-symmetric distortion params.</p>
-<p>The storage for this class is:
-[ fx fy cx cy critical_theta d0 d1 d2 d3 ]</p>
+<p>The storage for this class is:</p>
+<p>[ fx fy cx cy critical_theta d0 d1 d2 d3 ]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -9248,7 +9239,7 @@ the dimension of each value.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.SphericalCameraCal.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.symbolic.SphericalCameraCal.storage_dim" title="symforce.symbolic.SphericalCameraCal.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -9260,7 +9251,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.SphericalCameraCal.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.symbolic.SphericalCameraCal.to_storage" title="symforce.symbolic.SphericalCameraCal.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -9275,7 +9266,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.symbolic.SphericalCameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -9314,7 +9305,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.symbolic.SphericalCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)

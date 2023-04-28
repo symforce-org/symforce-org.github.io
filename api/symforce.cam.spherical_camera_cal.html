@@ -48,9 +48,9 @@
 off the optical axis as opposed to radius within the image plane (i.e. ATANCamera)</p>
 <p>I.e. the radius in the image plane as a function of the angle theta from the camera z-axis is
 assumed to be given by:</p>
-<blockquote>
-<div><p>r(theta) = theta + d[0] * theta^3 + d[1] * theta^5 + d[2] * theta^7 + d[3] * theta^9</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">7</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">9</span>
+</pre></div>
+</div>
 <p>With no tangential coefficients, this model is over-parameterized in that we may scale all the
 distortion coefficients by a constant, and the focal length by the inverse of that constant. To
 fix this issue, we peg the first coefficient at 1. So while the distortion dimension is ‘4’,
@@ -59,13 +59,15 @@ the actual total number of coeffs is 5.</p>
 optical axis where projection is invertible; although the critical theta is a function of the
 other parameters, this function requires polynomial root finding, so it should be computed
 externally at runtime and set to the computed value.</p>
-<p>Paper:
-A generic camera model and calibration method for conventional, wide-angle, and fish-eye lenses
-Kannala, Juho; Brandt, Sami S.
-PAMI 2006</p>
+<p>Paper:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="n">generic</span> <span class="n">camera</span> <span class="n">model</span> <span class="ow">and</span> <span class="n">calibration</span> <span class="n">method</span> <span class="k">for</span> <span class="n">conventional</span><span class="p">,</span> <span class="n">wide</span><span class="o">-</span><span class="n">angle</span><span class="p">,</span> <span class="ow">and</span> <span class="n">fish</span><span class="o">-</span><span class="n">eye</span> <span class="n">lenses</span>
+<span class="n">Kannala</span><span class="p">,</span> <span class="n">Juho</span><span class="p">;</span> <span class="n">Brandt</span><span class="p">,</span> <span class="n">Sami</span> <span class="n">S</span><span class="o">.</span>
+<span class="n">PAMI</span> <span class="mi">2006</span>
+</pre></div>
+</div>
 <p>This is the simpler “P9” model without any non-radially-symmetric distortion params.</p>
-<p>The storage for this class is:
-[ fx fy cx cy critical_theta d0 d1 d2 d3 ]</p>
+<p>The storage for this class is:</p>
+<p>[ fx fy cx cy critical_theta d0 d1 d2 d3 ]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -152,7 +154,7 @@ the dimension of each value.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.cam.spherical_camera_cal.SphericalCameraCal.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.storage_dim" title="symforce.cam.spherical_camera_cal.SphericalCameraCal.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -164,7 +166,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.cam.spherical_camera_cal.SphericalCameraCal.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.to_storage" title="symforce.cam.spherical_camera_cal.SphericalCameraCal.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -179,7 +181,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.cam.spherical_camera_cal.SphericalCameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -218,7 +220,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.cam.spherical_camera_cal.SphericalCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)

@@ -74,9 +74,10 @@
 
 <span class="sd">      - There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log</span>
 
-<span class="sd">    If you need a type that has these properties in symbolic expressions, you should use Pose2_SE2.</span>
-<span class="sd">    There is no runtime equivalent of Pose2_SE2, see the docstring on that class for more</span>
-<span class="sd">    information.</span>
+<span class="sd">    If you need a type that has these properties in symbolic expressions, you should use</span>
+<span class="sd">    :class:`symforce.geo.unsupported.pose2_se2.Pose2_SE2`. There is no runtime equivalent of</span>
+<span class="sd">    :class:`Pose2_SE2 &lt;symforce.geo.unsupported.pose2_se2.Pose2_SE2&gt;`, see the docstring on that</span>
+<span class="sd">    class for more information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">Pose2T</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;Pose2T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;Pose2&quot;</span><span class="p">)</span>
@@ -97,7 +98,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Accessor for the rotation component</span>
 
-<span class="sd">        Does not make a copy.  Also accessible as `self.R`</span>
+<span class="sd">        Does not make a copy.  Also accessible as ``self.R``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span></div>
 
@@ -105,7 +106,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Accessor for the position component</span>
 
-<span class="sd">        Does not make a copy.  Also accessible as `self.t`</span>
+<span class="sd">        Does not make a copy.  Also accessible as ``self.t``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span></div>
 
@@ -172,7 +173,7 @@
 
 <div class="viewcode-block" id="Pose2.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose2.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from symforce/notebooks/storage_D_tangent.ipynb</span>
+<span class="sd">        Note: generated from ``symforce/notebooks/storage_D_tangent.ipynb``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">storage_D_tangent_R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span>
         <span class="n">storage_D_tangent_t</span> <span class="o">=</span> <span class="n">Matrix22</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
@@ -182,7 +183,7 @@
 
 <div class="viewcode-block" id="Pose2.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose2.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from symforce/notebooks/tangent_D_storage.ipynb</span>
+<span class="sd">        Note: generated from ``symforce/notebooks/tangent_D_storage.ipynb``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tangent_D_storage_R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">tangent_D_storage</span><span class="p">()</span>
         <span class="n">tangent_D_storage_t</span> <span class="o">=</span> <span class="n">Matrix22</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
@@ -199,10 +200,10 @@
 <span class="sd">        Applies a tangent space perturbation vec to self. Often used in optimization</span>
 <span class="sd">        to update nonlinear values from an update step in the tangent space.</span>
 
-<span class="sd">        Conceptually represents &quot;self + vec&quot; if self is a vector.</span>
+<span class="sd">        Conceptually represents ``self + vec`` if self is a vector.</span>
 
 <span class="sd">        Implementation retracts the R and t components separately, which is different from</span>
-<span class="sd">        `compose(self, from_tangent(vec))`.  See the class docstring for more information.</span>
+<span class="sd">        ``compose(self, from_tangent(vec))``.  See the class docstring for more information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Pose2</span><span class="p">(</span>
             <span class="n">R</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="n">vec</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span>
@@ -216,10 +217,10 @@
 <span class="sd">        Computes a tangent space perturbation around self to produce b. Often used in optimization</span>
 <span class="sd">        to minimize the distance between two group elements.</span>
 
-<span class="sd">        Tangent space perturbation that conceptually represents &quot;b - self&quot; if self is a vector.</span>
+<span class="sd">        Tangent space perturbation that conceptually represents ``b - self`` if self is a vector.</span>
 
 <span class="sd">        Implementation takes local_coordinates of the R and t components separately, which is</span>
-<span class="sd">        different from `to_tangent(between(self, b))`.  See the class docstring for more</span>
+<span class="sd">        different from ``to_tangent(between(self, b))``.  See the class docstring for more</span>
 <span class="sd">        information.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span> <span class="o">+</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span>
@@ -241,12 +242,6 @@
 <div class="viewcode-block" id="Pose2.__mul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose2.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Left-multiply with a compatible quantity.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            right: (Pose2 | R2)</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            (Pose2 | R2)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">):</span>
             <span class="k">assert</span> <span class="n">right</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">right</span><span class="o">.</span><span class="n">shape</span>

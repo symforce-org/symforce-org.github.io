@@ -99,24 +99,30 @@
 <span class="sd">    Args:</span>
 <span class="sd">        package_name: Package of LCM types to be generated</span>
 <span class="sd">        file_name: Name of the LCM file to generate (without the extension)</span>
-<span class="sd">        values_indices: Mapping between the name each LCM type to be generated and its index (computed using Values.index())</span>
-<span class="sd">        shared_types: Used to specify whether specific types and subtypes have already been generated, either externally or internally</span>
-<span class="sd">            (i.e. if one generated type is to represent multiple objects in values_indices).</span>
+<span class="sd">        values_indices: Mapping between the name each LCM type to be generated and its index</span>
+<span class="sd">            (computed using :meth:`Values.index &lt;symforce.values.Values.index&gt;`)</span>
+<span class="sd">        shared_types: Used to specify whether specific types and subtypes have already been</span>
+<span class="sd">            generated, either externally or internally (e.g. if one generated type is to represent</span>
+<span class="sd">            multiple objects in ``values_indices``).</span>
 <span class="sd">            Usage examples:</span>
-<span class="sd">                shared_types={&quot;my_values&quot; : &quot;external_package.my_values&quot;} (Reuse the implementation of &quot;my_values&quot; defined in package</span>
-<span class="sd">                    &quot;external_package&quot;, meaning that &quot;my_values&quot; as defined in values_indices will not be generated. Note</span>
-<span class="sd">                    that &quot;external_package&quot; can equal package_name, e.g. when generating multiple functions in the same package which</span>
-<span class="sd">                    reuse the same types)</span>
-<span class="sd">                shared_types={&quot;my_values.V1&quot; : &quot;my_subvalues_t&quot;, &quot;my_values.V2&quot; : &quot;my_subvalues_t&quot;} (Only generate one type named</span>
-<span class="sd">                    &quot;my_subvalues_t&quot; to represent Values objects defined by &quot;my_values.V1&quot; and &quot;my_values.V2&quot;.</span>
+<span class="sd">                shared_types={&quot;my_values&quot; : &quot;external_package.my_values&quot;}</span>
+<span class="sd">                    (Reuse the implementation of &quot;my_values&quot; defined in package &quot;external_package&quot;,</span>
+<span class="sd">                    meaning that &quot;my_values&quot; as defined in values_indices will not be generated.</span>
+<span class="sd">                    Note that &quot;external_package&quot; can equal package_name, e.g. when generating</span>
+<span class="sd">                    multiple functions in the same package which reuse the same types)</span>
+<span class="sd">                shared_types={&quot;my_values.V1&quot; : &quot;my_subvalues_t&quot;, &quot;my_values.V2&quot; : &quot;my_subvalues_t&quot;}</span>
+<span class="sd">                    (Only generate one type named &quot;my_subvalues_t&quot; to represent Values objects</span>
+<span class="sd">                    defined by &quot;my_values.V1&quot; and &quot;my_values.V2&quot;).</span>
 <span class="sd">        scalar_type: Type of scalars used in LCM type definition</span>
-<span class="sd">        output_dir: Where to output the files. &quot;.lcm&quot; files are output in &quot;output_dir/lcmtypes&quot;, and language-specific implementations</span>
-<span class="sd">            are generated in &quot;output_dir/package_name&quot;.</span>
-<span class="sd">        lcm_bindings_output_dir: Where to output language-specific LCM bindings.  Defaults to output_dir</span>
-<span class="sd">        templates: TemplateList used if types are being generated as part of a larger code generation (e.g. when generating the</span>
-<span class="sd">            types required by a generated function). If None, we generate both the &quot;.lcm&quot; files and the language-specific</span>
-<span class="sd">            implementations, else we assume the templates and language-specific type implementations will be rendered</span>
-<span class="sd">            in an external function.</span>
+<span class="sd">        output_dir: Where to output the files. ``.lcm`` files are output in ``output_dir/lcmtypes``,</span>
+<span class="sd">            and language-specific implementations are generated in ``output_dir/package_name``.</span>
+<span class="sd">        lcm_bindings_output_dir: Where to output language-specific LCM bindings.  Defaults to</span>
+<span class="sd">            ``output_dir``</span>
+<span class="sd">        templates: TemplateList used if types are being generated as part of a larger code</span>
+<span class="sd">            generation (e.g. when generating the types required by a generated function). If None,</span>
+<span class="sd">            we generate both the ``.lcm`` files and the language-specific implementations, else we</span>
+<span class="sd">            assume the templates and language-specific type implementations will be rendered in an</span>
+<span class="sd">            external function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Create output directory if needed</span>
     <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -239,7 +245,8 @@
     <span class="n">shared_types</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the structure of the types we need to generate for the given Values.</span>
+<span class="sd">    Compute the structure of the types we need to generate for the given</span>
+<span class="sd">    :class:`Values &lt;symforce.values.Values&gt;`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">shared_types</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">shared_types</span> <span class="o">=</span> <span class="p">{}</span>
@@ -269,8 +276,8 @@
     <span class="n">list_index</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IndexEntry</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IndexEntry</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns index of Values object if base element of list is a Values object,</span>
-<span class="sd">    otherwise returns None</span>
+<span class="sd">    Returns index of :class:`Values &lt;symforce.values.Values&gt;` object if base element of list is a</span>
+<span class="sd">    :class:`Values &lt;symforce.values.Values&gt;` object, otherwise returns ``None``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">index_element</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">list_index</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">datatype</span> <span class="o">=</span> <span class="n">index_element</span><span class="o">.</span><span class="n">datatype</span><span class="p">()</span>
@@ -291,7 +298,7 @@
     <span class="n">types_dict</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Recursively compute type information from the key and values index and fill into types_dict.</span>
+<span class="sd">    Recursively compute type information from the key and values index and fill into ``types_dict``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 

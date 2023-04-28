@@ -64,10 +64,6 @@
 <div class="viewcode-block" id="DualQuaternion.__init__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DualQuaternion.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real_q</span><span class="p">:</span> <span class="n">Quaternion</span><span class="p">,</span> <span class="n">inf_q</span><span class="p">:</span> <span class="n">Quaternion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from two quaternions - a real one and an infinitesimal one.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            real_q (Quaternion):</span>
-<span class="sd">            inf_q (Quaternion):</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">real_q</span> <span class="o">=</span> <span class="n">real_q</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inf_q</span> <span class="o">=</span> <span class="n">inf_q</span></div>
@@ -121,24 +117,12 @@
 <div class="viewcode-block" id="DualQuaternion.__mul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DualQuaternion.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">DualQuaternion</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DualQuaternion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Left-multiply with another dual quaternion.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other (DualQuaternion):</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            DualQuaternion:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">right</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DualQuaternion.__div__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DualQuaternion.__div__">[docs]</a>    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DualQuaternion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Scalar division.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            scalar (Scalar):</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            DualQuaternion:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">DualQuaternion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_q</span> <span class="o">/</span> <span class="n">scalar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inf_q</span> <span class="o">/</span> <span class="n">scalar</span><span class="p">)</span></div>
 
@@ -147,18 +131,12 @@
 <div class="viewcode-block" id="DualQuaternion.squared_norm"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DualQuaternion.squared_norm">[docs]</a>    <span class="k">def</span> <span class="nf">squared_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Squared norm when considering the dual quaternion as 8-tuple.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Scalar:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_q</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">inf_q</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="DualQuaternion.conj"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DualQuaternion.conj">[docs]</a>    <span class="k">def</span> <span class="nf">conj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DualQuaternion</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dual quaternion conjugate.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            DualQuaternion:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">DualQuaternion</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real_q</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">inf_q</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span></div></div>
 </pre></div>

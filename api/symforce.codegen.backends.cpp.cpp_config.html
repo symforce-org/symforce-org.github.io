@@ -53,28 +53,31 @@
 <li><p><strong>use_eigen_types</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Use eigen_lcm types for vectors instead of lists</p></li>
 <li><p><strong>autoformat</strong> – Run a code formatter on the generated code</p></li>
 <li><p><strong>custom_preamble</strong> – An optional string to be prepended on the front of the rendered template</p></li>
-<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Optimizations argument to pass to sf.cse</p></li>
+<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Optimizations argument to pass to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cse" title="symforce.symbolic.cse"><code class="xref py py-func docutils literal notranslate"><span class="pre">sf.cse</span></code></a></p></li>
 <li><p><strong>zero_epsilon_behavior</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.ZeroEpsilonBehavior" title="symforce.codegen.codegen_config.ZeroEpsilonBehavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZeroEpsilonBehavior</span></code></a>) – What should codegen do if a default epsilon is not set?</p></li>
 <li><p><strong>support_complex</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Generate code that can work with std::complex or with regular float types</p></li>
-<li><p><strong>force_no_inline</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Mark generated functions as <cite>__attribute__((noinline))</cite></p></li>
+<li><p><strong>force_no_inline</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Mark generated functions as <code class="docutils literal notranslate"><span class="pre">__attribute__((noinline))</span></code></p></li>
 <li><p><strong>zero_initialization_sparsity_threshold</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Threshold between 0 and 1 for the sparsity below
 which we’ll initialize an output matrix to 0, so we
 don’t have to generate a line to set each zero
 element to 0 individually</p></li>
-<li><p><strong>explicit_template_instantiation_types</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Explicity instantiates templated functions in a <cite>.cc</cite>
-file for each given type. This allows the generated function to be compiled in its own
-translation unit. Useful for large functions which take a long time to compile</p></li>
+<li><p><strong>explicit_template_instantiation_types</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Explicity instantiates templated functions in a
+<code class="docutils literal notranslate"><span class="pre">.cc</span></code> file for each given type. This allows the generated function to be compiled in
+its own translation unit. Useful for large functions which take a long time to compile</p></li>
 <li><p><strong>override_methods</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Add special function overrides in dictionary with symforce function keys
-(e.g. sf.sin) and a string for the new method (e.g. fast_math::sin_lut), note that this bypasses
-the default namespace (so std:: won’t be added in front automatically). Note that the keys here
-need to be sympy keys, not symengine (i.e sympy.sin NOT sf.sin with symengine backend). Symengine to
-sympy conversion does not work for Function types. Note that this function works in the code printer,
-and should only be used for replacing functions that compute the same thing but in a different way,
-e.g. replacing <cite>sin</cite> with <cite>my_lib::sin</cite>. It should _not_ be used for substituting a function
-with a different function, which will break derivatives and certain simplifications,
-e.g. you should not use this to replace <cite>sin</cite> with <cite>cos</cite> or <cite>sin</cite> with <cite>my_lib::cos</cite></p></li>
+(e.g. <code class="docutils literal notranslate"><span class="pre">sympy.sin</span></code>) and a string for the new method (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;fast_math::sin_lut&quot;</span></code>),
+note that this bypasses the default namespace (so std:: won’t be added in front
+automatically). Note that the keys here need to be sympy keys, not symengine (e.g.
+<code class="docutils literal notranslate"><span class="pre">sympy.sin</span></code> NOT <code class="docutils literal notranslate"><span class="pre">sf.sin</span></code> with the symengine backend). SymEngine to SymPy conversion
+does not work for <code class="docutils literal notranslate"><span class="pre">Function</span></code> types. Note that this function works in the code printer,
+and should only be used for replacing functions that compute the same thing but in a
+different way, e.g. replacing <code class="docutils literal notranslate"><span class="pre">sin</span></code> with <code class="docutils literal notranslate"><span class="pre">my_lib::sin</span></code>. It should <cite>not</cite> be used for
+substituting a function with a different function, which will break derivatives and
+certain simplifications, e.g. you should not use this to replace <code class="docutils literal notranslate"><span class="pre">sin</span></code> with <code class="docutils literal notranslate"><span class="pre">cos</span></code>
+or <code class="docutils literal notranslate"><span class="pre">sin</span></code> with <code class="docutils literal notranslate"><span class="pre">my_lib::cos</span></code>.</p></li>
 <li><p><strong>extra_imports</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – Add extra imports to the file if you use custom overrides for some functions
-(i.e. add fast_math.h). Note that these are only added on a call to <cite>generate_function</cite>, i.e.
+(e.g. add fast_math.h). Note that these are only added on a call to
+<a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.Codegen.generate_function" title="symforce.codegen.codegen.Codegen.generate_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_function</span></code></a>, i.e.
 you can’t define custom functions in e.g. the geo package using this</p></li>
 <li><p><strong>render_template_config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.RenderTemplateConfig" title="symforce.codegen.codegen_config.RenderTemplateConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">RenderTemplateConfig</span></code></a>) – </p></li>
 </ul>
@@ -194,12 +197,12 @@ render and the relative output paths where they should go.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cpp.cpp_config.CppConfig.format_matrix_accessor">
 <span class="sig-name descname"><span class="pre">format_matrix_accessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/cpp/cpp_config.html#CppConfig.format_matrix_accessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.cpp.cpp_config.CppConfig.format_matrix_accessor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Format accessor for 2D matrices.
-Raises an index exception if either of the following is false:</p>
-<blockquote>
-<div><p>0 &lt;= i &lt; shape[0]
-0 &lt;= j &lt; shape[1]</p>
-</div></blockquote>
+<dd><p>Format accessor for 2D matrices.</p>
+<p>Raises an index exception if either of the following is false:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

@@ -143,7 +143,7 @@
 
 <div class="viewcode-block" id="RelEnvironment"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.RelEnvironment">[docs]</a><span class="k">class</span> <span class="nc">RelEnvironment</span><span class="p">(</span><span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Override join_path() to enable relative template paths. Modified from the below post.</span>
+<span class="sd">    Override ``join_path()`` to enable relative template paths. Modified from the below post.</span>
 
 <span class="sd">    https://stackoverflow.com/questions/8512677/how-to-include-a-template-with-relative-path-in-jinja2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -172,11 +172,15 @@
 
 
 <div class="viewcode-block" id="jinja_env"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.jinja_env">[docs]</a><span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span>
-<span class="k">def</span> <span class="nf">jinja_env</span><span class="p">(</span><span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RelEnvironment</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">jinja_env</span><span class="p">(</span>
+    <span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">search_paths</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RelEnvironment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to cache the Jinja environment, which enables caching of loaded templates</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">loader</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template_dir</span><span class="p">))</span>
+    <span class="n">all_search_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template_dir</span><span class="p">)]</span>
+    <span class="n">all_search_paths</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">search_paths</span><span class="p">))</span>
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">searchpath</span><span class="o">=</span><span class="n">all_search_paths</span><span class="p">)</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">RelEnvironment</span><span class="p">(</span>
         <span class="n">loader</span><span class="o">=</span><span class="n">loader</span><span class="p">,</span>
         <span class="n">trim_blocks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -194,9 +198,10 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span>
     <span class="n">output_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">search_paths</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Boiler plate to render template. Returns the rendered string and optionally writes to file.</span>
+<span class="sd">    Boilerplate to render template. Returns the rendered string and optionally writes to file.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        template_path: file path of the template to render</span>
@@ -205,6 +210,7 @@
 <span class="sd">                information)</span>
 <span class="sd">        template_dir: Base directory where templates are found</span>
 <span class="sd">        output_path: If provided, writes to file</span>
+<span class="sd">        search_paths: Additional directories jinja should search when resolving imports</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">template_path</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
         <span class="n">template_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">template_path</span><span class="p">)</span>
@@ -218,7 +224,9 @@
 
     <span class="n">filetype</span> <span class="o">=</span> <span class="n">FileType</span><span class="o">.</span><span class="n">from_template_path</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">template_path</span><span class="p">))</span>
 
-    <span class="n">template</span> <span class="o">=</span> <span class="n">jinja_env</span><span class="p">(</span><span class="n">template_dir</span><span class="p">)</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template_path</span><span class="p">))</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">jinja_env</span><span class="p">(</span><span class="n">template_dir</span><span class="p">,</span> <span class="n">search_paths</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">search_paths</span><span class="p">))</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">template_path</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="n">rendered_str</span> <span class="o">=</span> <span class="n">add_preamble</span><span class="p">(</span>
         <span class="nb">str</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)),</span>
         <span class="n">template_path</span><span class="p">,</span>
@@ -285,7 +293,7 @@
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="TemplateList.render"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.TemplateList.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="TemplateList.render"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.TemplateList.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_paths</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
         <span class="n">rendered_templates</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
             <span class="n">rendered_templates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -295,6 +303,7 @@
                     <span class="n">config</span><span class="o">=</span><span class="n">entry</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
                     <span class="n">template_dir</span><span class="o">=</span><span class="n">entry</span><span class="o">.</span><span class="n">template_dir</span><span class="p">,</span>
                     <span class="n">output_path</span><span class="o">=</span><span class="n">entry</span><span class="o">.</span><span class="n">output_path</span><span class="p">,</span>
+                    <span class="n">search_paths</span><span class="o">=</span><span class="n">search_paths</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">rendered_templates</span></div></div>

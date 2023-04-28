@@ -36,8 +36,215 @@
 
           <div class="body" role="main">
             
-  <section id="setup-module">
-<h1>setup module<a class="headerlink" href="#setup-module" title="Permalink to this heading">¶</a></h1>
+  <section id="module-setup">
+<span id="setup-module"></span><h1>setup module<a class="headerlink" href="#module-setup" title="Permalink to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="setup.symforce_version">
+<span class="sig-name descname"><span class="pre">symforce_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#symforce_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.symforce_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch the current symforce version from _version.py</p>
+<p>We can’t import the version here, so we have to do some text parsing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="setup.CMakeExtension">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CMakeExtension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#CMakeExtension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.CMakeExtension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Extension</span></code></p>
+<p>CMake extension type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.CMakeExtension.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#CMakeExtension.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.CMakeExtension.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="setup.PatchDevelop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PatchDevelop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#PatchDevelop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.PatchDevelop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">develop</span></code></p>
+<p>develop is the legacy command (pre setuptools==64.0.0, which implemented
+the pep 660 hook build_editable) to build a package in editable mode.</p>
+<p>This will be used by setuptools &lt; 64.0.0, and not be used by
+setuptools &gt;= 64.0.0 during a normal <cite>pip install -e .</cite> run (of course,
+you could still run <cite>python setup.py develop</cite> to run it with any version
+of setuptools).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.PatchDevelop.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#PatchDevelop.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.PatchDevelop.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>A command’s raison d’etre: carry out the action it exists to
+perform, controlled by the options initialized in
+‘initialize_options()’, customized by other commands, the setup
+script, the command-line, and config files, and finalized in
+‘finalize_options()’.  All terminal output and filesystem
+interaction should be done by ‘run()’.</p>
+<p>This method must be implemented by all command classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="setup.CMakeBuild">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CMakeBuild</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#CMakeBuild"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.CMakeBuild" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">build_ext</span></code></p>
+<p>Custom extension builder that runs CMake.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.CMakeBuild.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#CMakeBuild.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.CMakeBuild.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build extensions in build directory, then copy if –inplace</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.CMakeBuild.move_output">
+<span class="sig-name descname"><span class="pre">move_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#CMakeBuild.move_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.CMakeBuild.move_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ext</strong> (<a class="reference internal" href="#setup.CMakeExtension" title="setup.CMakeExtension"><code class="xref py py-class docutils literal notranslate"><span class="pre">CMakeExtension</span></code></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="setup.SymForceEggInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SymForceEggInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#SymForceEggInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.SymForceEggInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">egg_info</span></code></p>
+<p>Custom Egg info, that optionally rewrites local dependencies (that are stored in the symforce
+repo) to package dependencies</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="setup.SymForceEggInfo.user_options">
+<span class="sig-name descname"><span class="pre">user_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[('egg-base=',</span> <span class="pre">'e',</span> <span class="pre">'directory</span> <span class="pre">containing</span> <span class="pre">.egg-info</span> <span class="pre">directories</span> <span class="pre">(default:</span> <span class="pre">top</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">source</span> <span class="pre">tree)'),</span> <span class="pre">('tag-date',</span> <span class="pre">'d',</span> <span class="pre">'Add</span> <span class="pre">date</span> <span class="pre">stamp</span> <span class="pre">(e.g.</span> <span class="pre">20050528)</span> <span class="pre">to</span> <span class="pre">version</span> <span class="pre">number'),</span> <span class="pre">('tag-build=',</span> <span class="pre">'b',</span> <span class="pre">'Specify</span> <span class="pre">explicit</span> <span class="pre">tag</span> <span class="pre">to</span> <span class="pre">add</span> <span class="pre">to</span> <span class="pre">version</span> <span class="pre">number'),</span> <span class="pre">('no-date',</span> <span class="pre">'D',</span> <span class="pre">&quot;Don't</span> <span class="pre">include</span> <span class="pre">date</span> <span class="pre">stamp</span> <span class="pre">[default]&quot;),</span> <span class="pre">('rewrite-local-dependencies=',</span> <span class="pre">None,</span> <span class="pre">'Rewrite</span> <span class="pre">in-repo</span> <span class="pre">Python</span> <span class="pre">dependencies</span> <span class="pre">from</span> <span class="pre">`package</span> <span class="pre">&#64;</span> <span class="pre">file:`</span> <span class="pre">to</span> <span class="pre">`package==version`.</span>&#160; <span class="pre">Can</span> <span class="pre">also</span> <span class="pre">be</span> <span class="pre">provided</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">environment</span> <span class="pre">variable</span> <span class="pre">SYMFORCE_REWRITE_LOCAL_DEPENDENCIES')]</span></em><a class="headerlink" href="#setup.SymForceEggInfo.user_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.SymForceEggInfo.initialize_options">
+<span class="sig-name descname"><span class="pre">initialize_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#SymForceEggInfo.initialize_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.SymForceEggInfo.initialize_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set default values for all the options that this command
+supports.  Note that these defaults may be overridden by other
+commands, by the setup script, by config files, or by the
+command-line.  Thus, this is not the place to code dependencies
+between options; generally, ‘initialize_options()’ implementations
+are just a bunch of “self.foo = None” assignments.</p>
+<p>This method must be implemented by all command classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.SymForceEggInfo.finalize_options">
+<span class="sig-name descname"><span class="pre">finalize_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#SymForceEggInfo.finalize_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.SymForceEggInfo.finalize_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set final values for all the options that this command supports.
+This is always called as late as possible, ie.  after any option
+assignments from the command-line or from other commands have been
+done.  Thus, this is the place to code option dependencies: if
+‘foo’ depends on ‘bar’, then it is safe to set ‘foo’ from ‘bar’ as
+long as ‘foo’ still has the same value it was assigned in
+‘initialize_options()’.</p>
+<p>This method must be implemented by all command classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.SymForceEggInfo.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#SymForceEggInfo.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.SymForceEggInfo.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>A command’s raison d’etre: carry out the action it exists to
+perform, controlled by the options initialized in
+‘initialize_options()’, customized by other commands, the setup
+script, the command-line, and config files, and finalized in
+‘finalize_options()’.  All terminal output and filesystem
+interaction should be done by ‘run()’.</p>
+<p>This method must be implemented by all command classes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="setup.InstallWithExtras">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InstallWithExtras</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kw</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#InstallWithExtras"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.InstallWithExtras" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">install</span></code></p>
+<dl class="simple">
+<dt>Custom install step that:</dt><dd><ol class="arabic simple">
+<li><p>Installs symenginepy so it can be imported</p></li>
+<li><p>Installs additional shared libraries needed by cc_sym (e.g. libmetis)</p></li>
+<li><p>Installs lcmtypes python package</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="setup.InstallWithExtras.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#InstallWithExtras.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.InstallWithExtras.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="setup.symforce_rev">
+<span class="sig-name descname"><span class="pre">symforce_rev</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#symforce_rev"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.symforce_rev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current git sha, falling back to <cite>main</cite>.  Only used for images in the README, where it
+isn’t super important that this is very robust</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="setup.fixed_readme">
+<span class="sig-name descname"><span class="pre">fixed_readme</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/setup.html#fixed_readme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#setup.fixed_readme" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix things in the README for PyPI</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

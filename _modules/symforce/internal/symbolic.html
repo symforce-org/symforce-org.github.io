@@ -46,8 +46,8 @@
 
 <span class="sd">This represents the core functions that comprise SymForce&#39;s unified version of the SymPy API,</span>
 <span class="sd">without additional imports that would cause import cycles.  This means this module is safe to be</span>
-<span class="sd">imported from those modules within SymForce.  Users should instead import `symforce.symbolic`, which</span>
-<span class="sd">includes the entire SymForce symbolic API.</span>
+<span class="sd">imported from those modules within SymForce.  Users should instead import :mod:`symforce.symbolic`,</span>
+<span class="sd">which includes the entire SymForce symbolic API.</span>
 
 <span class="sd">This combines functions available from various sources:</span>
 
@@ -55,10 +55,10 @@
 <span class="sd">- Additional functions defined here to override those provided by SymPy or SymEngine, or provide a</span>
 <span class="sd">  uniform interface between the two.  See https://symforce.org/api/symforce.symbolic.html for</span>
 <span class="sd">  information on these</span>
-<span class="sd">- Logic functions defined in `symforce.logic`, see the documentation for that module</span>
+<span class="sd">- Logic functions defined in :mod:`symforce.logic`, see the documentation for that module</span>
 
 <span class="sd">It typically isn&#39;t necessary to actually access the symbolic API being used internally, but that is</span>
-<span class="sd">available as well as `symforce.symbolic.sympy`.</span>
+<span class="sd">available as well as :mod:`symforce.symbolic.sympy`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># pylint: disable=unused-import</span>
@@ -294,7 +294,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The default epsilon for SymForce</span>
 
-<span class="sd">    Library functions that require an epsilon argument should use a function signature like:</span>
+<span class="sd">    Library functions that require an epsilon argument should use a function signature like::</span>
 
 <span class="sd">        def foo(x: Scalar, epsilon: Scalar = sf.epsilon()) -&gt; Scalar:</span>
 <span class="sd">            ...</span>
@@ -308,10 +308,11 @@
 <span class="sd">    in the SymForce docs here: https://symforce.org/tutorials/epsilon_tutorial.html</span>
 
 <span class="sd">    For purely numerical code that just needs a good default numerical epsilon, see</span>
-<span class="sd">    `symforce.symbolic.numeric_epsilon`.</span>
+<span class="sd">    :data:`symforce.symbolic.numeric_epsilon`.</span>
 
-<span class="sd">    Returns: The current default epsilon.  This is typically some kind of &quot;Scalar&quot;, like a float or</span>
-<span class="sd">             a Symbol.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        The current default epsilon.  This is typically some kind of &quot;Scalar&quot;, like a float or a</span>
+<span class="sd">        :class:`Symbol &lt;symforce.symbolic.Symbol&gt;`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">symforce</span><span class="o">.</span><span class="n">_have_used_epsilon</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># pylint: disable=protected-access</span>
 
@@ -401,7 +402,7 @@
 <span class="sd">    Wrap an angle to the interval [-pi, pi).  Commonly used to compute the shortest signed</span>
 <span class="sd">    distance between two angles.</span>
 
-<span class="sd">    See also: `angle_diff`</span>
+<span class="sd">    See also: :func:`angle_diff`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Mod</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">pi</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">pi</span></div>
 
@@ -411,7 +412,7 @@
 <span class="sd">    Return the difference x - y, but wrapped into [-pi, pi); i.e. the angle `diff` closest to 0</span>
 <span class="sd">    such that x = y + diff (mod 2pi).</span>
 
-<span class="sd">    See also: `wrap_angle`</span>
+<span class="sd">    See also: :func:`wrap_angle`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">wrap_angle</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span></div>
 
@@ -432,8 +433,8 @@
 
 <div class="viewcode-block" id="argmax_onehot"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.argmax_onehot">[docs]</a><span class="k">def</span> <span class="nf">argmax_onehot</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a list l such that l[i] = 1.0 if i is the smallest index such that</span>
-<span class="sd">    vals[i] equals Max(*vals). l[i] = 0.0 otherwise.</span>
+<span class="sd">    Returns a list ``l`` such that ``l[i] = 1.0`` if ``i`` is the smallest index such that</span>
+<span class="sd">    ``vals[i]`` equals ``Max(*vals)``. ``l[i] = 0.0`` otherwise.</span>
 
 <span class="sd">    Precondition:</span>
 <span class="sd">        vals has at least one element</span>
@@ -456,8 +457,8 @@
 
 <div class="viewcode-block" id="argmax"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.argmax">[docs]</a><span class="k">def</span> <span class="nf">argmax</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns i (as a Scalar) such that i is the smallest index such that</span>
-<span class="sd">    vals[i] equals Max(*vals).</span>
+<span class="sd">    Returns ``i`` (as a Scalar) such that ``i`` is the smallest index such that</span>
+<span class="sd">    ``vals[i]`` equals ``Max(*vals)``.</span>
 
 <span class="sd">    Precondition:</span>
 <span class="sd">        vals has at least one element</span>
@@ -483,9 +484,13 @@
 
 <div class="viewcode-block" id="clamp"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.clamp">[docs]</a><span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns min_value if x &lt; min_value</span>
-<span class="sd">    Returns x if min_value &lt; x &lt; max_value</span>
-<span class="sd">    Returns max_value if x &gt; max_value</span>
+<span class="sd">    Clamps x between min_value and max_value</span>
+
+<span class="sd">    Returns::</span>
+
+<span class="sd">        min_value if x &lt; min_value</span>
+<span class="sd">        x if min_value &lt;= x &lt;= max_value</span>
+<span class="sd">        max_value if x &gt; max_value</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x: Value to clamp between min_value and max_value</span>
@@ -672,9 +677,9 @@
 <span class="sd">    Handle args to subs being a single key-value pair or a dict.</span>
 
 <span class="sd">    Keyword Args:</span>
-<span class="sd">        dont_flatten_args (bool): if true and args is a single argument, assume that args is a</span>
-<span class="sd">            dict mapping scalar expressions to other scalar expressions. i.e. StorageOps flattening</span>
-<span class="sd">            will *not* occur. This is significantly faster.</span>
+<span class="sd">        dont_flatten_args: if true and args is a single argument, assume that args is a dict mapping</span>
+<span class="sd">            scalar expressions to other scalar expressions. i.e. StorageOps flattening will **not**</span>
+<span class="sd">            occur. This is significantly faster.</span>
 
 <span class="sd">        **kwargs is unused but needed for sympy compatibility</span>
 <span class="sd">    &quot;&quot;&quot;</span>

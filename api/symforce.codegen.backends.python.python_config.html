@@ -53,9 +53,9 @@
 <li><p><strong>use_eigen_types</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Use eigen_lcm types for vectors instead of lists</p></li>
 <li><p><strong>autoformat</strong> – Run a code formatter on the generated code</p></li>
 <li><p><strong>custom_preamble</strong> – An optional string to be prepended on the front of the rendered template</p></li>
-<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Optimizations argument to pass to sf.cse</p></li>
+<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Optimizations argument to pass to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cse" title="symforce.symbolic.cse"><code class="xref py py-func docutils literal notranslate"><span class="pre">sf.cse</span></code></a></p></li>
 <li><p><strong>zero_epsilon_behavior</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.ZeroEpsilonBehavior" title="symforce.codegen.codegen_config.ZeroEpsilonBehavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZeroEpsilonBehavior</span></code></a>) – What should codegen do if a default epsilon is not set?</p></li>
-<li><p><strong>use_numba</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Add the <cite>&#64;numba.njit</cite> decorator to generated functions.  This will greatly
+<li><p><strong>use_numba</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Add the <code class="docutils literal notranslate"><span class="pre">&#64;numba.njit</span></code> decorator to generated functions.  This will greatly
 speed up functions by compiling them to machine code, but has large overhead
 on the first call and some overhead on subsequent calls, so it should not be
 used for small functions or functions that are only called a handful of
@@ -151,12 +151,12 @@ render and the relative output paths where they should go.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.codegen.backends.python.python_config.PythonConfig.format_matrix_accessor">
 <span class="sig-name descname"><span class="pre">format_matrix_accessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">j</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/backends/python/python_config.html#PythonConfig.format_matrix_accessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.backends.python.python_config.PythonConfig.format_matrix_accessor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Format accessor for 2D matrices.
-Raises an index exception if either of the following is false:</p>
-<blockquote>
-<div><p>0 &lt;= i &lt; shape[0]
-0 &lt;= j &lt; shape[1]</p>
-</div></blockquote>
+<dd><p>Format accessor for 2D matrices.</p>
+<p>Raises an index exception if either of the following is false:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

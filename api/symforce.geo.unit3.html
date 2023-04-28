@@ -44,19 +44,20 @@
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unit3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup" title="symforce.ops.interfaces.lie_group.LieGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">LieGroup</span></code></a></p>
-<p>Direction in R^3, represented as a Rot3 that transforms [0, 0, 1] to the desired direction.
-The storage is therefore a quaternion and the tangent space is 2 dimensional.
-Most operations are implemented using operations from Rot3.</p>
+<p>Direction in R^3, represented as a <a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a> that transforms
+[0, 0, 1] to the desired direction.</p>
+<p>The storage is therefore a quaternion and the tangent space is 2 dimensional.
+Most operations are implemented using operations from <a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>.</p>
 <p>Note: an alternative implementation could directly store a unit vector and define its boxplus
 manifold as described in Appendix B.2 of [Hertzberg 2013]. This can be done by finding the
 Householder reflector of x and use it to transform the exponential map of delta, which is a
-small perturbation in the tangent space (R^2). Namely,</p>
-<p>x.retract(delta) = x [+] delta = Rx * Exp(delta), where
-Exp(delta) = [sinc(||delta||) * delta, cos(||delta||)], and
-Rx = (I - 2 vv^T / (v^Tv))X, v = x - e_z != 0, X is a matrix negating 2nd vector component</p>
-<blockquote>
-<div><p>= I                     , x = e_z</p>
-</div></blockquote>
+small perturbation in the tangent space (R^2). Namely:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">Rx</span> <span class="o">*</span> <span class="n">Exp</span><span class="p">(</span><span class="n">delta</span><span class="p">),</span> <span class="n">where</span>
+<span class="n">Exp</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="n">sinc</span><span class="p">(</span><span class="o">||</span><span class="n">delta</span><span class="o">||</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span><span class="p">,</span> <span class="n">cos</span><span class="p">(</span><span class="o">||</span><span class="n">delta</span><span class="o">||</span><span class="p">)],</span> <span class="ow">and</span>
+<span class="n">Rx</span> <span class="o">=</span> <span class="p">(</span><span class="n">I</span> <span class="o">-</span> <span class="mi">2</span> <span class="n">vv</span><span class="o">^</span><span class="n">T</span> <span class="o">/</span> <span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">Tv</span><span class="p">))</span><span class="n">X</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">e_z</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">X</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">matrix</span> <span class="n">negating</span> <span class="mi">2</span><span class="n">nd</span> <span class="n">vector</span> <span class="n">component</span>
+<span class="o">=</span> <span class="n">I</span>                     <span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">e_z</span>
+</pre></div>
+</div>
 <p>[Hertzberg 2013] Integrating Generic Sensor Fusion Algorithms with Sound State Representations
 through Encapsulation of Manifolds</p>
 <dl class="field-list simple">
@@ -72,7 +73,7 @@ through Encapsulation of Manifolds</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a rot3, or identity if none provided.</p>
+<dd><p>Construct from a <a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>, or identity if none provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>rot3</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>]) – </p>
@@ -94,7 +95,7 @@ through Encapsulation of Manifolds</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.geo.unit3.Unit3.storage_dim" title="symforce.geo.unit3.Unit3.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -106,7 +107,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.geo.unit3.Unit3.to_storage" title="symforce.geo.unit3.Unit3.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -121,7 +122,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -138,7 +139,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
@@ -163,7 +164,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a></p>
@@ -256,8 +257,8 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.from_vector">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.from_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a Unit3 that points along the direction of vector a. a does not have to be a unit
-vector.</p>
+<dd><p>Return a <a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a> that points along the direction of vector <code class="docutils literal notranslate"><span class="pre">a</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span></code> does not have to be a unit vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -274,8 +275,8 @@ vector.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.unit3.Unit3.random">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.unit3.Unit3.random" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a random element of Unit3, by generating a random rotation first and then rotating
-e_z to get a random direction.</p>
+<dd><p>Generate a random element of <a class="reference internal" href="#symforce.geo.unit3.Unit3" title="symforce.geo.unit3.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a>, by generating a random rotation first and then
+rotating <code class="docutils literal notranslate"><span class="pre">e_z</span></code> to get a random direction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>

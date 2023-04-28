@@ -45,13 +45,13 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoubleSphereCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/double_sphere_camera_cal.html#DoubleSphereCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Camera model where a point is consecutively projected onto two unit spheres
-with centers shifted by <cite>xi</cite>, then projected into the image plane using the
-pinhole model shifted by <cite>alpha / (1 - alpha)</cite>.</p>
+with centers shifted by <code class="docutils literal notranslate"><span class="pre">xi</span></code>, then projected into the image plane using the
+pinhole model shifted by <code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">/</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">alpha)</span></code>.</p>
 <p>There are important differences here from the derivation in the paper and in other open-source
 packages with double sphere models; see notebooks/double_sphere_derivation.ipynb for more
 information.</p>
-<p>The storage for this class is:
-[ fx fy cx cy xi alpha ]</p>
+<p>The storage for this class is:</p>
+<p>[ fx fy cx cy xi alpha ]</p>
 <p>TODO(aaron): Create double_sphere_derivation.ipynb</p>
 <p>TODO(aaron): Probably want to check that values and derivatives are correct (or at least sane)
 on the valid side of the is_valid boundary</p>
@@ -93,7 +93,7 @@ on the valid side of the is_valid boundary</p>
 <dt class="sig sig-object py" id="symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/double_sphere_camera_cal.html#DoubleSphereCameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -164,7 +164,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/double_sphere_camera_cal.html#DoubleSphereCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)

@@ -64,16 +64,21 @@
 <span class="sd">    The tangent space is 3 elements for rotation followed by 3 elements for translation in the</span>
 <span class="sd">    non-rotated frame.</span>
 
-<span class="sd">    For Lie group enthusiasts: This class is on the PRODUCT manifold, if you really really want</span>
-<span class="sd">    SE(3) you should use Pose3_SE3.  On this class, the group operations (e.g. compose and between)</span>
-<span class="sd">    operate as you&#39;d expect for a Pose or SE(3), but the manifold operations (e.g. retract and</span>
-<span class="sd">    local_coordinates) operate on the product manifold SO(3) x R3.  This means that:</span>
+<span class="sd">    For Lie group enthusiasts: This class is on the PRODUCT manifold.  On this class, the group</span>
+<span class="sd">    operations (e.g. compose and between) operate as you&#39;d expect for a Pose or SE(3), but the</span>
+<span class="sd">    manifold operations (e.g. retract and local_coordinates) operate on the product manifold</span>
+<span class="sd">    SO(3) x R3.  This means that:</span>
 
 <span class="sd">      - retract(a, vec) != compose(a, from_tangent(vec))</span>
 
 <span class="sd">      - local_coordinates(a, b) != to_tangent(between(a, b))</span>
 
 <span class="sd">      - There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log</span>
+
+<span class="sd">    If you need a type that has these properties in symbolic expressions, you should use</span>
+<span class="sd">    :class:`symforce.geo.unsupported.pose3_se3.Pose3_SE3`. There is no runtime equivalent of</span>
+<span class="sd">    :class:`Pose3_SE3 &lt;symforce.geo.unsupported.pose3_se3.Pose3_SE3&gt;`, see the docstring on that</span>
+<span class="sd">    class for more information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>

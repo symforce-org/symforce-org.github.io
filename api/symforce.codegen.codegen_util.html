@@ -167,7 +167,8 @@
 in CSC form.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sparse_matrix</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – A symbolic sf.Matrix where sparsity is given by exact zero equality.</p>
+<dd class="field-odd"><p><strong>sparse_matrix</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code></a>) – A symbolic <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Matrix</span></code></a> where sparsity
+is given by exact zero equality.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#symforce.codegen.codegen_util.CSCFormat" title="symforce.codegen.codegen_util.CSCFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSCFormat</span></code></a></p>
@@ -215,7 +216,7 @@ in CSC form.</p>
 <li><p><strong>inputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – Values object specifying names and symbolic inputs</p></li>
 <li><p><strong>outputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a>) – Values object specifying names and output expressions (written in terms
 of the symbolic inputs)</p></li>
-<li><p><strong>sparse_mat_data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="#symforce.codegen.codegen_util.CSCFormat" title="symforce.codegen.codegen_util.CSCFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSCFormat</span></code></a>]) – Data associated with sparse matrices. sparse_mat_data[“keys”] stores
+<li><p><strong>sparse_mat_data</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="#symforce.codegen.codegen_util.CSCFormat" title="symforce.codegen.codegen_util.CSCFormat"><code class="xref py py-class docutils literal notranslate"><span class="pre">CSCFormat</span></code></a>]) – Data associated with sparse matrices. <code class="docutils literal notranslate"><span class="pre">sparse_mat_data[&quot;keys&quot;]</span></code> stores
 a list of the keys in outputs which should be treated as sparse matrices</p></li>
 <li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CodegenConfig</span></code></a>) – Programming language and configuration in which the expressions are to be generated</p></li>
 <li><p><strong>cse</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Perform common sub-expression elimination</p></li>
@@ -241,7 +242,7 @@ int: Total number of ops</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>output_exprs</strong> (<a class="reference internal" href="#symforce.codegen.codegen_util.DenseAndSparseOutputTerms" title="symforce.codegen.codegen_util.DenseAndSparseOutputTerms"><code class="xref py py-class docutils literal notranslate"><span class="pre">DenseAndSparseOutputTerms</span></code></a>) – expressions on which to perform cse</p></li>
-<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – optimizations to be forwarded to sf.cse</p></li>
+<li><p><strong>cse_optimizations</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[‘basic’], <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – optimizations to be forwarded to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cse" title="symforce.symbolic.cse"><code class="xref py py-func docutils literal notranslate"><span class="pre">sf.cse</span></code></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -258,8 +259,9 @@ DenseAndSparseOutputTerms: output_exprs, but in terms of the returned temporarie
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.format_symbols">
 <span class="sig-name descname"><span class="pre">format_symbols</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dense_outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#format_symbols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.format_symbols" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reformats symbolic variables used in intermediate and outputs terms to match structure of
-inputs/outputs. For example if we have an input array “arr” with symbolic elements [arr0, arr1],
-we will remap symbol “arr0” to “arr[0]” and symbol “arr1” to “arr[1]”.</p>
+inputs/outputs.</p>
+<p>For example, if we have an input array <code class="docutils literal notranslate"><span class="pre">&quot;arr&quot;</span></code> with symbolic elements <code class="docutils literal notranslate"><span class="pre">[arr0,</span> <span class="pre">arr1]</span></code>,
+we will remap symbol <code class="docutils literal notranslate"><span class="pre">&quot;arr0&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;arr[0]&quot;</span></code> and symbol <code class="docutils literal notranslate"><span class="pre">&quot;arr1&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;arr[1]&quot;</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -324,16 +326,17 @@ flattened_original_values: nested list of original scalar values</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The full name of the package or module to load (for example, “pkg.sub_pkg”
-for a package called “sub_pkg” inside of another package “pkg”, or
-“pkg.sub_pkg.mod” for a module called “mod” inside of pkg.sub_pkg).</p></li>
-<li><p><strong>path</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – The path to the directory (or __init__.py) of the package, or the python
+<li><p><strong>name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The full name of the package or module to load (for example, <code class="docutils literal notranslate"><span class="pre">&quot;pkg.sub_pkg&quot;</span></code>
+for a package called <code class="docutils literal notranslate"><span class="pre">sub_pkg</span></code> inside of another package <code class="docutils literal notranslate"><span class="pre">pkg</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">&quot;pkg.sub_pkg.mod&quot;</span></code> for a module called <code class="docutils literal notranslate"><span class="pre">mod</span></code> inside of <code class="docutils literal notranslate"><span class="pre">pkg.sub_pkg</span></code>).</p></li>
+<li><p><strong>path</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – The path to the directory (or <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>) of the package, or the python
 file of the module.</p></li>
 <li><p><strong>evict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to evict the imported package from sys.modules after loading it.  This is
-necessary for functions generated in the <cite>sym</cite> namespace, since leaving them would make
-it impossible to <cite>import sym</cite> and get the <cite>symforce-sym</cite> package as expected.  For this
-reason, attempting to load a generated package called <cite>sym</cite> with <cite>evict=False</cite> is
-disallowed.  However, evict should be <cite>False</cite> for numba-compiled functions.</p></li>
+necessary for functions generated in the <code class="docutils literal notranslate"><span class="pre">sym</span></code> namespace, since leaving them would
+make it impossible to <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">sym</span></code> and get the <code class="docutils literal notranslate"><span class="pre">symforce-sym</span></code> package as expected.
+For this reason, attempting to load a generated package called <code class="docutils literal notranslate"><span class="pre">sym</span></code> with
+<code class="docutils literal notranslate"><span class="pre">evict=False</span></code> is disallowed.  However, evict should be <code class="docutils literal notranslate"><span class="pre">False</span></code> for numba-compiled
+functions.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -345,29 +348,30 @@ disallowed.  However, evict should be <cite>False</cite> for numba-compiled func
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.load_generated_function">
 <span class="sig-name descname"><span class="pre">load_generated_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_to_package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#load_generated_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.load_generated_function" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the function with name func_name found inside the package located at
-path_to_package.</p>
+<dd><p>Returns the function with name <code class="docutils literal notranslate"><span class="pre">func_name</span></code> found inside the package located at
+<code class="docutils literal notranslate"><span class="pre">path_to_package</span></code>.</p>
 <p>Example usage:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>def my_func(…):</dt><dd><p>…</p>
-</dd>
-</dl>
-<p>my_codegen = Codegen.function(my_func, config=PythonConfig())
-codegen_data = my_codegen.generate_function(output_dir=output_dir)
-generated_func = load_generated_function(“my_func”, codegen_data.function_dir)
-generated_func(…)</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_func</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="n">my_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">PythonConfig</span><span class="p">())</span>
+<span class="n">codegen_data</span> <span class="o">=</span> <span class="n">my_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
+<span class="n">generated_func</span> <span class="o">=</span> <span class="n">load_generated_function</span><span class="p">(</span><span class="s2">&quot;my_func&quot;</span><span class="p">,</span> <span class="n">codegen_data</span><span class="o">.</span><span class="n">function_dir</span><span class="p">)</span>
+<span class="n">generated_func</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path_to_package</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – a python package with an <cite>__init__.py</cite> containing a module defined in
-<cite>func_name.py</cite> which in turn defines an attribute named <cite>func_name</cite>. See the example
+<li><p><strong>path_to_package</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>]) – a python package with an <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> containing a module defined in
+<code class="docutils literal notranslate"><span class="pre">func_name.py</span></code> which in turn defines an attribute named <code class="docutils literal notranslate"><span class="pre">func_name</span></code>. See the example
 above.</p></li>
 <li><p><strong>evict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to evict the imported package from sys.modules after loading it.  This is
-necessary for functions generated in the <cite>sym</cite> namespace, since leaving them would make
-it impossible to <cite>import sym</cite> and get the <cite>symforce-sym</cite> package as expected.  However,
-this should be <cite>False</cite> for numba-compiled functions.</p></li>
+necessary for functions generated in the <code class="docutils literal notranslate"><span class="pre">sym</span></code> namespace, since leaving them would
+make it impossible to <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">sym</span></code> and get the <code class="docutils literal notranslate"><span class="pre">symforce-sym</span></code> package as expected.
+For this reason, attempting to load a generated package called <code class="docutils literal notranslate"><span class="pre">sym</span></code> with
+<code class="docutils literal notranslate"><span class="pre">evict=False</span></code> is disallowed.  However, evict should be <code class="docutils literal notranslate"><span class="pre">False</span></code> for numba-compiled
+functions.</p></li>
 <li><p><strong>func_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – </p></li>
 </ul>
 </dd>
@@ -380,18 +384,17 @@ this should be <cite>False</cite> for numba-compiled functions.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_util.load_generated_lcmtype">
 <span class="sig-name descname"><span class="pre">load_generated_lcmtype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lcmtypes_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_util.html#load_generated_lcmtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_util.load_generated_lcmtype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load an LCM type generated by Codegen.generate_function</p>
+<dd><p>Load an LCM type generated by
+<a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.Codegen.generate_function" title="symforce.codegen.codegen.Codegen.generate_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Codegen.generate_function</span></code></a></p>
 <p>Example usage:</p>
-<blockquote>
-<div><p>my_codegen = Codegen(my_func, config=PythonConfig())
-codegen_data = my_codegen.generate_function(output_dir=output_dir, namespace=namespace)
-my_type_t = codegen_util.load_generated_lcmtype(</p>
-<blockquote>
-<div><p>namespace, “my_type_t”, codegen_data.python_types_dir</p>
-</div></blockquote>
-<p>)
-my_type_msg = my_type_t(foo=5)</p>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">my_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">PythonConfig</span><span class="p">())</span>
+<span class="n">codegen_data</span> <span class="o">=</span> <span class="n">my_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">namespace</span><span class="p">)</span>
+<span class="n">my_type_t</span> <span class="o">=</span> <span class="n">codegen_util</span><span class="o">.</span><span class="n">load_generated_lcmtype</span><span class="p">(</span>
+    <span class="n">namespace</span><span class="p">,</span> <span class="s2">&quot;my_type_t&quot;</span><span class="p">,</span> <span class="n">codegen_data</span><span class="o">.</span><span class="n">python_types_dir</span>
+<span class="p">)</span>
+<span class="n">my_type_msg</span> <span class="o">=</span> <span class="n">my_type_t</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

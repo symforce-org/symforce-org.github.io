@@ -48,10 +48,10 @@
 <p>The storage is a quaternion (x, y, z, w) for rotation followed by position (x, y, z).</p>
 <p>The tangent space is 3 elements for rotation followed by 3 elements for translation in the
 non-rotated frame.</p>
-<p>For Lie group enthusiasts: This class is on the PRODUCT manifold, if you really really want
-SE(3) you should use Pose3_SE3.  On this class, the group operations (e.g. compose and between)
-operate as you’d expect for a Pose or SE(3), but the manifold operations (e.g. retract and
-local_coordinates) operate on the product manifold SO(3) x R3.  This means that:</p>
+<p>For Lie group enthusiasts: This class is on the PRODUCT manifold.  On this class, the group
+operations (e.g. compose and between) operate as you’d expect for a Pose or SE(3), but the
+manifold operations (e.g. retract and local_coordinates) operate on the product manifold
+SO(3) x R3.  This means that:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>retract(a, vec) != compose(a, from_tangent(vec))</p></li>
@@ -59,6 +59,10 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <li><p>There is no hat operator, because from_tangent/to_tangent is not the matrix exp/log</p></li>
 </ul>
 </div></blockquote>
+<p>If you need a type that has these properties in symbolic expressions, you should use
+<a class="reference internal" href="symforce.geo.unsupported.pose3_se3.html#symforce.geo.unsupported.pose3_se3.Pose3_SE3" title="symforce.geo.unsupported.pose3_se3.Pose3_SE3"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.geo.unsupported.pose3_se3.Pose3_SE3</span></code></a>. There is no runtime equivalent of
+<a class="reference internal" href="symforce.geo.unsupported.pose3_se3.html#symforce.geo.unsupported.pose3_se3.Pose3_SE3" title="symforce.geo.unsupported.pose3_se3.Pose3_SE3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pose3_SE3</span></code></a>, see the docstring on that
+class for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -91,7 +95,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.rotation">
 <span class="sig-name descname"><span class="pre">rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.rotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor for the rotation component</p>
-<p>Does not make a copy.  Also accessible as <cite>self.R</cite></p>
+<p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.R</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a></p>
@@ -103,7 +107,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.position">
 <span class="sig-name descname"><span class="pre">position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor for the position component</p>
-<p>Does not make a copy.  Also accessible as <cite>self.t</cite></p>
+<p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.t</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a></p>
@@ -125,7 +129,7 @@ local_coordinates) operate on the product manifold SO(3) x R3.  This means that:
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.geo.pose3.Pose3.storage_dim" title="symforce.geo.pose3.Pose3.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -137,7 +141,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.geo.pose3.Pose3.to_storage" title="symforce.geo.pose3.Pose3.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -155,7 +159,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -173,7 +177,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.identity">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">identity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.identity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.identity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Identity element such that <cite>compose(a, identity) = a</cite>.</p>
+<dd><p>Identity element such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">identity)</span> <span class="pre">=</span> <span class="pre">a</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cls</strong> (<em>T.Type</em><em>[</em><em>Pose3T</em><em>]</em>) – </p>
@@ -204,7 +208,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.inverse">
 <span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.inverse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Group inverse, such that <cite>compose(a, inverse(a)) = identity</cite>.</p>
+<dd><p>Group inverse, such that <code class="docutils literal notranslate"><span class="pre">compose(a,</span> <span class="pre">inverse(a))</span> <span class="pre">=</span> <span class="pre">identity</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
@@ -264,7 +268,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.storage_D_tangent">
 <span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/storage_D_tangent.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
@@ -278,7 +282,7 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.geo.pose3.Pose3.tangent_D_storage">
 <span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Note: generated from symforce/notebooks/tangent_D_storage.ipynb</p>
+<dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
@@ -294,9 +298,9 @@ to sf.Symbol (for example, sympy assumptions).</p>
 <span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.retract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Applies a tangent space perturbation vec to self. Often used in optimization
 to update nonlinear values from an update step in the tangent space.</p>
-<p>Conceptually represents “self + vec” if self is a vector.</p>
+<p>Conceptually represents <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">+</span> <span class="pre">vec</span></code> if self is a vector.</p>
 <p>Implementation retracts the R and t components separately, which is different from
-<cite>compose(self, from_tangent(vec))</cite>.  See the class docstring for more information.</p>
+<code class="docutils literal notranslate"><span class="pre">compose(self,</span> <span class="pre">from_tangent(vec))</span></code>.  See the class docstring for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -316,9 +320,9 @@ to update nonlinear values from an update step in the tangent space.</p>
 <span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.pose3.Pose3.local_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
 to minimize the distance between two group elements.</p>
-<p>Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
+<p>Tangent space perturbation that conceptually represents <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">-</span> <span class="pre">self</span></code> if self is a vector.</p>
 <p>Implementation takes local_coordinates of the R and t components separately, which is
-different from <cite>to_tangent(between(self, b))</cite>.  See the class docstring for more
+different from <code class="docutils literal notranslate"><span class="pre">to_tangent(between(self,</span> <span class="pre">b))</span></code>.  See the class docstring for more
 information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

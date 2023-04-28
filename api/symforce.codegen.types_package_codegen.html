@@ -157,29 +157,35 @@ and references to external LCM types.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>package_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Package of LCM types to be generated</p></li>
 <li><p><strong>file_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Name of the LCM file to generate (without the extension)</p></li>
-<li><p><strong>values_indices</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="symforce.values.index_entry.html#symforce.values.index_entry.IndexEntry" title="symforce.values.index_entry.IndexEntry"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexEntry</span></code></a>]]) – Mapping between the name each LCM type to be generated and its index (computed using Values.index())</p></li>
-<li><p><strong>shared_types</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – <p>Used to specify whether specific types and subtypes have already been generated, either externally or internally
-(i.e. if one generated type is to represent multiple objects in values_indices).
+<li><p><strong>values_indices</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="symforce.values.index_entry.html#symforce.values.index_entry.IndexEntry" title="symforce.values.index_entry.IndexEntry"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexEntry</span></code></a>]]) – Mapping between the name each LCM type to be generated and its index
+(computed using <code class="xref py py-meth docutils literal notranslate"><span class="pre">Values.index</span></code>)</p></li>
+<li><p><strong>shared_types</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Mapping</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]) – <p>Used to specify whether specific types and subtypes have already been
+generated, either externally or internally (e.g. if one generated type is to represent
+multiple objects in <code class="docutils literal notranslate"><span class="pre">values_indices</span></code>).
 Usage examples:</p>
 <blockquote>
 <div><dl class="simple">
-<dt>shared_types={“my_values”<span class="classifier">”external_package.my_values”} (Reuse the implementation of “my_values” defined in package</span></dt><dd><p>”external_package”, meaning that “my_values” as defined in values_indices will not be generated. Note
-that “external_package” can equal package_name, e.g. when generating multiple functions in the same package which
-reuse the same types)</p>
+<dt>shared_types={“my_values”<span class="classifier">”external_package.my_values”}</span></dt><dd><p>(Reuse the implementation of “my_values” defined in package “external_package”,
+meaning that “my_values” as defined in values_indices will not be generated.
+Note that “external_package” can equal package_name, e.g. when generating
+multiple functions in the same package which reuse the same types)</p>
 </dd>
-<dt>shared_types={“my_values.V1”<span class="classifier">”my_subvalues_t”, “my_values.V2”</span><span class="classifier">”my_subvalues_t”} (Only generate one type named</span></dt><dd><p>”my_subvalues_t” to represent Values objects defined by “my_values.V1” and “my_values.V2”.</p>
+<dt>shared_types={“my_values.V1”<span class="classifier">”my_subvalues_t”, “my_values.V2”</span><span class="classifier">”my_subvalues_t”}</span></dt><dd><p>(Only generate one type named “my_subvalues_t” to represent Values objects
+defined by “my_values.V1” and “my_values.V2”).</p>
 </dd>
 </dl>
 </div></blockquote>
 </p></li>
 <li><p><strong>scalar_type</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Type of scalars used in LCM type definition</p></li>
-<li><p><strong>output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Where to output the files. “.lcm” files are output in “output_dir/lcmtypes”, and language-specific implementations
-are generated in “output_dir/package_name”.</p></li>
-<li><p><strong>lcm_bindings_output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Where to output language-specific LCM bindings.  Defaults to output_dir</p></li>
-<li><p><strong>templates</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.codegen.template_util.html#symforce.codegen.template_util.TemplateList" title="symforce.codegen.template_util.TemplateList"><code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateList</span></code></a>]) – TemplateList used if types are being generated as part of a larger code generation (e.g. when generating the
-types required by a generated function). If None, we generate both the “.lcm” files and the language-specific
-implementations, else we assume the templates and language-specific type implementations will be rendered
-in an external function.</p></li>
+<li><p><strong>output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Where to output the files. <code class="docutils literal notranslate"><span class="pre">.lcm</span></code> files are output in <code class="docutils literal notranslate"><span class="pre">output_dir/lcmtypes</span></code>,
+and language-specific implementations are generated in <code class="docutils literal notranslate"><span class="pre">output_dir/package_name</span></code>.</p></li>
+<li><p><strong>lcm_bindings_output_dir</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">PathLike</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – Where to output language-specific LCM bindings.  Defaults to
+<code class="docutils literal notranslate"><span class="pre">output_dir</span></code></p></li>
+<li><p><strong>templates</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="symforce.codegen.template_util.html#symforce.codegen.template_util.TemplateList" title="symforce.codegen.template_util.TemplateList"><code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateList</span></code></a>]) – TemplateList used if types are being generated as part of a larger code
+generation (e.g. when generating the types required by a generated function). If None,
+we generate both the <code class="docutils literal notranslate"><span class="pre">.lcm</span></code> files and the language-specific implementations, else we
+assume the templates and language-specific type implementations will be rendered in an
+external function.</p></li>
 <li><p><strong>use_eigen_types</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – </p></li>
 </ul>
 </dd>
@@ -192,7 +198,8 @@ in an external function.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.types_package_codegen.build_types_dict">
 <span class="sig-name descname"><span class="pre">build_types_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values_indices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shared_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/types_package_codegen.html#build_types_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.types_package_codegen.build_types_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the structure of the types we need to generate for the given Values.</p>
+<dd><p>Compute the structure of the types we need to generate for the given
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -227,8 +234,8 @@ in an external function.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.codegen.types_package_codegen.get_subvalues_from_list_index">
 <span class="sig-name descname"><span class="pre">get_subvalues_from_list_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/types_package_codegen.html#get_subvalues_from_list_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.types_package_codegen.get_subvalues_from_list_index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns index of Values object if base element of list is a Values object,
-otherwise returns None</p>
+<dd><p>Returns index of <code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code> object if base element of list is a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code> object, otherwise returns <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>list_index</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <a class="reference internal" href="symforce.values.index_entry.html#symforce.values.index_entry.IndexEntry" title="symforce.values.index_entry.IndexEntry"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexEntry</span></code></a>]) – </p>

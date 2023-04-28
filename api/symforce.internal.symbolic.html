@@ -43,29 +43,27 @@
 <p>The (symforce-internal) core symbolic API</p>
 <p>This represents the core functions that comprise SymForce’s unified version of the SymPy API,
 without additional imports that would cause import cycles.  This means this module is safe to be
-imported from those modules within SymForce.  Users should instead import <cite>symforce.symbolic</cite>, which
-includes the entire SymForce symbolic API.</p>
+imported from those modules within SymForce.  Users should instead import <a class="reference internal" href="symforce.symbolic.html#module-symforce.symbolic" title="symforce.symbolic"><code class="xref py py-mod docutils literal notranslate"><span class="pre">symforce.symbolic</span></code></a>,
+which includes the entire SymForce symbolic API.</p>
 <p>This combines functions available from various sources:</p>
 <ul class="simple">
 <li><p>Many functions we expose from the SymPy (and SymEngine) API</p></li>
 <li><p>Additional functions defined here to override those provided by SymPy or SymEngine, or provide a
 uniform interface between the two.  See <a class="reference external" href="https://symforce.org/api/symforce.symbolic.html">https://symforce.org/api/symforce.symbolic.html</a> for
 information on these</p></li>
-<li><p>Logic functions defined in <cite>symforce.logic</cite>, see the documentation for that module</p></li>
+<li><p>Logic functions defined in <a class="reference internal" href="symforce.logic.html#module-symforce.logic" title="symforce.logic"><code class="xref py py-mod docutils literal notranslate"><span class="pre">symforce.logic</span></code></a>, see the documentation for that module</p></li>
 </ul>
 <p>It typically isn’t necessary to actually access the symbolic API being used internally, but that is
-available as well as <cite>symforce.symbolic.sympy</cite>.</p>
+available as well as <code class="xref py py-mod docutils literal notranslate"><span class="pre">symforce.symbolic.sympy</span></code>.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.internal.symbolic.epsilon">
 <span class="sig-name descname"><span class="pre">epsilon</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#epsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.epsilon" title="Permalink to this definition">¶</a></dt>
 <dd><p>The default epsilon for SymForce</p>
 <p>Library functions that require an epsilon argument should use a function signature like:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>def foo(x: Scalar, epsilon: Scalar = sf.epsilon()) -&gt; Scalar:</dt><dd><p>…</p>
-</dd>
-</dl>
-</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
 <p>This makes it easy to configure entire expressions that make extensive use of epsilon to either
 use no epsilon (i.e. 0), or a symbol, or a numerical value.  It also means that by setting the
 default to a symbol, you can confidently generate code without worrying about having forgotten
@@ -73,14 +71,14 @@ to pass an epsilon argument to one of these functions.</p>
 <p>For more information on how we use epsilon to prevent singularities, see the Epsilon Tutorial
 in the SymForce docs here: <a class="reference external" href="https://symforce.org/tutorials/epsilon_tutorial.html">https://symforce.org/tutorials/epsilon_tutorial.html</a></p>
 <p>For purely numerical code that just needs a good default numerical epsilon, see
-<cite>symforce.symbolic.numeric_epsilon</cite>.</p>
-<dl class="simple">
-<dt>Returns: The current default epsilon.  This is typically some kind of “Scalar”, like a float or</dt><dd><p>a Symbol.</p>
-</dd>
-</dl>
+<code class="xref py py-data docutils literal notranslate"><span class="pre">symforce.symbolic.numeric_epsilon</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The current default epsilon.  This is typically some kind of “Scalar”, like a float or a
+<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">Symbol</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -137,7 +135,7 @@ in the SymForce docs here: <a class="reference external" href="https://symforce.
 <span class="sig-name descname"><span class="pre">wrap_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#wrap_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.wrap_angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap an angle to the interval [-pi, pi).  Commonly used to compute the shortest signed
 distance between two angles.</p>
-<p>See also: <cite>angle_diff</cite></p>
+<p>See also: <a class="reference internal" href="#symforce.internal.symbolic.angle_diff" title="symforce.internal.symbolic.angle_diff"><code class="xref py py-func docutils literal notranslate"><span class="pre">angle_diff()</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – </p>
@@ -153,7 +151,7 @@ distance between two angles.</p>
 <span class="sig-name descname"><span class="pre">angle_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#angle_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.angle_diff" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the difference x - y, but wrapped into [-pi, pi); i.e. the angle <cite>diff</cite> closest to 0
 such that x = y + diff (mod 2pi).</p>
-<p>See also: <cite>wrap_angle</cite></p>
+<p>See also: <a class="reference internal" href="#symforce.internal.symbolic.wrap_angle" title="symforce.internal.symbolic.wrap_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">wrap_angle()</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -201,8 +199,8 @@ such that x = y + diff (mod 2pi).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.internal.symbolic.argmax_onehot">
 <span class="sig-name descname"><span class="pre">argmax_onehot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#argmax_onehot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.argmax_onehot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list l such that l[i] = 1.0 if i is the smallest index such that
-vals[i] equals Max(<a href="#id1"><span class="problematic" id="id2">*</span></a>vals). l[i] = 0.0 otherwise.</p>
+<dd><p>Returns a list <code class="docutils literal notranslate"><span class="pre">l</span></code> such that <code class="docutils literal notranslate"><span class="pre">l[i]</span> <span class="pre">=</span> <span class="pre">1.0</span></code> if <code class="docutils literal notranslate"><span class="pre">i</span></code> is the smallest index such that
+<code class="docutils literal notranslate"><span class="pre">vals[i]</span></code> equals <code class="docutils literal notranslate"><span class="pre">Max(*vals)</span></code>. <code class="docutils literal notranslate"><span class="pre">l[i]</span> <span class="pre">=</span> <span class="pre">0.0</span></code> otherwise.</p>
 <dl class="simple">
 <dt>Precondition:</dt><dd><p>vals has at least one element</p>
 </dd>
@@ -220,8 +218,8 @@ vals[i] equals Max(<a href="#id1"><span class="problematic" id="id2">*</span></a
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.internal.symbolic.argmax">
 <span class="sig-name descname"><span class="pre">argmax</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#argmax"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.argmax" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns i (as a Scalar) such that i is the smallest index such that
-vals[i] equals Max(<a href="#id3"><span class="problematic" id="id4">*</span></a>vals).</p>
+<dd><p>Returns <code class="docutils literal notranslate"><span class="pre">i</span></code> (as a Scalar) such that <code class="docutils literal notranslate"><span class="pre">i</span></code> is the smallest index such that
+<code class="docutils literal notranslate"><span class="pre">vals[i]</span></code> equals <code class="docutils literal notranslate"><span class="pre">Max(*vals)</span></code>.</p>
 <dl class="simple">
 <dt>Precondition:</dt><dd><p>vals has at least one element</p>
 </dd>
@@ -288,9 +286,13 @@ vals[i] equals Max(<a href="#id3"><span class="problematic" id="id4">*</span></a
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.internal.symbolic.clamp">
 <span class="sig-name descname"><span class="pre">clamp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#clamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.clamp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns min_value if x &lt; min_value
-Returns x if min_value &lt; x &lt; max_value
-Returns max_value if x &gt; max_value</p>
+<dd><p>Clamps x between min_value and max_value</p>
+<p>Returns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">min_value</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">min_value</span>
+<span class="n">x</span> <span class="k">if</span> <span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">max_value</span>
+<span class="n">max_value</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">max_value</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

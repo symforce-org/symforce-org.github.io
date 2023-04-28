@@ -306,19 +306,20 @@
 <span class="sd">                Additionally, keyword only arguments will be set to their default values and not</span>
 <span class="sd">                included in the signature of the generated function.</span>
 <span class="sd">            input_types: List of types of the inputs to the given function.  This is optional; if</span>
-<span class="sd">                `func` has type annotations, `input_types` can be deduced from those.  Note that</span>
+<span class="sd">                ``func`` has type annotations, ``input_types`` can be deduced from those.  Note that</span>
 <span class="sd">                if the type annotation doesn&#39;t match what you want the arguments to be, you need</span>
-<span class="sd">                to specify manually, for instance a function add(x: T.Any, y: T.Any) -&gt; T.Any that</span>
-<span class="sd">                you want to use to generate add(x: sf.Matrix33, y: sf.Matrix33) -&gt; sf.Matrix33</span>
+<span class="sd">                to specify manually, for instance a function ``add(x: T.Any, y: T.Any) -&gt; T.Any``</span>
+<span class="sd">                that you want to use to generate</span>
+<span class="sd">                ``add(x: sf.Matrix33, y: sf.Matrix33) -&gt; sf.Matrix33``</span>
 <span class="sd">            config: Programming language and configuration in which the function is to be generated</span>
 <span class="sd">            name: Name of the function to be generated; if not provided, will be deduced from the</span>
-<span class="sd">                function name.  Must be provided if `func` is a lambda</span>
-<span class="sd">            output_names: Names to give to outputs returned from `func`.  If None (the default),</span>
-<span class="sd">                names will be chosen as f&quot;res{i}&quot; for functions that return multiple results, or</span>
-<span class="sd">                &quot;res&quot; for functions that return a single result</span>
+<span class="sd">                function name.  Must be provided if ``func`` is a lambda</span>
+<span class="sd">            output_names: Names to give to outputs returned from ``func``.  If ``None`` (the</span>
+<span class="sd">                default), names will be chosen as ``f&quot;res{i}&quot;`` for functions that return multiple</span>
+<span class="sd">                results, or ``&quot;res&quot;`` for functions that return a single result</span>
 <span class="sd">            sparse_matrices: Outputs with this key will be returned as sparse matrices</span>
 <span class="sd">            return_key: If multiple objects are returned, the generated function will return</span>
-<span class="sd">                the object with this name (must be in output_names)</span>
+<span class="sd">                the object with this name (must be in ``output_names``)</span>
 <span class="sd">            docstring: The docstring to be used with the generated function.  Default is to use the</span>
 <span class="sd">                       existing docstring</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -396,6 +397,9 @@
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;python_util&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">python_util</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;typing_util&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">typing_util</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;lcm_type_t_include_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&lt;lcmtypes/sym/type_t.hpp&gt;&quot;</span>
+
+        <span class="c1"># TODO(aaron): Replace uses of members of sf above</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;sf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span>
 
         <span class="k">def</span> <span class="nf">is_symbolic</span><span class="p">(</span><span class="n">T</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">))</span>
@@ -479,15 +483,17 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates a function that computes the given outputs from the given inputs.</span>
 
-<span class="sd">        Usage for generating multiple functions with a shared type:</span>
+<span class="sd">        Usage for generating multiple functions with a shared type::</span>
+
 <span class="sd">            codegen_obj_1.generate_function(namespace=&quot;my_namespace&quot;)</span>
 <span class="sd">            shared_types = {&quot;my_type&quot;: &quot;my_namespace.my_type_t&quot;}</span>
 <span class="sd">            codegen_obj_2.generate_function(shared_types=shared_types, namespace=&quot;my_namespace&quot;)</span>
 
-<span class="sd">        In the example above, both codegen_obj_1 and codegen_obj_2 use the type &quot;my_type&quot;. During</span>
-<span class="sd">        the first call to &quot;generate_function&quot; we generate the type &quot;my_type&quot;, and it then becomes</span>
-<span class="sd">        a shared type for the second call to &quot;generate_function&quot;. This signals that &quot;my_type&quot; does</span>
-<span class="sd">        not need to be generated during the second call to &quot;generate_function&quot; as it already exists.</span>
+<span class="sd">        In the example above, both ``codegen_obj_1`` and ``codegen_obj_2`` use the type</span>
+<span class="sd">        ``&quot;my_type&quot;``. During the first call to :meth:`generate_function` we generate the type</span>
+<span class="sd">        ``&quot;my_type&quot;``, and it then becomes a shared type for the second call to</span>
+<span class="sd">        :meth:`generate_function`. This signals that ``&quot;my_type&quot;`` does not need to be generated</span>
+<span class="sd">        during the second call to :meth:`generate_function` as it already exists.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            output_dir: Directory in which to output the generated function. Any generated types will</span>
@@ -717,10 +723,10 @@
 <span class="sd">        create a new codegen object that additionally computes the jacobian (or the full</span>
 <span class="sd">        Gauss-Newton linearization) with respect to the given input arguments.</span>
 
-<span class="sd">        The jacobians are in the tangent spaces of the inputs and outputs, see jacobian_helpers.py</span>
-<span class="sd">        for more information.</span>
+<span class="sd">        The jacobians are in the tangent spaces of the inputs and outputs, see</span>
+<span class="sd">        :mod:`jacobian_helpers.py &lt;symforce.jacobian_helpers&gt;` for more information.</span>
 
-<span class="sd">        The previous codegen object (the `self` argument to this function) is unmodified by this</span>
+<span class="sd">        The previous codegen object (the ``self`` argument to this function) is unmodified by this</span>
 <span class="sd">        function and still valid after this function returns.</span>
 
 <span class="sd">        Args:</span>

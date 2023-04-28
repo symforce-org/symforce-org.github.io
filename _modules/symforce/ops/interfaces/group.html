@@ -65,7 +65,7 @@
 <div class="viewcode-block" id="Group.identity"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.group.html#symforce.ops.interfaces.group.Group.identity">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">GroupT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">GroupT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Identity element such that `compose(a, identity) = a`.</span>
+<span class="sd">        Identity element such that ``compose(a, identity) = a``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
@@ -77,15 +77,16 @@
 
 <div class="viewcode-block" id="Group.inverse"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.group.html#symforce.ops.interfaces.group.Group.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">GroupT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GroupT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Group inverse, such that `compose(a, inverse(a)) = identity`.</span>
+<span class="sd">        Group inverse, such that ``compose(a, inverse(a)) = identity``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Group.between"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.group.html#symforce.ops.interfaces.group.Group.between">[docs]</a>    <span class="k">def</span> <span class="nf">between</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">GroupT</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">GroupT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GroupT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the element that when composed with self produces b. For vector spaces it is `b - self`.</span>
+<span class="sd">        Returns the element that when composed with self produces b. For vector spaces it is</span>
+<span class="sd">        ``b - self``.</span>
 
-<span class="sd">        Implementation is simply `compose(inverse(self), b)`.</span>
+<span class="sd">        Implementation is simply ``compose(inverse(self), b)``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">b</span><span class="p">)</span></div></div>
 

@@ -78,7 +78,7 @@
 
 <div class="viewcode-block" id="Storage.to_storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">StorageT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Flat list representation of the underlying storage, length of STORAGE_DIM.</span>
+<span class="sd">        Flat list representation of the underlying storage, length of :meth:`storage_dim`.</span>
 <span class="sd">        This is used purely for plumbing, it is NOT like a tangent space.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
@@ -86,7 +86,7 @@
 <div class="viewcode-block" id="Storage.from_storage"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.ops.interfaces.storage.Storage.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">StorageT</span><span class="p">],</span> <span class="n">elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct from a flat list representation. Opposite of `.to_storage()`.</span>
+<span class="sd">        Construct from a flat list representation. Opposite of :meth:`to_storage`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
@@ -123,7 +123,7 @@
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">StorageT</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct a symbolic element with the given name prefix. Kwargs are forwarded</span>
-<span class="sd">        to sf.Symbol (for example, sympy assumptions).</span>
+<span class="sd">        to :class:`sf.Symbol &lt;symforce.symbolic.Symbol&gt;` (for example, sympy assumptions).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span>
             <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">())]</span>

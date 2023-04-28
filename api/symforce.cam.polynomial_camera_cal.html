@@ -44,15 +44,17 @@
 <dt class="sig sig-object py" id="symforce.cam.polynomial_camera_cal.PolynomialCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PolynomialCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_undistorted_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_fov</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0943951023931953</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.polynomial_camera_cal.PolynomialCameraCal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
-<p>Polynomial camera model in the style of OpenCV.
-Distortion is a multiplicitive factor applied to the image plane coordinates in the camera
+<p>Polynomial camera model in the style of OpenCV</p>
+<p>Distortion is a multiplicative factor applied to the image plane coordinates in the camera
 frame. Mapping between distorted image plane coordinates and image coordinates is done using
 a standard linear model.</p>
 <p>The distortion function is a 6th order even polynomial that is a function of the radius of the
-image plane coordinates.
-r = (p_img[0] ** 2 + p_img[1]**2) ** 0.5
-distorted_weight = 1 + c0 * r^2 + c1 * r^4 + c2 * r^6
-uv = p_img * distorted_weight</p>
+image plane coordinates:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">p_img</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">p_img</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+<span class="n">distorted_weight</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">c0</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">4</span> <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">6</span>
+<span class="n">uv</span> <span class="o">=</span> <span class="n">p_img</span> <span class="o">*</span> <span class="n">distorted_weight</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -155,7 +157,6 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dt class="sig sig-object py" id="symforce.cam.polynomial_camera_cal.PolynomialCameraCal.camera_ray_from_pixel">
 <span class="sig-name descname"><span class="pre">camera_ray_from_pixel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.camera_ray_from_pixel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.camera_ray_from_pixel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
-<p>TODO(hayk): Add a normalize boolean argument? Like in <cite>cam.Camera</cite></p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The ray in the camera frame (NOT normalized)
@@ -187,7 +188,7 @@ is_valid: 1 if the operation is within bounds else 0</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.cam.polynomial_camera_cal.PolynomialCameraCal.to_storage">
 <span class="sig-name descname"><span class="pre">to_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.to_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.to_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Flat list representation of the underlying storage, length of STORAGE_DIM.
+<dd><p>Flat list representation of the underlying storage, length of <a class="reference internal" href="#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.storage_dim" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal.storage_dim"><code class="xref py py-meth docutils literal notranslate"><span class="pre">storage_dim()</span></code></a>.
 This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -199,7 +200,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.cam.polynomial_camera_cal.PolynomialCameraCal.from_storage">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.from_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.from_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct from a flat list representation. Opposite of <cite>.to_storage()</cite>.</p>
+<dd><p>Construct from a flat list representation. Opposite of <a class="reference internal" href="#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.to_storage" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal.to_storage"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_storage()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>vec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – </p>
@@ -214,7 +215,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dt class="sig sig-object py" id="symforce.cam.polynomial_camera_cal.PolynomialCameraCal.symbolic">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbolic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal.symbolic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.polynomial_camera_cal.PolynomialCameraCal.symbolic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a symbolic element with the given name prefix. Kwargs are forwarded
-to sf.Symbol (for example, sympy assumptions).</p>
+to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol" title="symforce.symbolic.Symbol"><code class="xref py py-class docutils literal notranslate"><span class="pre">sf.Symbol</span></code></a> (for example, sympy assumptions).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

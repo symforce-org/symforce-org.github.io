@@ -42,9 +42,14 @@
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Initialization configuration for symforce, as minimal as possible.</span>
+<span class="sd">The top-level symforce package</span>
+
+<span class="sd">Importing this by itself performs minimal initialization configuration, and the functions here are</span>
+<span class="sd">mostly for configuration purposes.</span>
+
+<span class="sd">In particular, this primarily performs configuration that you might need before importing</span>
+<span class="sd">:mod:`symforce.symbolic`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -82,7 +87,7 @@
 <span class="sd">        2) Calling this function before any other symforce imports</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        log_level (str): {DEBUG, INFO, WARNING, ERROR, CRITICAL}</span>
+<span class="sd">        log_level: {DEBUG, INFO, WARNING, ERROR, CRITICAL}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Set default log level</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">log_level</span><span class="o">.</span><span class="n">upper</span><span class="p">()):</span>
@@ -211,7 +216,7 @@
 <span class="sd">        2) Calling this function before any other symforce imports</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name (str): {sympy, symengine}</span>
+<span class="sd">        name: {sympy, symengine}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">_have_imported_symbolic</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="n">_symbolic_api</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -283,9 +288,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the default epsilon for SymForce</span>
 
-<span class="sd">    This must be called before `symforce.symbolic` or other symbolic libraries have been imported.</span>
-<span class="sd">    Typically it should be set to some kind of Scalar, such as an int, float, or Symbol.  See</span>
-<span class="sd">    `symforce.symbolic.epsilon` for more information.</span>
+<span class="sd">    This must be called before :mod:`symforce.symbolic` or other symbolic libraries have been</span>
+<span class="sd">    imported. Typically it should be set to some kind of Scalar, such as an int, float, or Symbol.</span>
+<span class="sd">    See :func:`symforce.symbolic.epsilon` for more information.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        new_epsilon: The new default epsilon to use</span>
@@ -304,8 +309,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the default epsilon for Symforce to a Symbol.</span>
 
-<span class="sd">    This must be called before `symforce.symbolic` or other symbolic libraries have been imported.</span>
-<span class="sd">    See `symforce.symbolic.epsilon` for more information.</span>
+<span class="sd">    This must be called before :mod:`symforce.symbolic` or other symbolic libraries have been</span>
+<span class="sd">    imported. See :func:`symforce.symbolic.epsilon` for more information.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        name: The name of the symbol for the new default epsilon to use</span>
@@ -324,8 +329,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the default epsilon for Symforce to a number.</span>
 
-<span class="sd">    This must be called before `symforce.symbolic` or other symbolic libraries have been imported.</span>
-<span class="sd">    See `symforce.symbolic.epsilon` for more information.</span>
+<span class="sd">    This must be called before :mod:`symforce.symbolic` or other symbolic libraries have been</span>
+<span class="sd">    imported. See :func:`symforce.symbolic.epsilon` for more information.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        value: The new default epsilon to use</span>
@@ -337,23 +342,23 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the default epsilon for Symforce to zero.</span>
 
-<span class="sd">    This must be called before `symforce.symbolic` or other symbolic libraries have been imported.</span>
-<span class="sd">    See `symforce.symbolic.epsilon` for more information.</span>
+<span class="sd">    This must be called before :mod:`symforce.symbolic` or other symbolic libraries have been</span>
+<span class="sd">    imported. See :func:`symforce.symbolic.epsilon` for more information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_set_epsilon</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="set_epsilon_to_invalid"><a class="viewcode-back" href="../api/symforce.html#symforce.set_epsilon_to_invalid">[docs]</a><span class="k">def</span> <span class="nf">set_epsilon_to_invalid</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set the default epsilon for SymForce to `None`.  Should not be used to actually create</span>
+<span class="sd">    Set the default epsilon for SymForce to ``None``.  Should not be used to actually create</span>
 <span class="sd">    expressions or generate code.</span>
 
 <span class="sd">    This is useful if you&#39;ve forgotten to pass an epsilon somewhere, but are not sure where - using</span>
-<span class="sd">    this epsilon in an expression should throw a `TypeError` near the location where you forgot to</span>
+<span class="sd">    this epsilon in an expression should throw a ``TypeError`` near the location where you forgot to</span>
 <span class="sd">    pass an epsilon.</span>
 
-<span class="sd">    This must be called before `symforce.symbolic` or other symbolic libraries have been imported.</span>
-<span class="sd">    See `symforce.symbolic.epsilon` for more information.</span>
+<span class="sd">    This must be called before :mod:`symforce.symbolic` or other symbolic libraries have been</span>
+<span class="sd">    imported. See :func:`symforce.symbolic.epsilon` for more information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_set_epsilon</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
 </pre></div>

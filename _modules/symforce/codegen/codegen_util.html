@@ -112,7 +112,8 @@
 <span class="sd">        in CSC form.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            sparse_matrix: A symbolic sf.Matrix where sparsity is given by exact zero equality.</span>
+<span class="sd">            sparse_matrix: A symbolic :class:`sf.Matrix &lt;symforce.geo.matrix.Matrix&gt;` where sparsity</span>
+<span class="sd">                is given by exact zero equality.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">kColPtrs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">kRowIndices</span> <span class="o">=</span> <span class="p">[]</span>
@@ -164,7 +165,7 @@
 <span class="sd">        inputs: Values object specifying names and symbolic inputs</span>
 <span class="sd">        outputs: Values object specifying names and output expressions (written in terms</span>
 <span class="sd">            of the symbolic inputs)</span>
-<span class="sd">        sparse_mat_data: Data associated with sparse matrices. sparse_mat_data[&quot;keys&quot;] stores</span>
+<span class="sd">        sparse_mat_data: Data associated with sparse matrices. ``sparse_mat_data[&quot;keys&quot;]`` stores</span>
 <span class="sd">            a list of the keys in outputs which should be treated as sparse matrices</span>
 <span class="sd">        config: Programming language and configuration in which the expressions are to be generated</span>
 <span class="sd">        cse: Perform common sub-expression elimination</span>
@@ -274,7 +275,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        output_exprs: expressions on which to perform cse</span>
-<span class="sd">        cse_optimizations: optimizations to be forwarded to sf.cse</span>
+<span class="sd">        cse_optimizations: optimizations to be forwarded to :func:`sf.cse &lt;symforce.symbolic.cse&gt;`</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        T_terms: Temporary variables holding the common sub-expressions found within output_exprs</span>
@@ -322,8 +323,10 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T_terms</span><span class="p">,</span> <span class="n">T_nested_terms</span><span class="p">,</span> <span class="n">T_nested_terms</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reformats symbolic variables used in intermediate and outputs terms to match structure of</span>
-<span class="sd">    inputs/outputs. For example if we have an input array &quot;arr&quot; with symbolic elements [arr0, arr1],</span>
-<span class="sd">    we will remap symbol &quot;arr0&quot; to &quot;arr[0]&quot; and symbol &quot;arr1&quot; to &quot;arr[1]&quot;.</span>
+<span class="sd">    inputs/outputs.</span>
+
+<span class="sd">    For example, if we have an input array ``&quot;arr&quot;`` with symbolic elements ``[arr0, arr1]``,</span>
+<span class="sd">    we will remap symbol ``&quot;arr0&quot;`` to ``&quot;arr[0]&quot;`` and symbol ``&quot;arr1&quot;`` to ``&quot;arr[1]&quot;``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Rename the symbolic inputs so that they match the code we generate</span>
 
@@ -607,16 +610,17 @@
 <span class="sd">    Dynamically load generated package (or module).</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name: The full name of the package or module to load (for example, &quot;pkg.sub_pkg&quot;</span>
-<span class="sd">              for a package called &quot;sub_pkg&quot; inside of another package &quot;pkg&quot;, or</span>
-<span class="sd">              &quot;pkg.sub_pkg.mod&quot; for a module called &quot;mod&quot; inside of pkg.sub_pkg).</span>
-<span class="sd">        path: The path to the directory (or __init__.py) of the package, or the python</span>
+<span class="sd">        name: The full name of the package or module to load (for example, ``&quot;pkg.sub_pkg&quot;``</span>
+<span class="sd">              for a package called ``sub_pkg`` inside of another package ``pkg``, or</span>
+<span class="sd">              ``&quot;pkg.sub_pkg.mod&quot;`` for a module called ``mod`` inside of ``pkg.sub_pkg``).</span>
+<span class="sd">        path: The path to the directory (or ``__init__.py``) of the package, or the python</span>
 <span class="sd">              file of the module.</span>
 <span class="sd">        evict: Whether to evict the imported package from sys.modules after loading it.  This is</span>
-<span class="sd">            necessary for functions generated in the `sym` namespace, since leaving them would make</span>
-<span class="sd">            it impossible to `import sym` and get the `symforce-sym` package as expected.  For this</span>
-<span class="sd">            reason, attempting to load a generated package called `sym` with `evict=False` is</span>
-<span class="sd">            disallowed.  However, evict should be `False` for numba-compiled functions.</span>
+<span class="sd">            necessary for functions generated in the ``sym`` namespace, since leaving them would</span>
+<span class="sd">            make it impossible to ``import sym`` and get the ``symforce-sym`` package as expected.</span>
+<span class="sd">            For this reason, attempting to load a generated package called ``sym`` with</span>
+<span class="sd">            ``evict=False`` is disallowed.  However, evict should be ``False`` for numba-compiled</span>
+<span class="sd">            functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">evict</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sym&quot;</span><span class="p">:</span>
@@ -661,10 +665,10 @@
     <span class="n">func_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_to_package</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">evict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns the function with name func_name found inside the package located at</span>
-<span class="sd">    path_to_package.</span>
+<span class="sd">    Returns the function with name ``func_name`` found inside the package located at</span>
+<span class="sd">    ``path_to_package``.</span>
 
-<span class="sd">    Example usage:</span>
+<span class="sd">    Example usage::</span>
 
 <span class="sd">        def my_func(...):</span>
 <span class="sd">            ...</span>
@@ -675,13 +679,15 @@
 <span class="sd">        generated_func(...)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        path_to_package: a python package with an `__init__.py` containing a module defined in</span>
-<span class="sd">            `func_name.py` which in turn defines an attribute named `func_name`. See the example</span>
+<span class="sd">        path_to_package: a python package with an ``__init__.py`` containing a module defined in</span>
+<span class="sd">            ``func_name.py`` which in turn defines an attribute named ``func_name``. See the example</span>
 <span class="sd">            above.</span>
 <span class="sd">        evict: Whether to evict the imported package from sys.modules after loading it.  This is</span>
-<span class="sd">            necessary for functions generated in the `sym` namespace, since leaving them would make</span>
-<span class="sd">            it impossible to `import sym` and get the `symforce-sym` package as expected.  However,</span>
-<span class="sd">            this should be `False` for numba-compiled functions.</span>
+<span class="sd">            necessary for functions generated in the ``sym`` namespace, since leaving them would</span>
+<span class="sd">            make it impossible to ``import sym`` and get the ``symforce-sym`` package as expected.</span>
+<span class="sd">            For this reason, attempting to load a generated package called ``sym`` with</span>
+<span class="sd">            ``evict=False`` is disallowed.  However, evict should be ``False`` for numba-compiled</span>
+<span class="sd">            functions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pkg_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path_to_package</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pkg_path</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">:</span>
@@ -697,9 +703,10 @@
     <span class="n">package</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lcmtypes_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Load an LCM type generated by Codegen.generate_function</span>
+<span class="sd">    Load an LCM type generated by</span>
+<span class="sd">    :meth:`Codegen.generate_function &lt;symforce.codegen.codegen.Codegen.generate_function&gt;`</span>
 
-<span class="sd">    Example usage:</span>
+<span class="sd">    Example usage::</span>
 
 <span class="sd">        my_codegen = Codegen(my_func, config=PythonConfig())</span>
 <span class="sd">        codegen_data = my_codegen.generate_function(output_dir=output_dir, namespace=namespace)</span>
