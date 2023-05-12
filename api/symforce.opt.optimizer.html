@@ -11,13 +11,10 @@
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="symforce.opt.residual_block module" href="symforce.opt.residual_block.html" />
@@ -220,6 +217,18 @@ parameter</p>
 
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Status">
+<span class="sig-name descname"><span class="pre">Status</span></span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Status" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">optimization_status_t</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.FailureReason">
+<span class="sig-name descname"><span class="pre">FailureReason</span></span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.FailureReason" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">levenberg_marquardt_solver_failure_reason_t</span></code></p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_stats</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result" title="Permalink to this definition">¶</a></dt>
@@ -238,8 +247,9 @@ turned on, also the Values and linearization per iteration.</p>
 to be the last iteration, if the optimizer tried additional steps which did not reduce
 the error</p>
 </dd>
-<dt>early_exited:</dt><dd><p>Did the optimization early exit?  This can happen because it converged successfully,
-of because it was unable to make progress</p>
+<dt>status:</dt><dd><p>What was the result of the optimization? (did it converge, fail, etc.)</p>
+</dd>
+<dt>failure_reason:</dt><dd><p>If status == FAILED, why?</p>
 </dd>
 <dt>best_linearization:</dt><dd><p>The linearization at best_index (at optimized_values), filled out if
 populate_best_linearization=True</p>
@@ -281,13 +291,18 @@ populate_best_linearization=True</p>
 <dd></dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.early_exited">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">early_exited</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.early_exited" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.status">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">optimization_status_t</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.failure_reason">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">failure_reason</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">levenberg_marquardt_solver_failure_reason_t</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.failure_reason" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.best_linearization">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_linearization</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">Linearization</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.best_linearization" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_linearization</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">Linearization</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.best_linearization" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -592,7 +607,7 @@ blocks from the problem jacobian, hessian, or RHS</p>
       &copy;2022, Skydio, Inc.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.2.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
