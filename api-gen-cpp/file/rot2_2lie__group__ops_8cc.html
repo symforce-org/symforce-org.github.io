@@ -1,75 +1,171 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+<meta property="og:title" content="File lie_group_ops.cc" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="api-gen-cpp/file/rot2_2lie__group__ops_8cc.html" />
+<meta property="og:site_name" content="symforce" />
+<meta property="og:image" content="https://symforce.org/docs/static/images/symforce_banner.png" />
+<meta property="og:image:alt" content="symforce" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="File lie_group_ops.h" href="rot2_2lie__group__ops_8h.html" /><link rel="prev" title="File group_ops.h" href="rot2_2group__ops_8h.html" />
 
-<!DOCTYPE html>
-
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-
-    <title>File lie_group_ops.cc &#8212; symforce 0.8.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
+        <title>File lie_group_ops.cc - SymForce</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css" />
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="icon" href="../../_static/favicon.ico"/>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="File lie_group_ops.h" href="rot2_2lie__group__ops_8h.html" />
-    <link rel="prev" title="File group_ops.h" href="rot2_2group__ops_8h.html" />
-   
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
   
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
-  </head><body>
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
 
-          <div class="body" role="main">
-            
-  <section id="file-lie-group-ops-cc">
-<h1>File lie_group_ops.cc<a class="headerlink" href="#file-lie-group-ops-cc" title="Permalink to this heading">¶</a></h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>doxygenfile: Found multiple matches for file “lie_group_ops.cc </p>
-</div>
-</section>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
 
 
-          </div>
-          
-        </div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">SymForce</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">symforce</a></h1>
-
-
-
-<p class="blurb">Fast symbolic computation, code generation, and nonlinear optimization for robotics</p>
-
-
-
-
-<p>
-<iframe src="https://ghbtns.com/github-btn.html?user=symforce-org&repo=symforce&type=star&count=true&size=large&v=2"
-  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
-</p>
-
-
-
-
-
-<h3>Navigation</h3>
-<ul>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/images/symforce vertical dark.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/images/symforce vertical.svg" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../development.html">Development Guide</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
@@ -94,16 +190,325 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">symforce Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/symforce.html">symforce package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/symforce.html">symforce package</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.benchmarks.html">symforce.benchmarks package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.benchmarks.inverse_compose_jacobian.html">symforce.benchmarks.inverse_compose_jacobian package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.benchmarks.inverse_compose_jacobian.generate_inverse_compose_jacobian.html">symforce.benchmarks.inverse_compose_jacobian.generate_inverse_compose_jacobian module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.benchmarks.matrix_multiplication.html">symforce.benchmarks.matrix_multiplication package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.benchmarks.matrix_multiplication.generate_matrix_multiplication_benchmark.html">symforce.benchmarks.matrix_multiplication.generate_matrix_multiplication_benchmark module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.benchmarks.robot_3d_localization.html">symforce.benchmarks.robot_3d_localization package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.benchmarks.run_benchmarks.html">symforce.benchmarks.run_benchmarks module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.cam.html">symforce.cam package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.atan_camera_cal.html">symforce.cam.atan_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.camera.html">symforce.cam.camera module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.camera_cal.html">symforce.cam.camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.camera_util.html">symforce.cam.camera_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.double_sphere_camera_cal.html">symforce.cam.double_sphere_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.equirectangular_camera_cal.html">symforce.cam.equirectangular_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.linear_camera_cal.html">symforce.cam.linear_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.polynomial_camera_cal.html">symforce.cam.polynomial_camera_cal module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.posed_camera.html">symforce.cam.posed_camera module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.cam.spherical_camera_cal.html">symforce.cam.spherical_camera_cal module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.codegen.html">symforce.codegen package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.codegen.backends.html">symforce.codegen.backends package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../api/symforce.codegen.backends.cpp.html">symforce.codegen.backends.cpp package</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.cpp.cpp_code_printer.html">symforce.codegen.backends.cpp.cpp_code_printer module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.cpp.cpp_config.html">symforce.codegen.backends.cpp.cpp_config module</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../api/symforce.codegen.backends.cuda.html">symforce.codegen.backends.cuda package</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.cuda.cuda_code_printer.html">symforce.codegen.backends.cuda.cuda_code_printer module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.cuda.cuda_config.html">symforce.codegen.backends.cuda.cuda_config module</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../api/symforce.codegen.backends.python.html">symforce.codegen.backends.python package</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.python.python_code_printer.html">symforce.codegen.backends.python.python_code_printer module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.python.python_config.html">symforce.codegen.backends.python.python_config module</a></li>
+</ul>
+</li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../api/symforce.codegen.backends.pytorch.html">symforce.codegen.backends.pytorch package</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.pytorch.pytorch_code_printer.html">symforce.codegen.backends.pytorch.pytorch_code_printer module</a></li>
+<li class="toctree-l5"><a class="reference internal" href="../../api/symforce.codegen.backends.pytorch.pytorch_config.html">symforce.codegen.backends.pytorch.pytorch_config module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.cam_package_codegen.html">symforce.codegen.cam_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.codegen.html">symforce.codegen.codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.codegen_config.html">symforce.codegen.codegen_config module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.codegen_util.html">symforce.codegen.codegen_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.format_util.html">symforce.codegen.format_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.geo_factors_codegen.html">symforce.codegen.geo_factors_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.geo_package_codegen.html">symforce.codegen.geo_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.lcm_types_codegen.html">symforce.codegen.lcm_types_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.ops_codegen_util.html">symforce.codegen.ops_codegen_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.similarity_index.html">symforce.codegen.similarity_index module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.slam_factors_codegen.html">symforce.codegen.slam_factors_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.sym_util_package_codegen.html">symforce.codegen.sym_util_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.template_util.html">symforce.codegen.template_util module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.types_package_codegen.html">symforce.codegen.types_package_codegen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.codegen.values_codegen.html">symforce.codegen.values_codegen module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.examples.html">symforce.examples package</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment.html">symforce.examples.bundle_adjustment package</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_fixed_size.html">symforce.examples.bundle_adjustment_fixed_size package</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" role="switch" type="checkbox"/><label for="toctree-checkbox-13"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_fixed_size.build_values.html">symforce.examples.bundle_adjustment_fixed_size.build_values module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem.html">symforce.examples.bundle_adjustment_fixed_size.generate_fixed_problem module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large package</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" role="switch" type="checkbox"/><label for="toctree-checkbox-14"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large.html">symforce.examples.bundle_adjustment_in_the_large.bundle_adjustment_in_the_large module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.bundle_adjustment_in_the_large.download_dataset.html">symforce.examples.bundle_adjustment_in_the_large.download_dataset module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.examples.custom_factor_generation.html">symforce.examples.custom_factor_generation package</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" role="switch" type="checkbox"/><label for="toctree-checkbox-15"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.custom_factor_generation.factor_residuals.html">symforce.examples.custom_factor_generation.factor_residuals module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.custom_factor_generation.generate_factors.html">symforce.examples.custom_factor_generation.generate_factors module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.examples.robot_2d_localization.html">symforce.examples.robot_2d_localization package</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" role="switch" type="checkbox"/><label for="toctree-checkbox-16"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.robot_2d_localization.plotting.html">symforce.examples.robot_2d_localization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.robot_2d_localization.robot_2d_localization.html">symforce.examples.robot_2d_localization.robot_2d_localization module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.examples.robot_3d_localization.html">symforce.examples.robot_3d_localization package</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" role="switch" type="checkbox"/><label for="toctree-checkbox-17"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.robot_3d_localization.plotting.html">symforce.examples.robot_3d_localization.plotting module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.examples.robot_3d_localization.robot_3d_localization.html">symforce.examples.robot_3d_localization.robot_3d_localization module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.geo.html">symforce.geo package</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" role="switch" type="checkbox"/><label for="toctree-checkbox-18"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.geo.unsupported.html">symforce.geo.unsupported package</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" role="switch" type="checkbox"/><label for="toctree-checkbox-19"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.geo.unsupported.pose2_se2.html">symforce.geo.unsupported.pose2_se2 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.geo.unsupported.pose3_se3.html">symforce.geo.unsupported.pose3_se3 module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.complex.html">symforce.geo.complex module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.dual_quaternion.html">symforce.geo.dual_quaternion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.matrix.html">symforce.geo.matrix module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.pose2.html">symforce.geo.pose2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.pose3.html">symforce.geo.pose3 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.quaternion.html">symforce.geo.quaternion module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.rot2.html">symforce.geo.rot2 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.rot3.html">symforce.geo.rot3 module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.geo.unit3.html">symforce.geo.unit3 module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.internal.html">symforce.internal package</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" role="switch" type="checkbox"/><label for="toctree-checkbox-20"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.internal.symbolic.html">symforce.internal.symbolic module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.ops.html">symforce.ops package</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" role="switch" type="checkbox"/><label for="toctree-checkbox-21"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.ops.impl.html">symforce.ops.impl package</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" role="switch" type="checkbox"/><label for="toctree-checkbox-22"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.abstract_storage_ops.html">symforce.ops.impl.abstract_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.abstract_vector_group_ops.html">symforce.ops.impl.abstract_vector_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.abstract_vector_lie_group_ops.html">symforce.ops.impl.abstract_vector_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.array_lie_group_ops.html">symforce.ops.impl.array_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.array_storage_ops.html">symforce.ops.impl.array_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.class_group_ops.html">symforce.ops.impl.class_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.class_lie_group_ops.html">symforce.ops.impl.class_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.class_storage_ops.html">symforce.ops.impl.class_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.databuffer_storage_ops.html">symforce.ops.impl.databuffer_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.dataclass_group_ops.html">symforce.ops.impl.dataclass_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.dataclass_lie_group_ops.html">symforce.ops.impl.dataclass_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.dataclass_storage_ops.html">symforce.ops.impl.dataclass_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.nonetype_lie_group_ops.html">symforce.ops.impl.nonetype_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.scalar_lie_group_ops.html">symforce.ops.impl.scalar_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.sequence_group_ops.html">symforce.ops.impl.sequence_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.sequence_lie_group_ops.html">symforce.ops.impl.sequence_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.sequence_storage_ops.html">symforce.ops.impl.sequence_storage_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.sym_class_lie_group_ops.html">symforce.ops.impl.sym_class_lie_group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.impl.vector_class_lie_group_ops.html">symforce.ops.impl.vector_class_lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.ops.interfaces.html">symforce.ops.interfaces package</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" role="switch" type="checkbox"/><label for="toctree-checkbox-23"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.interfaces.group.html">symforce.ops.interfaces.group module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.interfaces.lie_group.html">symforce.ops.interfaces.lie_group module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.ops.interfaces.storage.html">symforce.ops.interfaces.storage module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.ops.group_ops.html">symforce.ops.group_ops module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.ops.lie_group_ops.html">symforce.ops.lie_group_ops module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.ops.ops.html">symforce.ops.ops module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.ops.storage_ops.html">symforce.ops.storage_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.opt.html">symforce.opt package</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" role="switch" type="checkbox"/><label for="toctree-checkbox-24"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.opt.objectives.html">symforce.opt.objectives package</a><input class="toctree-checkbox" id="toctree-checkbox-25" name="toctree-checkbox-25" role="switch" type="checkbox"/><label for="toctree-checkbox-25"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.opt.objectives.min_max_barrier_objective.html">symforce.opt.objectives.min_max_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.opt.objectives.norm_barrier_objective.html">symforce.opt.objectives.norm_barrier_objective module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.opt.objectives.prior_value_objective.html">symforce.opt.objectives.prior_value_objective module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.barrier_functions.html">symforce.opt.barrier_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.factor.html">symforce.opt.factor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.noise_models.html">symforce.opt.noise_models module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.numeric_factor.html">symforce.opt.numeric_factor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.objective.html">symforce.opt.objective module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.residual_block.html">symforce.opt.residual_block module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.sub_problem.html">symforce.opt.sub_problem module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.opt.timestep_sub_problem.html">symforce.opt.timestep_sub_problem module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.slam.html">symforce.slam package</a><input class="toctree-checkbox" id="toctree-checkbox-26" name="toctree-checkbox-26" role="switch" type="checkbox"/><label for="toctree-checkbox-26"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.slam.imu_preintegration.html">symforce.slam.imu_preintegration package</a><input class="toctree-checkbox" id="toctree-checkbox-27" name="toctree-checkbox-27" role="switch" type="checkbox"/><label for="toctree-checkbox-27"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.slam.imu_preintegration.generate.html">symforce.slam.imu_preintegration.generate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.slam.imu_preintegration.manifold_symbolic.html">symforce.slam.imu_preintegration.manifold_symbolic module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.test_util.html">symforce.test_util package</a><input class="toctree-checkbox" id="toctree-checkbox-28" name="toctree-checkbox-28" role="switch" type="checkbox"/><label for="toctree-checkbox-28"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api/symforce.test_util.random_expressions.html">symforce.test_util.random_expressions package</a><input class="toctree-checkbox" id="toctree-checkbox-29" name="toctree-checkbox-29" role="switch" type="checkbox"/><label for="toctree-checkbox-29"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.test_util.random_expressions.op_probabilities.html">symforce.test_util.random_expressions.op_probabilities module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/symforce.test_util.random_expressions.unary_binary_expression_gen.html">symforce.test_util.random_expressions.unary_binary_expression_gen module</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.backend_coverage_expressions.html">symforce.test_util.backend_coverage_expressions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.cam_cal_test_mixin.html">symforce.test_util.cam_cal_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.cam_test_mixin.html">symforce.test_util.cam_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.epsilon_handling.html">symforce.test_util.epsilon_handling module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.group_ops_test_mixin.html">symforce.test_util.group_ops_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.lie_group_ops_test_mixin.html">symforce.test_util.lie_group_ops_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.storage_ops_test_mixin.html">symforce.test_util.storage_ops_test_mixin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.test_case.html">symforce.test_util.test_case module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.test_util.test_case_mixin.html">symforce.test_util.test_case_mixin module</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/symforce.values.html">symforce.values package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" role="switch" type="checkbox"/><label for="toctree-checkbox-30"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.values.attr_accessor.html">symforce.values.attr_accessor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.values.generated_key_selection.html">symforce.values.generated_key_selection module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.values.index_entry.html">symforce.values.index_entry module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/symforce.values.values.html">symforce.values.values module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.cc_sym.html">symforce.cc_sym module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.databuffer.html">symforce.databuffer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.jacobian_helpers.html">symforce.jacobian_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.logic.html">symforce.logic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.notebook_util.html">symforce.notebook_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.path_util.html">symforce.path_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.python_util.html">symforce.python_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.symbolic.html">symforce.symbolic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.type_helpers.html">symforce.type_helpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.typing.html">symforce.typing module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.typing_util.html">symforce.typing_util module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/symforce.util.html">symforce.util module</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">sym Python Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api-gen-py/sym.html">sym package</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api-gen-py/sym.html">sym package</a><input class="toctree-checkbox" id="toctree-checkbox-31" name="toctree-checkbox-31" role="switch" type="checkbox"/><label for="toctree-checkbox-31"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.html">sym.ops package</a><input class="toctree-checkbox" id="toctree-checkbox-32" name="toctree-checkbox-32" role="switch" type="checkbox"/><label for="toctree-checkbox-32"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.atan_camera_cal.html">sym.ops.atan_camera_cal package</a><input class="toctree-checkbox" id="toctree-checkbox-33" name="toctree-checkbox-33" role="switch" type="checkbox"/><label for="toctree-checkbox-33"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.atan_camera_cal.camera_ops.html">sym.ops.atan_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.atan_camera_cal.group_ops.html">sym.ops.atan_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.atan_camera_cal.lie_group_ops.html">sym.ops.atan_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.double_sphere_camera_cal.html">sym.ops.double_sphere_camera_cal package</a><input class="toctree-checkbox" id="toctree-checkbox-34" name="toctree-checkbox-34" role="switch" type="checkbox"/><label for="toctree-checkbox-34"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.double_sphere_camera_cal.camera_ops.html">sym.ops.double_sphere_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.double_sphere_camera_cal.group_ops.html">sym.ops.double_sphere_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.double_sphere_camera_cal.lie_group_ops.html">sym.ops.double_sphere_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.equirectangular_camera_cal.html">sym.ops.equirectangular_camera_cal package</a><input class="toctree-checkbox" id="toctree-checkbox-35" name="toctree-checkbox-35" role="switch" type="checkbox"/><label for="toctree-checkbox-35"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.equirectangular_camera_cal.camera_ops.html">sym.ops.equirectangular_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.equirectangular_camera_cal.group_ops.html">sym.ops.equirectangular_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.equirectangular_camera_cal.lie_group_ops.html">sym.ops.equirectangular_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.linear_camera_cal.html">sym.ops.linear_camera_cal package</a><input class="toctree-checkbox" id="toctree-checkbox-36" name="toctree-checkbox-36" role="switch" type="checkbox"/><label for="toctree-checkbox-36"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.linear_camera_cal.camera_ops.html">sym.ops.linear_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.linear_camera_cal.group_ops.html">sym.ops.linear_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.linear_camera_cal.lie_group_ops.html">sym.ops.linear_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.polynomial_camera_cal.html">sym.ops.polynomial_camera_cal package</a><input class="toctree-checkbox" id="toctree-checkbox-37" name="toctree-checkbox-37" role="switch" type="checkbox"/><label for="toctree-checkbox-37"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.polynomial_camera_cal.camera_ops.html">sym.ops.polynomial_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.polynomial_camera_cal.group_ops.html">sym.ops.polynomial_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.polynomial_camera_cal.lie_group_ops.html">sym.ops.polynomial_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.pose2.html">sym.ops.pose2 package</a><input class="toctree-checkbox" id="toctree-checkbox-38" name="toctree-checkbox-38" role="switch" type="checkbox"/><label for="toctree-checkbox-38"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.pose2.group_ops.html">sym.ops.pose2.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.pose2.lie_group_ops.html">sym.ops.pose2.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.pose3.html">sym.ops.pose3 package</a><input class="toctree-checkbox" id="toctree-checkbox-39" name="toctree-checkbox-39" role="switch" type="checkbox"/><label for="toctree-checkbox-39"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.pose3.group_ops.html">sym.ops.pose3.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.pose3.lie_group_ops.html">sym.ops.pose3.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.rot2.html">sym.ops.rot2 package</a><input class="toctree-checkbox" id="toctree-checkbox-40" name="toctree-checkbox-40" role="switch" type="checkbox"/><label for="toctree-checkbox-40"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.rot2.group_ops.html">sym.ops.rot2.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.rot2.lie_group_ops.html">sym.ops.rot2.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.rot3.html">sym.ops.rot3 package</a><input class="toctree-checkbox" id="toctree-checkbox-41" name="toctree-checkbox-41" role="switch" type="checkbox"/><label for="toctree-checkbox-41"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.rot3.group_ops.html">sym.ops.rot3.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.rot3.lie_group_ops.html">sym.ops.rot3.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.spherical_camera_cal.html">sym.ops.spherical_camera_cal package</a><input class="toctree-checkbox" id="toctree-checkbox-42" name="toctree-checkbox-42" role="switch" type="checkbox"/><label for="toctree-checkbox-42"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.spherical_camera_cal.camera_ops.html">sym.ops.spherical_camera_cal.camera_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.spherical_camera_cal.group_ops.html">sym.ops.spherical_camera_cal.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.spherical_camera_cal.lie_group_ops.html">sym.ops.spherical_camera_cal.lie_group_ops module</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../api-gen-py/sym.ops.unit3.html">sym.ops.unit3 package</a><input class="toctree-checkbox" id="toctree-checkbox-43" name="toctree-checkbox-43" role="switch" type="checkbox"/><label for="toctree-checkbox-43"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.unit3.group_ops.html">sym.ops.unit3.group_ops module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api-gen-py/sym.ops.unit3.lie_group_ops.html">sym.ops.unit3.lie_group_ops module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.atan_camera_cal.html">sym.atan_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.double_sphere_camera_cal.html">sym.double_sphere_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.equirectangular_camera_cal.html">sym.equirectangular_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.linear_camera_cal.html">sym.linear_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.polynomial_camera_cal.html">sym.polynomial_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.pose2.html">sym.pose2 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.pose3.html">sym.pose3 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.rot2.html">sym.rot2 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.rot3.html">sym.rot3 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.spherical_camera_cal.html">sym.spherical_camera_cal module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-py/sym.unit3.html">sym.unit3 module</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">sym C++ Reference</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../classlist.html">Class list</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../filelist.html">File list</a><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../classlist.html">Class list</a><input class="toctree-checkbox" id="toctree-checkbox-44" name="toctree-checkbox-44" role="switch" type="checkbox"/><label for="toctree-checkbox-44"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1ATANCameraCal.html">Class sym::ATANCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Camera.html">Class sym::Camera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1DoubleSphereCameraCal.html">Class sym::DoubleSphereCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1EquirectangularCameraCal.html">Class sym::EquirectangularCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1LinearCameraCal.html">Class sym::LinearCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1PolynomialCameraCal.html">Class sym::PolynomialCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Pose2.html">Class sym::Pose2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Pose3.html">Class sym::Pose3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1PosedCamera.html">Class sym::PosedCamera</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Rot2.html">Class sym::Rot2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Rot3.html">Class sym::Rot3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1SphericalCameraCal.html">Class sym::SphericalCameraCal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Unit3.html">Class sym::Unit3</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../filelist.html">File list</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-45" name="toctree-checkbox-45" role="switch" type="checkbox"/><label for="toctree-checkbox-45"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="atan__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="atan__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="atan__camera__cal_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -204,7 +609,7 @@
 <li class="toctree-l2"><a class="reference internal" href="prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rot2_2group__ops_8h.html">File group_ops.h</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">File lie_group_ops.cc</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">File lie_group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rot2_2lie__group__ops_8h.html">File lie_group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rot2_2storage__ops_8cc.html">File storage_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rot2_2storage__ops_8h.html">File storage_ops.h</a></li>
@@ -249,57 +654,142 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api-cpp/classlist.html">Class list</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api-cpp/filelist.html">File list</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api-cpp/classlist.html">Class list</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" role="switch" type="checkbox"/><label for="toctree-checkbox-46"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1Linearizer.html">Class sym::Linearizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1Optimizer.html">Class sym::Optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1SparseCholeskySolver.html">Class sym::SparseCholeskySolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1SparseSchurSolver.html">Class sym::SparseSchurSolver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1Values.html">Class sym::Values</a></li>
 </ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api-cpp/filelist.html">File list</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" role="switch" type="checkbox"/><label for="toctree-checkbox-47"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/key_8h.html">File key.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/linearizer_8h.html">File linearizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/templates_8h.html">File templates.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/tic__toc_8h.html">File tic_toc.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/util_8h.html">File util.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/values_8h.html">File values.h</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
 <ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../filelist.html">File list</a><ul>
-      <li>Previous: <a href="rot2_2group__ops_8h.html" title="previous chapter">File group_ops.h</a></li>
-      <li>Next: <a href="rot2_2lie__group__ops_8h.html" title="next chapter">File lie_group_ops.h</a></li>
-  </ul></li>
-  </ul></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/symforce-org/symforce">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/symforce">PyPI</a></li>
 </ul>
+
 </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
 </div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
 
-
-
-
-
-
-
-
-        </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Skydio, Inc.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.2.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
-      
-      |
-      <a href="../../_sources/api-gen-cpp/file/rot2_2lie__group__ops_8cc.rst.txt"
-          rel="nofollow">Page source</a>
     </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="file-lie-group-ops-cc">
+<h1>File lie_group_ops.cc<a class="headerlink" href="#file-lie-group-ops-cc" title="Permalink to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>doxygenfile: Found multiple matches for file “lie_group_ops.cc </p>
+</div>
+</section>
 
-    
-
-    
-  </body>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="rot2_2lie__group__ops_8h.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">File lie_group_ops.h</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="rot2_2group__ops_8h.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">File group_ops.h</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Skydio, Inc
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/scripts/furo.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
 </html>
