@@ -655,6 +655,7 @@
 <p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api-cpp/classlist.html">Class list</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" role="switch" type="checkbox"/><label for="toctree-checkbox-46"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseCholeskySolver.html">Class sym::DenseCholeskySolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
@@ -670,6 +671,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api-cpp/filelist.html">File list</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" role="switch" type="checkbox"/><label for="toctree-checkbox-47"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__cholesky__solver_8h.html">File dense_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
@@ -827,8 +829,8 @@ a set of symbolic output expressions written in terms of the inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>inputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>) – </p></li>
-<li><p><strong>outputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>) – </p></li>
+<li><p><strong>inputs</strong> (<a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Values" title="cc_sym.Values"><em>Values</em></a>) – </p></li>
+<li><p><strong>outputs</strong> (<a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Values" title="cc_sym.Values"><em>Values</em></a>) – </p></li>
 <li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>codegen_config.CodegenConfig</em></a>) – </p></li>
 <li><p><strong>name</strong> (<em>T.Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – </p></li>
 <li><p><strong>return_key</strong> (<em>T.Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – </p></li>
@@ -839,7 +841,7 @@ a set of symbolic output expressions written in terms of the inputs.</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="symforce.codegen.codegen.Codegen.output_symbols">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_symbols</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Set" title="(in Python v3.11)"><span class="pre">Set</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.Symbol" title="symforce.internal.symbolic.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.codegen.Codegen.output_symbols" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_symbols</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Set" title="(in Python v3.11)"><span class="pre">Set</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol" title="symforce.internal.symbolic.Symbol"><span class="pre">Symbol</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.codegen.Codegen.output_symbols" title="Permalink to this definition">#</a></dt>
 <dd><p>The set of free symbols in the output</p>
 <p>Cached, because this is somewhat expensive to compute for large outputs</p>
 </dd></dl>
@@ -1009,7 +1011,7 @@ generate a full linearization with a hessian and rhs
 (FULL_LINEARIZATION).</p></li>
 <li><p><strong>sparse_linearization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to output matrices (jacobian and/or hessian) as sparse
 matrices, as opposed to dense</p></li>
-<li><p><strong>custom_jacobian</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em> | </em><em>None</em>) – This is generally unnecessary, unless you want to override the jacobian
+<li><p><strong>custom_jacobian</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em> | </em><em>None</em>) – This is generally unnecessary, unless you want to override the jacobian
 computed by SymForce, e.g. to stop derivatives with respect to certain
 variables or directions, or because the jacobian can be analytically
 simplified in a way that SymForce won’t do automatically. If not

@@ -648,6 +648,7 @@
 <p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api-cpp/classlist.html">Class list</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" role="switch" type="checkbox"/><label for="toctree-checkbox-46"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1DenseCholeskySolver.html">Class sym::DenseCholeskySolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
@@ -663,6 +664,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api-cpp/filelist.html">File list</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" role="switch" type="checkbox"/><label for="toctree-checkbox-47"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/dense__cholesky__solver_8h.html">File dense_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
@@ -733,7 +735,7 @@
 <span class="kn">from</span> <span class="nn">symforce.ops.interfaces</span> <span class="kn">import</span> <span class="n">Storage</span>
 
 
-<div class="viewcode-block" id="CameraCal"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal">[docs]</a><span class="k">class</span> <span class="nc">CameraCal</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
+<div class="viewcode-block" id="CameraCal"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal">[docs]</a><span class="k">class</span> <span class="nc">CameraCal</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for symbolic camera models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -754,7 +756,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">principal_point</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">(</span><span class="n">principal_point</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">distortion_coeffs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="CameraCal.from_distortion_coeffs"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.from_distortion_coeffs">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CameraCal.from_distortion_coeffs"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.from_distortion_coeffs">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_distortion_coeffs</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">CameraCalT</span><span class="p">],</span>
         <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
@@ -772,7 +774,7 @@
         <span class="n">instance</span><span class="o">.</span><span class="n">distortion_coeffs</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">distortion_coeffs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">instance</span></div>
 
-<div class="viewcode-block" id="CameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_order</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return list of the names of values returned in the storage paired with</span>
@@ -784,18 +786,18 @@
     <span class="c1"># Storage concept - see symforce.ops.storage_ops</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="CameraCal.storage_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CameraCal.storage_dim"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">4</span> <span class="o">+</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NUM_DISTORTION_COEFFS</span></div>
 
-<div class="viewcode-block" id="CameraCal.to_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="CameraCal.to_storage"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">focal_length</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">principal_point</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="CameraCal.from_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CameraCal.from_storage"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">CameraCalT</span><span class="p">],</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">CameraCalT</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NUM_DISTORTION_COEFFS</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -804,7 +806,7 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_distortion_coeffs</span><span class="p">(</span><span class="n">focal_length</span><span class="o">=</span><span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">principal_point</span><span class="o">=</span><span class="n">vec</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="CameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">CameraCalT</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CameraCalT</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">NUM_DISTORTION_COEFFS</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -828,7 +830,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="CameraCal.parameters"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.parameters">[docs]</a>    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="CameraCal.parameters"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.parameters">[docs]</a>    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">focal_length</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">principal_point</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span>
@@ -839,7 +841,7 @@
     <span class="c1"># Required camera methods</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="CameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
+<div class="viewcode-block" id="CameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -851,7 +853,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="CameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
+<div class="viewcode-block" id="CameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -864,7 +866,7 @@
         <span class="c1"># TODO(hayk): Add a normalize boolean argument? Like in `cam.Camera`</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="CameraCal.has_camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.CameraCal.has_camera_ray_from_pixel">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="CameraCal.has_camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal.has_camera_ray_from_pixel">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">has_camera_ray_from_pixel</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns ``True`` if cls has implemented the method :meth:`camera_ray_from_pixel`, and</span>

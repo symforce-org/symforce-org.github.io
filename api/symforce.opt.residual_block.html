@@ -655,6 +655,7 @@
 <p class="caption" role="heading"><span class="caption-text">opt C++ Reference</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api-cpp/classlist.html">Class list</a><input class="toctree-checkbox" id="toctree-checkbox-46" name="toctree-checkbox-46" role="switch" type="checkbox"/><label for="toctree-checkbox-46"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseCholeskySolver.html">Class sym::DenseCholeskySolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
@@ -670,6 +671,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api-cpp/filelist.html">File list</a><input class="toctree-checkbox" id="toctree-checkbox-47" name="toctree-checkbox-47" role="switch" type="checkbox"/><label for="toctree-checkbox-47"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__cholesky__solver_8h.html">File dense_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
@@ -738,7 +740,7 @@ optimization, but are intended to be additional outputs used for debugging or ot
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
+<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
 <li><p><strong>extra_values</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
 </ul>
@@ -746,7 +748,7 @@ optimization, but are intended to be additional outputs used for debugging or ot
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlock.residual">
-<span class="sig-name descname"><span class="pre">residual</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock.residual" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">residual</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock.residual" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -777,7 +779,7 @@ messages</p></li>
 <dd class="field-even"><p><strong>Sequence of jacobians of the residual with respect to each entry in inputs</strong></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -815,16 +817,16 @@ with respect to each of those inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
+<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
 <li><p><strong>extra_values</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
-<li><p><strong>custom_jacobians</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>, </em><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em>]</em>) – </p></li>
+<li><p><strong>custom_jacobians</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>, </em><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlockWithCustomJacobian.custom_jacobians">
-<span class="sig-name descname"><span class="pre">custom_jacobians</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlockWithCustomJacobian.custom_jacobians" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">custom_jacobians</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlockWithCustomJacobian.custom_jacobians" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -845,7 +847,7 @@ messages</p></li>
 <dd class="field-even"><p><strong>Sequence of jacobians of the residual with respect to each entry in inputs</strong></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
