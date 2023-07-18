@@ -659,6 +659,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -675,6 +677,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -682,6 +686,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -741,16 +746,16 @@ covariance instead of a sqrt information matrix</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nav_T_src</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Current pose of the src frame</p></li>
-<li><p><strong>nav_T_target</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Current pose of the target frame</p></li>
-<li><p><strong>target_T_src_prior</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Prior on the pose of src in the target frame</p></li>
+<li><p><strong>nav_T_src</strong> (<a class="reference internal" href="symforce.geo.pose3.html#symforce.geo.pose3.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Current pose of the src frame</p></li>
+<li><p><strong>nav_T_target</strong> (<a class="reference internal" href="symforce.geo.pose3.html#symforce.geo.pose3.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Current pose of the target frame</p></li>
+<li><p><strong>target_T_src_prior</strong> (<a class="reference internal" href="symforce.geo.pose3.html#symforce.geo.pose3.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Prior on the pose of src in the target frame</p></li>
 <li><p><strong>prior_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The weight of the Gaussian prior</p></li>
-<li><p><strong>prior_sigmas</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix61" title="symforce.geo.matrix.Matrix61"><em>Matrix61</em></a>) – The diagonal of the sqrt covariance matrix</p></li>
+<li><p><strong>prior_sigmas</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix61" title="symforce.geo.matrix.Matrix61"><em>Matrix61</em></a>) – The diagonal of the sqrt covariance matrix</p></li>
 <li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Small positive value</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix61" title="symforce.geo.matrix.Matrix61"><em>Matrix61</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix61" title="symforce.geo.matrix.Matrix61"><em>Matrix61</em></a></p>
 </dd>
 </dl>
 <dl class="simple">

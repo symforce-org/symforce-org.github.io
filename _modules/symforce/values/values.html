@@ -652,6 +652,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -668,6 +670,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -675,6 +679,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -804,7 +809,7 @@
 
 <div class="viewcode-block" id="Values.items"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">ItemsView</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        An object providng a view on contained key/value pairs.</span>
+<span class="sd">        An object providing a view on contained key/value pairs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
 
@@ -944,14 +949,14 @@
 <div class="viewcode-block" id="Values.items_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.items_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">items_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of key/value pairs for every element in this object in insertion order</span>
-<span class="sd">        of highest level dot seperated key.</span>
+<span class="sd">        of highest level dot separated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[(</span><span class="n">key</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="p">:],</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">Values</span><span class="o">.</span><span class="n">_items_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="Values.keys_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.keys_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">keys_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of unique keys for every element in this object in insertion order</span>
-<span class="sd">        of highest level dot seperated key.</span>
+<span class="sd">        of highest level dot separated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -961,7 +966,7 @@
 <div class="viewcode-block" id="Values.values_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.values_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">values_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of elements stored in this Values object in insertion order</span>
-<span class="sd">        of highest level dot seperated key.</span>
+<span class="sd">        of highest level dot separated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -971,7 +976,7 @@
 <div class="viewcode-block" id="Values.subkeys_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.subkeys_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">subkeys_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of subkeys for every element in this object in insertion order</span>
-<span class="sd">        of highest level dot seperated key. Unlike :meth:`keys_recursive`, ``subkeys_recursive``</span>
+<span class="sd">        of highest level dot separated key. Unlike :meth:`keys_recursive`, ``subkeys_recursive``</span>
 <span class="sd">        does not return dot-separated keys.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">()]</span></div>
@@ -979,7 +984,7 @@
 <div class="viewcode-block" id="Values.scalar_keys_recursive"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.scalar_keys_recursive">[docs]</a>    <span class="k">def</span> <span class="nf">scalar_keys_recursive</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a flat list of keys to each scalar in this object in insertion order</span>
-<span class="sd">        of highest level dot seperated key.</span>
+<span class="sd">        of highest level dot separated key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">flat_scalar_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">():</span>
@@ -1034,7 +1039,7 @@
             <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">):</span>
                 <span class="k">assert</span> <span class="n">entry</span><span class="o">.</span><span class="n">shape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="c1"># NOTE(brad): Don&#39;t pass entry.shape directly because it has type T.Tuple[int, ...]</span>
-                <span class="c1"># (to accomadate ndarray shapes) whereas a T.Tuple[int, int] is expected. mypy does</span>
+                <span class="c1"># (to accommodate ndarray shapes) whereas a T.Tuple[int, int] is expected. mypy does</span>
                 <span class="c1"># not accept asserting on the length of the tuple, so writing to an intermediate</span>
                 <span class="c1"># tuple is a work around.</span>
                 <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">shape</span>
@@ -1138,7 +1143,7 @@
 
 <div class="viewcode-block" id="Values.to_tangent"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns flat vector representing concatentated tangent spaces of each element.</span>
+<span class="sd">        Returns flat vector representing concatenated tangent spaces of each element.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">vec</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
@@ -1147,7 +1152,7 @@
 
 <div class="viewcode-block" id="Values.retract"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Apply a pertubation vec in the concatenated tangent spaces of each element. Often used in</span>
+<span class="sd">        Apply a perturbation vec in the concatenated tangent spaces of each element. Often used in</span>
 <span class="sd">        optimization to update nonlinear values from an update step in the tangent space.</span>
 
 <span class="sd">        NOTE(aaron): We have to override the default LieGroup implementation of retract because not</span>
@@ -1163,7 +1168,7 @@
 
 <div class="viewcode-block" id="Values.local_coordinates"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes a pertubation in the combined tangent space around self to produce b. Often used</span>
+<span class="sd">        Computes a perturbation in the combined tangent space around self to produce b. Often used</span>
 <span class="sd">        in optimization to minimize the distance between two group elements.</span>
 
 <span class="sd">        NOTE(aaron): We have to override the default LieGroup implementation of local_coordinates</span>

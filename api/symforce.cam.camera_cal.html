@@ -659,6 +659,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -675,6 +677,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -682,6 +686,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -734,7 +739,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.cam.camera_cal.CameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/camera_cal.html#CameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.camera_cal.CameraCal" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.storage.html#symforce.ops.interfaces.storage.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
 <p>Base class for symbolic camera models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -864,12 +869,12 @@ to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>point</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
+<li><p><strong>point</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
 <li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -887,12 +892,12 @@ to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>pixel</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>) – </p></li>
+<li><p><strong>pixel</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>) – </p></li>
 <li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>]</p>
 </dd>
 </dl>
 </dd></dl>

@@ -9,7 +9,7 @@
 <meta property="og:site_name" content="symforce" />
 <meta property="og:image" content="https://symforce.org/docs/static/images/symforce_banner.png" />
 <meta property="og:image:alt" content="symforce" />
-<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="File levenberg_marquardt_solver.h" href="levenberg__marquardt__solver_8h.html" /><link rel="prev" title="File gnc_optimizer.h" href="gnc__optimizer_8h.html" />
+<link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="File levenberg_marquardt_solver.h" href="levenberg__marquardt__solver_8h.html" /><link rel="prev" title="File imu_preintegrator.h" href="imu__preintegrator_8h.html" />
 
     <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
         <title>File key.h - SymForce</title>
@@ -659,6 +659,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -675,6 +677,8 @@
 <li class="toctree-l2"><a class="reference internal" href="dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="linearization_8h.html">File linearization.h</a></li>
@@ -682,6 +686,7 @@
 <li class="toctree-l2"><a class="reference internal" href="optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="templates_8h.html">File templates.h</a></li>
@@ -788,6 +793,11 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
 <dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym3Key8letter_tE">
+<span class="target" id="classsym_1_1Key_1abb72a0639350833aa06e423425ac71f2"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">letter_t</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym3Key11subscript_tE">
 <span class="target" id="classsym_1_1Key_1a9653c7f50cd05967613eff7c768e31ad"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">subscript_t</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">int64_t</span></span><br /></dt>
 <dd></dd></dl>
@@ -806,8 +816,8 @@
 <dd></dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N3sym3Key3KeyEc11subscript_t13superscript_t">
-<span class="target" id="classsym_1_1Key_1ad313ae572418a05b595b7f3698d2e2b2"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Key</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">letter</span></span>, <a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key11subscript_tE" title="sym::Key::subscript_t"><span class="n"><span class="pre">subscript_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">sub</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key11kInvalidSubE" title="sym::Key::kInvalidSub"><span class="n"><span class="pre">kInvalidSub</span></span></a>, <a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key13superscript_tE" title="sym::Key::superscript_t"><span class="n"><span class="pre">superscript_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">super</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key13kInvalidSuperE" title="sym::Key::kInvalidSuper"><span class="n"><span class="pre">kInvalidSuper</span></span></a><span class="sig-paren">)</span><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N3sym3Key3KeyE8letter_t11subscript_t13superscript_t">
+<span class="target" id="classsym_1_1Key_1a45df8cbdf79447177675abd369148cb8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Key</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key8letter_tE" title="sym::Key::letter_t"><span class="n"><span class="pre">letter_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">letter</span></span>, <a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key11subscript_tE" title="sym::Key::subscript_t"><span class="n"><span class="pre">subscript_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">sub</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key11kInvalidSubE" title="sym::Key::kInvalidSub"><span class="n"><span class="pre">kInvalidSub</span></span></a>, <a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key13superscript_tE" title="sym::Key::superscript_t"><span class="n"><span class="pre">superscript_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">super</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key13kInvalidSuperE" title="sym::Key::kInvalidSuper"><span class="n"><span class="pre">kInvalidSuper</span></span></a><span class="sig-paren">)</span><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -817,7 +827,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK3sym3Key6LetterEv">
-<span class="target" id="classsym_1_1Key_1a254646b1549c7d73ab1046bf85634d9d"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Letter</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><br /></dt>
+<span class="target" id="classsym_1_1Key_1a31e4fedc74ce1e5521d52554b35d7c2e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key8letter_tE" title="sym::Key::letter_t"><span class="n"><span class="pre">letter_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Letter</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -828,6 +838,21 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK3sym3Key5SuperEv">
 <span class="target" id="classsym_1_1Key_1ab3f69f6a85f7d112c929c158c986b32f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key13superscript_tE" title="sym::Key::superscript_t"><span class="n"><span class="pre">superscript_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Super</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym3Key10WithLetterEK8letter_t">
+<span class="target" id="classsym_1_1Key_1a112fb48ae3b02cd0300a392f33d541a0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WithLetter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key8letter_tE" title="sym::Key::letter_t"><span class="n"><span class="pre">letter_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">letter</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym3Key7WithSubEK11subscript_t">
+<span class="target" id="classsym_1_1Key_1a0b5dfc8a5b2a2f8b111d7f372784d9cc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WithSub</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key11subscript_tE" title="sym::Key::subscript_t"><span class="n"><span class="pre">subscript_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">sub</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym3Key9WithSuperEK13superscript_t">
+<span class="target" id="classsym_1_1Key_1a9675f05514f0eab7c89d303c585fd9d3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WithSuper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key13superscript_tE" title="sym::Key::superscript_t"><span class="n"><span class="pre">superscript_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">super</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -849,12 +874,6 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N3sym3Key9WithSuperERK3KeyK13superscript_t">
-<span class="target" id="classsym_1_1Key_1a3e70203d192e2d9b55e9b3028eddf52d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">WithSuper</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">key</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key13superscript_tE" title="sym::Key::superscript_t"><span class="n"><span class="pre">superscript_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">super</span></span><span class="sig-paren">)</span><br /></dt>
-<dd><p>Create a new <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Key"><span class="std std-ref">Key</span></a> from an existing <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Key"><span class="std std-ref">Key</span></a> and a superscript. The superscript on the existing <a class="reference internal" href="../namespace/namespacesym.html#classsym_1_1Key"><span class="std std-ref">Key</span></a> must be empty </p>
-</dd></dl>
-
-<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym3Key15LexicalLessThanERK3KeyRK3Key">
 <span class="target" id="classsym_1_1Key_1ab7a4b1c74157c6ed8d46d0928d0dbe22"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LexicalLessThan</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">a</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">b</span></span><span class="sig-paren">)</span><br /></dt>
 <dd><p>Return true if a is LESS than b, in dictionary order of the tuple (letter, sub, super). </p>
@@ -865,7 +884,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym3Key14kInvalidLetterE">
-<span class="target" id="classsym_1_1Key_1af045a270814be85123b0952d8a1bb361"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kInvalidLetter</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">char</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">)</span></span><br /></dt>
+<span class="target" id="classsym_1_1Key_1aa2c138405862a3decf3e100b0ac6923f"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key8letter_tE" title="sym::Key::letter_t"><span class="n"><span class="pre">letter_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kInvalidLetter</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">static_cast</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key8letter_tE" title="sym::Key::letter_t"><span class="n"><span class="pre">letter_t</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="m"><span class="pre">0</span></span><span class="p"><span class="pre">)</span></span><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp var">
@@ -883,7 +902,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym3Key7letter_E">
-<span class="target" id="classsym_1_1Key_1a0b7f81a6a133c95bfeca22fdc1294500"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">letter_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key14kInvalidLetterE" title="sym::Key::kInvalidLetter"><span class="n"><span class="pre">kInvalidLetter</span></span></a><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N3sym3Key7letter_E" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="classsym_1_1Key_1a85ec3177ed3060e6c2fe9ffa44645edc"></span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key8letter_tE" title="sym::Key::letter_t"><span class="n"><span class="pre">letter_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">letter_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><a class="reference internal" href="../class/classsym_1_1Key.html#_CPPv4N3sym3Key14kInvalidLetterE" title="sym::Key::kInvalidLetter"><span class="n"><span class="pre">kInvalidLetter</span></span></a><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N3sym3Key7letter_E" title="Permalink to this definition">#</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp var">
@@ -965,14 +984,14 @@
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="gnc__optimizer_8h.html">
+          <a class="prev-page" href="imu__preintegrator_8h.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">File gnc_optimizer.h</div>
+                <div class="title">File imu_preintegrator.h</div>
                 
               </div>
             </a>

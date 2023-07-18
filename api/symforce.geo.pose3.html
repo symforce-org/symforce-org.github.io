@@ -659,6 +659,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -675,6 +677,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -682,6 +686,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -755,7 +760,7 @@ class for more information.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>R</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – </p></li>
+<li><p><strong>R</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.symbolic.Rot3"><em>Rot3</em></a>) – </p></li>
 <li><p><strong>t</strong> (<em>Vector3</em>) – </p></li>
 </ul>
 </dd>
@@ -772,7 +777,7 @@ class for more information.</p>
 <p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.R</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -784,7 +789,7 @@ class for more information.</p>
 <p>Does not make a copy.  Also accessible as <code class="docutils literal notranslate"><span class="pre">self.t</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1027,7 +1032,7 @@ information.</p>
 <dd><p>4x4 matrix representing this pose transform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
 </dd>
 </dl>
 </dd></dl>

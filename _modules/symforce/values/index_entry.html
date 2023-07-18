@@ -652,6 +652,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -668,6 +670,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -675,6 +679,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -771,7 +776,7 @@
     <span class="c1"># _module and _qualname are private because they need to be of a very particular format for</span>
     <span class="c1"># the method datatype to work. To support this, we mark them as not being init fields and</span>
     <span class="c1"># instead generate them in __post_init__ from stored_datatype. Together, they represent the</span>
-    <span class="c1"># stored_datatype in a serializeable format.</span>
+    <span class="c1"># stored_datatype in a serializable format.</span>
     <span class="n">_module</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">_qualname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">shape</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -796,11 +801,11 @@
 <span class="sd">        Precondition:</span>
 <span class="sd">            The datatype stored must have had its module loaded (i.e., if the stored datatype is</span>
 <span class="sd">            :class:`sf.Rot3 &lt;symforce.geo.rot3.Rot3&gt;`, :mod:`symforce.geo` must have been imported).</span>
-<span class="sd">            The datatype must also be accesible from the module (dynamically created types do not</span>
+<span class="sd">            The datatype must also be accessible from the module (dynamically created types do not</span>
 <span class="sd">            do this. For example, the sf.Matrix types with more than 10 rows or columns)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="s2">&quot;&lt;locals&gt;&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qualname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">),</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Datatype </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_qualname</span><span class="si">}</span><span class="s2"> must be accesible from the module: dynamically created&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Datatype </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_qualname</span><span class="si">}</span><span class="s2"> must be accessible from the module: dynamically created&quot;</span>
             <span class="o">+</span> <span class="s2">&quot; types do not do this. For example, the sf.Matrix types with more than 10 rows or&quot;</span>
             <span class="o">+</span> <span class="s2">&quot; or columns.&quot;</span>
         <span class="p">)</span>

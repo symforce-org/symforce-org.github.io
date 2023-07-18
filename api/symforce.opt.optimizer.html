@@ -659,6 +659,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -675,6 +677,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -682,6 +686,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -779,7 +784,7 @@ optimization results will be identical.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>factors</strong> (<em>T.Iterable</em><em>[</em><em>T.Union</em><em>[</em><a class="reference internal" href="symforce.opt.factor.html#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><em>Factor</em></a><em>, </em><a class="reference internal" href="symforce.opt.numeric_factor.html#symforce.opt.numeric_factor.NumericFactor" title="symforce.opt.numeric_factor.NumericFactor"><em>NumericFactor</em></a><em>]</em><em>]</em>) – A sequence of either Factor or NumericFactor objects representing the
+<li><p><strong>factors</strong> (<em>T.Iterable</em><em>[</em><em>T.Union</em><em>[</em><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Factor" title="cc_sym.Factor"><em>Factor</em></a><em>, </em><a class="reference internal" href="symforce.opt.numeric_factor.html#symforce.opt.numeric_factor.NumericFactor" title="symforce.opt.numeric_factor.NumericFactor"><em>NumericFactor</em></a><em>]</em><em>]</em>) – A sequence of either Factor or NumericFactor objects representing the
 residuals in the problem. If (symbolic) Factors are passed, they are convered to
 NumericFactors by generating linearization functions of the residual with respect to the
 keys in <code class="docutils literal notranslate"><span class="pre">optimized_keys</span></code>.</p></li>
@@ -909,7 +914,7 @@ parameter.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>initial_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>) – </p></li>
 <li><p><strong>optimized_values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>) – </p></li>
-<li><p><strong>_stats</strong> (<a class="reference internal" href="../symforce.cc_sym.html#cc_sym.OptimizationStats" title="cc_sym.OptimizationStats"><em>OptimizationStats</em></a>) – </p></li>
+<li><p><strong>_stats</strong> (<a class="reference internal" href="symforce.cc_sym.html#cc_sym.OptimizationStats" title="cc_sym.OptimizationStats"><em>OptimizationStats</em></a>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -1020,7 +1025,7 @@ populate_best_linearization=True</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="id6">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_linearization</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">Linearization</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#id6" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_linearization</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">Linearization</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#id6" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -1110,7 +1115,7 @@ filled out in the stats</p></li>
 <dd class="field-odd"><p><strong>values</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="../symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><em>Linearization</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Linearization" title="cc_sym.Linearization"><em>Linearization</em></a></p>
 </dd>
 </dl>
 </dd></dl>

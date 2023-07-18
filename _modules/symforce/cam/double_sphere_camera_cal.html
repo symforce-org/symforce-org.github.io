@@ -652,6 +652,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -668,6 +670,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -675,6 +679,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -737,7 +742,7 @@
 <span class="kn">from</span> <span class="nn">.camera_cal</span> <span class="kn">import</span> <span class="n">CameraCal</span>
 
 
-<div class="viewcode-block" id="DoubleSphereCameraCal"><a class="viewcode-back" href="../../../api/symforce.cam.double_sphere_camera_cal.html#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal">[docs]</a><span class="k">class</span> <span class="nc">DoubleSphereCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
+<div class="viewcode-block" id="DoubleSphereCameraCal"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DoubleSphereCameraCal">[docs]</a><span class="k">class</span> <span class="nc">DoubleSphereCameraCal</span><span class="p">(</span><span class="n">CameraCal</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Camera model where a point is consecutively projected onto two unit spheres</span>
 <span class="sd">    with centers shifted by ``xi``, then projected into the image plane using the</span>
@@ -771,7 +776,7 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">focal_length</span><span class="p">,</span> <span class="n">principal_point</span><span class="p">,</span> <span class="p">[</span><span class="n">xi</span><span class="p">,</span> <span class="n">alpha</span><span class="p">])</span>
 
-<div class="viewcode-block" id="DoubleSphereCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.cam.double_sphere_camera_cal.html#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DoubleSphereCameraCal.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DoubleSphereCameraCal.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DoubleSphereCameraCal</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
@@ -797,11 +802,11 @@
     <span class="k">def</span> <span class="nf">alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-<div class="viewcode-block" id="DoubleSphereCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.cam.double_sphere_camera_cal.html#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DoubleSphereCameraCal.storage_order"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DoubleSphereCameraCal.storage_order">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">storage_order</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;focal_length&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;principal_point&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DoubleSphereCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.cam.double_sphere_camera_cal.html#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
+<div class="viewcode-block" id="DoubleSphereCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DoubleSphereCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_camera_point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix31</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="c1"># Pull out named scalar quantities</span>
@@ -859,7 +864,7 @@
 
         <span class="k">return</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">linear_is_valid</span><span class="p">,</span> <span class="n">sphere_is_valid</span><span class="p">,</span> <span class="n">unsafe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DoubleSphereCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.double_sphere_camera_cal.html#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
+<div class="viewcode-block" id="DoubleSphereCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.DoubleSphereCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix21</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="c1"># Pull out named scalar quantities</span>

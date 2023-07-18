@@ -652,6 +652,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -668,6 +670,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/factor_8h.html">File factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/key_8h.html">File key.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
@@ -675,6 +679,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optional_8h.html">File optional.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/templates_8h.html">File templates.h</a></li>
@@ -816,9 +821,9 @@
 <span class="sd">        Check that two LieGroup elements are close.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">epsilon</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="nb">max</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="n">places</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="c1"># Compute the tangent space pertubation around `actual` that produces `desired`</span>
+        <span class="c1"># Compute the tangent space perturbation around `actual` that produces `desired`</span>
         <span class="n">local_coordinates</span> <span class="o">=</span> <span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">desired</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-        <span class="c1"># Compute the identity tangent space pertubation to compare against</span>
+        <span class="c1"># Compute the identity tangent space perturbation to compare against</span>
         <span class="n">identity</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">actual</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_almost_equal</span><span class="p">(</span>
             <span class="n">actual</span><span class="o">=</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">evalf</span><span class="p">(</span><span class="n">local_coordinates</span><span class="p">),</span>
