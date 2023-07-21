@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
-        <title>symforce.geo.rot2 - SymForce</title>
+        <title>symforce.codegen.cam_package_codegen - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -726,165 +726,394 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for symforce.geo.rot2</h1><div class="highlight"><pre>
+          <h1>Source code for symforce.codegen.cam_package_codegen</h1><div class="highlight"><pre>
 <span></span><span class="c1"># ----------------------------------------------------------------------------</span>
 <span class="c1"># SymForce - Copyright 2022, Skydio, Inc.</span>
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">symforce.internal.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.ops.interfaces.lie_group</span> <span class="kn">import</span> <span class="n">LieGroup</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">Codegen</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">CodegenConfig</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">CppConfig</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">PythonConfig</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">template_util</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen.ops_codegen_util</span> <span class="kn">import</span> <span class="n">make_group_ops_funcs</span>
+<span class="kn">from</span> <span class="nn">symforce.codegen.ops_codegen_util</span> <span class="kn">import</span> <span class="n">make_lie_group_ops_funcs</span>
 
-<span class="kn">from</span> <span class="nn">.complex</span> <span class="kn">import</span> <span class="n">Complex</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix12</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix21</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix22</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Vector2</span>
 
-
-<div class="viewcode-block" id="Rot2"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2">[docs]</a><span class="k">class</span> <span class="nc">Rot2</span><span class="p">(</span><span class="n">LieGroup</span><span class="p">):</span>
+<div class="viewcode-block" id="pixel_from_camera_point_with_jacobians"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.pixel_from_camera_point_with_jacobians">[docs]</a><span class="k">def</span> <span class="nf">pixel_from_camera_point_with_jacobians</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Group of two-dimensional orthogonal matrices with determinant ``+1``, representing rotations</span>
-<span class="sd">    in 2D space. Backed by a complex number.</span>
+<span class="sd">    Project a 3D point in the camera frame into 2D pixel coordinates.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pixel: (x, y) coordinate in pixels if valid</span>
+<span class="sd">        is_valid: 1 if the operation is within bounds else 0</span>
+<span class="sd">        pixel_D_cal: Derivative of pixel with respect to intrinsic calibration parameters</span>
+<span class="sd">        pixel_D_point: Derivative of pixel with respect to point</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">pixel_D_cal</span> <span class="o">=</span> <span class="n">pixel</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+    <span class="n">pixel_D_point</span> <span class="o">=</span> <span class="n">pixel</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span><span class="p">,</span> <span class="n">pixel_D_cal</span><span class="p">,</span> <span class="n">pixel_D_point</span></div>
+
+
+<div class="viewcode-block" id="camera_ray_from_pixel_with_jacobians"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.camera_ray_from_pixel_with_jacobians">[docs]</a><span class="k">def</span> <span class="nf">camera_ray_from_pixel_with_jacobians</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        camera_ray: The ray in the camera frame (NOT normalized)</span>
+<span class="sd">        is_valid: 1 if the operation is within bounds else 0</span>
+<span class="sd">        point_D_cal: Derivative of point with respect to intrinsic calibration parameters</span>
+<span class="sd">        point_D_pixel: Derivation of point with respect to pixel</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">point</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">point_D_cal</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+    <span class="n">point_D_pixel</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">point</span><span class="p">,</span> <span class="n">is_valid</span><span class="p">,</span> <span class="n">point_D_cal</span><span class="p">,</span> <span class="n">point_D_pixel</span></div>
+
+
+<div class="viewcode-block" id="make_camera_funcs"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.make_camera_funcs">[docs]</a><span class="k">def</span> <span class="nf">make_camera_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Codegen</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create func spec arguments for common camera operations for the given class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Complex</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct from a unit complex number, or identity if none provided.</span>
+    <span class="n">camera_ray_from_pixel</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">camera_ray_from_pixel</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">func</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">,</span>
+            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;camera_ray&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
+            <span class="n">return_key</span><span class="o">=</span><span class="s2">&quot;camera_ray&quot;</span><span class="p">,</span>
+            <span class="n">docstring</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+        <span class="p">)</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            z (Complex):</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Complex</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">Complex</span><span class="p">)</span>
+        <span class="n">camera_ray_from_pixel_with_jacobians_codegen_func</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">func</span><span class="o">=</span><span class="n">camera_ray_from_pixel_with_jacobians</span><span class="p">,</span>
+            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;camera_ray&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">,</span> <span class="s2">&quot;point_D_cal&quot;</span><span class="p">,</span> <span class="s2">&quot;point_D_pixel&quot;</span><span class="p">],</span>
+            <span class="n">return_key</span><span class="o">=</span><span class="s2">&quot;camera_ray&quot;</span><span class="p">,</span>
+            <span class="n">docstring</span><span class="o">=</span><span class="n">camera_ray_from_pixel_with_jacobians</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+        <span class="p">)</span>
 
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Storage concept - see symforce.ops.storage_ops</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
-
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;Rot2 </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
-
-<div class="viewcode-block" id="Rot2.storage_dim"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">2</span></div>
-
-<div class="viewcode-block" id="Rot2.to_storage"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="Rot2.from_storage"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="Rot2.symbolic"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
-
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Group concept - see symforce.ops.group_ops</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="Rot2.identity"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.identity">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">identity</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="Rot2.compose"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Rot2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Rot2.inverse"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="c1"># In general, the inverse of a complex number z is z.conj()/|z|^2. But since a Rot2</span>
-        <span class="c1"># is represented by a unit complex number with |z| = 1, the inverse is just z.conj()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span></div>
-
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Lie group implementation</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
-
-<div class="viewcode-block" id="Rot2.tangent_dim"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span></div>
-
-<div class="viewcode-block" id="Rot2.from_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Rot2</span><span class="p">(</span><span class="n">Complex</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)))</span></div>
-
-<div class="viewcode-block" id="Rot2.to_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)]</span></div>
-
-<div class="viewcode-block" id="Rot2.hat"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.hat">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">hat</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix22</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Matrix22</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span><span class="p">],</span> <span class="p">[</span><span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span></div>
-
-<div class="viewcode-block" id="Rot2.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix21</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from ``symforce/notebooks/storage_D_tangent.ipynb``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Matrix21</span><span class="p">([[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">]])</span></div>
-
-<div class="viewcode-block" id="Rot2.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix12</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from ``symforce/notebooks/tangent_D_storage.ipynb``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">Matrix12</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
-
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Helper methods</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
-
-    <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Vector2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+        <span class="c1"># Not all cameras implement backprojection</span>
         <span class="k">pass</span>
 
-    <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Rot2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">pass</span>
+    <span class="n">pixel_from_camera_point</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+        <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pixel&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
+        <span class="n">return_key</span><span class="o">=</span><span class="s2">&quot;pixel&quot;</span><span class="p">,</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.__mul__"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Rot2</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Rot2</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Left-multiplication. Either rotation concatenation or point transform.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">Vector2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span> <span class="o">*</span> <span class="n">right</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Rot2</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
+    <span class="n">pixel_from_camera_point_with_jacobians_codegen_func</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">pixel_from_camera_point_with_jacobians</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+        <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pixel&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">,</span> <span class="s2">&quot;pixel_D_cal&quot;</span><span class="p">,</span> <span class="s2">&quot;pixel_D_point&quot;</span><span class="p">],</span>
+        <span class="n">return_key</span><span class="o">=</span><span class="s2">&quot;pixel&quot;</span><span class="p">,</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">pixel_from_camera_point_with_jacobians</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;focal_length&quot;</span><span class="p">,</span>
+            <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">focal_length</span><span class="p">,</span>
+            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;focal_length&quot;</span><span class="p">],</span>
+            <span class="n">return_key</span><span class="o">=</span><span class="s2">&quot;focal_length&quot;</span><span class="p">,</span>
+            <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Return the focal length.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;principal_point&quot;</span><span class="p">,</span>
+            <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">principal_point</span><span class="p">,</span>
+            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">],</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;principal_point&quot;</span><span class="p">],</span>
+            <span class="n">return_key</span><span class="o">=</span><span class="s2">&quot;principal_point&quot;</span><span class="p">,</span>
+            <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Return the principal point.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pixel_from_camera_point</span><span class="p">,</span>
+        <span class="n">pixel_from_camera_point_with_jacobians_codegen_func</span><span class="p">,</span>
+    <span class="p">]</span> <span class="o">+</span> <span class="p">(</span>
+        <span class="p">[</span><span class="n">camera_ray_from_pixel</span><span class="p">,</span> <span class="n">camera_ray_from_pixel_with_jacobians_codegen_func</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">camera_ray_from_pixel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">else</span> <span class="p">[]</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cam_class_data"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.cam_class_data">[docs]</a><span class="k">def</span> <span class="nf">cam_class_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Data for template generation of this class. Contains all useful info for</span>
+<span class="sd">    class-specific templates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;cls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
+
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;GroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_lie_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;LieGroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_camera_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;CameraOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;storage_order&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage_order</span><span class="p">()</span>
+
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="class_template_data"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.class_template_data">[docs]</a><span class="k">def</span> <span class="nf">class_template_data</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">functions_to_doc</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="s2">&quot;function&quot;</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">][</span><span class="s2">&quot;cls&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">functions_to_doc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">][</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Unsupported type: &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">)))</span></div>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">][</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">data</span></div>
 
-<div class="viewcode-block" id="Rot2.from_angle"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.from_angle">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_angle</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a Rot2 from an angle ``theta`` in radians</span>
 
-<span class="sd">        This is equivalent to ``from_tangent([theta])``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">([</span><span class="n">theta</span><span class="p">])</span></div>
+<div class="viewcode-block" id="camera_data"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.camera_data">[docs]</a><span class="k">def</span> <span class="nf">camera_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+    <span class="n">functions_to_doc</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Camera</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">,</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Camera</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">,</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Camera</span><span class="o">.</span><span class="n">maybe_check_in_view</span><span class="p">,</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Camera</span><span class="o">.</span><span class="n">in_view</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">class_template_data</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Camera</span><span class="p">,</span> <span class="n">functions_to_doc</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot2.to_rotation_matrix"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.to_rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix22</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A matrix representation of this element in the Euclidean space that contains it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Matrix22</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">]])</span></div>
 
-<div class="viewcode-block" id="Rot2.random"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.random">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate a random element of SO3.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Rot2</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">unit_random</span><span class="p">())</span></div>
+<div class="viewcode-block" id="posed_camera_data"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.posed_camera_data">[docs]</a><span class="k">def</span> <span class="nf">posed_camera_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+    <span class="n">functions_to_doc</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="o">.</span><span class="n">pixel_from_global_point</span><span class="p">,</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="o">.</span><span class="n">global_point_from_pixel</span><span class="p">,</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="o">.</span><span class="n">warp_pixel</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">class_template_data</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">,</span> <span class="n">functions_to_doc</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot2.random_from_uniform_sample"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.random_from_uniform_sample">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">random_from_uniform_sample</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">u1</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">pi</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate a random element of SO2 from a variable uniformly sampled on [0, 1].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Rot2</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">unit_random_from_uniform_sample</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">pi</span><span class="p">))</span></div></div>
+
+<span class="n">_DISTORTION_COEFF_VALS</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">sf</span><span class="o">.</span><span class="n">ATANCameraCal</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">},</span>
+    <span class="n">sf</span><span class="o">.</span><span class="n">DoubleSphereCameraCal</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;xi&quot;</span><span class="p">:</span> <span class="mf">5.1</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">6.2</span><span class="p">},</span>
+    <span class="n">sf</span><span class="o">.</span><span class="n">PolynomialCameraCal</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;critical_undistorted_radius&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;distortion_coeffs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.035</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.0070</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">sf</span><span class="o">.</span><span class="n">SphericalCameraCal</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;critical_theta&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+        <span class="s2">&quot;distortion_coeffs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.035</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.0070</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0015</span><span class="p">],</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">CamCls</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;CamCls&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="cam_cal_from_points"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.cam_cal_from_points">[docs]</a><span class="k">def</span> <span class="nf">cam_cal_from_points</span><span class="p">(</span>
+    <span class="n">cam_cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">CamCls</span><span class="p">],</span>
+    <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
+    <span class="n">principal_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CamCls</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns an instance of cam_cls with given focal_length and prinicpal_point.</span>
+<span class="sd">    The purpose of this function is to make it easy to construct camera cals of various</span>
+<span class="sd">    types without worrying what the extra arguments need to be.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cam_cls</span><span class="p">(</span>
+        <span class="n">focal_length</span><span class="o">=</span><span class="n">focal_length</span><span class="p">,</span>
+        <span class="n">principal_point</span><span class="o">=</span><span class="n">principal_point</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">_DISTORTION_COEFF_VALS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cam_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">{}),</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate the cam package for the given language.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create output directory if needed</span>
+    <span class="k">if</span> <span class="n">output_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+            <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;sf_codegen_</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating temp directory: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Subdirectory for everything we&#39;ll generate</span>
+    <span class="n">cam_package_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;sym&quot;</span>
+    <span class="n">template_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">template_dir</span><span class="p">()</span>
+    <span class="n">templates</span> <span class="o">=</span> <span class="n">template_util</span><span class="o">.</span><span class="n">TemplateList</span><span class="p">(</span><span class="n">template_dir</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">PythonConfig</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating Python package at: &quot;</span><span class="si">{</span><span class="n">cam_package_dir</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+
+        <span class="c1"># First generate the geo package as it&#39;s a dependency of the cam package</span>
+        <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">geo_package_codegen</span>
+
+        <span class="n">geo_package_codegen</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
+
+        <span class="c1"># Build up templates for each type</span>
+
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">sf</span><span class="o">.</span><span class="n">CAM_TYPES</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">cam_class_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">relative_path</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="p">(</span><span class="s2">&quot;cam_package&quot;</span><span class="p">,</span> <span class="s2">&quot;CLASS.py&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;cam_package&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/camera_ops.py&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;cam_package&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/__init__.py&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/group_ops.py&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/lie_group_ops.py&quot;</span><span class="p">),</span>
+            <span class="p">):</span>
+                <span class="n">template_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">relative_path</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">)</span>
+                <span class="n">output_path</span> <span class="o">=</span> <span class="n">cam_package_dir</span> <span class="o">/</span> <span class="n">relative_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                    <span class="s2">&quot;CLASS&quot;</span><span class="p">,</span> <span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">template_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Package init</span>
+        <span class="c1"># NOTE(brad): We already do this in geo_package_codegen.py. We need it there in case we</span>
+        <span class="c1"># are generating the geo package but not the cam package. But if we are generating the</span>
+        <span class="c1"># cam package, we need to make sure it also includes the cam types. So, we overwrite the</span>
+        <span class="c1"># one generated by the geo package to include the came types.</span>
+        <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;geo_package&quot;</span><span class="p">,</span> <span class="s2">&quot;__init__.py.jinja&quot;</span><span class="p">),</span>
+            <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span>
+                <span class="n">all_types</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">GEO_TYPES</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">CAM_TYPES</span><span class="p">),</span>
+                <span class="n">numeric_epsilon</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">numeric_epsilon</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span>
+            <span class="n">output_path</span><span class="o">=</span><span class="n">cam_package_dir</span> <span class="o">/</span> <span class="s2">&quot;__init__.py&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;cam_package_python_test.py&quot;</span><span class="p">,):</span>
+            <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">),</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span>
+                    <span class="n">all_types</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">CAM_TYPES</span><span class="p">,</span>
+                    <span class="n">cam_cal_from_points</span><span class="o">=</span><span class="n">cam_cal_from_points</span><span class="p">,</span>
+                    <span class="n">_DISTORTION_COEFF_VALS</span><span class="o">=</span><span class="n">_DISTORTION_COEFF_VALS</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">CppConfig</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Creating C++ cam package at: &quot;</span><span class="si">{</span><span class="n">cam_package_dir</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">template_dir</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">template_dir</span><span class="p">()</span>
+
+        <span class="c1"># First generate the geo package as it&#39;s a dependency of the cam package</span>
+        <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">geo_package_codegen</span>
+
+        <span class="n">geo_package_codegen</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
+
+        <span class="c1"># Build up templates for each type</span>
+        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">sf</span><span class="o">.</span><span class="n">CAM_TYPES</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">cam_class_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">relative_path</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="p">(</span><span class="s2">&quot;cam_package&quot;</span><span class="p">,</span> <span class="s2">&quot;CLASS.h&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;cam_package&quot;</span><span class="p">,</span> <span class="s2">&quot;CLASS.cc&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/storage_ops.h&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/storage_ops.cc&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/group_ops.h&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/group_ops.cc&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/lie_group_ops.h&quot;</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;ops/CLASS/lie_group_ops.cc&quot;</span><span class="p">),</span>
+            <span class="p">):</span>
+                <span class="n">template_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">relative_path</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">)</span>
+                <span class="n">output_path</span> <span class="o">=</span> <span class="n">cam_package_dir</span> <span class="o">/</span> <span class="n">relative_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                    <span class="s2">&quot;CLASS&quot;</span><span class="p">,</span> <span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                    <span class="n">template_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Add Camera and PosedCamera</span>
+        <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;cam_package&quot;</span><span class="p">,</span> <span class="s2">&quot;camera.h.jinja&quot;</span><span class="p">),</span>
+            <span class="n">output_path</span><span class="o">=</span><span class="n">cam_package_dir</span> <span class="o">/</span> <span class="s2">&quot;camera.h&quot;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">camera_data</span><span class="p">(),</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+            <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;cam_package&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;posed_camera.h.jinja&quot;</span><span class="p">,</span>
+            <span class="n">output_path</span><span class="o">=</span><span class="n">cam_package_dir</span> <span class="o">/</span> <span class="s2">&quot;posed_camera.h&quot;</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">posed_camera_data</span><span class="p">(),</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Test example</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="s2">&quot;cam_package_cpp_test.cc&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;cam_function_codegen_cpp_test.cc&quot;</span><span class="p">,</span>
+        <span class="p">):</span>
+
+            <span class="k">def</span> <span class="nf">supports_camera_ray_from_pixel</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">cls</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">())</span>
+                <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+
+            <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">),</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span>
+                    <span class="n">all_types</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">CAM_TYPES</span><span class="p">,</span>
+                    <span class="n">cpp_cam_types</span><span class="o">=</span><span class="p">[</span>
+                        <span class="sa">f</span><span class="s2">&quot;sym::</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">scalar</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+                        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">sf</span><span class="o">.</span><span class="n">CAM_TYPES</span>
+                        <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;scalar_types&quot;</span><span class="p">]</span>
+                    <span class="p">],</span>
+                    <span class="n">fully_implemented_cpp_cam_types</span><span class="o">=</span><span class="p">[</span>
+                        <span class="sa">f</span><span class="s2">&quot;sym::</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">scalar</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+                        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">sf</span><span class="o">.</span><span class="n">CAM_TYPES</span>
+                        <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;scalar_types&quot;</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">supports_camera_ray_from_pixel</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+                    <span class="p">],</span>
+                <span class="p">),</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown config type: &quot;</span><span class="si">{</span><span class="n">config</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+
+    <span class="n">templates</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">output_dir</span></div>
 </pre></div>
         </article>
       </div>

@@ -742,7 +742,7 @@
 <span class="kn">from</span> <span class="nn">.camera_cal</span> <span class="kn">import</span> <span class="n">CameraCal</span>
 
 
-<div class="viewcode-block" id="PosedCamera"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera">[docs]</a><span class="k">class</span> <span class="nc">PosedCamera</span><span class="p">(</span><span class="n">Camera</span><span class="p">):</span>
+<div class="viewcode-block" id="PosedCamera"><a class="viewcode-back" href="../../../api/symforce.cam.posed_camera.html#symforce.cam.posed_camera.PosedCamera">[docs]</a><span class="k">class</span> <span class="nc">PosedCamera</span><span class="p">(</span><span class="n">Camera</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Camera with a given pose, camera calibration, and an optionally specified image size.</span>
 
@@ -764,7 +764,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="PosedCamera.pixel_from_global_point"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera.pixel_from_global_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_global_point</span><span class="p">(</span>
+<div class="viewcode-block" id="PosedCamera.pixel_from_global_point"><a class="viewcode-back" href="../../../api/symforce.cam.posed_camera.html#symforce.cam.posed_camera.PosedCamera.pixel_from_global_point">[docs]</a>    <span class="k">def</span> <span class="nf">pixel_from_global_point</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -777,14 +777,14 @@
 <span class="sd">            epsilon: Small value intended to prevent division by 0.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            pixel: UV coodinates in pixel units, assuming the point is in view</span>
+<span class="sd">            pixel: UV coordinates in pixel units, assuming the point is in view</span>
 <span class="sd">            is_valid: 1 if point is valid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">camera_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="n">point</span>
         <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span><span class="n">camera_point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span></div>
 
-<div class="viewcode-block" id="PosedCamera.global_point_from_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera.global_point_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">global_point_from_pixel</span><span class="p">(</span>
+<div class="viewcode-block" id="PosedCamera.global_point_from_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.posed_camera.html#symforce.cam.posed_camera.PosedCamera.global_point_from_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">global_point_from_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">range_to_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">geo</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -806,7 +806,7 @@
         <span class="n">global_point</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pose</span> <span class="o">*</span> <span class="n">camera_point</span>
         <span class="k">return</span> <span class="n">global_point</span><span class="p">,</span> <span class="n">is_valid</span></div>
 
-<div class="viewcode-block" id="PosedCamera.warp_pixel"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera.warp_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">warp_pixel</span><span class="p">(</span>
+<div class="viewcode-block" id="PosedCamera.warp_pixel"><a class="viewcode-back" href="../../../api/symforce.cam.posed_camera.html#symforce.cam.posed_camera.PosedCamera.warp_pixel">[docs]</a>    <span class="k">def</span> <span class="nf">warp_pixel</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">pixel</span><span class="p">:</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
         <span class="n">inverse_range</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
@@ -855,7 +855,7 @@
 
         <span class="k">return</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid_point</span> <span class="o">*</span> <span class="n">is_valid_projection</span></div>
 
-<div class="viewcode-block" id="PosedCamera.subs"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.PosedCamera.subs">[docs]</a>    <span class="k">def</span> <span class="nf">subs</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">PosedCameraT</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PosedCameraT</span><span class="p">:</span>
+<div class="viewcode-block" id="PosedCamera.subs"><a class="viewcode-back" href="../../../api/symforce.cam.posed_camera.html#symforce.cam.posed_camera.PosedCamera.subs">[docs]</a>    <span class="k">def</span> <span class="nf">subs</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">PosedCameraT</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PosedCameraT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Substitute given values of each scalar element into a new instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

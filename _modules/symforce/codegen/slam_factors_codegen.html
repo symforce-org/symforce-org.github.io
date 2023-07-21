@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 6.2.1 and Furo 2023.03.27 -->
-        <title>symforce.geo.rot2 - SymForce</title>
+        <title>symforce.codegen.slam_factors_codegen - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?digest=fad236701ea90a88636c2a8c73b44ae642ed2a53" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
@@ -726,165 +726,426 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for symforce.geo.rot2</h1><div class="highlight"><pre>
+          <h1>Source code for symforce.codegen.slam_factors_codegen</h1><div class="highlight"><pre>
 <span></span><span class="c1"># ----------------------------------------------------------------------------</span>
 <span class="c1"># SymForce - Copyright 2022, Skydio, Inc.</span>
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Factors generally useful for visual SLAM problems (or visual odometry or structure-from-motion</span>
+<span class="sd">problems)</span>
 
-<span class="kn">import</span> <span class="nn">symforce.internal.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="sd">Currently contains reprojection factors for all camera models.  For cameras that have</span>
+<span class="sd">backprojection, the factor operates on pixel coordinates in the source and target cameras.  For</span>
+<span class="sd">cameras that do not have backprojection, it instead operates on a ray in the source camera frame and</span>
+<span class="sd">a pixel in the target camera.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">codegen</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.ops.interfaces.lie_group</span> <span class="kn">import</span> <span class="n">LieGroup</span>
-
-<span class="kn">from</span> <span class="nn">.complex</span> <span class="kn">import</span> <span class="n">Complex</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix12</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix21</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix22</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Vector2</span>
+<span class="kn">from</span> <span class="nn">symforce.opt.noise_models</span> <span class="kn">import</span> <span class="n">BarronNoiseModel</span>
 
 
-<div class="viewcode-block" id="Rot2"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2">[docs]</a><span class="k">class</span> <span class="nc">Rot2</span><span class="p">(</span><span class="n">LieGroup</span><span class="p">):</span>
+<div class="viewcode-block" id="inverse_range_landmark_prior_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_prior_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_prior_residual</span><span class="p">(</span>
+    <span class="n">landmark_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">inverse_range_prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector1</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Group of two-dimensional orthogonal matrices with determinant ``+1``, representing rotations</span>
-<span class="sd">    in 2D space. Backed by a complex number.</span>
+<span class="sd">    Factor representing a Gaussian prior on the inverse range of a landmark</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        landmark_inverse_range: The current inverse range estimate</span>
+<span class="sd">        inverse_range_prior: The mean of the inverse range prior</span>
+<span class="sd">        weight: The weight of the prior</span>
+<span class="sd">        sigma: The standard deviation of the prior</span>
+<span class="sd">        epsilon: Small positive value</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 1dof residual of the prior</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prior_diff</span> <span class="o">=</span> <span class="n">landmark_inverse_range</span> <span class="o">-</span> <span class="n">inverse_range_prior</span>
+    <span class="n">prior_whitened_diff</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">prior_diff</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">V1</span><span class="p">(</span><span class="n">prior_whitened_diff</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Complex</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct from a unit complex number, or identity if none provided.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            z (Complex):</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Complex</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">Complex</span><span class="p">)</span>
+<div class="viewcode-block" id="reprojection_delta"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.reprojection_delta">[docs]</a><span class="k">def</span> <span class="nf">reprojection_delta</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">source_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reprojects the landmark into the target camera and returns the delta from the correspondence to</span>
+<span class="sd">    the reprojection.</span>
 
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Storage concept - see symforce.ops.storage_ops</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
+<span class="sd">    The landmark is specified as a pixel in the source camera and an inverse range; this means the</span>
+<span class="sd">    landmark is fixed in the source camera and always has residual 0 there (this 0 residual is not</span>
+<span class="sd">    returned, only the residual in the target camera is returned).</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;Rot2 </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        source_calibration_storage: The storage vector of the source camera calibration</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration_storage: The storage vector of the target camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        source_pixel: The location of the landmark in the source camera</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        epsilon: Small positive value</span>
+<span class="sd">        camera_model_class: The subclass of CameraCal to use as the camera model</span>
 
-<div class="viewcode-block" id="Rot2.storage_dim"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">2</span></div>
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof pixel reprojection error</span>
+<span class="sd">        valid: is valid projection or not</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">source_calibration</span> <span class="o">=</span> <span class="n">camera_model_class</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">source_calibration_storage</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">())</span>
+    <span class="n">target_calibration</span> <span class="o">=</span> <span class="n">camera_model_class</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">target_calibration_storage</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">())</span>
 
-<div class="viewcode-block" id="Rot2.to_storage"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span></div>
+    <span class="c1"># Warp source coords into target</span>
+    <span class="n">source_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">source_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">source_calibration</span><span class="p">)</span>
+    <span class="n">target_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">target_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">target_calibration</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.from_storage"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span></div>
+    <span class="n">target_pixel_warped</span><span class="p">,</span> <span class="n">warp_is_valid</span> <span class="o">=</span> <span class="n">source_cam</span><span class="o">.</span><span class="n">warp_pixel</span><span class="p">(</span>
+        <span class="n">pixel</span><span class="o">=</span><span class="n">source_pixel</span><span class="p">,</span>
+        <span class="n">inverse_range</span><span class="o">=</span><span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">target_cam</span><span class="o">=</span><span class="n">target_cam</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.symbolic"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
+    <span class="n">reprojection_error</span> <span class="o">=</span> <span class="n">target_pixel_warped</span> <span class="o">-</span> <span class="n">target_pixel</span>
+    <span class="k">return</span> <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">warp_is_valid</span></div>
 
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Group concept - see symforce.ops.group_ops</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Rot2.identity"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.identity">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">identity</span><span class="p">())</span></div>
+<div class="viewcode-block" id="inverse_range_landmark_reprojection_error_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_reprojection_error_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_reprojection_error_residual</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">source_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the 2dof residual of reprojecting the landmark into the target camera and comparing</span>
+<span class="sd">    against the correspondence in the target camera.</span>
 
-<div class="viewcode-block" id="Rot2.compose"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Rot2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
+<span class="sd">    The landmark is specified as a pixel in the source camera and an inverse range; this means the</span>
+<span class="sd">    landmark is fixed in the source camera and always has residual 0 there (this 0 residual is not</span>
+<span class="sd">    returned, only the residual in the target camera is returned).</span>
 
-<div class="viewcode-block" id="Rot2.inverse"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="c1"># In general, the inverse of a complex number z is z.conj()/|z|^2. But since a Rot2</span>
-        <span class="c1"># is represented by a unit complex number with |z| = 1, the inverse is just z.conj()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">conj</span><span class="p">())</span></div>
+<span class="sd">    The norm of the residual is whitened using the</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`.  Whitening each</span>
+<span class="sd">    component of the reprojection error separately would result in rejecting individual components</span>
+<span class="sd">    as outliers. Instead, we minimize the whitened norm of the full reprojection error for each</span>
+<span class="sd">    point.  See</span>
+<span class="sd">    :meth:`ScalarNoiseModel.whiten_norm &lt;symforce.opt.noise_models.ScalarNoiseModel.whiten_norm&gt;`</span>
+<span class="sd">    for more information on this, and</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;` for more information on</span>
+<span class="sd">    the noise model.</span>
 
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Lie group implementation</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        source_calibration_storage: The storage vector of the source camera calibration</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration_storage: The storage vector of the target camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        source_pixel: The location of the landmark in the source camera</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        weight: The weight of the factor</span>
+<span class="sd">        gnc_mu: The mu convexity parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        gnc_scale: The scale parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        epsilon: Small positive value</span>
+<span class="sd">        camera_model_class: The subclass of :class:`CameraCal &lt;symforce.cam.camera_cal.CameraCal&gt;`</span>
+<span class="sd">            to use as the camera model</span>
 
-<div class="viewcode-block" id="Rot2.tangent_dim"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span></div>
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof residual of the reprojection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">warp_is_valid</span> <span class="o">=</span> <span class="n">reprojection_delta</span><span class="p">(</span>
+        <span class="n">source_pose</span><span class="p">,</span>
+        <span class="n">source_calibration_storage</span><span class="p">,</span>
+        <span class="n">target_pose</span><span class="p">,</span>
+        <span class="n">target_calibration_storage</span><span class="p">,</span>
+        <span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">source_pixel</span><span class="p">,</span>
+        <span class="n">target_pixel</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">,</span>
+        <span class="n">camera_model_class</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.from_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Rot2</span><span class="p">(</span><span class="n">Complex</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)))</span></div>
+    <span class="n">noise_model</span> <span class="o">=</span> <span class="n">BarronNoiseModel</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">BarronNoiseModel</span><span class="o">.</span><span class="n">compute_alpha_from_mu</span><span class="p">(</span><span class="n">gnc_mu</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">),</span>
+        <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">x_epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.to_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)]</span></div>
+    <span class="n">whitened_residual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">warp_is_valid</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.hat"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.hat">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">hat</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix22</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Matrix22</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">theta</span><span class="p">],</span> <span class="p">[</span><span class="n">theta</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span></div>
+    <span class="k">return</span> <span class="n">whitened_residual</span></div>
 
-<div class="viewcode-block" id="Rot2.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix21</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from ``symforce/notebooks/storage_D_tangent.ipynb``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Matrix21</span><span class="p">([[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">]])</span></div>
 
-<div class="viewcode-block" id="Rot2.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix12</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Note: generated from ``symforce/notebooks/tangent_D_storage.ipynb``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">Matrix12</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+<div class="viewcode-block" id="ray_reprojection_delta"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.ray_reprojection_delta">[docs]</a><span class="k">def</span> <span class="nf">ray_reprojection_delta</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">target_camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reprojects the landmark ray into the target camera and returns the delta between the</span>
+<span class="sd">    correspondence and the reprojection.</span>
 
-    <span class="c1"># -------------------------------------------------------------------------</span>
-    <span class="c1"># Helper methods</span>
-    <span class="c1"># -------------------------------------------------------------------------</span>
+<span class="sd">    The landmark is specified as a 3D point or ray (will be normalized) in the source</span>
+<span class="sd">    camera; this means the landmark is fixed in the source camera and always has residual 0 there</span>
+<span class="sd">    (this 0 residual is not returned, only the residual in the target camera is returned).</span>
 
-    <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Vector2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">pass</span>
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration_storage: The storage vector of the target camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        p_camera_source: The location of the landmark in the source camera coordinate, will be</span>
+<span class="sd">            normalized</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        epsilon: Small positive value</span>
+<span class="sd">        target_camera_model_class: The subclass of</span>
+<span class="sd">            :class:`CameraCal &lt;symforce.cam.camera_cal.CameraCal&gt;` to use as the target camera model</span>
 
-    <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Rot2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">pass</span>
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof reprojection delta</span>
+<span class="sd">        valid: is valid projection or not</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nav_T_target_cam</span> <span class="o">=</span> <span class="n">target_pose</span>
+    <span class="n">nav_T_source_cam</span> <span class="o">=</span> <span class="n">source_pose</span>
+    <span class="n">p_camera_source_unit_ray</span> <span class="o">=</span> <span class="n">p_camera_source</span> <span class="o">/</span> <span class="n">p_camera_source</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.__mul__"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Rot2</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Rot2</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Left-multiplication. Either rotation concatenation or point transform.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Vector2</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">Vector2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span> <span class="o">*</span> <span class="n">right</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">Rot2</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Unsupported type: &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">)))</span></div>
+    <span class="n">p_cam_target</span> <span class="o">=</span> <span class="n">nav_T_target_cam</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">nav_T_source_cam</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">p_camera_source_unit_ray</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">nav_T_source_cam</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">nav_T_target_cam</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">source_inverse_range</span>
+    <span class="p">)</span>
 
-<div class="viewcode-block" id="Rot2.from_angle"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.from_angle">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_angle</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a Rot2 from an angle ``theta`` in radians</span>
+    <span class="n">target_cam</span> <span class="o">=</span> <span class="n">target_camera_model_class</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">target_calibration_storage</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">())</span>
+    <span class="n">target_pixel_reprojection</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">target_cam</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span>
+        <span class="n">p_cam_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span>
+    <span class="p">)</span>
+    <span class="n">reprojection_error</span> <span class="o">=</span> <span class="n">target_pixel_reprojection</span> <span class="o">-</span> <span class="n">target_pixel</span>
 
-<span class="sd">        This is equivalent to ``from_tangent([theta])``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">([</span><span class="n">theta</span><span class="p">])</span></div>
+    <span class="k">return</span> <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">is_valid</span></div>
 
-<div class="viewcode-block" id="Rot2.to_rotation_matrix"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.to_rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix22</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        A matrix representation of this element in the Euclidean space that contains it.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Matrix22</span><span class="p">([[</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">real</span><span class="p">]])</span></div>
 
-<div class="viewcode-block" id="Rot2.random"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.random">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate a random element of SO3.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Rot2</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">unit_random</span><span class="p">())</span></div>
+<div class="viewcode-block" id="inverse_range_landmark_ray_reprojection_error_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_ray_reprojection_error_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_ray_reprojection_error_residual</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration_storage</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">target_camera_model_class</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the 2dof residual of reprojecting the landmark ray into the target spherical camera and</span>
+<span class="sd">    comparing it against the correspondence.</span>
 
-<div class="viewcode-block" id="Rot2.random_from_uniform_sample"><a class="viewcode-back" href="../../../api/symforce.geo.rot2.html#symforce.geo.rot2.Rot2.random_from_uniform_sample">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">random_from_uniform_sample</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">u1</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">pi</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot2</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate a random element of SO2 from a variable uniformly sampled on [0, 1].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Rot2</span><span class="p">(</span><span class="n">Complex</span><span class="o">.</span><span class="n">unit_random_from_uniform_sample</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">pi</span><span class="p">))</span></div></div>
+<span class="sd">    The landmark is specified as a camera point in the source camera with an inverse range; this</span>
+<span class="sd">    means the landmark is fixed in the source camera and always has residual 0 there (this 0</span>
+<span class="sd">    residual is not returned, only the residual in the target camera is returned).</span>
+
+<span class="sd">    The norm of the residual is whitened using the</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`.  Whitening each</span>
+<span class="sd">    component of the reprojection error separately would result in rejecting individual components</span>
+<span class="sd">    as outliers. Instead, we minimize the whitened norm of the full reprojection error for each</span>
+<span class="sd">    point.  See</span>
+<span class="sd">    :meth:`ScalarNoiseModel.whiten_norm &lt;symforce.opt.noise_models.ScalarNoiseModel.whiten_norm&gt;`</span>
+<span class="sd">    for more information on this, and</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;` for more information on</span>
+<span class="sd">    the noise model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration_storage: The storage vector of the target spherical camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        p_camera_source: The location of the landmark in the source camera coordinate, will be</span>
+<span class="sd">            normalized</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        weight: The weight of the factor</span>
+<span class="sd">        gnc_mu: The mu convexity parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        gnc_scale: The scale parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        epsilon: Small positive value</span>
+<span class="sd">        target_camera_model_class: The subclass of</span>
+<span class="sd">            :class:`CameraCal &lt;symforce.cam.camera_cal.CameraCal&gt;` to use as the target camera model</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof whiten residual of the reprojection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">ray_reprojection_delta</span><span class="p">(</span>
+        <span class="n">source_pose</span><span class="p">,</span>
+        <span class="n">target_pose</span><span class="p">,</span>
+        <span class="n">target_calibration_storage</span><span class="p">,</span>
+        <span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">p_camera_source</span><span class="p">,</span>
+        <span class="n">target_pixel</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">,</span>
+        <span class="n">target_camera_model_class</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Compute whitened residual with a noise model.</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">BarronNoiseModel</span><span class="o">.</span><span class="n">compute_alpha_from_mu</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">gnc_mu</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">noise_model</span> <span class="o">=</span> <span class="n">BarronNoiseModel</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="n">x_epsilon</span><span class="o">=</span><span class="n">epsilon</span>
+    <span class="p">)</span>
+
+    <span class="n">whitened_residual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">is_valid</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">whitened_residual</span></div>
+
+
+<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CodegenConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate the SLAM package for the given language.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        output_dir: Directory to generate outputs into</span>
+<span class="sd">        config: CodegenConfig, defaults to the default C++ config</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Subdirectory for everything we&#39;ll generate</span>
+    <span class="n">factors_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;factors&quot;</span>
+
+    <span class="c1"># default config to CppConfig</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">()</span>
+
+    <span class="c1"># Default cam types to generate</span>
+    <span class="n">cam_types</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
+
+    <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">inverse_range_landmark_prior_residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;landmark_inverse_range&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">cam_type</span> <span class="ow">in</span> <span class="n">cam_types</span><span class="p">:</span>
+        <span class="n">cam_type_name</span> <span class="o">=</span> <span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span><span class="p">(</span>
+            <span class="n">python_util</span><span class="o">.</span><span class="n">str_removesuffix</span><span class="p">(</span><span class="n">cam_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;CameraCal&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                    <span class="n">inverse_range_landmark_reprojection_error_residual</span><span class="p">,</span> <span class="n">camera_model_class</span><span class="o">=</span><span class="n">cam_type</span>
+                <span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;inverse_range_landmark_</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_error_residual&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                <span class="p">],</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+                <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
+                <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">reprojection_delta</span><span class="p">,</span> <span class="n">camera_model_class</span><span class="o">=</span><span class="n">cam_type</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_delta&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reprojection_delta&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+            <span class="c1"># Not all cameras implement backprojection</span>
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                    <span class="n">inverse_range_landmark_ray_reprojection_error_residual</span><span class="p">,</span>
+                    <span class="n">target_camera_model_class</span><span class="o">=</span><span class="n">cam_type</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;inverse_range_landmark_</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_error_residual&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                <span class="p">],</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+                <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
+                <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">ray_reprojection_delta</span><span class="p">,</span> <span class="n">target_camera_model_class</span><span class="o">=</span><span class="n">cam_type</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_delta&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">matrix_type_from_shape</span><span class="p">((</span><span class="n">cam_type</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)),</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+                    <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+                <span class="p">],</span>
+                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reprojection_delta&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>

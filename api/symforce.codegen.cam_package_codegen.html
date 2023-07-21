@@ -142,7 +142,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -728,14 +728,174 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="symforce-codegen-cam-package-codegen-module">
-<h1>symforce.codegen.cam_package_codegen module<a class="headerlink" href="#symforce-codegen-cam-package-codegen-module" title="Permalink to this heading">#</a></h1>
+          <section id="module-symforce.codegen.cam_package_codegen">
+<span id="symforce-codegen-cam-package-codegen-module"></span><h1>symforce.codegen.cam_package_codegen module<a class="headerlink" href="#module-symforce.codegen.cam_package_codegen" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.pixel_from_camera_point_with_jacobians">
+<span class="sig-name descname"><span class="pre">pixel_from_camera_point_with_jacobians</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#pixel_from_camera_point_with_jacobians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.pixel_from_camera_point_with_jacobians" title="Permalink to this definition">#</a></dt>
+<dd><p>Project a 3D point in the camera frame into 2D pixel coordinates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pixel</strong> – (x, y) coordinate in pixels if valid</p></li>
+<li><p><strong>is_valid</strong> – 1 if the operation is within bounds else 0</p></li>
+<li><p><strong>pixel_D_cal</strong> – Derivative of pixel with respect to intrinsic calibration parameters</p></li>
+<li><p><strong>pixel_D_point</strong> – Derivative of pixel with respect to point</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>self</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><em>CameraCal</em></a>) – </p></li>
+<li><p><strong>point</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.camera_ray_from_pixel_with_jacobians">
+<span class="sig-name descname"><span class="pre">camera_ray_from_pixel_with_jacobians</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#camera_ray_from_pixel_with_jacobians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.camera_ray_from_pixel_with_jacobians" title="Permalink to this definition">#</a></dt>
+<dd><p>Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>camera_ray</strong> – The ray in the camera frame (NOT normalized)</p></li>
+<li><p><strong>is_valid</strong> – 1 if the operation is within bounds else 0</p></li>
+<li><p><strong>point_D_cal</strong> – Derivative of point with respect to intrinsic calibration parameters</p></li>
+<li><p><strong>point_D_pixel</strong> – Derivation of point with respect to pixel</p></li>
+</ul>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>self</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><em>CameraCal</em></a>) – </p></li>
+<li><p><strong>pixel</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.make_camera_funcs">
+<span class="sig-name descname"><span class="pre">make_camera_funcs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#make_camera_funcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.make_camera_funcs" title="Permalink to this definition">#</a></dt>
+<dd><p>Create func spec arguments for common camera operations for the given class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a>) – </p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>CodegenConfig</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.Codegen" title="symforce.codegen.codegen.Codegen"><em>Codegen</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.cam_class_data">
+<span class="sig-name descname"><span class="pre">cam_class_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#cam_class_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.cam_class_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Data for template generation of this class. Contains all useful info for
+class-specific templates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a>) – </p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>CodegenConfig</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.class_template_data">
+<span class="sig-name descname"><span class="pre">class_template_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functions_to_doc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#class_template_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.class_template_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a>) – </p></li>
+<li><p><strong>functions_to_doc</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><em>function</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.camera_data">
+<span class="sig-name descname"><span class="pre">camera_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#camera_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.camera_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.posed_camera_data">
+<span class="sig-name descname"><span class="pre">posed_camera_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#posed_camera_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.posed_camera_data" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.cam_cal_from_points">
+<span class="sig-name descname"><span class="pre">cam_cal_from_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cam_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#cam_cal_from_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.cam_cal_from_points" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns an instance of cam_cls with given focal_length and prinicpal_point.
+The purpose of this function is to make it easy to construct camera cals of various
+types without worrying what the extra arguments need to be.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cam_cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a><em>[</em><em>CamCls</em><em>]</em>) – </p></li>
+<li><p><strong>focal_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – </p></li>
+<li><p><strong>principal_point</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>CamCls</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.codegen.cam_package_codegen.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/cam_package_codegen.html#generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.cam_package_codegen.generate" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate the cam package for the given language.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>CodegenConfig</em></a>) – </p></li>
+<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
         </article>
@@ -781,8 +941,35 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">symforce.codegen.cam_package_codegen module</a><ul>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.pixel_from_camera_point_with_jacobians"><code class="docutils literal notranslate"><span class="pre">pixel_from_camera_point_with_jacobians()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.camera_ray_from_pixel_with_jacobians"><code class="docutils literal notranslate"><span class="pre">camera_ray_from_pixel_with_jacobians()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.make_camera_funcs"><code class="docutils literal notranslate"><span class="pre">make_camera_funcs()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.cam_class_data"><code class="docutils literal notranslate"><span class="pre">cam_class_data()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.class_template_data"><code class="docutils literal notranslate"><span class="pre">class_template_data()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.camera_data"><code class="docutils literal notranslate"><span class="pre">camera_data()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.posed_camera_data"><code class="docutils literal notranslate"><span class="pre">posed_camera_data()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.cam_cal_from_points"><code class="docutils literal notranslate"><span class="pre">cam_cal_from_points()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.cam_package_codegen.generate"><code class="docutils literal notranslate"><span class="pre">generate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
