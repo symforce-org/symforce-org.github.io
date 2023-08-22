@@ -551,13 +551,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__atan__reprojection__error__factor_8h.html">File inverse_range_landmark_atan_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__double__sphere__reprojection__error__factor_8h.html">File inverse_range_landmark_double_sphere_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__equirectangular__reprojection__error__factor_8h.html">File inverse_range_landmark_equirectangular_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__linear__reprojection__error__factor_8h.html">File inverse_range_landmark_linear_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__polynomial__reprojection__error__factor_8h.html">File inverse_range_landmark_polynomial_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__equirectangular__gnc__factor_8h.html">File inverse_range_landmark_equirectangular_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__linear__gnc__factor_8h.html">File inverse_range_landmark_linear_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__polynomial__gnc__factor_8h.html">File inverse_range_landmark_polynomial_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__prior__factor_8h.html">File inverse_range_landmark_prior_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__spherical__reprojection__error__factor_8h.html">File inverse_range_landmark_spherical_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__spherical__gnc__factor_8h.html">File inverse_range_landmark_spherical_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/lie__group__ops_8h.html">File lie_group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/linear__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -750,7 +750,7 @@ projection of 3D points into the image frame) are in the image frame and thus va
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pose</strong> (<em>geo.Pose3</em>) – </p></li>
 <li><p><strong>calibration</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.CameraCal" title="symforce.symbolic.CameraCal"><em>CameraCal</em></a>) – </p></li>
-<li><p><strong>image_size</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>image_size</strong> (<em>T.Sequence</em><em>[</em><em>T.Scalar</em><em>]</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -852,11 +852,6 @@ of the given pixel. The point is positioned at a given range along the ray.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="symforce.cam.posed_camera.PosedCamera.image_size">
-<span class="sig-name descname"><span class="pre">image_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><span class="pre">Matrix21</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#symforce.cam.posed_camera.PosedCamera.image_size" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </section>
@@ -923,7 +918,6 @@ of the given pixel. The point is positioned at a given range along the ray.</p>
 <li><a class="reference internal" href="#symforce.cam.posed_camera.PosedCamera.global_point_from_pixel"><code class="docutils literal notranslate"><span class="pre">global_point_from_pixel()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.cam.posed_camera.PosedCamera.warp_pixel"><code class="docutils literal notranslate"><span class="pre">warp_pixel()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.cam.posed_camera.PosedCamera.subs"><code class="docutils literal notranslate"><span class="pre">subs()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.cam.posed_camera.PosedCamera.image_size"><code class="docutils literal notranslate"><span class="pre">image_size</span></code></a></li>
 </ul>
 </li>
 </ul>

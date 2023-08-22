@@ -544,13 +544,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__atan__reprojection__error__factor_8h.html">File inverse_range_landmark_atan_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__double__sphere__reprojection__error__factor_8h.html">File inverse_range_landmark_double_sphere_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__equirectangular__reprojection__error__factor_8h.html">File inverse_range_landmark_equirectangular_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__linear__reprojection__error__factor_8h.html">File inverse_range_landmark_linear_reprojection_error_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__polynomial__reprojection__error__factor_8h.html">File inverse_range_landmark_polynomial_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__equirectangular__gnc__factor_8h.html">File inverse_range_landmark_equirectangular_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__linear__gnc__factor_8h.html">File inverse_range_landmark_linear_gnc_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__polynomial__gnc__factor_8h.html">File inverse_range_landmark_polynomial_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__prior__factor_8h.html">File inverse_range_landmark_prior_factor.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__spherical__reprojection__error__factor_8h.html">File inverse_range_landmark_spherical_reprojection_error_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__spherical__gnc__factor_8h.html">File inverse_range_landmark_spherical_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/lie__group__ops_8h.html">File lie_group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/linear__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/linear__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -734,6 +734,8 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
+<span class="kn">import</span> <span class="nn">functools</span>
+
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">codegen</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_util</span>
@@ -798,6 +800,76 @@
 <span class="sd">        :func:`lambdify`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">lambdify</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">use_numba</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<span class="n">SymbolicFunction</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;SymbolicFunction&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="specialize_types"><a class="viewcode-back" href="../../api/symforce.util.html#symforce.util.specialize_types">[docs]</a><span class="k">def</span> <span class="nf">specialize_types</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="n">SymbolicFunction</span><span class="p">,</span> <span class="n">type_replacements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Mapping</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SymbolicFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specialize the type annotations on the given function, replacing any types in</span>
+<span class="sd">    ``type_replacements``</span>
+
+<span class="sd">    For example, this can be used to take a symbolic function that accepts a generic type and</span>
+<span class="sd">    generate it for several concrete types::</span>
+
+<span class="sd">        def f(x: sf.CameraCal) -&gt; sf.Scalar:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        Codegen.function(specialize_types(f, {sf.CameraCal: sf.LinearCameraCal}), ...)</span>
+<span class="sd">        Codegen.function(specialize_types(f, {sf.CameraCal: sf.PolynomialCameraCal}), ...)</span>
+
+<span class="sd">    See also:</span>
+<span class="sd">        :func:`specialize_args`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">specialized_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">specialized_function</span><span class="o">.</span><span class="vm">__annotations__</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="vm">__annotations__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">annotation</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">specialized_function</span><span class="o">.</span><span class="vm">__annotations__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">type_replacements</span><span class="p">:</span>
+            <span class="n">specialized_function</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">[</span><span class="n">annotation</span><span class="p">]</span> <span class="o">=</span> <span class="n">type_replacements</span><span class="p">[</span><span class="bp">cls</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">SymbolicFunction</span><span class="p">,</span> <span class="n">specialized_function</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="specialize_args"><a class="viewcode-back" href="../../api/symforce.util.html#symforce.util.specialize_args">[docs]</a><span class="k">def</span> <span class="nf">specialize_args</span><span class="p">(</span>
+    <span class="n">f</span><span class="p">:</span> <span class="n">SymbolicFunction</span><span class="p">,</span> <span class="n">arg_replacements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SymbolicFunction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Specialize the type annotations on the given function, replacing types for any arguments in</span>
+<span class="sd">    ``arg_replacements``</span>
+
+<span class="sd">    For example, this can be used to take a symbolic function that accepts a generic type and</span>
+<span class="sd">    generate it for several concrete types::</span>
+
+<span class="sd">        def f(x: sf.CameraCal, y: sf.CameraCal) -&gt; sf.Scalar:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        Codegen.function(</span>
+<span class="sd">            specialize_types(f, {&quot;x&quot;: sf.LinearCameraCal, &quot;y&quot;: sf.PolynomialCameraCal}), ...</span>
+<span class="sd">        )</span>
+
+<span class="sd">    See also:</span>
+<span class="sd">        :func:`specialize_types`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">specialized_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">specialized_function</span><span class="o">.</span><span class="vm">__annotations__</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="vm">__annotations__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">specialized_function</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="n">arg_replacements</span><span class="p">:</span>
+            <span class="n">specialized_function</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">[</span><span class="n">annotation</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg_replacements</span><span class="p">[</span><span class="n">annotation</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">SymbolicFunction</span><span class="p">,</span> <span class="n">specialized_function</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>
