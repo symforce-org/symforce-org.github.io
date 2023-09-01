@@ -7,10 +7,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="api/symforce.examples.robot_2d_localization.robot_2d_localization.html" />
 <meta property="og:site_name" content="symforce" />
-<meta property="og:description" content="Demonstrates solving a 2D localization problem with SymForce. The goal is for a robot in a 2D plane to compute its trajectory given distance measurements from wheel odometry and relative bearing an..." />
 <meta property="og:image" content="https://symforce.org/docs/static/images/symforce_banner.png" />
 <meta property="og:image:alt" content="symforce" />
-<meta name="description" content="Demonstrates solving a 2D localization problem with SymForce. The goal is for a robot in a 2D plane to compute its trajectory given distance measurements from wheel odometry and relative bearing an..." />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="symforce.examples.robot_3d_localization package" href="symforce.examples.robot_3d_localization.html" /><link rel="prev" title="symforce.examples.robot_2d_localization.plotting module" href="symforce.examples.robot_2d_localization.plotting.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
@@ -144,7 +142,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -553,6 +551,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__with__gravity__factor_8h.html">File internal_imu_with_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__equirectangular__gnc__factor_8h.html">File inverse_range_landmark_equirectangular_gnc_factor.h</a></li>
@@ -664,6 +663,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuWithGravityFactor.html">Class sym::ImuWithGravityFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -733,130 +733,14 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          <section id="module-symforce.examples.robot_2d_localization.robot_2d_localization">
-<span id="symforce-examples-robot-2d-localization-robot-2d-localization-module"></span><h1>symforce.examples.robot_2d_localization.robot_2d_localization module<a class="headerlink" href="#module-symforce.examples.robot_2d_localization.robot_2d_localization" title="Permalink to this heading">#</a></h1>
-<p>Demonstrates solving a 2D localization problem with SymForce. The goal is for a robot
-in a 2D plane to compute its trajectory given distance measurements from wheel odometry
-and relative bearing angle measurements to known landmarks in the environment.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_localization.robot_2d_localization.build_initial_values">
-<span class="sig-name descname"><span class="pre">build_initial_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_localization/robot_2d_localization.html#build_initial_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_localization.robot_2d_localization.build_initial_values" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates a Values with numerical values for the constants in the problem, and initial guesses
-for the optimized variables</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_localization.robot_2d_localization.bearing_residual">
-<span class="sig-name descname"><span class="pre">bearing_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">landmark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_localization/robot_2d_localization.html#bearing_residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_localization.robot_2d_localization.bearing_residual" title="Permalink to this definition">#</a></dt>
-<dd><p>Residual from a relative bearing measurement of a 2D pose to a landmark.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pose</strong> (<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><em>Pose2</em></a>) – </p></li>
-<li><p><strong>landmark</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>) – </p></li>
-<li><p><strong>angle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
-<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix11" title="symforce.geo.matrix.Matrix11"><em>Matrix11</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_localization.robot_2d_localization.odometry_residual">
-<span class="sig-name descname"><span class="pre">odometry_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose_a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_localization/robot_2d_localization.html#odometry_residual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_localization.robot_2d_localization.odometry_residual" title="Permalink to this definition">#</a></dt>
-<dd><p>Residual from the scalar distance between two poses.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pose_a</strong> (<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><em>Pose2</em></a>) – </p></li>
-<li><p><strong>pose_b</strong> (<a class="reference internal" href="symforce.geo.pose2.html#symforce.geo.pose2.Pose2" title="symforce.geo.pose2.Pose2"><em>Pose2</em></a>) – </p></li>
-<li><p><strong>dist</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
-<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix11" title="symforce.geo.matrix.Matrix11"><em>Matrix11</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_localization.robot_2d_localization.build_factors">
-<span class="sig-name descname"><span class="pre">build_factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_poses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_landmarks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_localization/robot_2d_localization.html#build_factors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_localization.robot_2d_localization.build_factors" title="Permalink to this definition">#</a></dt>
-<dd><p>Build factors for a problem of the given dimensionality.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>num_poses</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
-<li><p><strong>num_landmarks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.11)"><em>Iterator</em></a>[<a class="reference internal" href="symforce.opt.factor.html#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><em>Factor</em></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_localization.robot_2d_localization.main">
-<span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_localization/robot_2d_localization.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_localization.robot_2d_localization.main" title="Permalink to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_localization.robot_2d_localization.generate_bearing_residual_code">
-<span class="sig-name descname"><span class="pre">generate_bearing_residual_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_localization/robot_2d_localization.html#generate_bearing_residual_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_localization.robot_2d_localization.generate_bearing_residual_code" title="Permalink to this definition">#</a></dt>
-<dd><p>Generate C++ code for the bearing residual function. A C++ Factor can then be
-constructed and optimized from this function without any Python dependency.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>print_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.examples.robot_2d_localization.robot_2d_localization.generate_odometry_residual_code">
-<span class="sig-name descname"><span class="pre">generate_odometry_residual_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_code</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/examples/robot_2d_localization/robot_2d_localization.html#generate_odometry_residual_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.examples.robot_2d_localization.robot_2d_localization.generate_odometry_residual_code" title="Permalink to this definition">#</a></dt>
-<dd><p>Generate C++ code for the odometry residual function. A C++ Factor can then be
-constructed and optimized from this function without any Python dependency.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>print_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
+          <section id="symforce-examples-robot-2d-localization-robot-2d-localization-module">
+<h1>symforce.examples.robot_2d_localization.robot_2d_localization module<a class="headerlink" href="#symforce-examples-robot-2d-localization-robot-2d-localization-module" title="Permalink to this heading">#</a></h1>
 </section>
 
         </article>
@@ -902,33 +786,8 @@ constructed and optimized from this function without any Python dependency.</p>
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">symforce.examples.robot_2d_localization.robot_2d_localization module</a><ul>
-<li><a class="reference internal" href="#symforce.examples.robot_2d_localization.robot_2d_localization.build_initial_values"><code class="docutils literal notranslate"><span class="pre">build_initial_values()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.examples.robot_2d_localization.robot_2d_localization.bearing_residual"><code class="docutils literal notranslate"><span class="pre">bearing_residual()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.examples.robot_2d_localization.robot_2d_localization.odometry_residual"><code class="docutils literal notranslate"><span class="pre">odometry_residual()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.examples.robot_2d_localization.robot_2d_localization.build_factors"><code class="docutils literal notranslate"><span class="pre">build_factors()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.examples.robot_2d_localization.robot_2d_localization.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.examples.robot_2d_localization.robot_2d_localization.generate_bearing_residual_code"><code class="docutils literal notranslate"><span class="pre">generate_bearing_residual_code()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.examples.robot_2d_localization.robot_2d_localization.generate_odometry_residual_code"><code class="docutils literal notranslate"><span class="pre">generate_odometry_residual_code()</span></code></a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

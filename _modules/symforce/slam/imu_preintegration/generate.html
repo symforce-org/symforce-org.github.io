@@ -544,6 +544,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/internal__imu__with__gravity__factor_8h.html">File internal_imu_with_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/inverse__range__landmark__equirectangular__gnc__factor_8h.html">File inverse_range_landmark_equirectangular_gnc_factor.h</a></li>
@@ -655,6 +656,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuWithGravityFactor.html">Class sym::ImuWithGravityFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -789,10 +791,7 @@
         <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
-    <span class="n">codegen_residual</span> <span class="o">=</span> <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-        <span class="n">internal_imu_residual</span><span class="p">,</span>
-        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+    <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">internal_imu_residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
         <span class="n">which_args</span><span class="o">=</span><span class="p">[</span>
             <span class="s2">&quot;pose_i&quot;</span><span class="p">,</span>
             <span class="s2">&quot;vel_i&quot;</span><span class="p">,</span>
@@ -801,8 +800,23 @@
             <span class="s2">&quot;accel_bias_i&quot;</span><span class="p">,</span>
             <span class="s2">&quot;gyro_bias_i&quot;</span><span class="p">,</span>
         <span class="p">]</span>
-    <span class="p">)</span>
-    <span class="n">codegen_residual</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">internal_imu_residual</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;internal_imu_with_gravity_residual&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+        <span class="n">which_args</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;pose_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vel_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pose_j&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vel_j&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;accel_bias_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;gyro_bias_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;gravity&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span></div>
 </pre></div>
         </article>
       </div>

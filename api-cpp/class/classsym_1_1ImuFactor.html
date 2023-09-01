@@ -551,6 +551,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/internal__imu__with__gravity__factor_8h.html">File internal_imu_with_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/inverse__range__landmark__equirectangular__gnc__factor_8h.html">File inverse_range_landmark_equirectangular_gnc_factor.h</a></li>
@@ -662,6 +663,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classsym_1_1ImuWithGravityFactor.html">Class sym::ImuWithGravityFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1Key.html">Class sym::Key</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1LevenbergMarquardtSolver.html">Class sym::LevenbergMarquardtSolver</a></li>
@@ -742,7 +744,8 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4I0EN3sym9ImuFactorE">
 <span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Scalar</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classsym_1_1ImuFactor"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ImuFactor</span></span></span><a class="headerlink" href="#_CPPv4I0EN3sym9ImuFactorE" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>A factor for using on-manifold IMU preintegration in a SymForce optimization problem. By on-manifold, it is meant that the angular velocity measurements are composed as rotations rather than tangent-space approximations.</p>
+<dd><p>A factor for using on-manifold IMU preintegration in a SymForce optimization problem.</p>
+<p>By on-manifold, it is meant that the angular velocity measurements are composed as rotations rather than tangent-space approximations.</p>
 <p>Assumes IMU bias is constant over the preintegration window. Does not recompute the preintegrated measurements when the IMU bias estimate changes during optimization, but rather uses a first order approximation linearized at the IMU biases given during preintegration.</p>
 <p>The gravity argument should be <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">-g]</span></code> (where g is 9.8, assuming your world frame is gravity aligned so that the -z direction points towards the Earth) unless your IMU reads 0 acceleration while stationary, in which case it should be <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0]</span></code>.</p>
 <p>More generally, the gravity argument should yield the true acceleration when added to the accelerometer measurement (after the measurement has been converted to the world frame).</p>
