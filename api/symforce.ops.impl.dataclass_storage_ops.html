@@ -11,7 +11,7 @@
 <meta property="og:image:alt" content="symforce" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="symforce.ops.impl.nonetype_lie_group_ops module" href="symforce.ops.impl.nonetype_lie_group_ops.html" /><link rel="prev" title="symforce.ops.impl.dataclass_lie_group_ops module" href="symforce.ops.impl.dataclass_lie_group_ops.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>symforce.ops.impl.dataclass_storage_ops module - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -551,6 +551,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__unit__gravity__factor_8h.html">File internal_imu_unit_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__with__gravity__factor_8h.html">File internal_imu_with_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
@@ -663,6 +664,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuWithGravityDirectionFactor.html">Class sym::ImuWithGravityDirectionFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuWithGravityFactor.html">Class sym::ImuWithGravityFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
@@ -744,7 +746,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.ops.impl.dataclass_storage_ops.DataclassStorageOps">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DataclassStorageOps</span></span><a class="reference internal" href="../_modules/symforce/ops/impl/dataclass_storage_ops.html#DataclassStorageOps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.impl.dataclass_storage_ops.DataclassStorageOps" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>StorageOps implementation for dataclasses</p>
 <p>Supports nested types.  If any of the fields are of unknown size (e.g. sequences), the relevant
 functions expect to be passed an instance instead of the type. However, the length of sequences
@@ -761,10 +763,10 @@ an instance. Adding a sequence of length 10, for example, would look like:</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_dim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/impl/dataclass_storage_ops.html#DataclassStorageOps.storage_dim"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.ops.impl.dataclass_storage_ops.DataclassStorageOps.storage_dim" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>a</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a><em>[</em><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>a</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.12)"><em>Type</em></a><em>[</em><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -777,7 +779,7 @@ an instance. Adding a sequence of length 10, for example, would look like:</p>
 <dd class="field-odd"><p><strong>a</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -788,8 +790,8 @@ an instance. Adding a sequence of length 10, for example, would look like:</p>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a><em>[</em><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em>]</em>) – </p></li>
-<li><p><strong>elements</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – </p></li>
+<li><p><strong>a</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.12)"><em>Type</em></a><em>[</em><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em>]</em>) – </p></li>
+<li><p><strong>elements</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.12)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -808,9 +810,9 @@ an instance. Adding a sequence of length 10, for example, would look like:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>a</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a><em>[</em><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em>]</em>) – </p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>) – </p></li>
+<li><p><strong>a</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.12)"><em>Type</em></a><em>[</em><a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em>]</em>) – </p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><em>Dict</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

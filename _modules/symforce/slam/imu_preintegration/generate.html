@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>symforce.slam.imu_preintegration.generate - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?v=135e06be" />
@@ -544,6 +544,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/internal__imu__unit__gravity__factor_8h.html">File internal_imu_unit_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/internal__imu__with__gravity__factor_8h.html">File internal_imu_with_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
@@ -656,6 +657,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuWithGravityDirectionFactor.html">Class sym::ImuWithGravityDirectionFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuWithGravityFactor.html">Class sym::ImuWithGravityFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
@@ -739,10 +741,61 @@
 
 <span class="kn">import</span> <span class="nn">functools</span>
 
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">codegen</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.slam.imu_preintegration.manifold_symbolic</span> <span class="kn">import</span> <span class="n">imu_manifold_preintegration_update</span>
 <span class="kn">from</span> <span class="nn">symforce.slam.imu_preintegration.manifold_symbolic</span> <span class="kn">import</span> <span class="n">internal_imu_residual</span>
+
+
+<div class="viewcode-block" id="internal_imu_unit_gravity_residual"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.generate.html#symforce.slam.imu_preintegration.generate.internal_imu_unit_gravity_residual">[docs]</a><span class="k">def</span> <span class="nf">internal_imu_unit_gravity_residual</span><span class="p">(</span>
+    <span class="n">pose_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">vel_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">pose_j</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">vel_j</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">accel_bias_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_bias_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="c1"># Preintegrated measurements: state</span>
+    <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span>
+    <span class="n">Dv</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">Dp</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="c1"># Other pre-integrated quantities</span>
+    <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">,</span>
+    <span class="n">DR_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dv_D_accel_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dv_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dp_D_accel_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="n">Dp_D_gyro_bias</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="p">,</span>
+    <span class="c1"># other</span>
+    <span class="n">accel_bias_hat</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_bias_hat</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gravity_direction</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="p">,</span>
+    <span class="n">gravity_norm</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">V9</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">internal_imu_residual</span><span class="p">(</span>
+        <span class="n">pose_i</span><span class="o">=</span><span class="n">pose_i</span><span class="p">,</span>
+        <span class="n">vel_i</span><span class="o">=</span><span class="n">vel_i</span><span class="p">,</span>
+        <span class="n">pose_j</span><span class="o">=</span><span class="n">pose_j</span><span class="p">,</span>
+        <span class="n">vel_j</span><span class="o">=</span><span class="n">vel_j</span><span class="p">,</span>
+        <span class="n">accel_bias_i</span><span class="o">=</span><span class="n">accel_bias_i</span><span class="p">,</span>
+        <span class="n">gyro_bias_i</span><span class="o">=</span><span class="n">gyro_bias_i</span><span class="p">,</span>
+        <span class="n">DR</span><span class="o">=</span><span class="n">DR</span><span class="p">,</span>
+        <span class="n">Dv</span><span class="o">=</span><span class="n">Dv</span><span class="p">,</span>
+        <span class="n">Dp</span><span class="o">=</span><span class="n">Dp</span><span class="p">,</span>
+        <span class="n">sqrt_info</span><span class="o">=</span><span class="n">sqrt_info</span><span class="p">,</span>
+        <span class="n">DR_D_gyro_bias</span><span class="o">=</span><span class="n">DR_D_gyro_bias</span><span class="p">,</span>
+        <span class="n">Dv_D_accel_bias</span><span class="o">=</span><span class="n">Dv_D_accel_bias</span><span class="p">,</span>
+        <span class="n">Dv_D_gyro_bias</span><span class="o">=</span><span class="n">Dv_D_gyro_bias</span><span class="p">,</span>
+        <span class="n">Dp_D_accel_bias</span><span class="o">=</span><span class="n">Dp_D_accel_bias</span><span class="p">,</span>
+        <span class="n">Dp_D_gyro_bias</span><span class="o">=</span><span class="n">Dp_D_gyro_bias</span><span class="p">,</span>
+        <span class="n">accel_bias_hat</span><span class="o">=</span><span class="n">accel_bias_hat</span><span class="p">,</span>
+        <span class="n">gyro_bias_hat</span><span class="o">=</span><span class="n">gyro_bias_hat</span><span class="p">,</span>
+        <span class="n">gravity</span><span class="o">=</span><span class="n">gravity_direction</span><span class="o">.</span><span class="n">to_unit_vector</span><span class="p">()</span> <span class="o">*</span> <span class="n">gravity_norm</span><span class="p">,</span>
+        <span class="n">dt</span><span class="o">=</span><span class="n">dt</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="generate_manifold_imu_preintegration"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.generate.html#symforce.slam.imu_preintegration.generate.generate_manifold_imu_preintegration">[docs]</a><span class="k">def</span> <span class="nf">generate_manifold_imu_preintegration</span><span class="p">(</span>
@@ -816,7 +869,19 @@
         <span class="p">]</span>
     <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
         <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span></div>
+    <span class="p">)</span>
+
+    <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">internal_imu_unit_gravity_residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+        <span class="n">which_args</span><span class="o">=</span><span class="p">[</span>
+            <span class="s2">&quot;pose_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vel_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;pose_j&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vel_j&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;accel_bias_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;gyro_bias_i&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;gravity_direction&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>

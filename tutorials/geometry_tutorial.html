@@ -13,7 +13,7 @@
 <meta name="description" content="This is an introductory walkthrough of the symbolic geometry package in symforce. Symforce natively contains the following geometry objects: complex numbers, quaternions, dual quaternions, matrices..." />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Ops Tutorial" href="ops_tutorial.html" /><link rel="prev" title="SymPy Tutorial" href="sympy_tutorial.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.08.19 -->
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
         <title>Geometry Tutorial - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -554,6 +554,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update_8h.html">File imu_manifold_preintegration_update.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/imu__manifold__preintegration__update__auto__derivative_8h.html">File imu_manifold_preintegration_update_auto_derivative.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__factor_8h.html">File internal_imu_factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__unit__gravity__factor_8h.html">File internal_imu_unit_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/internal__imu__with__gravity__factor_8h.html">File internal_imu_with_gravity_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__atan__gnc__factor_8h.html">File inverse_range_landmark_atan_gnc_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/inverse__range__landmark__double__sphere__gnc__factor_8h.html">File inverse_range_landmark_double_sphere_gnc_factor.h</a></li>
@@ -666,6 +667,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuWithGravityDirectionFactor.html">Class sym::ImuWithGravityDirectionFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuWithGravityFactor.html">Class sym::ImuWithGravityFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Interpolator.html">Class sym::Interpolator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Key.html">Class sym::Key</a></li>
@@ -1428,7 +1430,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.337114891659265, -0.181636710953218, 0.533221660007397, 0.754344958460395]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.539095670898683, 0.654204897899486, 0.255607838592362, 0.464818719537803]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1447,7 +1449,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.195808339968730, -0.0558704405446774, 0.939706016185663, -0.274754783427887]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.160807032869013, -0.754899121254143, 0.340594695426049, -0.536901916887269]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1455,7 +1457,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.195808339968730, -0.0558704405446774, 0.939706016185663, -0.274754783427887]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.160807032869013, -0.754899121254143, 0.340594695426049, -0.536901916887269]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1496,12 +1498,12 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
+<div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.195976886022091, 0.513249280251751, -0.800966957098644, 0.237949931923257]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.779964468887329, 0.142156966935429, 0.216612468031966, -0.569671714865787]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1509,7 +1511,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.195976886022091, 0.513249280251751, -0.800966957098644, 0.237949931923257]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.779964468887329, 0.142156966935428, 0.216612468031966, -0.569671714865787]&gt;&gt;
 </pre></div></div>
 </div>
 </section>
@@ -1544,7 +1546,7 @@ SymForce, objects which are a Lie Group can:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.492420621936568, 0.830574395741500, 0.256557436613681, -0.0429695933011177]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.675610830617299, 0.358153599114893, -0.442971452219233, -0.468030231408651]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1552,7 +1554,7 @@ SymForce, objects which are a Lie Group can:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.492420621936568, -0.830574395741500, -0.256557436613681, 0.0429695933011176]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.675610830617299, -0.358153599114893, 0.442971452219233, 0.468030231408651]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
