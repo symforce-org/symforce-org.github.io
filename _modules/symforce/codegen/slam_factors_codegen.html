@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
-        <title>symforce.opt.optimizer - SymForce</title>
+        <title>symforce.codegen.slam_factors_codegen - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -733,455 +733,485 @@
           </label>
         </div>
         <article role="main">
-          <h1>Source code for symforce.opt.optimizer</h1><div class="highlight"><pre>
+          <h1>Source code for symforce.codegen.slam_factors_codegen</h1><div class="highlight"><pre>
 <span></span><span class="c1"># ----------------------------------------------------------------------------</span>
 <span class="c1"># SymForce - Copyright 2022, Skydio, Inc.</span>
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Factors generally useful for visual SLAM problems (or visual odometry or structure-from-motion</span>
+<span class="sd">problems)</span>
 
-<span class="kn">import</span> <span class="nn">dataclasses</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
+<span class="sd">Currently contains reprojection factors for all camera models.  For cameras that have</span>
+<span class="sd">backprojection, the factor operates on pixel coordinates in the source and target cameras.  For</span>
+<span class="sd">cameras that do not have backprojection, it instead operates on a ray in the source camera frame and</span>
+<span class="sd">a pixel in the target camera.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._index_entry_t</span> <span class="kn">import</span> <span class="n">index_entry_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._levenberg_marquardt_solver_failure_reason_t</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._optimization_iteration_t</span> <span class="kn">import</span> <span class="n">optimization_iteration_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._optimization_status_t</span> <span class="kn">import</span> <span class="n">optimization_status_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._optimizer_params_t</span> <span class="kn">import</span> <span class="n">optimizer_params_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._sparse_matrix_structure_t</span> <span class="kn">import</span> <span class="n">sparse_matrix_structure_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._values_t</span> <span class="kn">import</span> <span class="n">values_t</span>
-
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">cc_sym</span>
+<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">codegen</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.opt.factor</span> <span class="kn">import</span> <span class="n">Factor</span>
-<span class="kn">from</span> <span class="nn">symforce.opt.numeric_factor</span> <span class="kn">import</span> <span class="n">NumericFactor</span>
-<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">symforce.opt.noise_models</span> <span class="kn">import</span> <span class="n">BarronNoiseModel</span>
+<span class="kn">from</span> <span class="nn">symforce.opt.noise_models</span> <span class="kn">import</span> <span class="n">ScalarNoiseModel</span>
 
 
-<div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer">[docs]</a><span class="k">class</span> <span class="nc">Optimizer</span><span class="p">:</span>
+<div class="viewcode-block" id="inverse_range_landmark_prior_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_prior_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_prior_residual</span><span class="p">(</span>
+    <span class="n">landmark_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">inverse_range_prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector1</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A nonlinear least-squares optimizer</span>
-
-<span class="sd">    Typical usage is to construct an Optimizer from a set of factors and keys to optimize, and then</span>
-<span class="sd">    call :meth:`optimize` repeatedly with a :class:`Values &lt;symforce.values.values.Values&gt;`.</span>
-
-<span class="sd">    Example creation with a single :class:`Factor &lt;.factor.Factor&gt;`::</span>
-
-<span class="sd">        factor = Factor(</span>
-<span class="sd">            [my_key_0, my_key_1, my_key_2], my_residual_function</span>
-<span class="sd">        )</span>
-<span class="sd">        optimizer = Optimizer(</span>
-<span class="sd">            factors=[factor],</span>
-<span class="sd">            optimized_keys=[my_key_0, my_key_1],</span>
-<span class="sd">        )</span>
-
-<span class="sd">    And usage::</span>
-
-<span class="sd">        initial_guess = Values(...)</span>
-<span class="sd">        result = optimizer.optimize(initial_guess)</span>
-<span class="sd">        print(result.optimized_values)</span>
-
-<span class="sd">    Example creation with an :class:`.optimization_problem.OptimizationProblem` using</span>
-<span class="sd">    :meth:`make_numeric_factors() &lt;.optimization_problem.OptimizationProblem.make_numeric_factors&gt;`.</span>
-<span class="sd">    The linearization functions are generated in ``make_numeric_factors()`` and are linearized with</span>
-<span class="sd">    respect to</span>
-<span class="sd">    :meth:`problem.optimized_keys() &lt;.optimization_problem.OptimizationProblem.optimized_keys&gt;`::</span>
-
-<span class="sd">        problem = OptimizationProblem(subproblems=[...], residual_blocks=...)</span>
-<span class="sd">        factors = problem.make_numeric_factors(&quot;my_problem&quot;)</span>
-<span class="sd">        optimizer = Optimizer(factors)</span>
-
-<span class="sd">    Example creation with an :class:`.optimization_problem.OptimizationProblem` using</span>
-<span class="sd">    :meth:`make_symbolic_factors() &lt;.optimization_problem.OptimizationProblem.make_symbolic_factors&gt;`.</span>
-<span class="sd">    The symbolic factors are converted into numeric factors when the optimizer is created, and are</span>
-<span class="sd">    linearized with respect to the &quot;optimized keys&quot; passed to the optimizer. The linearization</span>
-<span class="sd">    functions are generated when converting to numeric factors when the optimizer is created::</span>
-
-<span class="sd">        problem = OptimizationProblem(subproblems=[...], residual_blocks=...)</span>
-<span class="sd">        factors = problem.make_symbolic_factors(&quot;my_problem&quot;)</span>
-<span class="sd">        optimizer = Optimizer(factors, problem.optimized_keys())</span>
-
-<span class="sd">    Wraps the C++ ``sym::Optimizer`` class in ``opt/optimizer.h``, so the API is mostly the same and</span>
-<span class="sd">    optimization results will be identical.</span>
+<span class="sd">    Factor representing a Gaussian prior on the inverse range of a landmark</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        factors: A sequence of either Factor or NumericFactor objects representing the</span>
-<span class="sd">            residuals in the problem. If (symbolic) Factors are passed, they are convered to</span>
-<span class="sd">            NumericFactors by generating linearization functions of the residual with respect to the</span>
-<span class="sd">            keys in ``optimized_keys``.</span>
-<span class="sd">        optimized_keys: A set of the keys to be optimized. Only required if symbolic factors are</span>
-<span class="sd">            passed to the optimizer.</span>
-<span class="sd">        params: Params for the optimizer</span>
-<span class="sd">        debug_stats: Whether the optimizer should record debugging stats such as the optimized</span>
-<span class="sd">            values, residual, jacobian, etc. computed at each iteration of the optimization.</span>
-<span class="sd">        include_jacobians: Whether the optimizer should compute jacobians (required for linear</span>
-<span class="sd">            error)</span>
+<span class="sd">        landmark_inverse_range: The current inverse range estimate</span>
+<span class="sd">        inverse_range_prior: The mean of the inverse range prior</span>
+<span class="sd">        weight: The weight of the prior</span>
+<span class="sd">        sigma: The standard deviation of the prior</span>
+<span class="sd">        epsilon: Small positive value</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 1dof residual of the prior</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prior_diff</span> <span class="o">=</span> <span class="n">landmark_inverse_range</span> <span class="o">-</span> <span class="n">inverse_range_prior</span>
+    <span class="n">prior_whitened_diff</span> <span class="o">=</span> <span class="n">weight</span> <span class="o">*</span> <span class="n">prior_diff</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">V1</span><span class="p">(</span><span class="n">prior_whitened_diff</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="reprojection_delta"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.reprojection_delta">[docs]</a><span class="k">def</span> <span class="nf">reprojection_delta</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">source_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reprojects the landmark into the target camera and returns the delta from the correspondence to</span>
+<span class="sd">    the reprojection.</span>
+
+<span class="sd">    The landmark is specified as a pixel in the source camera and an inverse range; this means the</span>
+<span class="sd">    landmark is fixed in the source camera and always has residual 0 there (this 0 residual is not</span>
+<span class="sd">    returned, only the residual in the target camera is returned).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        source_calibration: The source camera calibration</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration: The target camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        source_pixel: The location of the landmark in the source camera</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        epsilon: Small positive value</span>
+<span class="sd">        camera_model_class: The subclass of CameraCal to use as the camera model</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof pixel reprojection error</span>
+<span class="sd">        valid: is valid projection or not</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Warp source coords into target</span>
+    <span class="n">source_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">source_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">source_calibration</span><span class="p">)</span>
+    <span class="n">target_cam</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">PosedCamera</span><span class="p">(</span><span class="n">pose</span><span class="o">=</span><span class="n">target_pose</span><span class="p">,</span> <span class="n">calibration</span><span class="o">=</span><span class="n">target_calibration</span><span class="p">)</span>
+
+    <span class="n">target_pixel_warped</span><span class="p">,</span> <span class="n">warp_is_valid</span> <span class="o">=</span> <span class="n">source_cam</span><span class="o">.</span><span class="n">warp_pixel</span><span class="p">(</span>
+        <span class="n">pixel</span><span class="o">=</span><span class="n">source_pixel</span><span class="p">,</span>
+        <span class="n">inverse_range</span><span class="o">=</span><span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">target_cam</span><span class="o">=</span><span class="n">target_cam</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">reprojection_error</span> <span class="o">=</span> <span class="n">target_pixel_warped</span> <span class="o">-</span> <span class="n">target_pixel</span>
+    <span class="k">return</span> <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">warp_is_valid</span></div>
+
+
+<div class="viewcode-block" id="inverse_range_landmark_reprojection_error_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_reprojection_error_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_reprojection_error_residual</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">source_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">noise_model</span><span class="p">:</span> <span class="n">ScalarNoiseModel</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the 2dof residual of reprojecting the landmark into the target camera and comparing</span>
+<span class="sd">    against the correspondence in the target camera.</span>
+
+<span class="sd">    The landmark is specified as a pixel in the source camera and an inverse range; this means the</span>
+<span class="sd">    landmark is fixed in the source camera and always has residual 0 there (this 0 residual is not</span>
+<span class="sd">    returned, only the residual in the target camera is returned).</span>
+
+<span class="sd">    The norm of the residual is whitened using a</span>
+<span class="sd">    :class:`ScalarNoiseModel &lt;symforce.opt.noise_models.ScalarNoiseModel&gt;`.  Whitening each</span>
+<span class="sd">    component of the reprojection error separately would result in rejecting individual components</span>
+<span class="sd">    as outliers. Instead, we minimize the whitened norm of the full reprojection error for each</span>
+<span class="sd">    point.  See</span>
+<span class="sd">    :meth:`ScalarNoiseModel.whiten_norm &lt;symforce.opt.noise_models.ScalarNoiseModel.whiten_norm&gt;`</span>
+<span class="sd">    for more information on this.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        source_calibration: The source camera calibration</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration: The target camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        source_pixel: The location of the landmark in the source camera</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        weight: The weight of the factor</span>
+<span class="sd">        epsilon: Small positive value</span>
+<span class="sd">        noise_model: The noise model to use for whitening the residual</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof residual of the reprojection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">warp_is_valid</span> <span class="o">=</span> <span class="n">reprojection_delta</span><span class="p">(</span>
+        <span class="n">source_pose</span><span class="p">,</span>
+        <span class="n">source_calibration</span><span class="p">,</span>
+        <span class="n">target_pose</span><span class="p">,</span>
+        <span class="n">target_calibration</span><span class="p">,</span>
+        <span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">source_pixel</span><span class="p">,</span>
+        <span class="n">target_pixel</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">whitened_residual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">warp_is_valid</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">whitened_residual</span></div>
+
+
+<div class="viewcode-block" id="inverse_range_landmark_gnc_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_gnc_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_gnc_residual</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">source_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">source_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the 2dof residual of reprojecting the landmark into the target camera and comparing</span>
+<span class="sd">    against the correspondence in the target camera.</span>
+
+<span class="sd">    The landmark is specified as a pixel in the source camera and an inverse range; this means the</span>
+<span class="sd">    landmark is fixed in the source camera and always has residual 0 there (this 0 residual is not</span>
+<span class="sd">    returned, only the residual in the target camera is returned).</span>
+
+<span class="sd">    The norm of the residual is whitened using the</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`.  Whitening each</span>
+<span class="sd">    component of the reprojection error separately would result in rejecting individual components</span>
+<span class="sd">    as outliers. Instead, we minimize the whitened norm of the full reprojection error for each</span>
+<span class="sd">    point.  See</span>
+<span class="sd">    :meth:`ScalarNoiseModel.whiten_norm &lt;symforce.opt.noise_models.ScalarNoiseModel.whiten_norm&gt;`</span>
+<span class="sd">    for more information on this, and</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;` for more information on</span>
+<span class="sd">    the noise model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        source_calibration: The source camera calibration</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration: The target camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        source_pixel: The location of the landmark in the source camera</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        weight: The weight of the factor</span>
+<span class="sd">        gnc_mu: The mu convexity parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        gnc_scale: The scale parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        epsilon: Small positive value</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof residual of the reprojection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">noise_model</span> <span class="o">=</span> <span class="n">BarronNoiseModel</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">BarronNoiseModel</span><span class="o">.</span><span class="n">compute_alpha_from_mu</span><span class="p">(</span><span class="n">gnc_mu</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">),</span>
+        <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">x_epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">inverse_range_landmark_reprojection_error_residual</span><span class="p">(</span>
+        <span class="n">source_pose</span><span class="p">,</span>
+        <span class="n">source_calibration</span><span class="p">,</span>
+        <span class="n">target_pose</span><span class="p">,</span>
+        <span class="n">target_calibration</span><span class="p">,</span>
+        <span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">source_pixel</span><span class="p">,</span>
+        <span class="n">target_pixel</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">,</span>
+        <span class="n">noise_model</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ray_reprojection_delta"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.ray_reprojection_delta">[docs]</a><span class="k">def</span> <span class="nf">ray_reprojection_delta</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reprojects the landmark ray into the target camera and returns the delta between the</span>
+<span class="sd">    correspondence and the reprojection.</span>
+
+<span class="sd">    The landmark is specified as a 3D point or ray (will be normalized) in the source</span>
+<span class="sd">    camera; this means the landmark is fixed in the source camera and always has residual 0 there</span>
+<span class="sd">    (this 0 residual is not returned, only the residual in the target camera is returned).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration: The target camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        p_camera_source: The location of the landmark in the source camera coordinate, will be</span>
+<span class="sd">            normalized</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        epsilon: Small positive value</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof reprojection delta</span>
+<span class="sd">        valid: is valid projection or not</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nav_T_target_cam</span> <span class="o">=</span> <span class="n">target_pose</span>
+    <span class="n">nav_T_source_cam</span> <span class="o">=</span> <span class="n">source_pose</span>
+    <span class="n">p_camera_source_unit_ray</span> <span class="o">=</span> <span class="n">p_camera_source</span> <span class="o">/</span> <span class="n">p_camera_source</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
+
+    <span class="n">p_cam_target</span> <span class="o">=</span> <span class="n">nav_T_target_cam</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span>
+        <span class="n">nav_T_source_cam</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">p_camera_source_unit_ray</span>
+        <span class="o">+</span> <span class="p">(</span><span class="n">nav_T_source_cam</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">nav_T_target_cam</span><span class="o">.</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">source_inverse_range</span>
+    <span class="p">)</span>
+
+    <span class="n">target_pixel_reprojection</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">target_calibration</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span>
+        <span class="n">p_cam_target</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span>
+    <span class="p">)</span>
+    <span class="n">reprojection_error</span> <span class="o">=</span> <span class="n">target_pixel_reprojection</span> <span class="o">-</span> <span class="n">target_pixel</span>
+
+    <span class="k">return</span> <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">is_valid</span></div>
+
+
+<div class="viewcode-block" id="inverse_range_landmark_ray_reprojection_error_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_ray_reprojection_error_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_ray_reprojection_error_residual</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">noise_model</span><span class="p">:</span> <span class="n">ScalarNoiseModel</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the 2dof residual of reprojecting the landmark ray into the target spherical camera and</span>
+<span class="sd">    comparing it against the correspondence.</span>
+
+<span class="sd">    The landmark is specified as a camera point in the source camera with an inverse range; this</span>
+<span class="sd">    means the landmark is fixed in the source camera and always has residual 0 there (this 0</span>
+<span class="sd">    residual is not returned, only the residual in the target camera is returned).</span>
+
+<span class="sd">    The norm of the residual is whitened using a</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`.  Whitening each</span>
+<span class="sd">    component of the reprojection error separately would result in rejecting individual components</span>
+<span class="sd">    as outliers. Instead, we minimize the whitened norm of the full reprojection error for each</span>
+<span class="sd">    point.  See</span>
+<span class="sd">    :meth:`ScalarNoiseModel.whiten_norm &lt;symforce.opt.noise_models.ScalarNoiseModel.whiten_norm&gt;`</span>
+<span class="sd">    for more information on this, and</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;` for more information on</span>
+<span class="sd">    the noise model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration: The target spherical camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        p_camera_source: The location of the landmark in the source camera coordinate, will be</span>
+<span class="sd">            normalized</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        weight: The weight of the factor</span>
+<span class="sd">        gnc_mu: The mu convexity parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        gnc_scale: The scale parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        epsilon: Small positive value</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof whiten residual of the reprojection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reprojection_error</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="n">ray_reprojection_delta</span><span class="p">(</span>
+        <span class="n">source_pose</span><span class="p">,</span>
+        <span class="n">target_pose</span><span class="p">,</span>
+        <span class="n">target_calibration</span><span class="p">,</span>
+        <span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">p_camera_source</span><span class="p">,</span>
+        <span class="n">target_pixel</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">whitened_residual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">is_valid</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span> <span class="o">*</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">whiten_norm</span><span class="p">(</span><span class="n">reprojection_error</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">whitened_residual</span></div>
+
+
+<div class="viewcode-block" id="inverse_range_landmark_ray_gnc_residual"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.inverse_range_landmark_ray_gnc_residual">[docs]</a><span class="k">def</span> <span class="nf">inverse_range_landmark_ray_gnc_residual</span><span class="p">(</span>
+    <span class="n">source_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">target_calibration</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">,</span>
+    <span class="n">source_inverse_range</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">p_camera_source</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+    <span class="n">target_pixel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_mu</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">gnc_scale</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the 2dof residual of reprojecting the landmark ray into the target spherical camera and</span>
+<span class="sd">    comparing it against the correspondence.</span>
+
+<span class="sd">    The landmark is specified as a camera point in the source camera with an inverse range; this</span>
+<span class="sd">    means the landmark is fixed in the source camera and always has residual 0 there (this 0</span>
+<span class="sd">    residual is not returned, only the residual in the target camera is returned).</span>
+
+<span class="sd">    The norm of the residual is whitened using the</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`.  Whitening each</span>
+<span class="sd">    component of the reprojection error separately would result in rejecting individual components</span>
+<span class="sd">    as outliers. Instead, we minimize the whitened norm of the full reprojection error for each</span>
+<span class="sd">    point.  See</span>
+<span class="sd">    :meth:`ScalarNoiseModel.whiten_norm &lt;symforce.opt.noise_models.ScalarNoiseModel.whiten_norm&gt;`</span>
+<span class="sd">    for more information on this, and</span>
+<span class="sd">    :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;` for more information on</span>
+<span class="sd">    the noise model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        source_pose: The pose of the source camera</span>
+<span class="sd">        target_pose: The pose of the target camera</span>
+<span class="sd">        target_calibration: The target spherical camera calibration</span>
+<span class="sd">        source_inverse_range: The inverse range of the landmark in the source camera</span>
+<span class="sd">        p_camera_source: The location of the landmark in the source camera coordinate, will be</span>
+<span class="sd">            normalized</span>
+<span class="sd">        target_pixel: The location of the correspondence in the target camera</span>
+<span class="sd">        weight: The weight of the factor</span>
+<span class="sd">        gnc_mu: The mu convexity parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        gnc_scale: The scale parameter for the</span>
+<span class="sd">            :class:`BarronNoiseModel &lt;symforce.opt.noise_models.BarronNoiseModel&gt;`</span>
+<span class="sd">        epsilon: Small positive value</span>
+
+<span class="sd">    Outputs:</span>
+<span class="sd">        res: 2dof whiten residual of the reprojection</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Optimizer.Params"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Params">[docs]</a>    <span class="nd">@dataclass</span>
-    <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameters for the Python Optimizer</span>
+    <span class="n">noise_model</span> <span class="o">=</span> <span class="n">BarronNoiseModel</span><span class="p">(</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">BarronNoiseModel</span><span class="o">.</span><span class="n">compute_alpha_from_mu</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">gnc_mu</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span>
+        <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">x_epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+    <span class="p">)</span>
 
-<span class="sd">        Mirrors the ``optimizer_params_t`` LCM type, see documentation there for information on each</span>
-<span class="sd">        parameter.</span>
+    <span class="k">return</span> <span class="n">inverse_range_landmark_ray_reprojection_error_residual</span><span class="p">(</span>
+        <span class="n">source_pose</span><span class="p">,</span>
+        <span class="n">target_pose</span><span class="p">,</span>
+        <span class="n">target_calibration</span><span class="p">,</span>
+        <span class="n">source_inverse_range</span><span class="p">,</span>
+        <span class="n">p_camera_source</span><span class="p">,</span>
+        <span class="n">target_pixel</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">,</span>
+        <span class="n">noise_model</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
-<span class="sd">        Note: For the Python optimizer, verbose defaults to True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">initial_lambda</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-        <span class="n">lambda_up_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
-        <span class="n">lambda_down_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">4.0</span>
-        <span class="n">lambda_lower_bound</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="n">lambda_upper_bound</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000000.0</span>
-        <span class="n">use_diagonal_damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">use_unit_damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">keep_max_diagonal_damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">diagonal_damping_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span>
-        <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
-        <span class="n">early_exit_min_reduction</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span>
-        <span class="n">enable_bold_updates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.slam_factors_codegen.html#symforce.codegen.slam_factors_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CodegenConfig</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate the SLAM package for the given language.</span>
 
-    <span class="n">Status</span> <span class="o">=</span> <span class="n">optimization_status_t</span>
-    <span class="n">FailureReason</span> <span class="o">=</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span>
+<span class="sd">    Args:</span>
+<span class="sd">        output_dir: Directory to generate outputs into</span>
+<span class="sd">        config: CodegenConfig, defaults to the default C++ config</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Subdirectory for everything we&#39;ll generate</span>
+    <span class="n">factors_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;factors&quot;</span>
 
-<div class="viewcode-block" id="Optimizer.Result"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Result">[docs]</a>    <span class="nd">@dataclass</span>
-    <span class="k">class</span> <span class="nc">Result</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        The result of an optimization, with additional stats and debug information</span>
+    <span class="c1"># default config to CppConfig</span>
+    <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">codegen</span><span class="o">.</span><span class="n">CppConfig</span><span class="p">()</span>
 
-<span class="sd">        Attributes:</span>
-<span class="sd">            initial_values:</span>
-<span class="sd">                The initial guess used for this optimization</span>
+    <span class="c1"># Default cam types to generate</span>
+    <span class="n">cam_types</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">()</span>
 
-<span class="sd">            optimized_values:</span>
-<span class="sd">                The best Values achieved during the optimization (Values with the smallest error)</span>
+    <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">inverse_range_landmark_prior_residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span><span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;landmark_inverse_range&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
 
-<span class="sd">            iterations:</span>
-<span class="sd">                Per-iteration stats, if requested, like the error per iteration.  If debug stats are</span>
-<span class="sd">                turned on, also the Values and linearization per iteration.</span>
-
-<span class="sd">            best_index:</span>
-<span class="sd">                The index into iterations for the iteration that produced the smallest error.  I.e.</span>
-<span class="sd">                ``result.iterations[best_index].values == optimized_values``.  This is not</span>
-<span class="sd">                guaranteed to be the last iteration, if the optimizer tried additional steps which</span>
-<span class="sd">                did not reduce the error</span>
-
-<span class="sd">            status:</span>
-<span class="sd">                What was the result of the optimization? (did it converge, fail, etc.)</span>
-
-<span class="sd">            failure_reason:</span>
-<span class="sd">                If status == FAILED, why?</span>
-
-<span class="sd">            best_linearization:</span>
-<span class="sd">                The linearization at best_index (at optimized_values), filled out if</span>
-<span class="sd">                populate_best_linearization=True</span>
-
-<span class="sd">            jacobian_sparsity:</span>
-<span class="sd">                The sparsity pattern of the jacobian, filled out if debug_stats=True</span>
-
-<span class="sd">            linear_solver_ordering:</span>
-<span class="sd">                The ordering used for the linear solver, filled out if debug_stats=True</span>
-
-<span class="sd">            cholesky_factor_sparsity:</span>
-<span class="sd">                The sparsity pattern of the cholesky factor L, filled out if debug_stats=True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">initial_values</span><span class="p">:</span> <span class="n">Values</span>
-        <span class="n">optimized_values</span><span class="p">:</span> <span class="n">Values</span>
-
-        <span class="c1"># Private field holding the original stats - we expose fields of this through properties,</span>
-        <span class="c1"># since some of the conversions out of this are expensive</span>
-        <span class="n">_stats</span><span class="p">:</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">OptimizationStats</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">optimization_iteration_t</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">iterations</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">best_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">best_index</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">optimization_status_t</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">status</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">failure_reason</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">FailureReason</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">failure_reason</span><span class="p">)</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">best_linearization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">best_linearization</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">jacobian_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">jacobian_sparsity</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">linear_solver_ordering</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">linear_solver_ordering</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">cholesky_factor_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">cholesky_factor_sparsity</span>
-
-        <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">iteration_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">optimization_iteration_t</span><span class="p">]:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;iteration_stats is deprecated, use iterations&quot;</span><span class="p">,</span> <span class="ne">FutureWarning</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span>
-
-<div class="viewcode-block" id="Optimizer.Result.error"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Result.error">[docs]</a>        <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            The lowest error achieved by the optimization (the error at optimized_values)</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">best_index</span><span class="p">]</span><span class="o">.</span><span class="n">new_error</span></div></div>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">factors</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Factor</span><span class="p">,</span> <span class="n">NumericFactor</span><span class="p">]],</span>
-        <span class="n">optimized_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">params</span><span class="p">:</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Params</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">debug_stats</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">include_jacobians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">):</span>
-
-        <span class="k">if</span> <span class="n">optimized_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># This will be filled with the optimized keys of the numeric factors</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">optimized_keys</span><span class="p">)</span>
-            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">optimized_keys</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span>
-                <span class="nb">set</span><span class="p">(</span><span class="n">optimized_keys</span><span class="p">)</span>
-            <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Duplicates in optimized keys: </span><span class="si">{</span><span class="n">optimized_keys</span><span class="si">}</span><span class="s2">&quot;</span>
-
-        <span class="n">numeric_factors</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">Factor</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">optimized_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">&quot;You must specify `optimized_keys` when passing symbolic factors.&quot;</span>
-                    <span class="p">)</span>
-                <span class="c1"># We compute the linearization in the same order as `optimized_keys`</span>
-                <span class="c1"># so that e.g. columns of the generated jacobians are in the same order</span>
-                <span class="n">factor_opt_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt_key</span> <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">optimized_keys</span> <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">factor_opt_keys</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Factor </span><span class="si">{</span><span class="n">factor</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has no arguments (keys: </span><span class="si">{</span><span class="n">factor</span><span class="o">.</span><span class="n">keys</span><span class="si">}</span><span class="s2">) in &quot;</span>
-                        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;optimized_keys (</span><span class="si">{</span><span class="n">optimized_keys</span><span class="si">}</span><span class="s2">).&quot;</span>
-                    <span class="p">)</span>
-                <span class="n">numeric_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor</span><span class="o">.</span><span class="n">to_numeric_factor</span><span class="p">(</span><span class="n">factor_opt_keys</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Add unique keys to optimized keys</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
-                    <span class="n">opt_key</span>
-                    <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">optimized_keys</span>
-                    <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span>
-                <span class="p">)</span>
-                <span class="n">numeric_factors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor</span><span class="p">)</span>
-
-        <span class="c1"># Set default params if none given</span>
-        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Params</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">debug_stats</span> <span class="o">=</span> <span class="n">debug_stats</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
-
-        <span class="c1"># Create a mapping from python identifier string keys to fixed-size C++ Key objects</span>
-        <span class="c1"># Initialize the keys map with the optimized keys, which are needed to construct the factors</span>
-        <span class="c1"># This works because the factors maintain a reference to this, so everything is fine as long</span>
-        <span class="c1"># as the unoptimized keys are also in here before we attempt to linearize any of the factors</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Key</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">)}</span>
-        <span class="c1"># create the mapping from cc_keys back into python keys</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_py_keys_from_cc_keys_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-
-        <span class="c1"># This stores the list of keys in the python Values, which are necessary for reconstructing</span>
-        <span class="c1"># a Python Values from C++, in particular for methods that don&#39;t otherwise have a Python</span>
-        <span class="c1"># Values available.  It&#39;s filled out in `_initialize`.  The order is important here, which</span>
-        <span class="c1"># why we can&#39;t just pull the keys out of `_cc_keys_map`, which is constructed out-of-order.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">values_keys_ordered</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-
-        <span class="c1"># Construct the C++ optimizer</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span> <span class="o">=</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">(</span>
-            <span class="n">optimizer_params_t</span><span class="p">(</span><span class="o">**</span><span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)),</span>
-            <span class="p">[</span><span class="n">factor</span><span class="o">.</span><span class="n">cc_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">)</span> <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">numeric_factors</span><span class="p">],</span>
-            <span class="n">debug_stats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">debug_stats</span><span class="p">,</span>
-            <span class="n">include_jacobians</span><span class="o">=</span><span class="n">include_jacobians</span><span class="p">,</span>
+    <span class="k">for</span> <span class="n">cam_type</span> <span class="ow">in</span> <span class="n">cam_types</span><span class="p">:</span>
+        <span class="n">cam_type_name</span> <span class="o">=</span> <span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span><span class="p">(</span>
+            <span class="n">python_util</span><span class="o">.</span><span class="n">str_removesuffix</span><span class="p">(</span><span class="n">cam_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s2">&quot;CameraCal&quot;</span><span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Add unoptimized keys into the keys map</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">:</span>
-                <span class="c1"># Give these a different name (`v`) so we don&#39;t have to deal with numbering</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Key</span><span class="p">(</span><span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">values_keys_ordered</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">())</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="k">def</span> <span class="nf">_cc_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Values</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a cc_sym.Values from the given Python Values</span>
-
-<span class="sd">        This uses the stored cc_keys_map, which will be initialized if it does not exist yet.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">to_numerical</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
-
-        <span class="n">cc_values</span> <span class="o">=</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Values</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">cc_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">cc_values</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cc_key</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-
-        <span class="k">return</span> <span class="n">cc_values</span>
-
-<div class="viewcode-block" id="Optimizer.compute_all_covariances"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_all_covariances">[docs]</a>    <span class="k">def</span> <span class="nf">compute_all_covariances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute the covariance matrix (J^T@J)^-1 for all optimized keys about a given linearization point</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            optimized_value: A value containing the linearization point to compute the covariance matrix about</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A dict of {optimized_key: numerical covariance matrix}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cc_covariance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">compute_all_covariances</span><span class="p">(</span>
-            <span class="n">linearization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="n">optimized_value</span><span class="p">)</span>
+        <span class="n">specialize_cam</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">specialize_types</span><span class="p">,</span> <span class="n">type_replacements</span><span class="o">=</span><span class="p">{</span><span class="n">sf</span><span class="o">.</span><span class="n">CameraCal</span><span class="p">:</span> <span class="n">cam_type</span><span class="p">}</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_py_keys_from_cc_keys_map</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cc_covariance_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
-
-<div class="viewcode-block" id="Optimizer.compute_covariances"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_covariances">[docs]</a>    <span class="k">def</span> <span class="nf">compute_covariances</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get covariances for the given subset of keys at the given linearization</span>
-
-<span class="sd">        This version is potentially much more efficient than computing the covariances for all</span>
-<span class="sd">        keys in the problem.</span>
-
-<span class="sd">        Currently requires that `keys` corresponds to a set of keys at the start of the list of keys</span>
-<span class="sd">        for the full problem, and in the same order.  It uses the Schur complement trick, so will be</span>
-<span class="sd">        most efficient if the hessian is of the following form, with C block diagonal::</span>
-
-<span class="sd">            A = ( B    E )</span>
-<span class="sd">                ( E^T  C )</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            optimized_value: A value containing the linearization point to compute the covariance matrix about</span>
-<span class="sd">            keys: The subset of keys to compute covariances for</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A dict of {optimized_key: numerical covariance matrix}</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cc_covariance_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">compute_covariances</span><span class="p">(</span>
-            <span class="n">linearization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="n">optimized_value</span><span class="p">),</span>
-            <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">],</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_py_keys_from_cc_keys_map</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cc_covariance_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
-
-<div class="viewcode-block" id="Optimizer.compute_full_covariance"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_full_covariance">[docs]</a>    <span class="k">def</span> <span class="nf">compute_full_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the full problem covariance at the given linearization</span>
-
-<span class="sd">        Unlike compute_covariance and compute_all_covariances, this includes the off-diagonal</span>
-<span class="sd">        blocks, i.e. the cross-covariances between different keys.</span>
-
-<span class="sd">        The ordering of entries here is the same as the ordering of the keys in the linearization,</span>
-<span class="sd">        which can be accessed via linearization_index().</span>
-
-<span class="sd">        May not be called before either optimize or linearize has been called.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">compute_full_covariance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="n">optimized_value</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="Optimizer.optimize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_guess</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Optimize from the given initial guess, and return the optimized Values and stats</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            initial_guess: A Values containing the initial guess, should contain at least all the</span>
-<span class="sd">                keys required by the ``factors`` passed to the constructor</span>
-<span class="sd">            num_iterations: If &lt; 0 (the default), uses the number of iterations specified by the</span>
-<span class="sd">                params at construction</span>
-<span class="sd">            populate_best_linearization: If true, the linearization at the best values will be</span>
-<span class="sd">                filled out in the stats</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The optimization results, with additional stats and debug information.  See the</span>
-<span class="sd">            :class:`Optimizer.Result` documentation for more information</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cc_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_values</span><span class="p">(</span><span class="n">initial_guess</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">cc_values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&quot;ERROR: Division by zero - check your use of epsilon!&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">specialize_cam</span><span class="p">(</span><span class="n">inverse_range_landmark_gnc_residual</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;inverse_range_landmark_</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_gnc_residual&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+                <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
+                <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
 
-        <span class="n">optimized_values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span>
-            <span class="o">**</span><span class="p">{</span>
-                <span class="n">key</span><span class="p">:</span> <span class="n">cc_values</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
-                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">initial_guess</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">()</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">specialize_cam</span><span class="p">(</span><span class="n">reprojection_delta</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_delta&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reprojection_delta&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">(</span>
-            <span class="n">initial_values</span><span class="o">=</span><span class="n">initial_guess</span><span class="p">,</span> <span class="n">optimized_values</span><span class="o">=</span><span class="n">optimized_values</span><span class="p">,</span> <span class="n">_stats</span><span class="o">=</span><span class="n">stats</span>
-        <span class="p">)</span></div>
+        <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+            <span class="c1"># Not all cameras implement backprojection</span>
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">specialize_cam</span><span class="p">(</span><span class="n">inverse_range_landmark_ray_gnc_residual</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;inverse_range_landmark_</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_gnc_residual&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+                <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
+                <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
 
-<div class="viewcode-block" id="Optimizer.linearize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearize">[docs]</a>    <span class="k">def</span> <span class="nf">linearize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute and return the linearization at the given Values</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_values</span><span class="p">(</span><span class="n">values</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="Optimizer.load_iteration_values"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.load_iteration_values">[docs]</a>    <span class="k">def</span> <span class="nf">load_iteration_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values_msg</span><span class="p">:</span> <span class="n">values_t</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Load a ``values_t`` message into a Python :class:`Values &lt;symforce.values.values.Values&gt;`</span>
-<span class="sd">        by first creating a C++ Values, then converting back to the python key names.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cc_values</span> <span class="o">=</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Values</span><span class="p">(</span><span class="n">values_msg</span><span class="p">)</span>
-
-        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">values_keys_ordered</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-
-        <span class="n">py_values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span>
-            <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">cc_values</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values_keys_ordered</span><span class="p">}</span>
-        <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">py_values</span></div>
-
-<div class="viewcode-block" id="Optimizer.linearization_index"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index">[docs]</a>    <span class="k">def</span> <span class="nf">linearization_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">index_entry_t</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the index mapping keys to their positions in the linearized state vector.  Useful for</span>
-<span class="sd">        extracting blocks from the problem jacobian, hessian, or RHS</span>
-
-<span class="sd">        Returns: The index for the Optimizer&#39;s problem linearization</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">linearization_index</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">index</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">}</span></div>
-
-<div class="viewcode-block" id="Optimizer.linearization_index_entry"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index_entry">[docs]</a>    <span class="k">def</span> <span class="nf">linearization_index_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">index_entry_t</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the index entry for a given key in the linearized state vector.  Useful for extracting</span>
-<span class="sd">        blocks from the problem jacobian, hessian, or RHS</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            key: The string key for a variable in the Python Values</span>
-
-<span class="sd">        Returns: The index entry for the variable in the Optimizer&#39;s problem linearization</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">linearization_index_entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span></div></div>
+            <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">specialize_cam</span><span class="p">(</span><span class="n">ray_reprojection_delta</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cam_type_name</span><span class="si">}</span><span class="s2">_reprojection_delta&quot;</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;reprojection_delta&quot;</span><span class="p">,</span> <span class="s2">&quot;is_valid&quot;</span><span class="p">],</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
         </article>
       </div>
