@@ -963,6 +963,8 @@
                 <span class="nb">set</span><span class="p">(</span><span class="n">optimized_keys</span><span class="p">)</span>
             <span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;Duplicates in optimized keys: </span><span class="si">{</span><span class="n">optimized_keys</span><span class="si">}</span><span class="s2">&quot;</span>
 
+        <span class="n">optimized_keys_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">)</span>
+
         <span class="n">numeric_factors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="n">Factor</span><span class="p">):</span>
@@ -970,9 +972,11 @@
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                         <span class="s2">&quot;You must specify `optimized_keys` when passing symbolic factors.&quot;</span>
                     <span class="p">)</span>
-                <span class="c1"># We compute the linearization in the same order as `optimized_keys`</span>
-                <span class="c1"># so that e.g. columns of the generated jacobians are in the same order</span>
-                <span class="n">factor_opt_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">opt_key</span> <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">optimized_keys</span> <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">keys</span><span class="p">]</span>
+                <span class="c1"># We compute the linearization in the same order as `factor.keys` so that using the</span>
+                <span class="c1"># same factor with different problem keys will produce the same generated function</span>
+                <span class="n">factor_opt_keys</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">opt_key</span> <span class="k">for</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">factor</span><span class="o">.</span><span class="n">keys</span> <span class="k">if</span> <span class="n">opt_key</span> <span class="ow">in</span> <span class="n">optimized_keys_set</span>
+                <span class="p">]</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">factor_opt_keys</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s2">&quot;Factor </span><span class="si">{</span><span class="n">factor</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has no arguments (keys: </span><span class="si">{</span><span class="n">factor</span><span class="o">.</span><span class="n">keys</span><span class="si">}</span><span class="s2">) in &quot;</span>

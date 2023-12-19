@@ -7,10 +7,10 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="api/modules.html" />
 <meta property="og:site_name" content="symforce" />
-<meta property="og:description" content="symforce package- set_log_level(), InvalidSymbolicApiError, set_symbolic_api(), get_symbolic_api(), AlreadyUsedEpsilon, set_epsilon_to_symbol(), set_epsilon_to_number(), set_epsilon_to_zero(), set_..." />
+<meta property="og:description" content="symforce package- set_log_level(), InvalidSymbolicApiError, set_symbolic_api(), get_symbolic_api(), AlreadyUsedEpsilon, SymbolicEpsilon- name., set_epsilon_to_symbol(), set_epsilon_to_number(), set..." />
 <meta property="og:image" content="https://symforce.org/docs/static/images/symforce_banner.png" />
 <meta property="og:image:alt" content="symforce" />
-<meta name="description" content="symforce package- set_log_level(), InvalidSymbolicApiError, set_symbolic_api(), get_symbolic_api(), AlreadyUsedEpsilon, set_epsilon_to_symbol(), set_epsilon_to_number(), set_epsilon_to_zero(), set_..." />
+<meta name="description" content="symforce package- set_log_level(), InvalidSymbolicApiError, set_symbolic_api(), get_symbolic_api(), AlreadyUsedEpsilon, SymbolicEpsilon- name., set_epsilon_to_symbol(), set_epsilon_to_number(), set..." />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
@@ -753,6 +753,10 @@
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_symbolic_api"><code class="docutils literal notranslate"><span class="pre">set_symbolic_api()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.get_symbolic_api"><code class="docutils literal notranslate"><span class="pre">get_symbolic_api()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.AlreadyUsedEpsilon"><code class="docutils literal notranslate"><span class="pre">AlreadyUsedEpsilon</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.SymbolicEpsilon"><code class="docutils literal notranslate"><span class="pre">SymbolicEpsilon</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="symforce.html#symforce.SymbolicEpsilon.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_epsilon_to_symbol"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_symbol()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_epsilon_to_number"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_number()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.html#symforce.set_epsilon_to_zero"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_zero()</span></code></a></li>
@@ -972,9 +976,13 @@
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.uppergamma"><code class="docutils literal notranslate"><span class="pre">uppergamma</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.var"><code class="docutils literal notranslate"><span class="pre">var()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.zeta"><code class="docutils literal notranslate"><span class="pre">zeta</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.create_named_scope"><code class="docutils literal notranslate"><span class="pre">create_named_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_scope"><code class="docutils literal notranslate"><span class="pre">set_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.get_scope"><code class="docutils literal notranslate"><span class="pre">get_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.symbols"><code class="docutils literal notranslate"><span class="pre">symbols()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Scalar"><code class="docutils literal notranslate"><span class="pre">Scalar</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_positive"><code class="docutils literal notranslate"><span class="pre">is_positive()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_negative"><code class="docutils literal notranslate"><span class="pre">is_negative()</span></code></a></li>
@@ -1004,10 +1012,6 @@
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.count_ops"><code class="docutils literal notranslate"><span class="pre">count_ops()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.DataBuffer"><code class="docutils literal notranslate"><span class="pre">DataBuffer</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.original_get_dict"><code class="docutils literal notranslate"><span class="pre">original_get_dict()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.create_named_scope"><code class="docutils literal notranslate"><span class="pre">create_named_scope()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_scope"><code class="docutils literal notranslate"><span class="pre">set_scope()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.get_scope"><code class="docutils literal notranslate"><span class="pre">get_scope()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Complex"><code class="docutils literal notranslate"><span class="pre">Complex</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.DualQuaternion"><code class="docutils literal notranslate"><span class="pre">DualQuaternion</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Storage"><code class="docutils literal notranslate"><span class="pre">Storage</span></code></a></li>

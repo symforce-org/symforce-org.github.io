@@ -752,7 +752,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
 
 <span class="c1"># -------------------------------------------------------------------------------------------------</span>
@@ -875,11 +875,11 @@
         <span class="k">return</span> <span class="n">symengine</span>
 
 
-<span class="n">_symbolic_api</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_symbolic_api</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;sympy&quot;</span><span class="p">,</span> <span class="s2">&quot;symengine&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">_have_imported_symbolic</span> <span class="o">=</span> <span class="kc">False</span>
 
 
-<span class="k">def</span> <span class="nf">_set_symbolic_api</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_set_symbolic_api</span><span class="p">(</span><span class="n">sympy_module</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;sympy&quot;</span><span class="p">,</span> <span class="s2">&quot;symengine&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># Set this as the default symbolic API</span>
     <span class="k">global</span> <span class="n">_symbolic_api</span>  <span class="c1"># pylint: disable=global-statement</span>
     <span class="n">_symbolic_api</span> <span class="o">=</span> <span class="n">sympy_module</span>
@@ -949,16 +949,15 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No SYMFORCE_SYMBOLIC_API set, found and using symengine.&quot;</span><span class="p">)</span>
         <span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;symengine&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No SYMFORCE_SYMBOLIC_API set, no symengine found, using sympy.&quot;</span><span class="p">)</span>
-        <span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;sympy&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No SYMFORCE_SYMBOLIC_API set, no symengine found.  Will use sympy.&quot;</span><span class="p">)</span>
+        <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="get_symbolic_api"><a class="viewcode-back" href="../api/symforce.html#symforce.get_symbolic_api">[docs]</a><span class="k">def</span> <span class="nf">get_symbolic_api</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_symbolic_api"><a class="viewcode-back" href="../api/symforce.html#symforce.get_symbolic_api">[docs]</a><span class="k">def</span> <span class="nf">get_symbolic_api</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;sympy&quot;</span><span class="p">,</span> <span class="s2">&quot;symengine&quot;</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the current symbolic API as a string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">_symbolic_api</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-    <span class="k">return</span> <span class="n">_symbolic_api</span></div>
+    <span class="k">return</span> <span class="n">_symbolic_api</span> <span class="ow">or</span> <span class="s2">&quot;sympy&quot;</span></div>
 
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
@@ -977,7 +976,7 @@
     <span class="k">pass</span></div>
 
 
-<span class="n">_epsilon</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">_epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">_have_used_epsilon</span> <span class="o">=</span> <span class="kc">False</span>
 
 
@@ -1003,6 +1002,15 @@
     <span class="n">_epsilon</span> <span class="o">=</span> <span class="n">new_epsilon</span>
 
 
+<div class="viewcode-block" id="SymbolicEpsilon"><a class="viewcode-back" href="../api/symforce.html#symforce.SymbolicEpsilon">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">SymbolicEpsilon</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An indicator that SymForce should use a symbolic epsilon</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
 <div class="viewcode-block" id="set_epsilon_to_symbol"><a class="viewcode-back" href="../api/symforce.html#symforce.set_epsilon_to_symbol">[docs]</a><span class="k">def</span> <span class="nf">set_epsilon_to_symbol</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;epsilon&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the default epsilon for Symforce to a Symbol.</span>
@@ -1013,14 +1021,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        name: The name of the symbol for the new default epsilon to use</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">sympy</span>
-    <span class="k">elif</span> <span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
-        <span class="n">sympy</span> <span class="o">=</span> <span class="n">_find_symengine</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">get_symbolic_api</span><span class="p">())</span>
-
-    <span class="n">_set_epsilon</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div>
+    <span class="n">_set_epsilon</span><span class="p">(</span><span class="n">SymbolicEpsilon</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="set_epsilon_to_number"><a class="viewcode-back" href="../api/symforce.html#symforce.set_epsilon_to_number">[docs]</a><span class="k">def</span> <span class="nf">set_epsilon_to_number</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span> <span class="o">=</span> <span class="n">numeric_epsilon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

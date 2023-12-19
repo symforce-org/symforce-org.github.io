@@ -807,7 +807,7 @@ be 100-200 times faster for many operations, but is less fully featured.</p>
 <dd><p>Return the current symbolic API as a string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.12)"><em>Literal</em></a>[‘sympy’, ‘symengine’]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -817,6 +817,23 @@ be 100-200 times faster for many operations, but is less fully featured.</p>
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AlreadyUsedEpsilon</span></span><a class="reference internal" href="../_modules/symforce.html#AlreadyUsedEpsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.AlreadyUsedEpsilon" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
 <p>Exception thrown on attempting to modify the default epsilon after it has been used elsewhere</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="symforce.SymbolicEpsilon">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SymbolicEpsilon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce.html#SymbolicEpsilon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.SymbolicEpsilon" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An indicator that SymForce should use a symbolic epsilon</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.SymbolicEpsilon.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></em><a class="headerlink" href="#symforce.SymbolicEpsilon.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -1356,8 +1373,12 @@ imported. See <a class="reference internal" href="symforce.symbolic.html#symforc
 <li class="toctree-l1"><a class="reference internal" href="symforce.internal.html">symforce.internal package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="symforce.internal.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="symforce.internal.symbolic.html">symforce.internal.symbolic module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.create_named_scope"><code class="docutils literal notranslate"><span class="pre">create_named_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.set_scope"><code class="docutils literal notranslate"><span class="pre">set_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.get_scope"><code class="docutils literal notranslate"><span class="pre">get_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.wrap_angle"><code class="docutils literal notranslate"><span class="pre">wrap_angle()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.angle_diff"><code class="docutils literal notranslate"><span class="pre">angle_diff()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.sign_no_zero"><code class="docutils literal notranslate"><span class="pre">sign_no_zero()</span></code></a></li>
@@ -1372,10 +1393,6 @@ imported. See <a class="reference internal" href="symforce.symbolic.html#symforc
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.simplify"><code class="docutils literal notranslate"><span class="pre">simplify()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.limit"><code class="docutils literal notranslate"><span class="pre">limit()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.create_named_scope"><code class="docutils literal notranslate"><span class="pre">create_named_scope()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.set_scope"><code class="docutils literal notranslate"><span class="pre">set_scope()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.get_scope"><code class="docutils literal notranslate"><span class="pre">get_scope()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1996,9 +2013,13 @@ imported. See <a class="reference internal" href="symforce.symbolic.html#symforc
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.uppergamma"><code class="docutils literal notranslate"><span class="pre">uppergamma</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.var"><code class="docutils literal notranslate"><span class="pre">var()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.zeta"><code class="docutils literal notranslate"><span class="pre">zeta</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.create_named_scope"><code class="docutils literal notranslate"><span class="pre">create_named_scope()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_scope"><code class="docutils literal notranslate"><span class="pre">set_scope()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.get_scope"><code class="docutils literal notranslate"><span class="pre">get_scope()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Symbol"><code class="docutils literal notranslate"><span class="pre">Symbol</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.symbols"><code class="docutils literal notranslate"><span class="pre">symbols()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Scalar"><code class="docutils literal notranslate"><span class="pre">Scalar</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_positive"><code class="docutils literal notranslate"><span class="pre">is_positive()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.is_negative"><code class="docutils literal notranslate"><span class="pre">is_negative()</span></code></a></li>
@@ -2028,10 +2049,6 @@ imported. See <a class="reference internal" href="symforce.symbolic.html#symforc
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.count_ops"><code class="docutils literal notranslate"><span class="pre">count_ops()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.DataBuffer"><code class="docutils literal notranslate"><span class="pre">DataBuffer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.original_get_dict"><code class="docutils literal notranslate"><span class="pre">original_get_dict()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.create_named_scope"><code class="docutils literal notranslate"><span class="pre">create_named_scope()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_scope"><code class="docutils literal notranslate"><span class="pre">set_scope()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.get_scope"><code class="docutils literal notranslate"><span class="pre">get_scope()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.scope"><code class="docutils literal notranslate"><span class="pre">scope()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Complex"><code class="docutils literal notranslate"><span class="pre">Complex</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Complex.storage_dim"><code class="docutils literal notranslate"><span class="pre">storage_dim()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Complex.to_storage"><code class="docutils literal notranslate"><span class="pre">to_storage()</span></code></a></li>
@@ -2932,6 +2949,10 @@ imported. See <a class="reference internal" href="symforce.symbolic.html#symforc
 <li><a class="reference internal" href="#symforce.set_symbolic_api"><code class="docutils literal notranslate"><span class="pre">set_symbolic_api()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.get_symbolic_api"><code class="docutils literal notranslate"><span class="pre">get_symbolic_api()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.AlreadyUsedEpsilon"><code class="docutils literal notranslate"><span class="pre">AlreadyUsedEpsilon</span></code></a></li>
+<li><a class="reference internal" href="#symforce.SymbolicEpsilon"><code class="docutils literal notranslate"><span class="pre">SymbolicEpsilon</span></code></a><ul>
+<li><a class="reference internal" href="#symforce.SymbolicEpsilon.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#symforce.set_epsilon_to_symbol"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_symbol()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.set_epsilon_to_number"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_number()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.set_epsilon_to_zero"><code class="docutils literal notranslate"><span class="pre">set_epsilon_to_zero()</span></code></a></li>

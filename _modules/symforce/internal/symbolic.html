@@ -769,6 +769,25 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
+<span class="k">if</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_symbolic_api</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="kn">import</span> <span class="nn">textwrap</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+        <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            No SYMFORCE_SYMBOLIC_API set, no symengine found, using sympy.</span>
+
+<span class="sd">            For best performance during symbolic manipulation and code generation, use the symengine</span>
+<span class="sd">            symbolic API, which should come installed with SymForce.  If you&#39;ve installed SymForce</span>
+<span class="sd">            without intentionally disabling SymEngine, and you are seeing this warning, this is a</span>
+<span class="sd">            bug - please submit an issue: https://github.com/symforce-org/symforce/issues.</span>
+
+<span class="sd">            To silence this warning, call `symforce.set_symbolic_api(&quot;sympy&quot;)` or set</span>
+<span class="sd">            `SYMFORCE_SYMBOLIC_API=sympy` in your environment before importing `symforce.symbolic`.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
 <span class="c1"># See `symforce/__init__.py` for more information, this is used to check whether things that this</span>
 <span class="c1"># module depends on are modified after importing</span>
 <span class="n">symforce</span><span class="o">.</span><span class="n">_have_imported_symbolic</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># pylint: disable=protected-access</span>
@@ -982,41 +1001,44 @@
 
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
-<span class="c1"># Default epsilon</span>
+<span class="c1"># Create scopes</span>
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">numeric_epsilon</span>
-
-
-<div class="viewcode-block" id="epsilon"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.epsilon">[docs]</a><span class="k">def</span> <span class="nf">epsilon</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="create_named_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.create_named_scope">[docs]</a><span class="k">def</span> <span class="nf">create_named_scope</span><span class="p">(</span><span class="n">scopes_list</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The default epsilon for SymForce</span>
-
-<span class="sd">    Library functions that require an epsilon argument should use a function signature like::</span>
-
-<span class="sd">        def foo(x: Scalar, epsilon: Scalar = sf.epsilon()) -&gt; Scalar:</span>
-<span class="sd">            ...</span>
-
-<span class="sd">    This makes it easy to configure entire expressions that make extensive use of epsilon to either</span>
-<span class="sd">    use no epsilon (i.e. 0), or a symbol, or a numerical value.  It also means that by setting the</span>
-<span class="sd">    default to a symbol, you can confidently generate code without worrying about having forgotten</span>
-<span class="sd">    to pass an epsilon argument to one of these functions.</span>
-
-<span class="sd">    For more information on how we use epsilon to prevent singularities, see the Epsilon Tutorial</span>
-<span class="sd">    in the SymForce docs here: https://symforce.org/tutorials/epsilon_tutorial.html</span>
-
-<span class="sd">    For purely numerical code that just needs a good default numerical epsilon, see</span>
-<span class="sd">    :data:`symforce.symbolic.numeric_epsilon`.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        The current default epsilon.  This is typically some kind of &quot;Scalar&quot;, like a float or a</span>
-<span class="sd">        :class:`Symbol &lt;symforce.symbolic.Symbol&gt;`.</span>
+<span class="sd">    Return a context manager that adds to the given list of name scopes. This is used to</span>
+<span class="sd">    add scopes to symbol names for namespacing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">symforce</span><span class="o">.</span><span class="n">_have_used_epsilon</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># pylint: disable=protected-access</span>
 
-    <span class="k">return</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span>  <span class="c1"># pylint: disable=protected-access</span></div>
+    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+    <span class="k">def</span> <span class="nf">named_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
+        <span class="n">scopes_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
 
+        <span class="c1"># The body of the with block is executed inside the yield, this ensures we release the</span>
+        <span class="c1"># scope if something in the block throws</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="kc">None</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">scopes_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">named_scope</span></div>
+
+
+<span class="c1"># Nested scopes created with `sf.scope`, initialized to empty (symbols created with no added scope)</span>
+<span class="n">__scopes__</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<div class="viewcode-block" id="set_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.set_scope">[docs]</a><span class="k">def</span> <span class="nf">set_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">__scopes__</span>  <span class="c1"># pylint: disable=global-statement</span>
+    <span class="n">__scopes__</span> <span class="o">=</span> <span class="n">scope</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">scope</span> <span class="k">else</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="get_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.get_scope">[docs]</a><span class="k">def</span> <span class="nf">get_scope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__scopes__</span><span class="p">)</span></div>
+
+
+<span class="n">scope</span> <span class="o">=</span> <span class="n">create_named_scope</span><span class="p">(</span><span class="n">__scopes__</span><span class="p">)</span>
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
 <span class="c1"># Override Symbol and symbols</span>
@@ -1077,6 +1099,48 @@
     <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="o">.</span><span class="fm">__new__</span> <span class="o">=</span> <span class="n">new_symbol</span>  <span class="c1"># type: ignore[assignment]</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
+
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># Default epsilon</span>
+<span class="c1"># --------------------------------------------------------------------------------</span>
+
+
+<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">numeric_epsilon</span>
+
+
+<div class="viewcode-block" id="epsilon"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.epsilon">[docs]</a><span class="k">def</span> <span class="nf">epsilon</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The default epsilon for SymForce</span>
+
+<span class="sd">    Library functions that require an epsilon argument should use a function signature like::</span>
+
+<span class="sd">        def foo(x: Scalar, epsilon: Scalar = sf.epsilon()) -&gt; Scalar:</span>
+<span class="sd">            ...</span>
+
+<span class="sd">    This makes it easy to configure entire expressions that make extensive use of epsilon to either</span>
+<span class="sd">    use no epsilon (i.e. 0), or a symbol, or a numerical value.  It also means that by setting the</span>
+<span class="sd">    default to a symbol, you can confidently generate code without worrying about having forgotten</span>
+<span class="sd">    to pass an epsilon argument to one of these functions.</span>
+
+<span class="sd">    For more information on how we use epsilon to prevent singularities, see the Epsilon Tutorial</span>
+<span class="sd">    in the SymForce docs here: https://symforce.org/tutorials/epsilon_tutorial.html</span>
+
+<span class="sd">    For purely numerical code that just needs a good default numerical epsilon, see</span>
+<span class="sd">    :data:`symforce.symbolic.numeric_epsilon`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The current default epsilon.  This is typically some kind of &quot;Scalar&quot;, like a float or a</span>
+<span class="sd">        :class:`Symbol &lt;symforce.symbolic.Symbol&gt;`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># pylint: disable=protected-access</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">,</span> <span class="n">symforce</span><span class="o">.</span><span class="n">SymbolicEpsilon</span><span class="p">):</span>
+        <span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">symforce</span><span class="o">.</span><span class="n">_have_used_epsilon</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span></div>
 
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
@@ -1419,46 +1483,6 @@
     <span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
-
-<span class="c1"># --------------------------------------------------------------------------------</span>
-<span class="c1"># Create scopes</span>
-<span class="c1"># --------------------------------------------------------------------------------</span>
-
-
-<div class="viewcode-block" id="create_named_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.create_named_scope">[docs]</a><span class="k">def</span> <span class="nf">create_named_scope</span><span class="p">(</span><span class="n">scopes_list</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return a context manager that adds to the given list of name scopes. This is used to</span>
-<span class="sd">    add scopes to symbol names for namespacing.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
-    <span class="k">def</span> <span class="nf">named_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="kc">None</span><span class="p">]:</span>
-        <span class="n">scopes_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
-
-        <span class="c1"># The body of the with block is executed inside the yield, this ensures we release the</span>
-        <span class="c1"># scope if something in the block throws</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="kc">None</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="n">scopes_list</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">named_scope</span></div>
-
-
-<span class="c1"># Nested scopes created with `sf.scope`, initialized to empty (symbols created with no added scope)</span>
-<span class="n">__scopes__</span> <span class="o">=</span> <span class="p">[]</span>
-
-
-<div class="viewcode-block" id="set_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.set_scope">[docs]</a><span class="k">def</span> <span class="nf">set_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">global</span> <span class="n">__scopes__</span>  <span class="c1"># pylint: disable=global-statement</span>
-    <span class="n">__scopes__</span> <span class="o">=</span> <span class="n">scope</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">scope</span> <span class="k">else</span> <span class="p">[]</span></div>
-
-
-<div class="viewcode-block" id="get_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.get_scope">[docs]</a><span class="k">def</span> <span class="nf">get_scope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__scopes__</span><span class="p">)</span></div>
-
-
-<span class="n">scope</span> <span class="o">=</span> <span class="n">create_named_scope</span><span class="p">(</span><span class="n">__scopes__</span><span class="p">)</span>
 </pre></div>
         </article>
       </div>
