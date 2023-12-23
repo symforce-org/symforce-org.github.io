@@ -773,8 +773,7 @@
 <span class="sd">        residual: The residual function for the factor. When passed symbolic inputs, this should</span>
 <span class="sd">            return a symbolic expression for the residual.</span>
 <span class="sd">        config: The language the numeric factor will be generated in. Defaults to Python, which</span>
-<span class="sd">            does not require any compilation. Also does not autoformat by default in order to</span>
-<span class="sd">            speed up code generation.</span>
+<span class="sd">            does not require any compilation.</span>
 <span class="sd">        custom_jacobian_func: A functor that computes the jacobian, typically unnecessary unless</span>
 <span class="sd">            you want to override the jacobian computed by SymForce, e.g. to stop derivatives</span>
 <span class="sd">            with respect to certain variables or directions, or because the jacobian can be</span>
@@ -795,12 +794,9 @@
 <span class="sd">        The default codegen config used by the Factor class</span>
 
 <span class="sd">        This is a PythonConfig with settings appropriate for converting to a</span>
-<span class="sd">        :class:`.numeric_factor.NumericFactor` (no autoformat, return 2d vectors).</span>
+<span class="sd">        :class:`.numeric_factor.NumericFactor` (returns 2d vectors).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">PythonConfig</span><span class="p">(</span>
-            <span class="n">render_template_config</span><span class="o">=</span><span class="n">codegen_config</span><span class="o">.</span><span class="n">RenderTemplateConfig</span><span class="p">(</span><span class="n">autoformat</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
-            <span class="n">return_2d_vectors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">PythonConfig</span><span class="p">(</span><span class="n">return_2d_vectors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -846,8 +842,7 @@
 <span class="sd">            inputs: The inputs Values for the factor.</span>
 <span class="sd">            residual: An expression representing the residual of the factor.</span>
 <span class="sd">            config: The language the numeric factor will be generated in. Defaults to Python, which</span>
-<span class="sd">                does not require any compilation. Also does not autoformat by default in order to</span>
-<span class="sd">                speed up code generation.</span>
+<span class="sd">                does not require any compilation.</span>
 <span class="sd">            custom_jacobian_func: A functor that computes the jacobian, typically unnecessary unless</span>
 <span class="sd">                you want to override the jacobian computed by SymForce, e.g. to stop derivatives</span>
 <span class="sd">                with respect to certain variables or directions, or because the jacobian can be</span>

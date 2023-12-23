@@ -739,17 +739,15 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">black</span>
+<span class="kn">from</span> <span class="nn">ruff.__main__</span> <span class="kn">import</span> <span class="n">find_ruff_bin</span>
 
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">python_util</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-
-<span class="c1"># TODO(aaron): Put this in a pyproject.toml and fetch from there</span>
-<span class="n">BLACK_FILE_MODE</span> <span class="o">=</span> <span class="n">black</span><span class="o">.</span><span class="n">FileMode</span><span class="p">(</span><span class="n">line_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="format_cpp"><a class="viewcode-back" href="../../../api/symforce.codegen.format_util.html#symforce.codegen.format_util.format_cpp">[docs]</a><span class="k">def</span> <span class="nf">format_cpp</span><span class="p">(</span><span class="n">file_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -757,11 +755,11 @@
 <span class="sd">    Autoformat a given C++ file using clang-format</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        file_contents (str): The unformatted contents of the file</span>
-<span class="sd">        filename (str): A name that this file might have on disk; this does not have to be a real</span>
-<span class="sd">            path, it&#39;s only used for clang-format to find the correct style file (by traversing</span>
-<span class="sd">            upwards from this location) and to decide if an include is the corresponding .h file</span>
-<span class="sd">            for a .cc file that&#39;s being formatted (this affects the include order)</span>
+<span class="sd">        file_contents: The unformatted contents of the file</span>
+<span class="sd">        filename: A name that this file might have on disk; this does not have to be a real path,</span>
+<span class="sd">            it&#39;s only used for clang-format to find the correct style file (by traversing upwards</span>
+<span class="sd">            from this location) and to decide if an include is the corresponding .h file for a .cc</span>
+<span class="sd">            file that&#39;s being formatted (this affects the include order)</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        formatted_file_contents (str): The contents of the file after formatting</span>
@@ -784,35 +782,71 @@
     <span class="k">return</span> <span class="n">formatted_file_contents</span></div>
 
 
-<div class="viewcode-block" id="format_py"><a class="viewcode-back" href="../../../api/symforce.codegen.format_util.html#symforce.codegen.format_util.format_py">[docs]</a><span class="k">def</span> <span class="nf">format_py</span><span class="p">(</span><span class="n">file_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Autoformat a given Python file using black</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">black</span><span class="o">.</span><span class="n">format_str</span><span class="p">(</span><span class="n">file_contents</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">BLACK_FILE_MODE</span><span class="p">)</span></div>
+<span class="n">_ruff_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="format_pyi"><a class="viewcode-back" href="../../../api/symforce.codegen.format_util.html#symforce.codegen.format_util.format_pyi">[docs]</a><span class="k">def</span> <span class="nf">format_pyi</span><span class="p">(</span><span class="n">file_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_find_ruff</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Autoformat a given Python interface file using black</span>
+<span class="sd">    Find the ruff binary</span>
+
+<span class="sd">    `find_ruff_bin` does not work in all environments, for example it does not work on debian when</span>
+<span class="sd">    things are installed in `/usr/local/bin` and `sysconfig` only returns `/usr/bin`.  Adding</span>
+<span class="sd">    `shutil.which` should cover most cases, but not all, the better solution would require `ruff`</span>
+<span class="sd">    putting the binary in `data` like `clang-format` does</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">mode</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">BLACK_FILE_MODE</span><span class="p">)</span>
-    <span class="n">mode</span><span class="o">.</span><span class="n">is_pyi</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="n">black</span><span class="o">.</span><span class="n">format_str</span><span class="p">(</span><span class="n">file_contents</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span></div>
+    <span class="k">global</span> <span class="n">_ruff_path</span>  <span class="c1"># pylint: disable=global-statement</span>
+
+    <span class="k">if</span> <span class="n">_ruff_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_ruff_path</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ruff</span> <span class="o">=</span> <span class="n">find_ruff_bin</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="n">ruff</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;ruff&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ruff</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;Could not find ruff&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+
+    <span class="n">_ruff_path</span> <span class="o">=</span> <span class="n">ruff</span>
+
+    <span class="k">return</span> <span class="n">ruff</span>
+
+
+<div class="viewcode-block" id="format_py"><a class="viewcode-back" href="../../../api/symforce.codegen.format_util.html#symforce.codegen.format_util.format_py">[docs]</a><span class="k">def</span> <span class="nf">format_py</span><span class="p">(</span><span class="n">file_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Autoformat a given Python file using ruff</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: A name that this file might have on disk; this does not have to be a real path,</span>
+<span class="sd">            it&#39;s only used for ruff to find the correct style file (by traversing upwards from this</span>
+<span class="sd">            location)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">_find_ruff</span><span class="p">(),</span> <span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;--stdin-filename=</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">],</span>
+        <span class="nb">input</span><span class="o">=</span><span class="n">file_contents</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+        <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="c1"># Disable the ruff cache.  This is important for running in a hermetic context like a bazel</span>
+        <span class="c1"># test, and shouldn&#39;t really hurt other use cases.  If it does, we should work around this</span>
+        <span class="c1"># differently.</span>
+        <span class="n">env</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span> <span class="n">RUFF_NO_CACHE</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">),</span>
+        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span></div>
 
 
 <div class="viewcode-block" id="format_py_dir"><a class="viewcode-back" href="../../../api/symforce.codegen.format_util.html#symforce.codegen.format_util.format_py_dir">[docs]</a><span class="k">def</span> <span class="nf">format_py_dir</span><span class="p">(</span><span class="n">dirname</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Autoformat python files in a directory (recursively) in-place</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">dirname</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.py&quot;</span><span class="p">):</span>
-                <span class="n">black</span><span class="o">.</span><span class="n">format_file_in_place</span><span class="p">(</span>
-                    <span class="n">Path</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span> <span class="o">/</span> <span class="n">root</span> <span class="o">/</span> <span class="n">filename</span><span class="p">,</span>
-                    <span class="n">fast</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                    <span class="n">mode</span><span class="o">=</span><span class="n">BLACK_FILE_MODE</span><span class="p">,</span>
-                    <span class="n">write_back</span><span class="o">=</span><span class="n">black</span><span class="o">.</span><span class="n">WriteBack</span><span class="o">.</span><span class="n">YES</span><span class="p">,</span>
-                <span class="p">)</span></div>
+    <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">_find_ruff</span><span class="p">(),</span> <span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="n">dirname</span><span class="p">],</span>
+        <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="c1"># Disable the ruff cache.  This is important for running in a hermetic context like a bazel</span>
+        <span class="c1"># test, and shouldn&#39;t really hurt other use cases.  If it does, we should work around this</span>
+        <span class="c1"># differently.</span>
+        <span class="n">env</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">,</span> <span class="n">RUFF_NO_CACHE</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">),</span>
+        <span class="n">text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span></div>
 </pre></div>
         </article>
       </div>

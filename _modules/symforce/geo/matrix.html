@@ -1334,7 +1334,7 @@
             <span class="p">)</span>
 
         <span class="n">squared_norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span> <span class="o">+</span> <span class="n">epsilon</span>
-        <span class="n">max_squared_norm</span> <span class="o">=</span> <span class="n">max_norm</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">max_squared_norm</span> <span class="o">=</span> <span class="n">max_norm</span><span class="o">**</span><span class="mi">2</span>
 
         <span class="c1"># This sqrt can be near 0, if max_norm can be exactly 0</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">max_squared_norm</span> <span class="o">/</span> <span class="n">squared_norm</span><span class="p">))</span></div>
@@ -1590,7 +1590,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns 1 if a and b are parallel within tolerance, and 0 otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sf</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span> <span class="o">-</span> <span class="n">tolerance</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span></div>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sf</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span> <span class="o">-</span> <span class="n">tolerance</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span></div>
 
 <div class="viewcode-block" id="Matrix.skew_symmetric"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.skew_symmetric">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">skew_symmetric</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix33</span><span class="p">:</span>

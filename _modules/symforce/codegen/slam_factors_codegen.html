@@ -945,7 +945,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">noise_model</span> <span class="o">=</span> <span class="n">BarronNoiseModel</span><span class="p">(</span>
         <span class="n">alpha</span><span class="o">=</span><span class="n">BarronNoiseModel</span><span class="o">.</span><span class="n">compute_alpha_from_mu</span><span class="p">(</span><span class="n">gnc_mu</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">),</span>
-        <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">x_epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -1126,7 +1126,7 @@
 
     <span class="n">noise_model</span> <span class="o">=</span> <span class="n">BarronNoiseModel</span><span class="p">(</span>
         <span class="n">alpha</span><span class="o">=</span><span class="n">BarronNoiseModel</span><span class="o">.</span><span class="n">compute_alpha_from_mu</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">gnc_mu</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span>
-        <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">scalar_information</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">gnc_scale</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">x_epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -1183,9 +1183,7 @@
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
                 <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
-                <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
                 <span class="n">func</span><span class="o">=</span><span class="n">specialize_cam</span><span class="p">(</span><span class="n">reprojection_delta</span><span class="p">),</span>
@@ -1202,9 +1200,7 @@
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
                 <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;source_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;target_pose&quot;</span><span class="p">,</span> <span class="s2">&quot;source_inverse_range&quot;</span><span class="p">]</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span>
-                <span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span>
-            <span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="o">=</span><span class="n">factors_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
                 <span class="n">func</span><span class="o">=</span><span class="n">specialize_cam</span><span class="p">(</span><span class="n">ray_reprojection_delta</span><span class="p">),</span>

@@ -759,8 +759,10 @@
 <span class="n">symforce</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s2">&quot;warning&quot;</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display_code</span>
+<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display_code_file</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
-<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">display_code</span><span class="p">,</span> <span class="n">display_code_file</span>
 </pre></div>
 </div>
 </div>
@@ -815,7 +817,7 @@ Values(
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;x y&quot;</span><span class="p">)</span>
-<span class="n">expr</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">expr</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
 <span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;states&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">expr</span><span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </pre></div>
@@ -1075,7 +1077,7 @@ $\displaystyle foo.bar.x$</div></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">scope</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">):</span>
-    <span class="n">v</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">v</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
     <span class="n">v</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span>
 <span class="n">v</span>
 </pre></div>
