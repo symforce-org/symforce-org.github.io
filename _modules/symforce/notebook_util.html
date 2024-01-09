@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=9dc53c94" />
+    <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=1ddbf0f8" />
     
     
 
@@ -744,7 +744,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">IPython</span>
-<span class="kn">import</span> <span class="nn">pygments</span>
 <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sympy_py</span>
 
 <span class="n">sympy_py</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
@@ -753,11 +752,18 @@
 <span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
+<span class="k">if</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
+    <span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+
 
 <div class="viewcode-block" id="display"><a class="viewcode-back" href="../../api/symforce.notebook_util.html#symforce.notebook_util.display">[docs]</a><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display the given expressions in latex, or print if not an expression.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO(aaron): This should all be unnecessary on new symengine.  The problem is that our version</span>
+    <span class="c1"># of symengine does not define `DenseMatrixBase._repr_latex_`, so we need to convert symengine</span>
+    <span class="c1"># matrices to sympy</span>
+
     <span class="k">if</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
         <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span>
@@ -775,24 +781,15 @@
         <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="display_code"><a class="viewcode-back" href="../../api/symforce.notebook_util.html#symforce.notebook_util.display_code">[docs]</a><span class="k">def</span> <span class="nf">display_code</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="display_code"><a class="viewcode-back" href="../../api/symforce.notebook_util.html#symforce.notebook_util.display_code">[docs]</a><span class="k">def</span> <span class="nf">display_code</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display code with syntax highlighting.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        code (str): Source code</span>
-<span class="sd">        language (str): {python, c++, anything supported by pygments}</span>
+<span class="sd">        code: Source code</span>
+<span class="sd">        language: {python, c++, anything supported by pygments}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># types-pygments doesn&#39;t have the type for this</span>
-    <span class="n">lexer</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">pygments</span><span class="p">)</span><span class="o">.</span><span class="n">lexers</span><span class="o">.</span><span class="n">get_lexer_by_name</span><span class="p">(</span><span class="n">language</span><span class="p">)</span>
-
-    <span class="c1"># And sometimes not this either</span>
-    <span class="n">formatter</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">pygments</span><span class="p">)</span><span class="o">.</span><span class="n">formatters</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">(</span>  <span class="c1"># pylint: disable=no-member</span>
-        <span class="n">noclasses</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
-    <span class="n">html</span> <span class="o">=</span> <span class="n">pygments</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">lexer</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
-
-    <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">))</span></div>
+    <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="n">language</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="display_code_file"><a class="viewcode-back" href="../../api/symforce.notebook_util.html#symforce.notebook_util.display_code_file">[docs]</a><span class="k">def</span> <span class="nf">display_code_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -800,8 +797,8 @@
 <span class="sd">    Display code from a file path with syntax highlighting.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        path (T.Openable): Path to source file</span>
-<span class="sd">        language (str): {python, c++, anything supported by pygments}</span>
+<span class="sd">        path: Path to source file</span>
+<span class="sd">        language: {python, c++, anything supported by pygments}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">code</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
@@ -809,13 +806,18 @@
     <span class="n">display_code</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="print_expression_tree"><a class="viewcode-back" href="../../api/symforce.notebook_util.html#symforce.notebook_util.print_expression_tree">[docs]</a><span class="k">def</span> <span class="nf">print_expression_tree</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="print_expression_tree"><a class="viewcode-back" href="../../api/symforce.notebook_util.html#symforce.notebook_util.print_expression_tree">[docs]</a><span class="k">def</span> <span class="nf">print_expression_tree</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Expr</span><span class="p">,</span> <span class="n">assumptions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Print a SymPy expression tree, ignoring node attributes</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expr: The expression to print</span>
+<span class="sd">        assumptions: Whether to include assumption information for nodes.  See</span>
+<span class="sd">            ``sympy.printing.tree`` for more information.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">sympy.printing.tree</span> <span class="kn">import</span> <span class="n">tree</span>
 
-    <span class="n">unfiltered_tree</span> <span class="o">=</span> <span class="n">tree</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">unfiltered_tree</span> <span class="o">=</span> <span class="n">tree</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">assumptions</span><span class="o">=</span><span class="n">assumptions</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">filtered_tree</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unfiltered_tree</span><span class="p">)</span> <span class="k">if</span> <span class="s2">&quot;+-&quot;</span> <span class="ow">in</span> <span class="n">v</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">filtered_tree</span><span class="p">)</span></div>
 </pre></div>

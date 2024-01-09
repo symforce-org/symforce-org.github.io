@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=9dc53c94" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=1ddbf0f8" />
     
     
 
@@ -795,6 +795,11 @@
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
     <span class="n">sympy</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>  <span class="c1"># pylint: disable=protected-access</span>
 
+    <span class="c1"># Import sympy, for methods that convert to sympy types or call sympy functions below</span>
+    <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">_sympy_py</span>
+
+    <span class="c1"># isort: split</span>
+
     <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Abs</span>
     <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Add</span>
     <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">Basic</span>
@@ -1288,8 +1293,7 @@
 <span class="c1"># Create simplify</span>
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
-<span class="k">if</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">_sympy_py</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
 
 <div class="viewcode-block" id="simplify"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Converting to sympy to use .simplify&quot;</span><span class="p">)</span>
@@ -1305,8 +1309,7 @@
 <span class="c1"># Create limit</span>
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
-<span class="k">if</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">_sympy_py</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
 
 <div class="viewcode-block" id="limit"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.limit">[docs]</a>    <span class="k">def</span> <span class="nf">limit</span><span class="p">(</span>
         <span class="n">e</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
@@ -1323,10 +1326,43 @@
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># Create integrate</span>
+<span class="c1"># --------------------------------------------------------------------------------</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
+
+<div class="viewcode-block" id="integrate"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.integrate">[docs]</a>    <span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+        <span class="n">meijerg</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">conds</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;piecewise&quot;</span><span class="p">,</span> <span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;piecewise&quot;</span><span class="p">,</span>
+        <span class="n">risch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">heurisch</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">manual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Converting to sympy to use .integrate&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span>
+            <span class="n">_sympy_py</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span>
+                <span class="o">*</span><span class="p">[</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">],</span>
+                <span class="n">meijerg</span><span class="o">=</span><span class="n">meijerg</span><span class="p">,</span>
+                <span class="n">conds</span><span class="o">=</span><span class="n">conds</span><span class="p">,</span>
+                <span class="n">risch</span><span class="o">=</span><span class="n">risch</span><span class="p">,</span>
+                <span class="n">heurisch</span><span class="o">=</span><span class="n">heurisch</span><span class="p">,</span>
+                <span class="n">manual</span><span class="o">=</span><span class="n">manual</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
+
+<span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">integrate</span>  <span class="c1"># type: ignore[misc] # incompatible import</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
 <span class="c1"># Override solve</span>
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
-<span class="k">if</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
     <span class="c1"># Unfortunately this already doesn&#39;t have a docstring or argument list in symengine</span>
 <div class="viewcode-block" id="solve"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="n">solution</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -1350,7 +1386,7 @@
 <span class="c1"># Override count_ops</span>
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
-<span class="k">if</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">symengine</span> <span class="kn">import</span> <span class="n">count_ops</span>
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">symforce._sympy_count_ops</span> <span class="kn">import</span> <span class="n">count_ops</span>

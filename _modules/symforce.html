@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9dc53c94" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=1ddbf0f8" />
     
     
 
@@ -906,13 +906,18 @@
 
 <div class="viewcode-block" id="set_symbolic_api"><a class="viewcode-back" href="../api/symforce.html#symforce.set_symbolic_api">[docs]</a><span class="k">def</span> <span class="nf">set_symbolic_api</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set the symbolic API for symforce. The sympy API is the default and pure python,</span>
-<span class="sd">    whereas the symengine API is C++ and requires building the symengine library. It can</span>
-<span class="sd">    be 100-200 times faster for many operations, but is less fully featured.</span>
+<span class="sd">    Set the symbolic API for symforce</span>
 
-<span class="sd">    The default is symengine if available else sympy, but can be set by one of:</span>
+<span class="sd">    See the SymPy tutorial for information on the symbolic APIs that can be used:</span>
+<span class="sd">    https://symforce.org/tutorials/sympy_tutorial.html</span>
 
-<span class="sd">    1) The SYMFORCE_SYMBOLIC_API environment variable</span>
+<span class="sd">    By default, SymForce will use the ``symengine`` API if it is available.  If the symbolic API is</span>
+<span class="sd">    set to ``sympy`` it will use that.  If ``symengine`` is not available and the symbolic API was</span>
+<span class="sd">    not set, it will emit a warning and use the ``sympy`` API.</span>
+
+<span class="sd">    The symbolic API can be set by one of:</span>
+
+<span class="sd">    1) The ``SYMFORCE_SYMBOLIC_API`` environment variable</span>
 <span class="sd">    2) Calling this function before any other symforce imports</span>
 
 <span class="sd">    Args:</span>

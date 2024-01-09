@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9dc53c94" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=1ddbf0f8" />
     
     
 
@@ -783,12 +783,15 @@ mostly for configuration purposes.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.set_symbolic_api">
 <span class="sig-name descname"><span class="pre">set_symbolic_api</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce.html#set_symbolic_api"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.set_symbolic_api" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the symbolic API for symforce. The sympy API is the default and pure python,
-whereas the symengine API is C++ and requires building the symengine library. It can
-be 100-200 times faster for many operations, but is less fully featured.</p>
-<p>The default is symengine if available else sympy, but can be set by one of:</p>
+<dd><p>Set the symbolic API for symforce</p>
+<p>See the SymPy tutorial for information on the symbolic APIs that can be used:
+<a class="reference external" href="https://symforce.org/tutorials/sympy_tutorial.html">https://symforce.org/tutorials/sympy_tutorial.html</a></p>
+<p>By default, SymForce will use the <code class="docutils literal notranslate"><span class="pre">symengine</span></code> API if it is available.  If the symbolic API is
+set to <code class="docutils literal notranslate"><span class="pre">sympy</span></code> it will use that.  If <code class="docutils literal notranslate"><span class="pre">symengine</span></code> is not available and the symbolic API was
+not set, it will emit a warning and use the <code class="docutils literal notranslate"><span class="pre">sympy</span></code> API.</p>
+<p>The symbolic API can be set by one of:</p>
 <ol class="arabic simple">
-<li><p>The SYMFORCE_SYMBOLIC_API environment variable</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">SYMFORCE_SYMBOLIC_API</span></code> environment variable</p></li>
 <li><p>Calling this function before any other symforce imports</p></li>
 </ol>
 <dl class="field-list simple">
@@ -1391,6 +1394,7 @@ imported. See <a class="reference internal" href="symforce.symbolic.html#symforc
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.set_eval_on_sympify"><code class="docutils literal notranslate"><span class="pre">set_eval_on_sympify()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.simplify"><code class="docutils literal notranslate"><span class="pre">simplify()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.limit"><code class="docutils literal notranslate"><span class="pre">limit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.integrate"><code class="docutils literal notranslate"><span class="pre">integrate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="symforce.internal.symbolic.html#symforce.internal.symbolic.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
 </ul>
 </li>
@@ -2044,6 +2048,7 @@ imported. See <a class="reference internal" href="symforce.symbolic.html#symforc
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.set_eval_on_sympify"><code class="docutils literal notranslate"><span class="pre">set_eval_on_sympify()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.simplify"><code class="docutils literal notranslate"><span class="pre">simplify()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.limit"><code class="docutils literal notranslate"><span class="pre">limit()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.integrate"><code class="docutils literal notranslate"><span class="pre">integrate()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.solve"><code class="docutils literal notranslate"><span class="pre">solve()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.count_ops"><code class="docutils literal notranslate"><span class="pre">count_ops()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.DataBuffer"><code class="docutils literal notranslate"><span class="pre">DataBuffer</span></code></a></li>

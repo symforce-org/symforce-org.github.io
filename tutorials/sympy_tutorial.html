@@ -7,10 +7,10 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="tutorials/sympy_tutorial.html" />
 <meta property="og:site_name" content="symforce" />
-<meta property="og:description" content="SymForce is built on the SymPy API for symbolic algebra. If you’re not familiar with SymPy or symbolic computation, go through their tutorial. Some basic usage is shown here. Always import the SymP..." />
+<meta property="og:description" content="SymForce is built on the SymPy API for symbolic algebra. If you’re not familiar with SymPy or symbolic computation, go through their tutorial. Some basic usage is shown here. First, some optional c..." />
 <meta property="og:image" content="https://symforce.org/docs/static/images/symforce_banner.png" />
 <meta property="og:image:alt" content="symforce" />
-<meta name="description" content="SymForce is built on the SymPy API for symbolic algebra. If you’re not familiar with SymPy or symbolic computation, go through their tutorial. Some basic usage is shown here. Always import the SymP..." />
+<meta name="description" content="SymForce is built on the SymPy API for symbolic algebra. If you’re not familiar with SymPy or symbolic computation, go through their tutorial. Some basic usage is shown here. First, some optional c..." />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Geometry Tutorial" href="geometry_tutorial.html" /><link rel="prev" title="Development Guide" href="../development.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9dc53c94" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=1ddbf0f8" />
     
     
 
@@ -145,7 +145,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -738,7 +738,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -746,24 +746,31 @@
         <article role="main">
           <section id="SymPy-Tutorial">
 <h1>SymPy Tutorial<a class="headerlink" href="#SymPy-Tutorial" title="Permalink to this heading">#</a></h1>
-<p>SymForce is built on the SymPy API for symbolic algebra. If you’re not familiar with SymPy or symbolic computation, go through <a class="reference external" href="https://docs.sympy.org/latest/tutorial/index.html">their</a> tutorial. Some basic usage is shown here.</p>
+<p>SymForce is built on the <a class="reference external" href="https://sympy.org">SymPy</a> API for symbolic algebra. If you’re not familiar with SymPy or symbolic computation, go through <a class="reference external" href="https://docs.sympy.org/latest/tutorial/index.html">their</a> tutorial. Some basic usage is shown here.</p>
+<p>First, some optional configuration - see <a class="reference internal" href="#Symbolic-APIs"><span class="std std-ref">Symbolic APIs</span></a> below for more information:</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration (optional)</span>
-<span class="kn">import</span> <span class="nn">symforce</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">symforce</span>
 
-<span class="n">symforce</span><span class="o">.</span><span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;sympy&quot;</span><span class="p">)</span>
-<span class="n">symforce</span><span class="o">.</span><span class="n">set_log_level</span><span class="p">(</span><span class="s2">&quot;warning&quot;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="n">symforce</span><span class="o">.</span><span class="n">set_symbolic_api</span><span class="p">(</span><span class="s2">&quot;symengine&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Some imports that are useful for notebooks - you’ll see these across many of our tutorials:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">from</span> <span class="nn">symforce.notebook_util</span> <span class="kn">import</span> <span class="n">print_expression_tree</span>
 </pre></div>
 </div>
 </div>
-<p>Always import the SymPy API through SymForce, because symforce can switch out the symbolic implementation of the API and adds a few minor but important augmentations. Let’s define some algebraic symbols:</p>
+<p>Always import the SymPy API through SymForce, because symforce can switch out the symbolic implementation of the API and adds a few minor but important augmentations. <a class="reference external" href="../api/symforce.symbolic.html">symforce.symbolic</a> includes both the supported parts of the underlying symbolic API, as well as all of the types from <a class="reference external" href="../api/symforce.geo.html">symforce.geo</a> and <a class="reference external" href="../api/symforce.cam.html">symforce.cam</a>. Let’s define some algebraic symbols:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
@@ -775,7 +782,7 @@
 </div>
 <p>Build a symbolic expression:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
@@ -794,7 +801,7 @@ $\displaystyle x^{2} + \frac{\sin{\left(y \right)}}{x^{2}}$</div></div>
 </div>
 <p>This expression object is a tree of operations and arguments:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_expression_tree</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
@@ -806,7 +813,7 @@ $\displaystyle x^{2} + \frac{\sin{\left(y \right)}}{x^{2}}$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Add: x**2 + sin(y)/x**2
+Add: sin(y)/x**2 + x**2
 +-Pow: x**2
 | +-Symbol: x
 | +-Integer: 2
@@ -820,7 +827,7 @@ Add: x**2 + sin(y)/x**2
 </div>
 <p>We can evaluate this numerically by plugging in values:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">subs</span><span class="p">({</span><span class="n">x</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">}))</span>
@@ -838,7 +845,7 @@ $\displaystyle 1.71042940438101$</div></div>
 </div>
 <p>We can perform symbolic manipulation like differentiation, integration, simplifiation, etc..</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
@@ -855,7 +862,7 @@ $\displaystyle \frac{\cos{\left(y \right)}}{x^{2}}$</div></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
@@ -868,9 +875,15 @@ $\displaystyle \frac{\cos{\left(y \right)}}{x^{2}}$</div></div>
 <div class="output_area docutils container">
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-$\displaystyle \frac{y}{x^{2}} - \frac{y^{3}}{6 x^{2}} + \frac{y^{5}}{120 x^{2}} + x^{2} + O\left(y^{6}\right)$</div></div>
+$\displaystyle x^{2} + \frac{y^{5}}{120 x^{2}} - \frac{y^{3}}{6 x^{2}} + \frac{y}{x^{2}}$</div></div>
 </div>
 </div>
+<section id="Symbolic-APIs">
+<h2>Symbolic APIs<a class="headerlink" href="#Symbolic-APIs" title="Permalink to this heading">#</a></h2>
+<p>SymForce supports two underling symbolic APIs. The <a class="reference external" href="https://sympy.org">SymPy</a> API is pure Python, and the <a class="reference external" href="https://symengine.org">SymEngine</a> API is a C++ implementation of much of SymPy. SymEngine is the default, and if you installed SymForce with <code class="docutils literal notranslate"><span class="pre">pip</span></code> or built it from source you’ll have it already. SymEngine is much faster than SymPy by a factor of 100 or more. However, SymEngine doesn’t implement everything SymPy does. SymForce abstracts over some of these differences, and adds
+support for some operations by converting between SymEngine and SymPy calls.</p>
+<p>For how to set the symbolic api, see the docs for <a class="reference external" href="../api/symforce.html#symforce.set_symbolic_api">symforce.set_symbolic_api</a>.</p>
+</section>
 </section>
 
         </article>
@@ -916,8 +929,27 @@ $\displaystyle \frac{y}{x^{2}} - \frac{y^{3}}{6 x^{2}} + \frac{y^{5}}{120 x^{2}}
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">SymPy Tutorial</a><ul>
+<li><a class="reference internal" href="#Symbolic-APIs">Symbolic APIs</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=9dc53c94" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=1ddbf0f8" />
     
     
 
@@ -762,13 +762,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.notebook_util.display_code">
-<span class="sig-name descname"><span class="pre">display_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/notebook_util.html#display_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.notebook_util.display_code" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">display_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/notebook_util.html#display_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.notebook_util.display_code" title="Permalink to this definition">#</a></dt>
 <dd><p>Display code with syntax highlighting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Source code</p></li>
-<li><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – {python, c++, anything supported by pygments}</p></li>
+<li><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>None</em>) – {python, c++, anything supported by pygments}</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -784,7 +784,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<em>T.Openable</em>) – Path to source file</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.12)"><em>PathLike</em></a>) – Path to source file</p></li>
 <li><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – {python, c++, anything supported by pygments}</p></li>
 </ul>
 </dd>
@@ -796,11 +796,15 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.notebook_util.print_expression_tree">
-<span class="sig-name descname"><span class="pre">print_expression_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/notebook_util.html#print_expression_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.notebook_util.print_expression_tree" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">print_expression_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assumptions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/notebook_util.html#print_expression_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.notebook_util.print_expression_tree" title="Permalink to this definition">#</a></dt>
 <dd><p>Print a SymPy expression tree, ignoring node attributes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>expr</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Expr" title="symengine.lib.symengine_wrapper.Expr"><em>Expr</em></a>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expr</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Expr" title="symengine.lib.symengine_wrapper.Expr"><em>Expr</em></a>) – The expression to print</p></li>
+<li><p><strong>assumptions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Whether to include assumption information for nodes.  See
+<code class="docutils literal notranslate"><span class="pre">sympy.printing.tree</span></code> for more information.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
