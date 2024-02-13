@@ -609,6 +609,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/roll__forward__state_8h.html">File roll_forward_state.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -783,6 +784,13 @@
 <dd></dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym17OptimizationStats12JacobianViewERK24optimization_iteration_t">
+<span class="target" id="structsym_1_1OptimizationStats_1a4a268faf31c675ba1b27e0e2d9975c76"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">JacobianView</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">optimization_iteration_t</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">iteration</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK3sym17OptimizationStats12JacobianViewERK24optimization_iteration_t" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>Get a view of the Jacobian at a particular iteration</p>
+<p>The lifetime of the result is tied to the lifetime of the <a class="reference internal" href="#structsym_1_1OptimizationStats"><span class="std std-ref">OptimizationStats</span></a> object </p>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym17OptimizationStats5ResetEK6size_t">
 <span class="target" id="structsym_1_1OptimizationStats_1a664e1b8d58959902ee3233a45709998e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Reset</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">num_iterations</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats5ResetEK6size_t" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>Reset the optimization stats</p>
@@ -818,28 +826,29 @@
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym17OptimizationStats18best_linearizationE">
 <span class="target" id="structsym_1_1OptimizationStats_1a882541dd7cf1101289ab9ffe132eb2fd"></span><a class="reference internal" href="../namespace/namespacesym.html#_CPPv4I0EN3sym8optionalE" title="sym::optional"><span class="n"><span class="pre">optional</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace/namespacesym.html#_CPPv4I0EN3sym13LinearizationE" title="sym::Linearization"><span class="n"><span class="pre">Linearization</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../namespace/namespacesym.html#_CPPv4I0EN3sym17OptimizationStatsE" title="sym::OptimizationStats::MatrixType"><span class="n"><span class="pre">MatrixType</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">best_linearization</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats18best_linearizationE" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>The linearization at best_index (at optimized_values), filled out if populate_best_linearization=true </p>
+<dd><p>The linearization at best_index (at optimized_values), filled out if populate_best_linearization = true </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym17OptimizationStats17jacobian_sparsityE">
-<span class="target" id="structsym_1_1OptimizationStats_1a187c96ce596c3495ac266556f6a167ab"></span><span class="n"><span class="pre">sparse_matrix_structure_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">jacobian_sparsity</span></span></span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats17jacobian_sparsityE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structsym_1_1OptimizationStats_1a187c96ce596c3495ac266556f6a167ab"></span><span class="n"><span class="pre">sparse_matrix_structure_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">jacobian_sparsity</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats17jacobian_sparsityE" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>The sparsity pattern of the problem jacobian</p>
-<p>Only filled if using sparse linear solver and <a class="reference internal" href="optimizer_8h.html#classsym_1_1Optimizer"><span class="std std-ref">Optimizer</span></a> created with debug_stats = true. If not filled, row_indices field of sparse_matrix_structure_t and linear_solver_ordering will have size() = 0. </p>
+<p>Only filled if <a class="reference internal" href="optimizer_8h.html#classsym_1_1Optimizer"><span class="std std-ref">Optimizer</span></a> created with debug_stats = true and include_jacobians = true, otherwise default constructed.</p>
+<p>If using a dense linearization, only the shape field will be filled. </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym17OptimizationStats22linear_solver_orderingE">
-<span class="target" id="structsym_1_1OptimizationStats_1aa22e64f1b4d36d660ae2b210609efe95"></span><span class="n"><span class="pre">Eigen</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXi</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">linear_solver_ordering</span></span></span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats22linear_solver_orderingE" title="Permalink to this definition">#</a><br /></dt>
+<span class="target" id="structsym_1_1OptimizationStats_1aa22e64f1b4d36d660ae2b210609efe95"></span><span class="n"><span class="pre">Eigen</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">VectorXi</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">linear_solver_ordering</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats22linear_solver_orderingE" title="Permalink to this definition">#</a><br /></dt>
 <dd><p>The permutation used by the linear solver</p>
-<p>Only filled if using sparse linear solver and <a class="reference internal" href="optimizer_8h.html#classsym_1_1Optimizer"><span class="std std-ref">Optimizer</span></a> created with debug_stats = true. If not filled, row_indices field of sparse_matrix_structure_t and linear_solver_ordering will have size() = 0. </p>
+<p>Only filled if using an <a class="reference internal" href="optimizer_8h.html#classsym_1_1Optimizer"><span class="std std-ref">Optimizer</span></a> created with debug_stats = true and a linear solver that exposes Permutation() (such as the default <a class="reference internal" href="../class/classsym_1_1SparseCholeskySolver.html#classsym_1_1SparseCholeskySolver"><span class="std std-ref">SparseCholeskySolver</span></a>). Otherwise, will be default constructed. </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym17OptimizationStats24cholesky_factor_sparsityE">
-<span class="target" id="structsym_1_1OptimizationStats_1aa89c09c03318b567d3749071c486bac0"></span><span class="n"><span class="pre">sparse_matrix_structure_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cholesky_factor_sparsity</span></span></span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats24cholesky_factor_sparsityE" title="Permalink to this definition">#</a><br /></dt>
-<dd><p>The sparsity pattern of the cholesky factor</p>
-<p>Only filled if using sparse linear solver and <a class="reference internal" href="optimizer_8h.html#classsym_1_1Optimizer"><span class="std std-ref">Optimizer</span></a> created with debug_stats = true. If not filled, row_indices field of sparse_matrix_structure_t and linear_solver_ordering will have size() = 0. </p>
+<span class="target" id="structsym_1_1OptimizationStats_1aa89c09c03318b567d3749071c486bac0"></span><span class="n"><span class="pre">sparse_matrix_structure_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cholesky_factor_sparsity</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">{</span></span><span class="p"><span class="pre">}</span></span><a class="headerlink" href="#_CPPv4N3sym17OptimizationStats24cholesky_factor_sparsityE" title="Permalink to this definition">#</a><br /></dt>
+<dd><p>The sparsity pattern of the cholesky factor L</p>
+<p>Only filled if using an <a class="reference internal" href="optimizer_8h.html#classsym_1_1Optimizer"><span class="std std-ref">Optimizer</span></a> created with debug_stats = true and a linear solver that exposes L() (such as the default <a class="reference internal" href="../class/classsym_1_1SparseCholeskySolver.html#classsym_1_1SparseCholeskySolver"><span class="std std-ref">SparseCholeskySolver</span></a>). Otherwise, will be default constructed. </p>
 </dd></dl>
 
 </div>

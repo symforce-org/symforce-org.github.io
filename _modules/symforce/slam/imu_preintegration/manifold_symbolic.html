@@ -602,6 +602,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/roll__forward__state_8h.html">File roll_forward_state.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -744,6 +745,46 @@
 <span class="kn">from</span> <span class="nn">symforce.jacobian_helpers</span> <span class="kn">import</span> <span class="n">tangent_jacobians</span>
 
 
+<div class="viewcode-block" id="roll_forward_state"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.roll_forward_state">[docs]</a><span class="k">def</span> <span class="nf">roll_forward_state</span><span class="p">(</span>
+    <span class="n">pose_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+    <span class="n">vel_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="c1"># Preintegrated measurements: state</span>
+    <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span>
+    <span class="n">Dv</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">Dp</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="c1"># other</span>
+    <span class="n">gravity</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Roll forward the given state by the given preintegrated measurements</span>
+
+<span class="sd">    This returns the pose_j and vel_j that give 0 residual</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pose_i: Pose at time step i (world_T_body)</span>
+<span class="sd">        vel_i: Velocity at time step i (world frame)</span>
+<span class="sd">        DR: Preintegrated estimate for pose_i.R.inverse() * pose_j.R</span>
+<span class="sd">        Dv: Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</span>
+<span class="sd">        Dp: Preintegrated estimate for position change (before velocity and gravity</span>
+<span class="sd">        gravity: Acceleration due to gravity (in the same frame as pose_x and vel_x), i.e., the</span>
+<span class="sd">            vector which when added to the accelerometer measurements gives the true acceleration</span>
+<span class="sd">            (up to bias and noise) of the IMU.</span>
+<span class="sd">        dt: The time between timestep i and j: t_j - t_i</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        T.Tuple[sf.Pose3, sf.V3]: pose_j, vel_j</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># NOTE(aaron): Derived by setting the residual below to 0 and solving for pose_j and vel_j</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">(</span>
+            <span class="n">R</span><span class="o">=</span><span class="n">pose_i</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">DR</span><span class="p">,</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">pose_i</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">Dp</span> <span class="o">+</span> <span class="n">pose_i</span><span class="o">.</span><span class="n">t</span> <span class="o">+</span> <span class="n">vel_i</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">gravity</span> <span class="o">*</span> <span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pose_i</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">Dv</span> <span class="o">+</span> <span class="n">vel_i</span> <span class="o">+</span> <span class="n">gravity</span> <span class="o">*</span> <span class="n">dt</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="internal_imu_residual"><a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.internal_imu_residual">[docs]</a><span class="k">def</span> <span class="nf">internal_imu_residual</span><span class="p">(</span>
     <span class="n">pose_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
     <span class="n">vel_i</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
@@ -783,32 +824,32 @@
 <span class="sd">    Assumes sqrt_info is lower triangular and only reads the lower triangle.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        pose_i (sf.Pose3): Pose at time step i (world_T_body)</span>
-<span class="sd">        vel_i (sf.V3): Velocity at time step i (world frame)</span>
-<span class="sd">        pose_j (sf.Pose3): Pose at time step j (world_T_body)</span>
-<span class="sd">        vel_j (sf.V3): Velocity at time step j (world frame)</span>
-<span class="sd">        accel_bias_i (sf.V3): The accelerometer bias between timesteps i and j</span>
-<span class="sd">        gyro_bias_i (sf.V3): The gyroscope bias between timesteps i and j</span>
-<span class="sd">        DR (sf.Rot3): Preintegrated estimate for pose_i.R.inverse() * pose_j.R</span>
-<span class="sd">        Dv (sf.V3): Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</span>
-<span class="sd">        Dp (sf.V3): Preintegrated estimate for position change (before velocity and gravity</span>
-<span class="sd">            corrections) in the body frame at timestep i::</span>
+<span class="sd">        pose_i: Pose at time step i (world_T_body)</span>
+<span class="sd">        vel_i: Velocity at time step i (world frame)</span>
+<span class="sd">        pose_j: Pose at time step j (world_T_body)</span>
+<span class="sd">        vel_j: Velocity at time step j (world frame)</span>
+<span class="sd">        accel_bias_i: The accelerometer bias between timesteps i and j</span>
+<span class="sd">        gyro_bias_i: The gyroscope bias between timesteps i and j</span>
+<span class="sd">        DR: Preintegrated estimate for pose_i.R.inverse() * pose_j.R</span>
+<span class="sd">        Dv: Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</span>
+<span class="sd">        Dp: Preintegrated estimate for position change (before velocity and gravity corrections) in</span>
+<span class="sd">            the body frame at timestep i::</span>
 
 <span class="sd">                R_i^T (p_j - p_i - v_i Delta t - 1/2 g Delta t^2),</span>
 <span class="sd">                where R_i = pose_i.R, p_i = pose_i.t, p_j = pose_j.t, and v_i = vel_i</span>
-<span class="sd">        sqrt_info (sf.M99): sqrt info matrix of DR(&#39;s tangent space), Dv, Dp</span>
-<span class="sd">        DR_D_gyro_bias (sf.M33): Derivative of DR w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
-<span class="sd">        Dv_D_accel_bias (sf.M33): Derivative of Dv w.r.t. accel_bias evaluated at accel_bias_hat</span>
-<span class="sd">        Dv_D_gyro_bias (sf.M33): Derivative of Dv w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
-<span class="sd">        Dp_D_accel_bias (sf.M33): Derivative of Dp w.r.t. accel_bias evaluated at accel_bias_hat</span>
-<span class="sd">        Dp_D_gyro_bias (sf.M33): Derivative of Dp w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
-<span class="sd">        accel_bias_hat (sf.V3): The accelerometer bias used during preintegration</span>
-<span class="sd">        gyro_bias_hat (sf.V3): The gyroscope bias used during preintegration</span>
-<span class="sd">        gravity (sf.V3): Acceleration due to gravity (in the same frame as pose_x and vel_x),</span>
-<span class="sd">            i.e., the vector which when added to the accelerometer measurements gives the</span>
-<span class="sd">            true acceleration (up to bias and noise) of the IMU.</span>
-<span class="sd">        dt (T.Scalar): The time between timestep i and j: t_j - t_i</span>
-<span class="sd">        epsilon (T.Scalar): epsilon used for numerical stability</span>
+<span class="sd">        sqrt_info: sqrt info matrix of DR(&#39;s tangent space), Dv, Dp</span>
+<span class="sd">        DR_D_gyro_bias: Derivative of DR w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
+<span class="sd">        Dv_D_accel_bias: Derivative of Dv w.r.t. accel_bias evaluated at accel_bias_hat</span>
+<span class="sd">        Dv_D_gyro_bias: Derivative of Dv w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
+<span class="sd">        Dp_D_accel_bias: Derivative of Dp w.r.t. accel_bias evaluated at accel_bias_hat</span>
+<span class="sd">        Dp_D_gyro_bias: Derivative of Dp w.r.t. gyro_bias evaluated at gyro_bias_hat</span>
+<span class="sd">        accel_bias_hat: The accelerometer bias used during preintegration</span>
+<span class="sd">        gyro_bias_hat: The gyroscope bias used during preintegration</span>
+<span class="sd">        gravity: Acceleration due to gravity (in the same frame as pose_x and vel_x), i.e., the</span>
+<span class="sd">            vector which when added to the accelerometer measurements gives the true acceleration</span>
+<span class="sd">            (up to bias and noise) of the IMU.</span>
+<span class="sd">        dt: The time between timestep i and j: t_j - t_i</span>
+<span class="sd">        epsilon: epsilon used for numerical stability</span>
 
 <span class="sd">    Outputs:</span>
 <span class="sd">        res: 9dof product residual between the orientations, then velocities, then positions.</span>
@@ -860,11 +901,11 @@
 <span class="sd">    gyroscope measurement, and the accelerometer measurement.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        DR (sf.Rot3): Preintegrated DR of the previous state</span>
-<span class="sd">        corrected_gyro (sf.V3): gyroscope measurment corrected for IMU bias</span>
-<span class="sd">        corrected_accel (sf.V3): accelerometer measurement corrected for IMU bias</span>
-<span class="sd">        dt (T.Scalar): Time difference between the previous time step and the new time step</span>
-<span class="sd">        epsilon (T.Scalar): epsilon for numerical stability</span>
+<span class="sd">        DR: Preintegrated DR of the previous state</span>
+<span class="sd">        corrected_gyro: gyroscope measurment corrected for IMU bias</span>
+<span class="sd">        corrected_accel: accelerometer measurement corrected for IMU bias</span>
+<span class="sd">        dt: Time difference between the previous time step and the new time step</span>
+<span class="sd">        epsilon: epsilon for numerical stability</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        T.Tuple[sf.M99, sf.M93, sf.M93]: new_state_D_old_state, new_state_D_gyro_measurement, new_state_D_accel_measurement</span>
@@ -957,23 +998,23 @@
 <span class="sd">    derivatives w.r.t. to bias should all be 0.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        DR (sf.Rot3): Preintegrated change in orientation</span>
-<span class="sd">        Dv (sf.V3): Preintegrated change in velocity</span>
-<span class="sd">        Dp (sf.V3): Preintegrated change in position</span>
-<span class="sd">        covariance (sf.M99): Covariance [DR, Dv, Dp] in local coordinates of mean</span>
-<span class="sd">        DR_D_gyro_bias (sf.M33): Derivative of DR w.r.t. gyro_bias</span>
-<span class="sd">        Dv_D_accel_bias (sf.M33): Derivative of Dv w.r.t. accel_bias</span>
-<span class="sd">        Dv_D_gyro_bias (sf.M33): Derivative of Dv w.r.t. gyro_bias</span>
-<span class="sd">        Dp_D_accel_bias (sf.M33): Derivative of Dp w.r.t. accel_bias</span>
-<span class="sd">        Dp_D_gyro_bias (sf.M33): Derivative of Dp w.r.t. gyro_bias</span>
-<span class="sd">        accel_bias (sf.V3): Initial guess for the accelerometer measurement bias</span>
-<span class="sd">        gyro_bias (sf.V3): Initial guess for the gyroscope measurement bias</span>
-<span class="sd">        accel_cov_diagonal (sf.M33): The diagonal of the covariance of the accelerometer measurement</span>
-<span class="sd">        gyro_cov_diagonal (sf.M33): The diagonal of the covariance of the gyroscope measurement</span>
-<span class="sd">        accel_measurement (sf.V3): The accelerometer measurement</span>
-<span class="sd">        gyro_measurement (sf.V3): The gyroscope measurement</span>
-<span class="sd">        dt (T.Scalar): The time between the new measurements and the last</span>
-<span class="sd">        epsilon (T.Scalar): epsilon for numerical stability</span>
+<span class="sd">        DR: Preintegrated change in orientation</span>
+<span class="sd">        Dv: Preintegrated change in velocity</span>
+<span class="sd">        Dp: Preintegrated change in position</span>
+<span class="sd">        covariance: Covariance [DR, Dv, Dp] in local coordinates of mean</span>
+<span class="sd">        DR_D_gyro_bias: Derivative of DR w.r.t. gyro_bias</span>
+<span class="sd">        Dv_D_accel_bias: Derivative of Dv w.r.t. accel_bias</span>
+<span class="sd">        Dv_D_gyro_bias: Derivative of Dv w.r.t. gyro_bias</span>
+<span class="sd">        Dp_D_accel_bias: Derivative of Dp w.r.t. accel_bias</span>
+<span class="sd">        Dp_D_gyro_bias: Derivative of Dp w.r.t. gyro_bias</span>
+<span class="sd">        accel_bias: Initial guess for the accelerometer measurement bias</span>
+<span class="sd">        gyro_bias: Initial guess for the gyroscope measurement bias</span>
+<span class="sd">        accel_cov_diagonal: The diagonal of the covariance of the accelerometer measurement</span>
+<span class="sd">        gyro_cov_diagonal: The diagonal of the covariance of the gyroscope measurement</span>
+<span class="sd">        accel_measurement: The accelerometer measurement</span>
+<span class="sd">        gyro_measurement: The gyroscope measurement</span>
+<span class="sd">        dt: The time between the new measurements and the last</span>
+<span class="sd">        epsilon: epsilon for numerical stability</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        T.Tuple[sf.Rot3, sf.V3, sf.V3, sf.M99, sf.M33, sf.M33, sf.M33, sf.M33, sf.M33]:</span>

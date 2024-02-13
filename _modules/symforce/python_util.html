@@ -602,6 +602,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/roll__forward__state_8h.html">File roll_forward_state.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -742,6 +743,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">General python utilities.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">asyncio</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -771,7 +773,7 @@
         <span class="n">path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="execute_subprocess"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.execute_subprocess">[docs]</a><span class="k">def</span> <span class="nf">execute_subprocess</span><span class="p">(</span>
+<div class="viewcode-block" id="execute_subprocess"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.execute_subprocess">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">execute_subprocess</span><span class="p">(</span>
     <span class="n">cmd</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="n">stdin_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">log_stdout</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -797,11 +799,12 @@
     <span class="n">cmd_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">else</span> <span class="n">cmd</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subprocess: </span><span class="si">{</span><span class="n">cmd_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">with</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-        <span class="n">cmd</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="k">as</span> <span class="n">proc</span><span class="p">:</span>
-        <span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">stdin_data_encoded</span><span class="p">)</span>
-        <span class="n">return_code</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">returncode</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_subprocess_exec</span><span class="p">(</span>
+        <span class="o">*</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="k">await</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">(</span><span class="n">stdin_data_encoded</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">proc</span><span class="o">.</span><span class="n">returncode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">return_code</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">returncode</span>
 
     <span class="n">going_to_log_to_err</span> <span class="o">=</span> <span class="n">return_code</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">log_stdout_to_error_on_error</span>
 

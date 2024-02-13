@@ -602,6 +602,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/roll__forward__state_8h.html">File roll_forward_state.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -819,10 +820,6 @@
 <span class="sd">        optimized_keys: A set of the keys to be optimized. Only required if symbolic factors are</span>
 <span class="sd">            passed to the optimizer.</span>
 <span class="sd">        params: Params for the optimizer</span>
-<span class="sd">        debug_stats: Whether the optimizer should record debugging stats such as the optimized</span>
-<span class="sd">            values, residual, jacobian, etc. computed at each iteration of the optimization.</span>
-<span class="sd">        include_jacobians: Whether the optimizer should compute jacobians (required for linear</span>
-<span class="sd">            error)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Optimizer.Params"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Params">[docs]</a>    <span class="nd">@dataclass</span>
@@ -837,6 +834,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">debug_stats</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">check_derivatives</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">include_jacobians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">debug_checks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">initial_lambda</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="n">lambda_up_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
         <span class="n">lambda_down_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">4.0</span>
@@ -879,20 +880,21 @@
 <span class="sd">                What was the result of the optimization? (did it converge, fail, etc.)</span>
 
 <span class="sd">            failure_reason:</span>
-<span class="sd">                If status == FAILED, why?</span>
+<span class="sd">                If ``status == FAILED``, why?</span>
 
 <span class="sd">            best_linearization:</span>
 <span class="sd">                The linearization at best_index (at optimized_values), filled out if</span>
-<span class="sd">                populate_best_linearization=True</span>
+<span class="sd">                ``populate_best_linearization=True``</span>
 
 <span class="sd">            jacobian_sparsity:</span>
-<span class="sd">                The sparsity pattern of the jacobian, filled out if debug_stats=True</span>
+<span class="sd">                The sparsity pattern of the jacobian, filled out if ``debug_stats=True`` and</span>
+<span class="sd">                ``include_jacobians=True``</span>
 
 <span class="sd">            linear_solver_ordering:</span>
-<span class="sd">                The ordering used for the linear solver, filled out if debug_stats=True</span>
+<span class="sd">                The ordering used for the linear solver, filled out if ``debug_stats=True``</span>
 
 <span class="sd">            cholesky_factor_sparsity:</span>
-<span class="sd">                The sparsity pattern of the cholesky factor L, filled out if debug_stats=True</span>
+<span class="sd">                The sparsity pattern of the cholesky factor L, filled out if ``debug_stats=True``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">initial_values</span><span class="p">:</span> <span class="n">Values</span>
@@ -950,8 +952,8 @@
         <span class="n">factors</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Factor</span><span class="p">,</span> <span class="n">NumericFactor</span><span class="p">]],</span>
         <span class="n">optimized_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">params</span><span class="p">:</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Params</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">debug_stats</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">include_jacobians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">debug_stats</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_jacobians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">optimized_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># This will be filled with the optimized keys of the numeric factors</span>
@@ -997,7 +999,18 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">debug_stats</span> <span class="o">=</span> <span class="n">debug_stats</span>
+        <span class="k">if</span> <span class="n">debug_stats</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">debug_stats</span> <span class="o">=</span> <span class="n">debug_stats</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;debug_stats argument is deprecated, use params.debug_stats&quot;</span><span class="p">,</span> <span class="ne">FutureWarning</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">include_jacobians</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">include_jacobians</span> <span class="o">=</span> <span class="n">include_jacobians</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;include_jacobians argument is deprecated, use params.include_jacobians&quot;</span><span class="p">,</span>
+                <span class="ne">FutureWarning</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -1019,8 +1032,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span> <span class="o">=</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">(</span>
             <span class="n">optimizer_params_t</span><span class="p">(</span><span class="o">**</span><span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)),</span>
             <span class="p">[</span><span class="n">factor</span><span class="o">.</span><span class="n">cc_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">)</span> <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">numeric_factors</span><span class="p">],</span>
-            <span class="n">debug_stats</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">debug_stats</span><span class="p">,</span>
-            <span class="n">include_jacobians</span><span class="o">=</span><span class="n">include_jacobians</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

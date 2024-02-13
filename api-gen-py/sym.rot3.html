@@ -609,6 +609,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/roll__forward__state_8h.html">File roll_forward_state.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -796,6 +797,24 @@ rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>ndarray</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sym.rot3.Rot3.to_tangent_norm">
+<span class="sig-name descname"><span class="pre">to_tangent_norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sym/rot3.html#Rot3.to_tangent_norm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sym.rot3.Rot3.to_tangent_norm" title="Permalink to this definition">#</a></dt>
+<dd><p>Returns the norm of the tangent vector corresponding to this rotation</p>
+<p>This is equal to the angle that should be rotated through to get this Rot3, in radians.
+Using this function directly is usually more efficient than computing the norm of the
+tangent vector, both in symbolic and generated code; by default, symbolic APIs will not
+automatically simplify to this</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference internal" href="#sym.rot3.Rot3" title="sym.rot3.Rot3"><em>Rot3</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1136,6 +1155,7 @@ are expected to be normalized.</p>
 <li><a class="reference internal" href="#sym.rot3.Rot3.from_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">from_rotation_matrix()</span></code></a></li>
 <li><a class="reference internal" href="#sym.rot3.Rot3.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
 <li><a class="reference internal" href="#sym.rot3.Rot3.compose_with_point"><code class="docutils literal notranslate"><span class="pre">compose_with_point()</span></code></a></li>
+<li><a class="reference internal" href="#sym.rot3.Rot3.to_tangent_norm"><code class="docutils literal notranslate"><span class="pre">to_tangent_norm()</span></code></a></li>
 <li><a class="reference internal" href="#sym.rot3.Rot3.to_rotation_matrix"><code class="docutils literal notranslate"><span class="pre">to_rotation_matrix()</span></code></a></li>
 <li><a class="reference internal" href="#sym.rot3.Rot3.random_from_uniform_samples"><code class="docutils literal notranslate"><span class="pre">random_from_uniform_samples()</span></code></a></li>
 <li><a class="reference internal" href="#sym.rot3.Rot3.to_yaw_pitch_roll"><code class="docutils literal notranslate"><span class="pre">to_yaw_pitch_roll()</span></code></a></li>

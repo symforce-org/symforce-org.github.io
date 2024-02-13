@@ -602,6 +602,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/roll__forward__state_8h.html">File roll_forward_state.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -826,13 +827,13 @@
         <span class="c1"># Implementation of logmap that uses epsilon with the Min function to</span>
         <span class="c1"># avoid the singularity in the sqrt at w == 1</span>
         <span class="c1">#</span>
-        <span class="c1"># Also flips the sign of the quaternion of w is negative, which makes sure</span>
+        <span class="c1"># Also flips the sign of the quaternion if w is negative, which makes sure</span>
         <span class="c1"># that the resulting tangent vector has norm &lt;= pi</span>
         <span class="n">w_positive</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
         <span class="n">w_safe</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">w_positive</span><span class="p">)</span>
         <span class="n">xyz_w_positive</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">xyz</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sign_no_zero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
         <span class="n">norm</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">w_safe</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">tangent</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xyz_w_positive</span> <span class="o">/</span> <span class="n">norm</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">w_safe</span><span class="p">)</span>
+        <span class="n">tangent</span> <span class="o">=</span> <span class="n">xyz_w_positive</span> <span class="o">/</span> <span class="n">norm</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_tangent_norm</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tangent</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Rot3.hat"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.hat">[docs]</a>    <span class="nd">@classmethod</span>
@@ -884,6 +885,19 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">right</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported type: &quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Rot3.to_tangent_norm"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.to_tangent_norm">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the norm of the tangent vector corresponding to this rotation</span>
+
+<span class="sd">        This is equal to the angle that should be rotated through to get this Rot3, in radians.</span>
+<span class="sd">        Using this function directly is usually more efficient than computing the norm of the</span>
+<span class="sd">        tangent vector, both in symbolic and generated code; by default, symbolic APIs will not</span>
+<span class="sd">        automatically simplify to this</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">w_positive</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+        <span class="n">w_safe</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">w_positive</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">w_safe</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.to_rotation_matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Rot3.to_rotation_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix33</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>

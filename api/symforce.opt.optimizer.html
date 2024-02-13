@@ -609,6 +609,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__pose3__rotation_8h.html">File prior_factor_pose3_rotation.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__rot2_8h.html">File prior_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/prior__factor__rot3_8h.html">File prior_factor_rot3.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/roll__forward__state_8h.html">File roll_forward_state.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2group__ops_8h.html">File group_ops.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/rot2_2lie__group__ops_8cc.html">File lie_group_ops.cc</a></li>
@@ -745,7 +746,7 @@
 <span id="symforce-opt-optimizer-module"></span><h1>symforce.opt.optimizer module<a class="headerlink" href="#module-symforce.opt.optimizer" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_jacobians</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_jacobians</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A nonlinear least-squares optimizer</p>
 <p>Typical usage is to construct an Optimizer from a set of factors and keys to optimize, and then
@@ -798,16 +799,14 @@ keys in <code class="docutils literal notranslate"><span class="pre">optimized_k
 <li><p><strong>optimized_keys</strong> (<em>T.Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em>) – A set of the keys to be optimized. Only required if symbolic factors are
 passed to the optimizer.</p></li>
 <li><p><strong>params</strong> (<a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params" title="symforce.opt.optimizer.Optimizer.Params"><em>Optimizer.Params</em></a>) – Params for the optimizer</p></li>
-<li><p><strong>debug_stats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Whether the optimizer should record debugging stats such as the optimized
-values, residual, jacobian, etc. computed at each iteration of the optimization.</p></li>
-<li><p><strong>include_jacobians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Whether the optimizer should compute jacobians (required for linear
-error)</p></li>
+<li><p><strong>debug_stats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – </p></li>
+<li><p><strong>include_jacobians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_up_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_down_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_lower_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_upper_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_unit_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_max_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagonal_damping_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exit_min_reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_bold_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_derivatives</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_jacobians</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_checks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_lambda</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_up_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_down_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_lower_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_upper_bound</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_unit_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_max_diagonal_damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diagonal_damping_min</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_exit_min_reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_bold_updates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer.Params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Parameters for the Python Optimizer</p>
 <p>Mirrors the <code class="docutils literal notranslate"><span class="pre">optimizer_params_t</span></code> LCM type, see documentation there for information on each
@@ -817,6 +816,10 @@ parameter.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – </p></li>
+<li><p><strong>debug_stats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – </p></li>
+<li><p><strong>check_derivatives</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – </p></li>
+<li><p><strong>include_jacobians</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – </p></li>
+<li><p><strong>debug_checks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – </p></li>
 <li><p><strong>initial_lambda</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – </p></li>
 <li><p><strong>lambda_up_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – </p></li>
 <li><p><strong>lambda_down_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – </p></li>
@@ -835,6 +838,26 @@ parameter.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.verbose">
 <span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.verbose" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.debug_stats">
+<span class="sig-name descname"><span class="pre">debug_stats</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.debug_stats" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.check_derivatives">
+<span class="sig-name descname"><span class="pre">check_derivatives</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.check_derivatives" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.include_jacobians">
+<span class="sig-name descname"><span class="pre">include_jacobians</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.include_jacobians" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Params.debug_checks">
+<span class="sig-name descname"><span class="pre">debug_checks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Params.debug_checks" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -972,32 +995,33 @@ did not reduce the error</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.failure_reason">
 <span class="sig-name descname"><span class="pre">failure_reason</span></span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.failure_reason" title="Permalink to this definition">#</a></dt>
-<dd><p>If status == FAILED, why?</p>
+<dd><p>If <code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">==</span> <span class="pre">FAILED</span></code>, why?</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.best_linearization">
 <span class="sig-name descname"><span class="pre">best_linearization</span></span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.best_linearization" title="Permalink to this definition">#</a></dt>
 <dd><p>The linearization at best_index (at optimized_values), filled out if
-populate_best_linearization=True</p>
+<code class="docutils literal notranslate"><span class="pre">populate_best_linearization=True</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.jacobian_sparsity">
 <span class="sig-name descname"><span class="pre">jacobian_sparsity</span></span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.jacobian_sparsity" title="Permalink to this definition">#</a></dt>
-<dd><p>The sparsity pattern of the jacobian, filled out if debug_stats=True</p>
+<dd><p>The sparsity pattern of the jacobian, filled out if <code class="docutils literal notranslate"><span class="pre">debug_stats=True</span></code> and
+<code class="docutils literal notranslate"><span class="pre">include_jacobians=True</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.linear_solver_ordering">
 <span class="sig-name descname"><span class="pre">linear_solver_ordering</span></span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.linear_solver_ordering" title="Permalink to this definition">#</a></dt>
-<dd><p>The ordering used for the linear solver, filled out if debug_stats=True</p>
+<dd><p>The ordering used for the linear solver, filled out if <code class="docutils literal notranslate"><span class="pre">debug_stats=True</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer.Result.cholesky_factor_sparsity">
 <span class="sig-name descname"><span class="pre">cholesky_factor_sparsity</span></span><a class="headerlink" href="#symforce.opt.optimizer.Optimizer.Result.cholesky_factor_sparsity" title="Permalink to this definition">#</a></dt>
-<dd><p>The sparsity pattern of the cholesky factor L, filled out if debug_stats=True</p>
+<dd><p>The sparsity pattern of the cholesky factor L, filled out if <code class="docutils literal notranslate"><span class="pre">debug_stats=True</span></code></p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1282,6 +1306,10 @@ blocks from the problem jacobian, hessian, or RHS</p>
 <li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer"><code class="docutils literal notranslate"><span class="pre">Optimizer</span></code></a><ul>
 <li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params"><code class="docutils literal notranslate"><span class="pre">Params</span></code></a><ul>
 <li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.verbose"><code class="docutils literal notranslate"><span class="pre">verbose</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.debug_stats"><code class="docutils literal notranslate"><span class="pre">debug_stats</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.check_derivatives"><code class="docutils literal notranslate"><span class="pre">check_derivatives</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.include_jacobians"><code class="docutils literal notranslate"><span class="pre">include_jacobians</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.debug_checks"><code class="docutils literal notranslate"><span class="pre">debug_checks</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.initial_lambda"><code class="docutils literal notranslate"><span class="pre">initial_lambda</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.lambda_up_factor"><code class="docutils literal notranslate"><span class="pre">lambda_up_factor</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.optimizer.Optimizer.Params.lambda_down_factor"><code class="docutils literal notranslate"><span class="pre">lambda_down_factor</span></code></a></li>
