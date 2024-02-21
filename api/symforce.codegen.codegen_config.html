@@ -11,7 +11,7 @@
 <meta property="og:image:alt" content="symforce" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="symforce.codegen.codegen_util module" href="symforce.codegen.codegen_util.html" /><link rel="prev" title="symforce.codegen.codegen module" href="symforce.codegen.codegen.html" />
 
-    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.01.29 -->
         <title>symforce.codegen.codegen_config module - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
@@ -794,7 +794,7 @@ versions of SymForce will always autoformat generated code]</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_config.CodegenConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CodegenConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_comment_line_prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_eigen_types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_template_config=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse_optimizations=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_epsilon_behavior=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_config.html#CodegenConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_config.CodegenConfig" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CodegenConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc_comment_line_prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_eigen_types</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_template_config=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cse_optimizations=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero_epsilon_behavior=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_results=True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/codegen/codegen_config.html#CodegenConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.codegen.codegen_config.CodegenConfig" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Base class for backend-specific arguments for code generation.</p>
 <dl class="field-list simple">
@@ -808,6 +808,8 @@ block-style docstrings</p></li>
 more information</p></li>
 <li><p><strong>cse_optimizations</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.12)"><em>Literal</em></a><em>[</em><em>'basic'</em><em>] </em><em>| </em><em>~typing.Sequence</em><em>[</em><em>~typing.Tuple</em><em>[</em><em>~typing.Callable</em><em>, </em><em>~typing.Callable</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Optimizations argument to pass to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cse" title="symforce.symbolic.cse"><code class="xref py py-func docutils literal notranslate"><span class="pre">sf.cse</span></code></a></p></li>
 <li><p><strong>zero_epsilon_behavior</strong> (<a class="reference internal" href="#symforce.codegen.codegen_config.ZeroEpsilonBehavior" title="symforce.codegen.codegen_config.ZeroEpsilonBehavior"><em>ZeroEpsilonBehavior</em></a>) – What should codegen do if a default epsilon is not set?</p></li>
+<li><p><strong>normalize_results</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Should function outputs be explicitly projected onto the manifold before
+returning?</p></li>
 </ul>
 </dd>
 </dl>
@@ -839,6 +841,11 @@ more information</p></li>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.codegen_config.CodegenConfig.zero_epsilon_behavior">
 <span class="sig-name descname"><span class="pre">zero_epsilon_behavior</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#symforce.codegen.codegen_config.ZeroEpsilonBehavior" title="symforce.codegen.codegen_config.ZeroEpsilonBehavior"><span class="pre">ZeroEpsilonBehavior</span></a></em><a class="headerlink" href="#symforce.codegen.codegen_config.CodegenConfig.zero_epsilon_behavior" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.codegen.codegen_config.CodegenConfig.normalize_results">
+<span class="sig-name descname"><span class="pre">normalize_results</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#symforce.codegen.codegen_config.CodegenConfig.normalize_results" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1041,6 +1048,7 @@ is passed to jinja at code-generation time.</p>
 <li><a class="reference internal" href="#symforce.codegen.codegen_config.CodegenConfig.render_template_config"><code class="docutils literal notranslate"><span class="pre">render_template_config</span></code></a></li>
 <li><a class="reference internal" href="#symforce.codegen.codegen_config.CodegenConfig.cse_optimizations"><code class="docutils literal notranslate"><span class="pre">cse_optimizations</span></code></a></li>
 <li><a class="reference internal" href="#symforce.codegen.codegen_config.CodegenConfig.zero_epsilon_behavior"><code class="docutils literal notranslate"><span class="pre">zero_epsilon_behavior</span></code></a></li>
+<li><a class="reference internal" href="#symforce.codegen.codegen_config.CodegenConfig.normalize_results"><code class="docutils literal notranslate"><span class="pre">normalize_results</span></code></a></li>
 <li><a class="reference internal" href="#symforce.codegen.codegen_config.CodegenConfig.backend_name"><code class="docutils literal notranslate"><span class="pre">backend_name()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.codegen.codegen_config.CodegenConfig.template_dir"><code class="docutils literal notranslate"><span class="pre">template_dir()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.codegen.codegen_config.CodegenConfig.templates_to_render"><code class="docutils literal notranslate"><span class="pre">templates_to_render()</span></code></a></li>
