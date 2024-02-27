@@ -811,7 +811,10 @@
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown comment prefix for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="FileType.autoformat"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.FileType.autoformat">[docs]</a>    <span class="k">def</span> <span class="nf">autoformat</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">file_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">template_name</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">file_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">template_name</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format code of this file type.</span>
@@ -966,7 +969,7 @@
         <span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span>
         <span class="n">output_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">common_template_dir</span> <span class="o">=</span> <span class="n">template_dir</span>
 
@@ -976,8 +979,8 @@
         <span class="n">data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
         <span class="n">config</span><span class="p">:</span> <span class="n">RenderTemplateConfig</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">output_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">template_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">output_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">template_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">common_template_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

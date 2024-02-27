@@ -1054,7 +1054,11 @@
 
 <div class="viewcode-block" id="Symbol"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Symbol">[docs]</a>    <span class="k">class</span> <span class="nc">Symbol</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">):</span>  <span class="c1"># pylint: disable=function-redefined,too-many-ancestors</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">commutative</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">real</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">positive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">commutative</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">real</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">positive</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">scoped_name</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__scopes__</span> <span class="o">+</span> <span class="p">[</span><span class="n">name</span><span class="p">])</span>
             <span class="c1"># mypy doesn&#39;t understand that sympy.Symbol defines __new__, which takes these args</span>
@@ -1082,9 +1086,7 @@
 
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">Symbol</span>
-    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="p">(</span>
-        <span class="n">symbols</span><span class="p">,</span>  <span class="c1"># type: ignore[misc] # mypy is mad that this is of a different type on sympy</span>
-    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">symbols</span>
 
     <span class="c1"># Save original</span>
     <span class="n">_original_symbol_new</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="o">.</span><span class="fm">__new__</span>
@@ -1096,7 +1098,7 @@
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">commutative</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">real</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">positive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">positive</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__scopes__</span> <span class="o">+</span> <span class="p">[</span><span class="n">name</span><span class="p">])</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">_original_symbol_new</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">commutative</span><span class="o">=</span><span class="n">commutative</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="n">real</span><span class="p">,</span> <span class="n">positive</span><span class="o">=</span><span class="n">positive</span><span class="p">)</span>
@@ -1301,7 +1303,7 @@
         <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">simplify</span>  <span class="c1"># type: ignore[misc] # incompatible import</span>
+    <span class="kn">from</span> <span class="nn">sympy.simplify</span> <span class="kn">import</span> <span class="n">simplify</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
 
@@ -1322,7 +1324,7 @@
         <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">z0</span><span class="p">),</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">))</span></div>
 
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">limit</span>  <span class="c1"># type: ignore[misc] # incompatible import</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">limit</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
 
@@ -1334,11 +1336,11 @@
 
 <div class="viewcode-block" id="integrate"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.integrate">[docs]</a>    <span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span>
         <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
-        <span class="n">meijerg</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">meijerg</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">conds</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;piecewise&quot;</span><span class="p">,</span> <span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;piecewise&quot;</span><span class="p">,</span>
-        <span class="n">risch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">heurisch</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">manual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">risch</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">heurisch</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">manual</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Converting to sympy to use .integrate&quot;</span><span class="p">)</span>
@@ -1355,7 +1357,7 @@
         <span class="p">)</span></div>
 
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">integrate</span>  <span class="c1"># type: ignore[misc] # incompatible import</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">integrate</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
 
@@ -1379,7 +1381,7 @@
             <span class="p">)</span></div>
 
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">solve</span>  <span class="c1"># type: ignore[misc] # incompatible import</span>
+    <span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">solve</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
 
@@ -1518,7 +1520,7 @@
     <span class="n">wrapper</span><span class="o">.</span><span class="n">get_dict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">original_get_dict</span><span class="p">(</span><span class="n">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 <span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
     <span class="n">original_subs</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Basic</span><span class="o">.</span><span class="n">subs</span>
-    <span class="n">sympy</span><span class="o">.</span><span class="n">Basic</span><span class="o">.</span><span class="n">subs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">original_subs</span><span class="p">(</span>  <span class="c1"># type: ignore[assignment]</span>
+    <span class="n">sympy</span><span class="o">.</span><span class="n">Basic</span><span class="o">.</span><span class="n">subs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">original_subs</span><span class="p">(</span>  <span class="c1"># type: ignore[method-assign]</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>

@@ -759,9 +759,9 @@ factor using <a class="reference internal" href="#symforce.opt.factor.Factor.gen
 the residual function arguments.</p></li>
 <li><p><strong>residual</strong> (<em>T.Callable</em><em>[</em><em>...</em><em>, </em><em>sf.Matrix</em><em>]</em>) – The residual function for the factor. When passed symbolic inputs, this should
 return a symbolic expression for the residual.</p></li>
-<li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>codegen_config.CodegenConfig</em></a>) – The language the numeric factor will be generated in. Defaults to Python, which
+<li><p><strong>config</strong> (<em>T.Optional</em><em>[</em><a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>codegen_config.CodegenConfig</em></a><em>]</em>) – The language the numeric factor will be generated in. Defaults to Python, which
 does not require any compilation.</p></li>
-<li><p><strong>custom_jacobian_func</strong> (<em>T.Callable</em><em>[</em><em>[</em><em>T.Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>]</em><em>, </em><em>sf.Matrix</em><em>]</em>) – A functor that computes the jacobian, typically unnecessary unless
+<li><p><strong>custom_jacobian_func</strong> (<em>T.Optional</em><em>[</em><em>T.Callable</em><em>[</em><em>[</em><em>T.Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>]</em><em>, </em><em>sf.Matrix</em><em>]</em><em>]</em>) – A functor that computes the jacobian, typically unnecessary unless
 you want to override the jacobian computed by SymForce, e.g. to stop derivatives
 with respect to certain variables or directions, or because the jacobian can be
 analytically simplified in a way that SymForce won’t do automatically. If not

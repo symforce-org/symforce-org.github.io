@@ -760,24 +760,27 @@
 <span class="sd">    group operations are their vector operations. See :mod:`.abstract_vector_group_ops`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AbstractStorageOps.storage_dim"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.storage_dim">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="c1"># NOTE(aaron): These should be @staticmethods, this is fixed in mypy 1.9</span>
+    <span class="c1"># https://github.com/python/mypy/pull/16670</span>
+
+<div class="viewcode-block" id="AbstractStorageOps.storage_dim"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ElementOrTypeT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ElementOrTypeT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="AbstractStorageOps.to_storage"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.to_storage">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AbstractStorageOps.to_storage"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.to_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ElementT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ElementT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="AbstractStorageOps.from_storage"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.from_storage">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AbstractStorageOps.from_storage"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ElementOrTypeT</span><span class="p">,</span> <span class="n">elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ElementT</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ElementOrTypeT</span><span class="p">,</span> <span class="n">elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ElementT</span><span class="p">:</span>
         <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="AbstractStorageOps.symbolic"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.symbolic">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AbstractStorageOps.symbolic"><a class="viewcode-back" href="../../../../api/symforce.ops.impl.abstract_storage_ops.html#symforce.ops.impl.abstract_storage_ops.AbstractStorageOps.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">ElementOrTypeT</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ElementT</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">ElementOrTypeT</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ElementT</span><span class="p">:</span>
         <span class="k">pass</span></div></div>
 </pre></div>
         </article>

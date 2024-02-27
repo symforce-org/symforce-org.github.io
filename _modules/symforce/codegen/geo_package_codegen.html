@@ -828,6 +828,11 @@
             <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">to_yaw_pitch_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="n">to_yaw_pitch_roll</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="o">.</span><span class="vm">__doc__</span>
+
     <span class="n">rot3_functions</span> <span class="o">=</span> <span class="p">(</span>
         <span class="p">[</span>
             <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">),</span>
@@ -841,9 +846,7 @@
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
                 <span class="c1"># TODO(aaron): We currently can&#39;t generate custom methods with defaults - fix this, and</span>
                 <span class="c1"># pass epsilon as an argument with a default</span>
-                <span class="n">func</span><span class="o">=</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_yaw_pitch_roll</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="mi">0</span><span class="p">)),</span>
-                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">],</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;to_yaw_pitch_roll&quot;</span><span class="p">,</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">to_yaw_pitch_roll</span><span class="p">,</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_yaw_pitch_roll</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
@@ -924,7 +927,7 @@
     <span class="p">}</span>
 
 
-<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_package_codegen.html#symforce.codegen.geo_package_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<div class="viewcode-block" id="generate"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_package_codegen.html#symforce.codegen.geo_package_codegen.generate">[docs]</a><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate the geo package for the given language.</span>
 <span class="sd">    &quot;&quot;&quot;</span>

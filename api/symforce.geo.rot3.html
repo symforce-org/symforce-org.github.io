@@ -752,7 +752,7 @@
 rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>q</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Quaternion" title="symforce.symbolic.Quaternion"><em>Quaternion</em></a>) – </p>
+<dd class="field-odd"><p><strong>q</strong> (<em>T.Optional</em><em>[</em><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Quaternion" title="symforce.symbolic.Quaternion"><em>Quaternion</em></a><em>]</em>) – </p>
 </dd>
 </dl>
 <dl class="py method">
@@ -987,6 +987,9 @@ automatically simplify to this</p>
 <dt class="sig sig-object py" id="symforce.geo.rot3.Rot3.to_yaw_pitch_roll">
 <span class="sig-name descname"><span class="pre">to_yaw_pitch_roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.to_yaw_pitch_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.geo.rot3.Rot3.to_yaw_pitch_roll" title="Permalink to this definition">#</a></dt>
 <dd><p>Compute the yaw, pitch, and roll Euler angles in radians of this rotation</p>
+<p>Euler angles are subject to gimbal lock: <a class="reference external" href="https://en.wikipedia.org/wiki/Gimbal_lock">https://en.wikipedia.org/wiki/Gimbal_lock</a></p>
+<p>This means that when the pitch is close to +/- pi/2, the yaw and roll angles are not
+uniquely defined, so the returned values are not unique in this case.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">

@@ -742,6 +742,8 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span> <span class="nn">enum</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">symforce</span>
@@ -750,6 +752,9 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">_T</span>  <span class="c1"># We already have a Matrix.T which collides</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
 <span class="kn">from</span> <span class="nn">symforce.ops.interfaces</span> <span class="kn">import</span> <span class="n">Storage</span>
+
+<span class="k">if</span> <span class="n">_T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">symengine</span>
 
 
 <div class="viewcode-block" id="Matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix">[docs]</a><span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
@@ -1059,7 +1064,9 @@
     <span class="c1">#     pass</span>
 
 <div class="viewcode-block" id="Matrix.eye"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.eye">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">eye</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">],</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">eye</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">],</span> <span class="n">rows</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct an identity matrix</span>
 
@@ -1219,7 +1226,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Compute jacobian wrt X storage</span>
             <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span>
-                <span class="p">[[</span><span class="n">vi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">X</span><span class="p">)]</span> <span class="k">for</span> <span class="n">vi</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)]</span>  <span class="c1"># type: ignore[call-overload]  # fixed by python/typeshed#7817</span>
+                <span class="p">[[</span><span class="n">vi</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span><span class="n">X</span><span class="p">)]</span> <span class="k">for</span> <span class="n">vi</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)]</span>
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Matrix.diff"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.diff">[docs]</a>    <span class="k">def</span> <span class="nf">diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
@@ -1257,6 +1264,32 @@
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
             <span class="n">lt</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">,</span> <span class="p">:</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">lt</span></div>
+
+<div class="viewcode-block" id="Matrix.Triangle"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.Triangle">[docs]</a>    <span class="k">class</span> <span class="nc">Triangle</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="n">LOWER</span> <span class="o">=</span> <span class="s2">&quot;lower&quot;</span>
+        <span class="n">UPPER</span> <span class="o">=</span> <span class="s2">&quot;upper&quot;</span></div>
+
+<div class="viewcode-block" id="Matrix.symmetric_copy"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.symmetric_copy">[docs]</a>    <span class="k">def</span> <span class="nf">symmetric_copy</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">upper_or_lower</span><span class="p">:</span> <span class="n">Triangle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a symmetric copy of `self` by copying the lower or upper triangle to the opposite</span>
+<span class="sd">        triangle.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            upper_or_lower: The triangle to copy to the opposite triangle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matrix must be square to make a symmetric copy, not </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[:,</span> <span class="p">:]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">upper_or_lower</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">Triangle</span><span class="o">.</span><span class="n">LOWER</span><span class="p">:</span>
+                    <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">result</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="Matrix.reshape"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.reshape">[docs]</a>    <span class="k">def</span> <span class="nf">reshape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Matrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">))</span></div>
@@ -1499,9 +1532,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">*</span> <span class="n">_T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="n">inv</span><span class="p">())</span></div>
 
-    <span class="k">def</span> <span class="nf">_symengine_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;symengine.Matrix&quot;</span><span class="p">:</span>  <span class="c1"># type: ignore[name-defined]</span>
+    <span class="k">def</span> <span class="nf">_symengine_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">symengine</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="n">symengine</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>  <span class="c1"># pylint: disable=protected-access</span>
-        <span class="k">return</span> <span class="n">symengine</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">return</span> <span class="n">symengine</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Matrix.compute_AtA"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.compute_AtA">[docs]</a>    <span class="k">def</span> <span class="nf">compute_AtA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1616,7 +1649,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert to a flattened list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">))</span>  <span class="c1"># type: ignore[call-overload]  # fixed by python/typeshed#7817</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Matrix.from_flat_list"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Matrix.from_flat_list">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_flat_list</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>

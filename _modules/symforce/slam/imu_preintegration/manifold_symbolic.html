@@ -1073,9 +1073,13 @@
         <span class="n">new_state_D_gyro_bias</span> <span class="o">=</span> <span class="o">-</span><span class="n">new_state_D_gyro</span>
         <span class="n">new_state_D_accel_bias</span> <span class="o">=</span> <span class="o">-</span><span class="n">new_state_D_accel</span>
 
+    <span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span><span class="o">.</span><span class="n">symmetric_copy</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">Triangle</span><span class="o">.</span><span class="n">LOWER</span><span class="p">)</span>
+
     <span class="n">new_covariance</span> <span class="o">=</span> <span class="n">new_state_D_state</span> <span class="o">*</span> <span class="n">covariance</span> <span class="o">*</span> <span class="n">new_state_D_state</span><span class="o">.</span><span class="n">T</span>
     <span class="n">new_covariance</span> <span class="o">+=</span> <span class="n">new_state_D_gyro</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">gyro_cov_diagonal</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">new_state_D_gyro</span><span class="o">.</span><span class="n">T</span>
     <span class="n">new_covariance</span> <span class="o">+=</span> <span class="n">new_state_D_accel</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">accel_cov_diagonal</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">new_state_D_accel</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">new_covariance</span> <span class="o">=</span> <span class="n">new_covariance</span><span class="o">.</span><span class="n">symmetric_copy</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">Triangle</span><span class="o">.</span><span class="n">LOWER</span><span class="p">)</span>
 
     <span class="n">state_D_bias</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span>
         <span class="p">[</span>

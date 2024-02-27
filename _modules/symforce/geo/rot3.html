@@ -762,7 +762,7 @@
 <span class="sd">    rotations in 3D space. Backed by a quaternion with (x, y, z, w) storage.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">Quaternion</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Quaternion</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from a unit quaternion, or identity if none provided.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1032,6 +1032,11 @@
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the yaw, pitch, and roll Euler angles in radians of this rotation</span>
+
+<span class="sd">        Euler angles are subject to gimbal lock: https://en.wikipedia.org/wiki/Gimbal_lock</span>
+
+<span class="sd">        This means that when the pitch is close to +/- pi/2, the yaw and roll angles are not</span>
+<span class="sd">        uniquely defined, so the returned values are not unique in this case.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Scalar: Yaw angle [radians]</span>

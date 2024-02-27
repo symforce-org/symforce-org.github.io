@@ -802,7 +802,7 @@
         <span class="c1"># regardless of whether we&#39;re building with develop or build_editable,</span>
         <span class="c1"># (both before and after version 64.0.0), we patch develop to add this</span>
         <span class="c1"># field to build_ext and set it to True.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">editable_mode</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">editable_mode</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># type: ignore[union-attr]</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div></div>
 
 
@@ -892,13 +892,15 @@
             <span class="c1"># So, if the file&#39;s not present, we just move on.</span>
             <span class="k">if</span> <span class="n">symengine_wrapper</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span>
-                    <span class="n">symengine_wrapper</span><span class="p">,</span>
-                    <span class="n">SOURCE_DIR</span>
-                    <span class="o">/</span> <span class="s2">&quot;third_party&quot;</span>
-                    <span class="o">/</span> <span class="s2">&quot;symenginepy&quot;</span>
-                    <span class="o">/</span> <span class="s2">&quot;symengine&quot;</span>
-                    <span class="o">/</span> <span class="s2">&quot;lib&quot;</span>
-                    <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;symengine_wrapper&quot;</span><span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">symengine_wrapper</span><span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span>
+                        <span class="n">SOURCE_DIR</span>
+                        <span class="o">/</span> <span class="s2">&quot;third_party&quot;</span>
+                        <span class="o">/</span> <span class="s2">&quot;symenginepy&quot;</span>
+                        <span class="o">/</span> <span class="s2">&quot;symengine&quot;</span>
+                        <span class="o">/</span> <span class="s2">&quot;lib&quot;</span>
+                        <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;symengine_wrapper&quot;</span><span class="p">)</span>
+                    <span class="p">),</span>
                 <span class="p">)</span>
 
             <span class="c1"># NOTE(brad) By setting the RPATH of the generated binaries to include $ORIGIN,</span>
@@ -909,8 +911,8 @@
             <span class="c1"># find them when it looks.</span>
             <span class="k">for</span> <span class="n">cc_sym_dependency</span> <span class="ow">in</span> <span class="n">build_temp_path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;libsymforce_*&quot;</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span>
-                    <span class="n">cc_sym_dependency</span><span class="p">,</span>
-                    <span class="n">SOURCE_DIR</span> <span class="o">/</span> <span class="n">cc_sym_dependency</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">cc_sym_dependency</span><span class="p">),</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">SOURCE_DIR</span> <span class="o">/</span> <span class="n">cc_sym_dependency</span><span class="o">.</span><span class="n">name</span><span class="p">),</span>
                 <span class="p">)</span>
 
         <span class="c1"># Move from build temp to final position</span>
@@ -918,9 +920,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">move_output</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="CMakeBuild.move_output"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.CMakeBuild.move_output">[docs]</a>    <span class="k">def</span> <span class="nf">move_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext</span><span class="p">:</span> <span class="n">CMakeExtension</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">:</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;lcmtypes&quot;</span><span class="p">:</span>
             <span class="n">build_temp_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span>
-            <span class="n">dest_path_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_ext_fullpath</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="n">dest_path_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_ext_fullpath</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplace</span><span class="p">:</span>
                 <span class="c1"># NOTE(brad): If building in-place, place package in lcmtypes_build dir to avoid</span>
                 <span class="c1"># collision with existing lcmtypes directory. Happens in editable installs.</span>
@@ -938,10 +940,10 @@
         <span class="n">extension_source_paths</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;cc_sym&quot;</span><span class="p">:</span> <span class="n">build_temp</span> <span class="o">/</span> <span class="s2">&quot;pybind&quot;</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;cc_sym&quot;</span><span class="p">)}</span>
 
         <span class="n">build_temp</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-        <span class="n">dest_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_ext_fullpath</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="n">dest_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_ext_fullpath</span><span class="p">(</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
         <span class="n">dest_directory</span> <span class="o">=</span> <span class="n">dest_path</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">dest_directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span><span class="n">extension_source_paths</span><span class="p">[</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">dest_path</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">copy_file</span><span class="p">(</span><span class="n">extension_source_paths</span><span class="p">[</span><span class="n">ext</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="n">dest_path</span><span class="p">))</span></div></div>
 
 
 <div class="viewcode-block" id="SymForceEggInfo"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.SymForceEggInfo">[docs]</a><span class="k">class</span> <span class="nc">SymForceEggInfo</span><span class="p">(</span><span class="n">egg_info</span><span class="p">):</span>
@@ -1033,8 +1035,9 @@
 <div class="viewcode-block" id="InstallWithExtras.run"><a class="viewcode-back" href="../api-gen-py/setup.html#setup.InstallWithExtras.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 
-        <span class="n">build_ext_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="n">build_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="n">build_ext_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distribution</span><span class="o">.</span><span class="n">get_command_obj</span><span class="p">(</span><span class="s2">&quot;build_ext&quot;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">build_ext_obj</span><span class="p">,</span> <span class="n">CMakeBuild</span><span class="p">)</span>
+        <span class="n">build_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">build_ext_obj</span><span class="o">.</span><span class="n">build_temp</span><span class="p">)</span>
 
         <span class="c1"># Install symengine</span>
         <span class="c1"># NOTE(aaron): We add symenginepy as a package down below, and the only remaining thing we</span>
@@ -1048,7 +1051,7 @@
                 <span class="p">)</span>
             <span class="p">),</span>
             <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
-            <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">install_platlib</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">install_platlib</span>
             <span class="o">/</span> <span class="s2">&quot;symengine&quot;</span>
             <span class="o">/</span> <span class="s2">&quot;lib&quot;</span>
             <span class="o">/</span> <span class="n">build_ext_obj</span><span class="o">.</span><span class="n">get_ext_filename</span><span class="p">(</span><span class="s2">&quot;symengine_wrapper&quot;</span><span class="p">),</span>
@@ -1083,8 +1086,6 @@
     <span class="s2">&quot;ipykernel&quot;</span><span class="p">,</span>
     <span class="c1"># nbconvert depends on this, but doesn&#39;t specify the dependency</span>
     <span class="s2">&quot;ipython-genutils&quot;</span><span class="p">,</span>
-    <span class="c1"># Transitive dependency of ipykernel and nbsphinx, 8.6 is incompatible with mypy 0.910</span>
-    <span class="s2">&quot;jupyter-client&lt;8.6.0&quot;</span><span class="p">,</span>
     <span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
     <span class="s2">&quot;myst-parser&quot;</span><span class="p">,</span>
     <span class="s2">&quot;nbsphinx&quot;</span><span class="p">,</span>
@@ -1187,7 +1188,7 @@
                 <span class="s2">&quot;argh&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;coverage&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;jinja2~=3.0&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;mypy==0.910&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;mypy~=1.8.0&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;numba&quot;</span><span class="p">,</span>
                 <span class="c1"># 6.13 fixes pip &gt;=23.1 support</span>
                 <span class="s2">&quot;pip-tools&gt;=6.13&quot;</span><span class="p">,</span>
