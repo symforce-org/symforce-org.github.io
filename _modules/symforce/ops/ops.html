@@ -745,6 +745,12 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
+<div class="viewcode-block" id="OpNotImplementedError"><a class="viewcode-back" href="../../../api/symforce.ops.ops.html#symforce.ops.ops.OpNotImplementedError">[docs]</a><span class="k">class</span> <span class="nc">OpNotImplementedError</span><span class="p">(</span><span class="ne">NotImplementedError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised when an operation is not implemented for a given type.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
 <div class="viewcode-block" id="Ops"><a class="viewcode-back" href="../../../api/symforce.ops.ops.html#symforce.ops.ops.Ops">[docs]</a><span class="k">class</span> <span class="nc">Ops</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for specifying how Storage/Group/LieGroup ops functions should</span>
@@ -800,10 +806,10 @@
 <span class="sd">        first such parent class in method resolution order is returned.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            NotImplementedError: If ``impl_type`` or one of its parent classes is not registered</span>
+<span class="sd">            OpNotImplementedError: If ``impl_type`` or one of its parent classes is not registered</span>
 <span class="sd">                with the calling class or one of its subclasses.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">registered_and_base</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">registered_and_base</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Set</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">base_class</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmro</span><span class="p">(</span><span class="n">impl_type</span><span class="p">):</span>
             <span class="n">reg_class_and_impl</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">IMPLEMENTATIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">base_class</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">reg_class_and_impl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -811,7 +817,7 @@
                 <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">registration_class</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">impl</span>
 
-                <span class="n">registered_and_base</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">registration_class</span><span class="p">,</span> <span class="n">base_class</span><span class="p">))</span>
+                <span class="n">registered_and_base</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">registration_class</span><span class="p">,</span> <span class="n">base_class</span><span class="p">))</span>
 
         <span class="c1"># Handle Protocols/Metaclasses that aren&#39;t in the MRO (method resolution order), by trying</span>
         <span class="c1"># every class that&#39;s registered, and checking if impl_type is a subclass.</span>
@@ -820,23 +826,22 @@
                 <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">registration_class</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
                     <span class="k">return</span> <span class="n">impl</span>
 
-                <span class="c1"># TODO(aaron): This will double count things with the above loop</span>
-                <span class="n">registered_and_base</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">registration_class</span><span class="p">,</span> <span class="n">base_class</span><span class="p">))</span>
+                <span class="n">registered_and_base</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">registration_class</span><span class="p">,</span> <span class="n">base_class</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">registered_and_base</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;While </span><span class="si">{</span><span class="n">impl_type</span><span class="si">}</span><span class="s2"> is registered under </span><span class="se">{{</span><span class="s2">reg_info</span><span class="se">}}</span><span class="s2">, </span><span class="se">{{</span><span class="s2">none_do</span><span class="se">}}</span><span class="s2"> subclass </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">reg_info</span><span class="o">=</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="n">OpNotImplementedError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Class </span><span class="si">{</span><span class="n">impl_type</span><span class="si">}</span><span class="s2"> is not registered under </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.  It does have &quot;</span>
+                <span class="s2">&quot;registered implementations for:</span><span class="se">\n</span><span class="si">{reg_info}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">reg_info</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="p">[</span>
-                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">reg</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> (via base class </span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">)&quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">reg</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> (via base class </span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">)&quot;</span>
                             <span class="k">for</span> <span class="n">reg</span><span class="p">,</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">registered_and_base</span>
                         <span class="p">]</span>
-                    <span class="p">),</span>
-                    <span class="n">none_do</span><span class="o">=</span><span class="s2">&quot;that does not&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">registered_and_base</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;none of those&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
             <span class="p">)</span>
 
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">impl_type</span><span class="si">}</span><span class="s2"> is not registered under </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="n">OpNotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">impl_type</span><span class="si">}</span><span class="s2"> is not registered under </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div></div>
 </pre></div>
         </article>
       </div>
