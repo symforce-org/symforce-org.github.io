@@ -1011,7 +1011,7 @@
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="create_named_scope"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.create_named_scope">[docs]</a><span class="k">def</span> <span class="nf">create_named_scope</span><span class="p">(</span><span class="n">scopes_list</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="create_named_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.create_named_scope">[docs]</a><span class="k">def</span> <span class="nf">create_named_scope</span><span class="p">(</span><span class="n">scopes_list</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a context manager that adds to the given list of name scopes. This is used to</span>
 <span class="sd">    add scopes to symbol names for namespacing.</span>
@@ -1032,15 +1032,15 @@
 
 
 <span class="c1"># Nested scopes created with `sf.scope`, initialized to empty (symbols created with no added scope)</span>
-<span class="n">__scopes__</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">__scopes__</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
 
-<div class="viewcode-block" id="set_scope"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.set_scope">[docs]</a><span class="k">def</span> <span class="nf">set_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="set_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.set_scope">[docs]</a><span class="k">def</span> <span class="nf">set_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">global</span> <span class="n">__scopes__</span>  <span class="c1"># pylint: disable=global-statement</span>
     <span class="n">__scopes__</span> <span class="o">=</span> <span class="n">scope</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">scope</span> <span class="k">else</span> <span class="p">[]</span></div>
 
 
-<div class="viewcode-block" id="get_scope"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.get_scope">[docs]</a><span class="k">def</span> <span class="nf">get_scope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_scope"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.get_scope">[docs]</a><span class="k">def</span> <span class="nf">get_scope</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">__scopes__</span><span class="p">)</span></div>
 
 
@@ -1052,7 +1052,7 @@
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
 
-<div class="viewcode-block" id="Symbol"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.Symbol">[docs]</a>    <span class="k">class</span> <span class="nc">Symbol</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">):</span>  <span class="c1"># pylint: disable=function-redefined,too-many-ancestors</span>
+<div class="viewcode-block" id="Symbol"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Symbol">[docs]</a>    <span class="k">class</span> <span class="nc">Symbol</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">):</span>  <span class="c1"># pylint: disable=function-redefined,too-many-ancestors</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -1117,7 +1117,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">numeric_epsilon</span>
 
 
-<div class="viewcode-block" id="epsilon"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.epsilon">[docs]</a><span class="k">def</span> <span class="nf">epsilon</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="epsilon"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.epsilon">[docs]</a><span class="k">def</span> <span class="nf">epsilon</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The default epsilon for SymForce</span>
 
@@ -1170,7 +1170,7 @@
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="wrap_angle"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.wrap_angle">[docs]</a><span class="k">def</span> <span class="nf">wrap_angle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="wrap_angle"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.wrap_angle">[docs]</a><span class="k">def</span> <span class="nf">wrap_angle</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrap an angle to the interval [-pi, pi).  Commonly used to compute the shortest signed</span>
 <span class="sd">    distance between two angles.</span>
@@ -1180,7 +1180,7 @@
     <span class="k">return</span> <span class="n">Mod</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">pi</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">pi</span></div>
 
 
-<div class="viewcode-block" id="angle_diff"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.angle_diff">[docs]</a><span class="k">def</span> <span class="nf">angle_diff</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="angle_diff"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.angle_diff">[docs]</a><span class="k">def</span> <span class="nf">angle_diff</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the difference x - y, but wrapped into [-pi, pi); i.e. the angle `diff` closest to 0</span>
 <span class="sd">    such that x = y + diff (mod 2pi).</span>
@@ -1190,21 +1190,21 @@
     <span class="k">return</span> <span class="n">wrap_angle</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sign_no_zero"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.sign_no_zero">[docs]</a><span class="k">def</span> <span class="nf">sign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="sign_no_zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.sign_no_zero">[docs]</a><span class="k">def</span> <span class="nf">sign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns -1 if x is negative, 1 if x is positive, and 1 if x is zero.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Min</span><span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="copysign_no_zero"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.copysign_no_zero">[docs]</a><span class="k">def</span> <span class="nf">copysign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="copysign_no_zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.copysign_no_zero">[docs]</a><span class="k">def</span> <span class="nf">copysign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a value with the magnitude of x and sign of y. If y is zero, returns positive x.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign_no_zero</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="argmax_onehot"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.argmax_onehot">[docs]</a><span class="k">def</span> <span class="nf">argmax_onehot</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="argmax_onehot"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.argmax_onehot">[docs]</a><span class="k">def</span> <span class="nf">argmax_onehot</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a list ``l`` such that ``l[i] = 1.0`` if ``i`` is the smallest index such that</span>
 <span class="sd">    ``vals[i]`` equals ``Max(*vals)``. ``l[i] = 0.0`` otherwise.</span>
@@ -1228,7 +1228,7 @@
     <span class="k">return</span> <span class="n">results</span></div>
 
 
-<div class="viewcode-block" id="argmax"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.argmax">[docs]</a><span class="k">def</span> <span class="nf">argmax</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="argmax"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.argmax">[docs]</a><span class="k">def</span> <span class="nf">argmax</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns ``i`` (as a Scalar) such that ``i`` is the smallest index such that</span>
 <span class="sd">    ``vals[i]`` equals ``Max(*vals)``.</span>
@@ -1239,23 +1239,23 @@
     <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">val</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">argmax_onehot</span><span class="p">(</span><span class="n">vals</span><span class="p">)))</span></div>
 
 
-<div class="viewcode-block" id="atan2"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.atan2">[docs]</a><span class="k">def</span> <span class="nf">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="atan2"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.atan2">[docs]</a><span class="k">def</span> <span class="nf">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
     <span class="c1"># NOTE(aaron): This is a little nonstandard to not use sign_no_zero, but is fewer ops, and is</span>
     <span class="c1"># safe here</span>
     <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="asin_safe"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.asin_safe">[docs]</a><span class="k">def</span> <span class="nf">asin_safe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="asin_safe"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.asin_safe">[docs]</a><span class="k">def</span> <span class="nf">asin_safe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
     <span class="n">x_safe</span> <span class="o">=</span> <span class="n">Max</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">Min</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">asin</span><span class="p">(</span><span class="n">x_safe</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="acos_safe"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.acos_safe">[docs]</a><span class="k">def</span> <span class="nf">acos_safe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="acos_safe"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.acos_safe">[docs]</a><span class="k">def</span> <span class="nf">acos_safe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
     <span class="n">x_safe</span> <span class="o">=</span> <span class="n">Max</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">Min</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">x_safe</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="clamp"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.clamp">[docs]</a><span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="clamp"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.clamp">[docs]</a><span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Clamps x between min_value and max_value</span>
 
@@ -1274,7 +1274,7 @@
     <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Max</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="set_eval_on_sympify"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.set_eval_on_sympify">[docs]</a><span class="k">def</span> <span class="nf">set_eval_on_sympify</span><span class="p">(</span><span class="n">eval_on_sympy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="set_eval_on_sympify"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.set_eval_on_sympify">[docs]</a><span class="k">def</span> <span class="nf">set_eval_on_sympify</span><span class="p">(</span><span class="n">eval_on_sympy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    When using the symengine backed, set whether we should eval args when converting objects to</span>
 <span class="sd">    sympy.</span>
@@ -1298,7 +1298,7 @@
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
 
-<div class="viewcode-block" id="simplify"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<div class="viewcode-block" id="simplify"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.simplify">[docs]</a>    <span class="k">def</span> <span class="nf">simplify</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Converting to sympy to use .simplify&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
@@ -1314,7 +1314,7 @@
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
 
-<div class="viewcode-block" id="limit"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.limit">[docs]</a>    <span class="k">def</span> <span class="nf">limit</span><span class="p">(</span>
+<div class="viewcode-block" id="limit"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.limit">[docs]</a>    <span class="k">def</span> <span class="nf">limit</span><span class="p">(</span>
         <span class="n">e</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
         <span class="n">z</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
         <span class="n">z0</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
@@ -1334,7 +1334,7 @@
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
 
-<div class="viewcode-block" id="integrate"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.integrate">[docs]</a>    <span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span>
+<div class="viewcode-block" id="integrate"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.integrate">[docs]</a>    <span class="k">def</span> <span class="nf">integrate</span><span class="p">(</span>
         <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
         <span class="n">meijerg</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">conds</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;piecewise&quot;</span><span class="p">,</span> <span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;piecewise&quot;</span><span class="p">,</span>
@@ -1367,7 +1367,7 @@
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
     <span class="c1"># Unfortunately this already doesn&#39;t have a docstring or argument list in symengine</span>
-<div class="viewcode-block" id="solve"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="solve"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.solve">[docs]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="n">solution</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="kn">from</span> <span class="nn">symengine.lib.symengine_wrapper</span> <span class="kn">import</span> <span class="n">EmptySet</span> <span class="k">as</span> <span class="n">_EmptySet</span>
 
