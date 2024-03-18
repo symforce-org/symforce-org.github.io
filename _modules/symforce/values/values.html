@@ -1200,9 +1200,9 @@
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">s_dim</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="n">t_dim</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-            <span class="n">storage_D_tangent</span><span class="p">[</span>
-                <span class="n">s_inx</span> <span class="p">:</span> <span class="n">s_inx</span> <span class="o">+</span> <span class="n">s_dim</span><span class="p">,</span> <span class="n">t_inx</span> <span class="p">:</span> <span class="n">t_inx</span> <span class="o">+</span> <span class="n">t_dim</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">storage_D_tangent</span><span class="p">[</span><span class="n">s_inx</span> <span class="p">:</span> <span class="n">s_inx</span> <span class="o">+</span> <span class="n">s_dim</span><span class="p">,</span> <span class="n">t_inx</span> <span class="p">:</span> <span class="n">t_inx</span> <span class="o">+</span> <span class="n">t_dim</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="n">s_inx</span> <span class="o">+=</span> <span class="n">s_dim</span>
             <span class="n">t_inx</span> <span class="o">+=</span> <span class="n">t_dim</span>
         <span class="k">return</span> <span class="n">storage_D_tangent</span></div>
@@ -1220,9 +1220,9 @@
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">t_dim</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="n">s_dim</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-            <span class="n">tangent_D_storage</span><span class="p">[</span>
-                <span class="n">t_inx</span> <span class="p">:</span> <span class="n">t_inx</span> <span class="o">+</span> <span class="n">t_dim</span><span class="p">,</span> <span class="n">s_inx</span> <span class="p">:</span> <span class="n">s_inx</span> <span class="o">+</span> <span class="n">s_dim</span>
-            <span class="p">]</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_D_storage</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">tangent_D_storage</span><span class="p">[</span><span class="n">t_inx</span> <span class="p">:</span> <span class="n">t_inx</span> <span class="o">+</span> <span class="n">t_dim</span><span class="p">,</span> <span class="n">s_inx</span> <span class="p">:</span> <span class="n">s_inx</span> <span class="o">+</span> <span class="n">s_dim</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_D_storage</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="n">t_inx</span> <span class="o">+=</span> <span class="n">t_dim</span>
             <span class="n">s_inx</span> <span class="o">+=</span> <span class="n">s_dim</span>
         <span class="k">return</span> <span class="n">tangent_D_storage</span></div>
