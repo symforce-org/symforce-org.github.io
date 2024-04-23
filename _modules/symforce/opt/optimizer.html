@@ -350,6 +350,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.objective.html">symforce.opt.objective module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimization_problem.html">symforce.opt.optimization_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimizer.html">symforce.opt.optimizer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.optimizer_params.html">symforce.opt.optimizer_params module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.residual_block.html">symforce.opt.residual_block module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.sub_problem.html">symforce.opt.sub_problem module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/symforce.opt.timestep_sub_problem.html">symforce.opt.timestep_sub_problem module</a></li>
@@ -742,7 +743,6 @@
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">dataclasses</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
@@ -750,13 +750,11 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._index_entry_t</span> <span class="kn">import</span> <span class="n">index_entry_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._lambda_update_type_t</span> <span class="kn">import</span> <span class="n">lambda_update_type_t</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._levenberg_marquardt_solver_failure_reason_t</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._optimization_iteration_t</span> <span class="kn">import</span> <span class="n">optimization_iteration_t</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._optimization_status_t</span> <span class="kn">import</span> <span class="n">optimization_status_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._optimizer_params_t</span> <span class="kn">import</span> <span class="n">optimizer_params_t</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._sparse_matrix_structure_t</span> <span class="kn">import</span> <span class="n">sparse_matrix_structure_t</span>
 <span class="kn">from</span> <span class="nn">lcmtypes.sym._values_t</span> <span class="kn">import</span> <span class="n">values_t</span>
 
@@ -764,6 +762,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.factor</span> <span class="kn">import</span> <span class="n">Factor</span>
 <span class="kn">from</span> <span class="nn">symforce.opt.numeric_factor</span> <span class="kn">import</span> <span class="n">NumericFactor</span>
+<span class="kn">from</span> <span class="nn">symforce.opt.optimizer_params</span> <span class="kn">import</span> <span class="n">OptimizerParams</span>
 <span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
 
 
@@ -820,42 +819,11 @@
 <span class="sd">            keys in ``optimized_keys``.</span>
 <span class="sd">        optimized_keys: A set of the keys to be optimized. Only required if symbolic factors are</span>
 <span class="sd">            passed to the optimizer.</span>
-<span class="sd">        params: Params for the optimizer</span>
+<span class="sd">        params: Params for the optimizer.  Defaults are in `OptimizerParams`, except that `verbose`</span>
+<span class="sd">            is `True` by default.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Optimizer.Params"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Params">[docs]</a>    <span class="nd">@dataclass</span>
-    <span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Parameters for the Python Optimizer</span>
-
-<span class="sd">        Mirrors the ``optimizer_params_t`` LCM type, see documentation there for information on each</span>
-<span class="sd">        parameter.</span>
-
-<span class="sd">        Note: For the Python optimizer, verbose defaults to True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">debug_stats</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">check_derivatives</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">include_jacobians</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">debug_checks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">initial_lambda</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-        <span class="n">lambda_lower_bound</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="n">lambda_upper_bound</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000000.0</span>
-        <span class="n">lambda_update_type</span><span class="p">:</span> <span class="n">lambda_update_type_t</span> <span class="o">=</span> <span class="n">lambda_update_type_t</span><span class="o">.</span><span class="n">STATIC</span>
-        <span class="n">lambda_up_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">4.0</span>
-        <span class="n">lambda_down_factor</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">4.0</span>
-        <span class="n">dynamic_lambda_update_beta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
-        <span class="n">dynamic_lambda_update_gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
-        <span class="n">dynamic_lambda_update_p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
-        <span class="n">use_diagonal_damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">use_unit_damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">keep_max_diagonal_damping</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">diagonal_damping_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span>
-        <span class="n">iterations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
-        <span class="n">early_exit_min_reduction</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-6</span>
-        <span class="n">enable_bold_updates</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
-
+    <span class="n">Params</span> <span class="o">=</span> <span class="n">OptimizerParams</span>
     <span class="n">Status</span> <span class="o">=</span> <span class="n">optimization_status_t</span>
     <span class="n">FailureReason</span> <span class="o">=</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span>
 
@@ -951,7 +919,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">factors</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Factor</span><span class="p">,</span> <span class="n">NumericFactor</span><span class="p">]],</span>
         <span class="n">optimized_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">params</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Optimizer</span><span class="o">.</span><span class="n">Params</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">OptimizerParams</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">debug_stats</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_jacobians</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
@@ -995,7 +963,7 @@
 
         <span class="c1"># Set default params if none given</span>
         <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Params</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">OptimizerParams</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
 
@@ -1030,7 +998,7 @@
 
         <span class="c1"># Construct the C++ optimizer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span> <span class="o">=</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">(</span>
-            <span class="n">optimizer_params_t</span><span class="p">(</span><span class="o">**</span><span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">to_lcm</span><span class="p">(),</span>
             <span class="p">[</span><span class="n">factor</span><span class="o">.</span><span class="n">cc_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">)</span> <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">numeric_factors</span><span class="p">],</span>
         <span class="p">)</span>
 
