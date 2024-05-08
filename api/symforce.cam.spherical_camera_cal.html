@@ -747,7 +747,7 @@
 <span id="symforce-cam-spherical-camera-cal-module"></span><h1>symforce.cam.spherical_camera_cal module<a class="headerlink" href="#module-symforce.cam.spherical_camera_cal" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.cam.spherical_camera_cal.SphericalCameraCal">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SphericalCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SphericalCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Kannala-Brandt camera model, where radial distortion is modeled relative to the 3D angle theta
 off the optical axis as opposed to radius within the image plane (i.e. ATANCamera)</p>
@@ -756,6 +756,9 @@ assumed to be given by:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">7</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">9</span>
 </pre></div>
 </div>
+<p>This model also includes two tangential coefficients, implemented similar to the
+Brown-Conrady model. For details, see the Fisheye62 model from Project Aria:
+<a class="reference external" href="https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models">https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models</a></p>
 <p>With no tangential coefficients, this model is over-parameterized in that we may scale all the
 distortion coefficients by a constant, and the focal length by the inverse of that constant. To
 fix this issue, we peg the first coefficient at 1. So while the distortion dimension is ‘4’,
@@ -770,10 +773,11 @@ externally at runtime and set to the computed value.</p>
 <span class="n">PAMI</span> <span class="mi">2006</span>
 </pre></div>
 </div>
-<p>This is the simpler “P9” model without any non-radially-symmetric distortion params.</p>
+<p>This is the simpler “P9” model without any non-radially-symmetric distortion params, but also includes
+two tangential distortion params similar to the Brown-Conrady model.</p>
 <p>The storage for this class is:</p>
 <blockquote>
-<div><p>[ fx fy cx cy critical_theta d0 d1 d2 d3 ]</p>
+<div><p>[ fx fy cx cy critical_theta d0 d1 d2 d3 p0 p1]</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -788,7 +792,7 @@ externally at runtime and set to the computed value.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.cam.spherical_camera_cal.SphericalCameraCal.NUM_DISTORTION_COEFFS">
-<span class="sig-name descname"><span class="pre">NUM_DISTORTION_COEFFS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.NUM_DISTORTION_COEFFS" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">NUM_DISTORTION_COEFFS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#symforce.cam.spherical_camera_cal.SphericalCameraCal.NUM_DISTORTION_COEFFS" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

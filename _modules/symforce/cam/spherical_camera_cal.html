@@ -764,6 +764,10 @@
 
 <span class="sd">        r(theta) = theta + d[0] * theta^3 + d[1] * theta^5 + d[2] * theta^7 + d[3] * theta^9</span>
 
+<span class="sd">    This model also includes two tangential coefficients, implemented similar to the</span>
+<span class="sd">    Brown-Conrady model. For details, see the Fisheye62 model from Project Aria:</span>
+<span class="sd">    https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models</span>
+
 <span class="sd">    With no tangential coefficients, this model is over-parameterized in that we may scale all the</span>
 <span class="sd">    distortion coefficients by a constant, and the focal length by the inverse of that constant. To</span>
 <span class="sd">    fix this issue, we peg the first coefficient at 1. So while the distortion dimension is &#39;4&#39;,</span>
@@ -780,20 +784,21 @@
 <span class="sd">        Kannala, Juho; Brandt, Sami S.</span>
 <span class="sd">        PAMI 2006</span>
 
-<span class="sd">    This is the simpler &quot;P9&quot; model without any non-radially-symmetric distortion params.</span>
+<span class="sd">    This is the simpler &quot;P9&quot; model without any non-radially-symmetric distortion params, but also includes</span>
+<span class="sd">    two tangential distortion params similar to the Brown-Conrady model.</span>
 
 <span class="sd">    The storage for this class is:</span>
 
-<span class="sd">        [ fx fy cx cy critical_theta d0 d1 d2 d3 ]</span>
+<span class="sd">        [ fx fy cx cy critical_theta d0 d1 d2 d3 p0 p1]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">NUM_DISTORTION_COEFFS</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">NUM_DISTORTION_COEFFS</span> <span class="o">=</span> <span class="mi">6</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
         <span class="n">principal_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span>
-        <span class="n">distortion_coeffs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="n">distortion_coeffs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
         <span class="n">critical_theta</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">max_theta</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -902,6 +907,18 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(),</span>
         <span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">_radial_distortion_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the coefficients for the radial distortion polynomial</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_tangential_distortion_coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the coefficients for the tangential distortion polynomial</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+
     <span class="k">def</span> <span class="nf">_compute_critical_theta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the critical_theta for the given (numerical) distortion_coeffs and max_theta</span>
@@ -909,7 +926,7 @@
         <span class="c1"># Build the coefficients for np.polynomial.  Even coefficients are 0, and the coefficient</span>
         <span class="c1"># on theta is 1</span>
         <span class="k">return</span> <span class="n">compute_odd_polynomial_critical_point</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">(),</span> <span class="n">max_theta</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_radial_distortion_coefficients</span><span class="p">(),</span> <span class="n">max_theta</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_radial_distortion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">:</span>
@@ -919,7 +936,7 @@
         <span class="n">theta_term</span> <span class="o">=</span> <span class="n">theta</span>
         <span class="n">acc</span> <span class="o">=</span> <span class="n">theta</span>
 
-        <span class="k">for</span> <span class="n">coef</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">coef</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radial_distortion_coefficients</span><span class="p">():</span>
             <span class="n">theta_term</span> <span class="o">*=</span> <span class="n">theta</span><span class="o">**</span><span class="mi">2</span>
             <span class="n">acc</span> <span class="o">+=</span> <span class="n">coef</span> <span class="o">*</span> <span class="n">theta_term</span>
 
@@ -939,7 +956,19 @@
         <span class="c1"># compute image plane coordinate</span>
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radial_distortion</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
         <span class="n">unit_xy</span> <span class="o">=</span> <span class="n">point</span><span class="p">[:</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">normalized</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span>
-        <span class="n">point_img</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">unit_xy</span>
+        <span class="n">point_img_dist</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">unit_xy</span>
+
+        <span class="c1"># apply tangential coefficients</span>
+        <span class="n">p0</span><span class="p">,</span> <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tangential_distortion_coefficients</span><span class="p">()</span>
+        <span class="n">tangential_offset</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">Vector2</span><span class="p">(</span>
+            <span class="mi">3</span> <span class="o">*</span> <span class="n">p0</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="o">+</span> <span class="n">p0</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p1</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="mi">3</span> <span class="o">*</span> <span class="n">p1</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="o">+</span> <span class="n">p1</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+            <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p0</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">point_img_dist</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">point_img</span> <span class="o">=</span> <span class="n">point_img_dist</span> <span class="o">+</span> <span class="n">tangential_offset</span>
 
         <span class="c1"># image plane to pixel coordinate</span>
         <span class="n">linear_camera_cal</span> <span class="o">=</span> <span class="n">LinearCameraCal</span><span class="p">(</span>

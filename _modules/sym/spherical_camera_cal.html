@@ -761,6 +761,10 @@
 
 <span class="sd">        r(theta) = theta + d[0] * theta^3 + d[1] * theta^5 + d[2] * theta^7 + d[3] * theta^9</span>
 
+<span class="sd">    This model also includes two tangential coefficients, implemented similar to the</span>
+<span class="sd">    Brown-Conrady model. For details, see the Fisheye62 model from Project Aria:</span>
+<span class="sd">    https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models</span>
+
 <span class="sd">    With no tangential coefficients, this model is over-parameterized in that we may scale all the</span>
 <span class="sd">    distortion coefficients by a constant, and the focal length by the inverse of that constant. To</span>
 <span class="sd">    fix this issue, we peg the first coefficient at 1. So while the distortion dimension is &#39;4&#39;,</span>
@@ -777,11 +781,12 @@
 <span class="sd">        Kannala, Juho; Brandt, Sami S.</span>
 <span class="sd">        PAMI 2006</span>
 
-<span class="sd">    This is the simpler &quot;P9&quot; model without any non-radially-symmetric distortion params.</span>
+<span class="sd">    This is the simpler &quot;P9&quot; model without any non-radially-symmetric distortion params, but also includes</span>
+<span class="sd">    two tangential distortion params similar to the Brown-Conrady model.</span>
 
 <span class="sd">    The storage for this class is:</span>
 
-<span class="sd">        [ fx fy cx cy critical_theta d0 d1 d2 d3 ]</span>
+<span class="sd">        [ fx fy cx cy critical_theta d0 d1 d2 d3 p0 p1]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
@@ -825,17 +830,17 @@
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distortion_coeffs</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]:</span>
+            <span class="k">if</span> <span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)]:</span>
                 <span class="n">distortion_coeffs</span> <span class="o">=</span> <span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,):</span>
+            <span class="k">elif</span> <span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,):</span>
                 <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
-                    <span class="s2">&quot;Expected distortion_coeffs to be a vector of length 4; instead had shape </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">&quot;Expected distortion_coeffs to be a vector of length 6; instead had shape </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">distortion_coeffs</span><span class="o">.</span><span class="n">shape</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">distortion_coeffs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">distortion_coeffs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
-                <span class="s2">&quot;Expected distortion_coeffs to be a sequence of length 4, was instead length </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">&quot;Expected distortion_coeffs to be a sequence of length 6, was instead length </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="nb">len</span><span class="p">(</span><span class="n">distortion_coeffs</span><span class="p">)</span>
                 <span class="p">)</span>
             <span class="p">)</span>
@@ -902,7 +907,7 @@
 <div class="viewcode-block" id="SphericalCameraCal.storage_dim"><a class="viewcode-back" href="../../api-gen-py/sym.spherical_camera_cal.html#sym.spherical_camera_cal.SphericalCameraCal.storage_dim">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">():</span>
         <span class="c1"># type: () -&gt; int</span>
-        <span class="k">return</span> <span class="mi">9</span></div>
+        <span class="k">return</span> <span class="mi">11</span></div>
 
 <div class="viewcode-block" id="SphericalCameraCal.to_storage"><a class="viewcode-back" href="../../api-gen-py/sym.spherical_camera_cal.html#sym.spherical_camera_cal.SphericalCameraCal.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; T.List[float]</span>
@@ -932,7 +937,7 @@
 <div class="viewcode-block" id="SphericalCameraCal.tangent_dim"><a class="viewcode-back" href="../../api-gen-py/sym.spherical_camera_cal.html#sym.spherical_camera_cal.SphericalCameraCal.tangent_dim">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">():</span>
         <span class="c1"># type: () -&gt; int</span>
-        <span class="k">return</span> <span class="mi">9</span></div>
+        <span class="k">return</span> <span class="mi">11</span></div>
 
 <div class="viewcode-block" id="SphericalCameraCal.from_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.spherical_camera_cal.html#sym.spherical_camera_cal.SphericalCameraCal.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>

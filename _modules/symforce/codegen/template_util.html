@@ -771,6 +771,7 @@
     <span class="n">LCM</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">auto</span><span class="p">()</span>
     <span class="n">MAKEFILE</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">auto</span><span class="p">()</span>
     <span class="n">TYPESCRIPT</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">auto</span><span class="p">()</span>
+    <span class="n">TOML</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">auto</span><span class="p">()</span>
 
 <div class="viewcode-block" id="FileType.from_extension"><a class="viewcode-back" href="../../../api/symforce.codegen.template_util.html#symforce.codegen.template_util.FileType.from_extension">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_extension</span><span class="p">(</span><span class="n">extension</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FileType</span><span class="p">:</span>
@@ -788,6 +789,8 @@
             <span class="k">return</span> <span class="n">FileType</span><span class="o">.</span><span class="n">MAKEFILE</span>
         <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;ts&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">FileType</span><span class="o">.</span><span class="n">TYPESCRIPT</span>
+        <span class="k">elif</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;toml&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FileType</span><span class="o">.</span><span class="n">TOML</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not get FileType from extension </span><span class="si">{</span><span class="n">extension</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
@@ -806,7 +809,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">CPP</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">CUDA</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">LCM</span><span class="p">):</span>
             <span class="k">return</span> <span class="s2">&quot;//&quot;</span>
-        <span class="k">elif</span> <span class="bp">self</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON_INTERFACE</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="bp">self</span> <span class="ow">in</span> <span class="p">(</span><span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">PYTHON_INTERFACE</span><span class="p">,</span> <span class="n">FileType</span><span class="o">.</span><span class="n">TOML</span><span class="p">):</span>
             <span class="k">return</span> <span class="s2">&quot;#&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown comment prefix for </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>

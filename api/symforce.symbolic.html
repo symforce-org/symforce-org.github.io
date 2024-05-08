@@ -2355,7 +2355,7 @@ such that x = y + diff (mod 2pi).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.symbolic.argmax_onehot">
-<span class="sig-name descname"><span class="pre">argmax_onehot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#argmax_onehot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.argmax_onehot" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">argmax_onehot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tolerance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#argmax_onehot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.argmax_onehot" title="Permalink to this definition">#</a></dt>
 <dd><p>Returns a list <code class="docutils literal notranslate"><span class="pre">l</span></code> such that <code class="docutils literal notranslate"><span class="pre">l[i]</span> <span class="pre">=</span> <span class="pre">1.0</span></code> if <code class="docutils literal notranslate"><span class="pre">i</span></code> is the smallest index such that
 <code class="docutils literal notranslate"><span class="pre">vals[i]</span></code> equals <code class="docutils literal notranslate"><span class="pre">Max(*vals)</span></code>. <code class="docutils literal notranslate"><span class="pre">l[i]</span> <span class="pre">=</span> <span class="pre">0.0</span></code> otherwise.</p>
 <dl class="simple">
@@ -2364,7 +2364,12 @@ such that x = y + diff (mod 2pi).</p>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>vals</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tolerance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The selected max will be guaranteed to be within <code class="docutils literal notranslate"><span class="pre">tolerance</span></code> of the true max.
+If this is too small (e.g. if this is 0), the returned vector may be all zeros for some
+inputs.</p></li>
+<li><p><strong>vals</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.12)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a>]</p>
@@ -3190,7 +3195,7 @@ its lifetime.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.storage.html#symforce.ops.interfaces.storage.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
 <p>Matrix type that wraps the SymPy Matrix class. Care has been taken to allow this class
 to create fixed-size child classes like <a class="reference internal" href="#symforce.symbolic.Matrix31" title="symforce.symbolic.Matrix31"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix31</span></code></a>. Anytime <a class="reference internal" href="#symforce.symbolic.Matrix.__new__" title="symforce.symbolic.Matrix.__new__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__new__()</span></code></a> is called,
 the appropriate fixed size class is returned rather than the type of the arguments. The API is
@@ -7069,9 +7074,9 @@ class.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.VectorClassLieGroupOps">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">VectorClassLieGroupOps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/impl/vector_class_lie_group_ops.html#VectorClassLieGroupOps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.VectorClassLieGroupOps" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.ops.impl.class_storage_ops.html#symforce.ops.impl.class_storage_ops.ClassStorageOps" title="symforce.ops.impl.class_storage_ops.ClassStorageOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassStorageOps</span></code></a>, <a class="reference internal" href="symforce.ops.impl.abstract_vector_lie_group_ops.html#symforce.ops.impl.abstract_vector_lie_group_ops.AbstractVectorLieGroupOps" title="symforce.ops.impl.abstract_vector_lie_group_ops.AbstractVectorLieGroupOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractVectorLieGroupOps</span></code></a>[<a class="reference internal" href="symforce.ops.interfaces.storage.html#symforce.ops.interfaces.storage.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a>]</p>
+<dd><p>Bases: <a class="reference internal" href="symforce.ops.impl.class_storage_ops.html#symforce.ops.impl.class_storage_ops.ClassStorageOps" title="symforce.ops.impl.class_storage_ops.ClassStorageOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClassStorageOps</span></code></a>, <a class="reference internal" href="symforce.ops.impl.abstract_vector_lie_group_ops.html#symforce.ops.impl.abstract_vector_lie_group_ops.AbstractVectorLieGroupOps" title="symforce.ops.impl.abstract_vector_lie_group_ops.AbstractVectorLieGroupOps"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractVectorLieGroupOps</span></code></a>[<a class="reference internal" href="#symforce.symbolic.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a>]</p>
 <p>A generic implementation of Lie group ops for subclasses of
-<a class="reference internal" href="symforce.ops.interfaces.storage.html#symforce.ops.interfaces.storage.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.ops.interfaces.storage.Storage</span></code></a>.</p>
+<a class="reference internal" href="#symforce.symbolic.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">symforce.ops.interfaces.storage.Storage</span></code></a>.</p>
 <p>Treats the subclass like R^n where the vector is the storage representation.</p>
 <p>To elaborate, treats the subclass as a Lie group whose identity is the zero vector, group
 operation is vector addition, and whose vector representation is given by the to_storage
@@ -9063,7 +9068,7 @@ otherwise.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.CameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/camera_cal.html#CameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.CameraCal" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.ops.interfaces.storage.html#symforce.ops.interfaces.storage.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.Storage" title="symforce.ops.interfaces.storage.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
 <p>Base class for symbolic camera models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -9847,7 +9852,7 @@ of the given pixel. The point is positioned at a given range along the ray.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.SphericalCameraCal">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SphericalCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SphericalCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Kannala-Brandt camera model, where radial distortion is modeled relative to the 3D angle theta
 off the optical axis as opposed to radius within the image plane (i.e. ATANCamera)</p>
@@ -9856,6 +9861,9 @@ assumed to be given by:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">7</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">9</span>
 </pre></div>
 </div>
+<p>This model also includes two tangential coefficients, implemented similar to the
+Brown-Conrady model. For details, see the Fisheye62 model from Project Aria:
+<a class="reference external" href="https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models">https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models</a></p>
 <p>With no tangential coefficients, this model is over-parameterized in that we may scale all the
 distortion coefficients by a constant, and the focal length by the inverse of that constant. To
 fix this issue, we peg the first coefficient at 1. So while the distortion dimension is ‘4’,
@@ -9870,10 +9878,11 @@ externally at runtime and set to the computed value.</p>
 <span class="n">PAMI</span> <span class="mi">2006</span>
 </pre></div>
 </div>
-<p>This is the simpler “P9” model without any non-radially-symmetric distortion params.</p>
+<p>This is the simpler “P9” model without any non-radially-symmetric distortion params, but also includes
+two tangential distortion params similar to the Brown-Conrady model.</p>
 <p>The storage for this class is:</p>
 <blockquote>
-<div><p>[ fx fy cx cy critical_theta d0 d1 d2 d3 ]</p>
+<div><p>[ fx fy cx cy critical_theta d0 d1 d2 d3 p0 p1]</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -9888,7 +9897,7 @@ externally at runtime and set to the computed value.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.symbolic.SphericalCameraCal.NUM_DISTORTION_COEFFS">
-<span class="sig-name descname"><span class="pre">NUM_DISTORTION_COEFFS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal.NUM_DISTORTION_COEFFS" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">NUM_DISTORTION_COEFFS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal.NUM_DISTORTION_COEFFS" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

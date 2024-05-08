@@ -757,6 +757,9 @@ assumed to be given by:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">7</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">theta</span><span class="o">^</span><span class="mi">9</span>
 </pre></div>
 </div>
+<p>This model also includes two tangential coefficients, implemented similar to the
+Brown-Conrady model. For details, see the Fisheye62 model from Project Aria:
+<a class="reference external" href="https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models">https://facebookresearch.github.io/projectaria_tools/docs/tech_insights/camera_intrinsic_models</a></p>
 <p>With no tangential coefficients, this model is over-parameterized in that we may scale all the
 distortion coefficients by a constant, and the focal length by the inverse of that constant. To
 fix this issue, we peg the first coefficient at 1. So while the distortion dimension is ‘4’,
@@ -771,10 +774,11 @@ externally at runtime and set to the computed value.</p>
 <span class="n">PAMI</span> <span class="mi">2006</span>
 </pre></div>
 </div>
-<p>This is the simpler “P9” model without any non-radially-symmetric distortion params.</p>
+<p>This is the simpler “P9” model without any non-radially-symmetric distortion params, but also includes
+two tangential distortion params similar to the Brown-Conrady model.</p>
 <p>The storage for this class is:</p>
 <blockquote>
-<div><p>[ fx fy cx cy critical_theta d0 d1 d2 d3 ]</p>
+<div><p>[ fx fy cx cy critical_theta d0 d1 d2 d3 p0 p1]</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
