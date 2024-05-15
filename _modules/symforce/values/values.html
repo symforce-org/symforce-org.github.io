@@ -1570,6 +1570,21 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_to_leaves</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="Values.from_dataclass"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.from_dataclass">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">from_dataclass</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dataclass</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a dataclass to a Values object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Values</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">fields</span><span class="p">(</span><span class="n">d</span><span class="p">)}</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Values.to_dataclass"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.to_dataclass">[docs]</a>    <span class="k">def</span> <span class="nf">to_dataclass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Dataclass</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dataclass</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert this Values object to a dataclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_storage</span><span class="p">())</span></div>
+
 <div class="viewcode-block" id="Values.to_numerical"><a class="viewcode-back" href="../../../api/symforce.values.values.html#symforce.values.values.Values.to_numerical">[docs]</a>    <span class="k">def</span> <span class="nf">to_numerical</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert any symbolic types in this Values to numerical quantities. This currently</span>

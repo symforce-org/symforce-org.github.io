@@ -792,6 +792,9 @@
 <span class="sd">            (e.g. add fast_math.h). Note that these are only added on a call to</span>
 <span class="sd">            :meth:`generate_function &lt;symforce.codegen.codegen.Codegen.generate_function&gt;`, i.e.</span>
 <span class="sd">            you can&#39;t define custom functions in e.g. the geo package using this</span>
+<span class="sd">        databuffer_type: Changes the type of any DataBuffers to the given type instead of using</span>
+<span class="sd">            the default Scalar type. Useful for cases where DataBuffers have a different type than</span>
+<span class="sd">            other arguments to the generated function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">doc_comment_line_prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot; * &quot;</span>
@@ -803,6 +806,7 @@
     <span class="n">explicit_template_instantiation_types</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">override_methods</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">extra_imports</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">databuffer_type</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="CppConfig.backend_name"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cpp.cpp_config.html#symforce.codegen.backends.cpp.cpp_config.CppConfig.backend_name">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">backend_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>

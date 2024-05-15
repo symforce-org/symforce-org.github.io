@@ -868,18 +868,24 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SymforceTestCaseMixin.make_output_dir"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.make_output_dir">[docs]</a>    <span class="k">def</span> <span class="nf">make_output_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<div class="viewcode-block" id="SymforceTestCaseMixin.make_output_dir"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case_mixin.html#symforce.test_util.test_case_mixin.SymforceTestCaseMixin.make_output_dir">[docs]</a>    <span class="k">def</span> <span class="nf">make_output_dir</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp&quot;</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a temporary output directory, which will be automatically removed (regardless of</span>
 <span class="sd">        exceptions) on shutdown, unless logger.level is DEBUG</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            prefix: The prefix for the directory name - a random unique identifier is added to this</span>
+<span class="sd">            prefix: The prefix for the directory name - a random unique identifier is added to this.</span>
+<span class="sd">                Defaults to the name of the test, in snake_case</span>
 <span class="sd">            dir: Location of the output directory. Defaults to &quot;/tmp&quot;.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: The absolute path to the created output directory</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
         <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">directory</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating temp directory: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
