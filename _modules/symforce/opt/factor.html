@@ -956,7 +956,7 @@
             <span class="n">config</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">default_codegen_config</span><span class="p">()</span>
 
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-        <span class="n">instance</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_initialize</span><span class="p">(</span>  <span class="c1"># noqa: SLF001</span>
             <span class="n">keys</span><span class="o">=</span><span class="n">keys</span><span class="p">,</span>
             <span class="n">codegen_obj</span><span class="o">=</span><span class="n">Codegen</span><span class="p">(</span>
                 <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">Values</span><span class="p">(</span><span class="n">residual</span><span class="o">=</span><span class="n">residual</span><span class="p">),</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -1030,8 +1030,6 @@
             <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">sparse_linearization</span><span class="o">=</span><span class="n">sparse_linearization</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="c1"># Ignore false positive because we define `self.jacobian` in `_initialize()`</span>
-        <span class="c1"># pylint: disable=attribute-defined-outside-init</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generated_jacobians</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">optimized_keys</span><span class="p">)]</span> <span class="o">=</span> <span class="n">codegen_with_linearization</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span>
             <span class="s2">&quot;jacobian&quot;</span>
         <span class="p">]</span>

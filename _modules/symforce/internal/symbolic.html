@@ -858,8 +858,7 @@
 <span class="sd">available as well as :mod:`symforce.symbolic.sympy`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="c1"># pylint: disable=unused-import</span>
-<span class="c1"># pylint: disable=unused-wildcard-import</span>
+<span class="c1"># ruff: noqa: F401, F403, F405, SLF001</span>
 
 <span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">functools</span>
@@ -868,7 +867,7 @@
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
-<span class="k">if</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_symbolic_api</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="k">if</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_symbolic_api</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">textwrap</span>
 
     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
@@ -889,10 +888,10 @@
 
 <span class="c1"># See `symforce/__init__.py` for more information, this is used to check whether things that this</span>
 <span class="c1"># module depends on are modified after importing</span>
-<span class="n">symforce</span><span class="o">.</span><span class="n">_have_imported_symbolic</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># pylint: disable=protected-access</span>
+<span class="n">symforce</span><span class="o">.</span><span class="n">_have_imported_symbolic</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
-    <span class="n">sympy</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="n">sympy</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>
 
     <span class="c1"># Import sympy, for methods that convert to sympy types or call sympy functions below</span>
     <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">_sympy_py</span>
@@ -1134,7 +1133,7 @@
 
 
 <div class="viewcode-block" id="set_scope"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.set_scope">[docs]</a><span class="k">def</span> <span class="nf">set_scope</span><span class="p">(</span><span class="n">scope</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">global</span> <span class="n">__scopes__</span>  <span class="c1"># pylint: disable=global-statement</span>
+    <span class="k">global</span> <span class="n">__scopes__</span>  <span class="c1"># noqa: PLW0603</span>
     <span class="n">__scopes__</span> <span class="o">=</span> <span class="n">scope</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">scope</span> <span class="k">else</span> <span class="p">[]</span></div>
 
 
@@ -1150,7 +1149,7 @@
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
 
-<div class="viewcode-block" id="Symbol"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.Symbol">[docs]</a>    <span class="k">class</span> <span class="nc">Symbol</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">):</span>  <span class="c1"># pylint: disable=function-redefined,too-many-ancestors</span>
+<div class="viewcode-block" id="Symbol"><a class="viewcode-back" href="../../../api/symforce.internal.symbolic.html#symforce.internal.symbolic.Symbol">[docs]</a>    <span class="k">class</span> <span class="nc">Symbol</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -1174,9 +1173,7 @@
     <span class="n">_original_symbols</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span>
 
     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">_original_symbols</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">symbols</span><span class="p">(</span>  <span class="c1"># pylint: disable=function-redefined</span>
-        <span class="n">names</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Symbol</span><span class="p">],</span> <span class="n">Symbol</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">symbols</span><span class="p">(</span><span class="n">names</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Symbol</span><span class="p">],</span> <span class="n">Symbol</span><span class="p">]:</span>
         <span class="bp">cls</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;cls&quot;</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_original_symbols</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="bp">cls</span><span class="p">))</span>
 
@@ -1239,7 +1236,6 @@
 <span class="sd">        The current default epsilon.  This is typically some kind of &quot;Scalar&quot;, like a float or a</span>
 <span class="sd">        :class:`Symbol &lt;symforce.symbolic.Symbol&gt;`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># pylint: disable=protected-access</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">,</span> <span class="n">symforce</span><span class="o">.</span><span class="n">SymbolicEpsilon</span><span class="p">):</span>
         <span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">symforce</span><span class="o">.</span><span class="n">_epsilon</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -1261,7 +1257,7 @@
 <span class="c1"># --------------------------------------------------------------------------------</span>
 
 <span class="c1"># isort: split</span>
-<span class="kn">from</span> <span class="nn">symforce.logic</span> <span class="kn">import</span> <span class="o">*</span>  <span class="c1"># pylint: disable=wildcard-import</span>
+<span class="kn">from</span> <span class="nn">symforce.logic</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
 <span class="c1"># Additional custom functions</span>
@@ -1421,7 +1417,7 @@
         <span class="n">e</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
         <span class="n">z</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
         <span class="n">z0</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
-        <span class="nb">dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="p">,</span>  <span class="c1"># pylint: disable=redefined-builtin</span>
+        <span class="nb">dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="p">,</span>  <span class="c1"># noqa: A002</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Converting to sympy to use .limit&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sympy</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="n">z0</span><span class="p">),</span> <span class="nb">dir</span><span class="o">=</span><span class="nb">dir</span><span class="p">))</span></div>
@@ -1523,14 +1519,14 @@
     <span class="c1"># Hack in some key derivatives that sympy doesn&#39;t do. For all these cases the derivatives</span>
     <span class="c1"># here are correct except at the discrete switching point, which is correct for our</span>
     <span class="c1"># numerical purposes.</span>
-    <span class="nb">setattr</span><span class="p">(</span><span class="n">floor</span><span class="p">,</span> <span class="s2">&quot;_eval_derivative&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">Zero</span><span class="p">)</span>
-    <span class="nb">setattr</span><span class="p">(</span><span class="n">sign</span><span class="p">,</span> <span class="s2">&quot;_eval_derivative&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">Zero</span><span class="p">)</span>
+    <span class="n">floor</span><span class="o">.</span><span class="n">_eval_derivative</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">Zero</span>
+    <span class="n">sign</span><span class="o">.</span><span class="n">_eval_derivative</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">S</span><span class="o">.</span><span class="n">Zero</span>
 
     <span class="k">def</span> <span class="nf">mod_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
         <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_rewrite_as_floor</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># pylint: disable=protected-access</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eval_rewrite_as_floor</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-    <span class="nb">setattr</span><span class="p">(</span><span class="n">Mod</span><span class="p">,</span> <span class="s2">&quot;_eval_derivative&quot;</span><span class="p">,</span> <span class="n">mod_derivative</span><span class="p">)</span>
+    <span class="n">Mod</span><span class="o">.</span><span class="n">_eval_derivative</span> <span class="o">=</span> <span class="n">mod_derivative</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
 
@@ -1547,8 +1543,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">new_subs_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Import these lazily, since initialization.py is imported from symforce/__init__.py</span>
-    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>  <span class="c1"># pylint: disable=cyclic-import</span>
-    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>  <span class="c1"># pylint: disable=cyclic-import</span>
+    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
+    <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
 
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">subs_pairs</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1617,7 +1613,7 @@
     <span class="c1"># For some reason this doesn&#39;t exist unless we import the symengine_wrapper directly as a</span>
     <span class="c1"># local variable, i.e. just `import symengine.lib.symengine_wrapper` does not let us access</span>
     <span class="c1"># symengine.lib.symengine_wrapper</span>
-    <span class="kn">import</span> <span class="nn">symengine.lib.symengine_wrapper</span> <span class="k">as</span> <span class="nn">wrapper</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
+    <span class="kn">import</span> <span class="nn">symengine.lib.symengine_wrapper</span> <span class="k">as</span> <span class="nn">wrapper</span>
 
     <span class="n">original_get_dict</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">get_dict</span>
     <span class="n">wrapper</span><span class="o">.</span><span class="n">get_dict</span> <span class="o">=</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">original_get_dict</span><span class="p">(</span><span class="n">_get_subs_dict</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>

@@ -900,7 +900,7 @@
     <span class="c1"># this class variable as a strong internal consistency check.</span>
     <span class="n">SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Matrix.__new__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Matrix.__new__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>  <span class="c1"># noqa: PLR0915</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Beast of a method for creating a Matrix. Handles a variety of construction use cases</span>
 <span class="sd">        and *always* returns a fixed size child class of Matrix rather than Matrix itself. The</span>
@@ -951,12 +951,10 @@
                             <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span><span class="si">}</span><span class="s2"> elements for </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
                         <span class="p">)</span>
                     <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># Only set the second dimension to 1 if the array is nonempty</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                        <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">),</span> <span class="mi">1</span>
+                    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">),</span> <span class="mi">1</span>
                 <span class="n">flat_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
 
         <span class="c1"># 4) If there are two arguments and this is not a fixed size matrix, treat it as a size</span>
@@ -1595,16 +1593,16 @@
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">left</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span></div>
 
     <span class="nd">@_T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span>
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
     <span class="nd">@_T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">MatrixT</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatrixT</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Matrix.__div__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__div__">[docs]</a>    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span>
+<div class="viewcode-block" id="Matrix.__truediv__"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.__truediv__">[docs]</a>    <span class="k">def</span> <span class="fm">__truediv__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">MatrixT</span><span class="p">,</span> <span class="n">Matrix</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1617,8 +1615,8 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span> <span class="o">*</span> <span class="n">_T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">MutableDenseMatrix</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="n">inv</span><span class="p">())</span></div>
 
-    <span class="k">def</span> <span class="nf">_symengine_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">symengine</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-        <span class="n">symengine</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>  <span class="c1"># pylint: disable=protected-access</span>
+    <span class="k">def</span> <span class="nf">_symengine_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">symengine</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>  <span class="c1"># noqa: PLW3201</span>
+        <span class="n">symengine</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>  <span class="c1"># noqa: SLF001</span>
         <span class="k">return</span> <span class="n">symengine</span><span class="o">.</span><span class="n">S</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Matrix.compute_AtA"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.compute_AtA">[docs]</a>    <span class="k">def</span> <span class="nf">compute_AtA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
@@ -1701,8 +1699,6 @@
 <span class="sd">        Solve a linear system using the given method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">))</span></div>
-
-    <span class="fm">__truediv__</span> <span class="o">=</span> <span class="n">__div__</span>
 
 <div class="viewcode-block" id="Matrix.are_parallel"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.are_parallel">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">are_parallel</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">:</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
@@ -1787,11 +1783,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">cls</span><span class="o">.</span><span class="n">SHAPE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="nf">_ipython_display_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_ipython_display_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># noqa: PLW3201</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display ``self.mat`` in IPython, with SymPy&#39;s pretty printing</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">display</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>  <span class="c1"># type: ignore[name-defined] # pylint: disable=undefined-variable # not defined outside of ipython</span>
+        <span class="n">display</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mat</span><span class="p">)</span>  <span class="c1"># type: ignore[name-defined] # noqa: F821 # not defined outside of ipython</span>
 
 <div class="viewcode-block" id="Matrix.init_printing"><a class="viewcode-back" href="../../../api/symforce.geo.matrix.html#symforce.geo.matrix.Matrix.init_printing">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">init_printing</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

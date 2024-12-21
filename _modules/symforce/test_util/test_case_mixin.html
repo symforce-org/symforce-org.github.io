@@ -1031,11 +1031,14 @@
 
             <span class="k">if</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">expected_data</span><span class="p">:</span>
                 <span class="n">diff</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">unified_diff</span><span class="p">(</span>
-                    <span class="n">expected_data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(),</span> <span class="s2">&quot;expected&quot;</span><span class="p">,</span> <span class="s2">&quot;got&quot;</span><span class="p">,</span> <span class="n">lineterm</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+                    <span class="n">expected_data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                    <span class="s2">&quot;expected&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;got&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
                     <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
+                    <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span>
                     <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="si">{</span><span class="mi">80</span><span class="o">*</span><span class="s1">&#39;=&#39;</span><span class="si">}</span><span class="se">\n</span><span class="s2">Data did not match for file </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">, see diff above.  Use &quot;</span>
                     <span class="s2">&quot;`--update` to write the changes to the working directory and commit if desired&quot;</span>
                 <span class="p">)</span></div>

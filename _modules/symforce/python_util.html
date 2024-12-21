@@ -1117,9 +1117,9 @@
     <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
         <span class="n">inspect</span><span class="o">.</span><span class="n">isbuiltin</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__self__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__self__&quot;</span><span class="p">),</span> <span class="s2">&quot;__class__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__self__</span><span class="p">,</span> <span class="s2">&quot;__class__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="p">):</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__self__&quot;</span><span class="p">),</span> <span class="s2">&quot;__class__&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="vm">__self__</span><span class="o">.</span><span class="vm">__class__</span>
     <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="bp">cls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
             <span class="n">inspect</span><span class="o">.</span><span class="n">getmodule</span><span class="p">(</span><span class="n">func</span><span class="p">),</span>
@@ -1128,7 +1128,9 @@
         <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">cls</span>
-    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;__objclass__&quot;</span><span class="p">)</span>  <span class="c1"># handle special descriptor objects</span></div>
+
+    <span class="c1"># handle special descriptor objects</span>
+    <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="vm">__objclass__</span>  <span class="c1"># type: ignore[attr-defined]</span></div>
 
 
 <div class="viewcode-block" id="AttrDict"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.AttrDict">[docs]</a><span class="k">class</span> <span class="nc">AttrDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
