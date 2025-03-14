@@ -773,6 +773,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1FixedSizeOptimizer.html">Class sym::FixedSizeOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
@@ -795,6 +796,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dump__graph_8h.html">File dump_graph.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/eigen__sparse__solver_8h.html">File eigen_sparse_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/fixed__size__optimizer_8h.html">File fixed_size_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
@@ -863,22 +865,23 @@
 <span id="symforce-opt-residual-block-module"></span><h1>symforce.opt.residual_block module<a class="headerlink" href="#module-symforce.opt.residual_block" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlock">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResidualBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/residual_block.html#ResidualBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResidualBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/residual_block.html#ResidualBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A single residual vector, with associated extra values.  The extra values are not used in the
 optimization, but are intended to be additional outputs used for debugging or other purposes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
+<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
 <li><p><strong>extra_values</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>factor_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlock.residual">
-<span class="sig-name descname"><span class="pre">residual</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock.residual" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">residual</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock.residual" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -889,6 +892,11 @@ optimization, but are intended to be additional outputs used for debugging or ot
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlock.metadata">
 <span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock.metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlock.factor_name">
+<span class="sig-name descname"><span class="pre">factor_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock.factor_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -909,7 +917,7 @@ messages</p></li>
 <dd class="field-even"><p><strong>Sequence of jacobians of the residual with respect to each entry in inputs</strong></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -931,11 +939,25 @@ messages</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlock.set_factor_name">
+<span class="sig-name descname"><span class="pre">set_factor_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/residual_block.html#ResidualBlock.set_factor_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlock.set_factor_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the factor name of the residual block and returns the residual block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock" title="symforce.opt.residual_block.ResidualBlock"><em>ResidualBlock</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlockWithCustomJacobian">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResidualBlockWithCustomJacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_values=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobians=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/residual_block.html#ResidualBlockWithCustomJacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlockWithCustomJacobian" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ResidualBlockWithCustomJacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_values=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor_name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobians=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/residual_block.html#ResidualBlockWithCustomJacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlockWithCustomJacobian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock" title="symforce.opt.residual_block.ResidualBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResidualBlock</span></code></a></p>
 <p>A residual block, with a custom jacobian for the residual</p>
 <p>This should generally only be used if you want to override the jacobian computed by SymForce,
@@ -947,16 +969,17 @@ with respect to each of those inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
+<li><p><strong>residual</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – </p></li>
 <li><p><strong>extra_values</strong> (<a class="reference internal" href="symforce.typing.html#symforce.typing.Dataclass" title="symforce.typing.Dataclass"><em>Dataclass</em></a><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
-<li><p><strong>custom_jacobians</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>, </em><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em>]</em>) – </p></li>
+<li><p><strong>factor_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>custom_jacobians</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>, </em><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.opt.residual_block.ResidualBlockWithCustomJacobian.custom_jacobians">
-<span class="sig-name descname"><span class="pre">custom_jacobians</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlockWithCustomJacobian.custom_jacobians" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">custom_jacobians</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><span class="pre">Matrix</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.opt.residual_block.ResidualBlockWithCustomJacobian.custom_jacobians" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -977,7 +1000,7 @@ messages</p></li>
 <dd class="field-even"><p><strong>Sequence of jacobians of the residual with respect to each entry in inputs</strong></p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1046,8 +1069,10 @@ messages</p></li>
 <li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock.residual"><code class="docutils literal notranslate"><span class="pre">residual</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock.extra_values"><code class="docutils literal notranslate"><span class="pre">extra_values</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock.metadata"><code class="docutils literal notranslate"><span class="pre">metadata</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock.factor_name"><code class="docutils literal notranslate"><span class="pre">factor_name</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock.compute_jacobians"><code class="docutils literal notranslate"><span class="pre">compute_jacobians()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock.set_metadata"><code class="docutils literal notranslate"><span class="pre">set_metadata()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlock.set_factor_name"><code class="docutils literal notranslate"><span class="pre">set_factor_name()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#symforce.opt.residual_block.ResidualBlockWithCustomJacobian"><code class="docutils literal notranslate"><span class="pre">ResidualBlockWithCustomJacobian</span></code></a><ul>
@@ -1066,7 +1091,7 @@ messages</p></li>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1bc1ca25"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=dde23db5"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>

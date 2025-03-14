@@ -766,6 +766,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1FixedSizeOptimizer.html">Class sym::FixedSizeOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
@@ -788,6 +789,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/dump__graph_8h.html">File dump_graph.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/eigen__sparse__solver_8h.html">File eigen_sparse_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/fixed__size__optimizer_8h.html">File fixed_size_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
@@ -864,7 +866,7 @@
     <span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">geo</span>
 
 
-<div class="viewcode-block" id="LieGroup"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup">[docs]</a><span class="k">class</span> <span class="nc">LieGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
+<div class="viewcode-block" id="LieGroup"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.LieGroup">[docs]</a><span class="k">class</span> <span class="nc">LieGroup</span><span class="p">(</span><span class="n">Group</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Interface for objects that implement the lie group concept. Because this class is registered</span>
 <span class="sd">    using :class:`symforce.ops.impl.class_lie_group_ops.ClassLieGroupOps` (see bottom of this file),</span>
@@ -879,14 +881,14 @@
     <span class="c1"># Type that represents this or any subclasses</span>
     <span class="n">LieGroupT</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;LieGroupT&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;LieGroup&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LieGroup.tangent_dim"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LieGroup.tangent_dim"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.LieGroup.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dimension of the embedded manifold</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LieGroup.from_tangent"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LieGroup.from_tangent"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.LieGroup.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">LieGroupT</span><span class="p">],</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LieGroupT</span><span class="p">:</span>
@@ -895,13 +897,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LieGroup.to_tangent"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="LieGroup.to_tangent"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.LieGroup.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mapping from this element to the tangent space vector about identity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="LieGroup.retract"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span>
+<div class="viewcode-block" id="LieGroup.retract"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.LieGroup.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LieGroupT</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -913,7 +915,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="LieGroup.local_coordinates"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span>
+<div class="viewcode-block" id="LieGroup.local_coordinates"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.LieGroup.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -925,7 +927,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LieGroup.jacobian"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.jacobian">[docs]</a>    <span class="k">def</span> <span class="nf">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="LieGroup.jacobian"><a class="viewcode-back" href="../../../../api/symforce.symbolic.html#symforce.symbolic.LieGroup.jacobian">[docs]</a>    <span class="k">def</span> <span class="nf">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the jacobian of this LieGroup element with respect to the input X, where X is</span>
 <span class="sd">        anything that supports LieGroupOps</span>
@@ -934,7 +936,7 @@
 <span class="sd">        spaces around self and X. If tangent_space is False, the jacobian is computed in the storage</span>
 <span class="sd">        spaces of self and X.</span>
 
-<span class="sd">        See also:</span>
+<span class="sd">        See Also:</span>
 <span class="sd">            :func:`symforce.ops.lie_group_ops.LieGroupOps.jacobian`</span>
 <span class="sd">            :func:`symforce.jacobian_helpers.tangent_jacobians`</span>
 
@@ -979,7 +981,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=1bc1ca25"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=dde23db5"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=4e2eecee"></script>

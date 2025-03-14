@@ -773,6 +773,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1FixedSizeOptimizer.html">Class sym::FixedSizeOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
@@ -795,6 +796,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dump__graph_8h.html">File dump_graph.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/eigen__sparse__solver_8h.html">File eigen_sparse_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/fixed__size__optimizer_8h.html">File fixed_size_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
@@ -950,8 +952,9 @@ containing all the residuals for the problem.  Typically created by calling
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.generate">
 <span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_linearization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.generate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate everything needed to optimize <code class="docutils literal notranslate"><span class="pre">self</span></code> in C++. This currently assumes there is
-only one factor generated for the optimization problem.</p>
+<dd><p>Generate everything needed to optimize <code class="docutils literal notranslate"><span class="pre">self</span></code> in C++. This will typically only generate
+one factor, but can be configured to generate multiple different factors by setting the
+“factor_name” field of the residual blocks to be split into separate factors.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -965,6 +968,41 @@ factor.</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.residual_blocks_per_factor">
+<span class="sig-name descname"><span class="pre">residual_blocks_per_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.residual_blocks_per_factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.residual_blocks_per_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Values with the residual blocks split by factor name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>default_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.opt.optimization_problem.OptimizationProblem.compute_jacobians">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_jacobians</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual_blocks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimization_problem.html#OptimizationProblem.compute_jacobians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimization_problem.OptimizationProblem.compute_jacobians" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functor that computes the jacobians of the residual with respect to a set of keys</p>
+<p>The set of keys is not known when make_symbolic_factors is called, because we may want
+to create a <a class="reference internal" href="symforce.opt.numeric_factor.html#symforce.opt.numeric_factor.NumericFactor" title="symforce.opt.numeric_factor.NumericFactor"><code class="xref py py-class docutils literal notranslate"><span class="pre">numeric_factor.NumericFactor</span></code></a> which computes derivatives with
+respect to different sets of optimized variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – </p></li>
+<li><p><strong>inputs</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>) – </p></li>
+<li><p><strong>residual_blocks</strong> (<a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><em>Values</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1110,6 +1148,8 @@ specified by the subproblems of this optimization problem.</p></li>
 <li><a class="reference internal" href="#symforce.opt.optimization_problem.OptimizationProblem.keys"><code class="docutils literal notranslate"><span class="pre">keys()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.optimization_problem.OptimizationProblem.optimized_keys"><code class="docutils literal notranslate"><span class="pre">optimized_keys()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.optimization_problem.OptimizationProblem.generate"><code class="docutils literal notranslate"><span class="pre">generate()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.optimization_problem.OptimizationProblem.residual_blocks_per_factor"><code class="docutils literal notranslate"><span class="pre">residual_blocks_per_factor()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.opt.optimization_problem.OptimizationProblem.compute_jacobians"><code class="docutils literal notranslate"><span class="pre">compute_jacobians()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.optimization_problem.OptimizationProblem.make_symbolic_factors"><code class="docutils literal notranslate"><span class="pre">make_symbolic_factors()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.opt.optimization_problem.OptimizationProblem.make_numeric_factors"><code class="docutils literal notranslate"><span class="pre">make_numeric_factors()</span></code></a></li>
 </ul>
@@ -1126,7 +1166,7 @@ specified by the subproblems of this optimization problem.</p></li>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1bc1ca25"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=dde23db5"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>

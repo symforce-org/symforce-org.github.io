@@ -776,6 +776,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1FixedSizeOptimizer.html">Class sym::FixedSizeOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
@@ -798,6 +799,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/dump__graph_8h.html">File dump_graph.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/eigen__sparse__solver_8h.html">File eigen_sparse_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/fixed__size__optimizer_8h.html">File fixed_size_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
@@ -866,7 +868,7 @@
 <h1>Geometry Tutorial<a class="headerlink" href="#Geometry-Tutorial" title="Permalink to this heading">¶</a></h1>
 <p>This is an introductory walkthrough of the symbolic <a class="reference external" href="../api/symforce.geo.html">geometry package</a> in symforce. Symforce natively contains the following geometry objects: complex numbers, quaternions, dual quaternions, matrices, 2D and 3D rotations, and 2D and 3D poses (translation + rotation).</p>
 <p>In this tutorial we will demonstrate a few of the ways these geometry objects can be constructed and composed. Here we pay special attention to 3D rotations, poses, and vectors, as they are typically the most commonly used geometric objects.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -884,6 +886,15 @@
 <span class="n">set_notebook_defaults</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/setuptools_scm/git.py:167: UserWarning: &#34;/home/runner/work/symforce/symforce&#34; is shallow and may cause errors
+  warnings.warn(f&#39;&#34;{wd.path}&#34; is shallow and may cause errors&#39;)
+</pre></div></div>
 </div>
 <section id="Rotations">
 <h2>Rotations<a class="headerlink" href="#Rotations" title="Permalink to this heading">¶</a></h2>
@@ -1551,7 +1562,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.217188776521844, 0.331317811601712, 0.812345303222705, -0.427963376237276]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.178607913653610, 0.597438705594239, -0.577001439093941, 0.527480374537012]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1570,7 +1581,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.672097145720314, -0.648395126430455, -0.158053065515160, 0.320762240946626]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.493412541466498, -0.243210071607074, -0.720340406491063, -0.422495708580268]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1578,7 +1589,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.672097145720314, -0.648395126430455, -0.158053065515160, 0.320762240946626]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.493412541466498, -0.243210071607074, -0.720340406491063, -0.422495708580268]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1619,12 +1630,12 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.256387934828548, -0.682862731438594, 0.274782387633317, -0.626464968161115]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.385887446223789, 0.289231494026087, 0.875090565900302, -0.0406512383896105]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1632,7 +1643,7 @@ $\displaystyle \left[ 0, \  0, \  0, \  1\right]$</div></div>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.256387934828548, -0.682862731438594, 0.274782387633318, -0.626464968161115]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[-0.385887446223789, 0.289231494026087, 0.875090565900302, -0.0406512383896105]&gt;&gt;
 </pre></div></div>
 </div>
 </section>
@@ -1662,12 +1673,12 @@ SymForce, objects which are a Lie Group can:</p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[-0.252269084537647, -0.748641576827847, -0.384181768673123, -0.477807981359085]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.311278226675481, -0.268239443185542, 0.364213742491314, 0.835764211065387]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1675,7 +1686,7 @@ SymForce, objects which are a Lie Group can:</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;Rot3 &lt;Q xyzw=[0.252269084537647, 0.748641576827847, 0.384181768673123, 0.477807981359084]&gt;&gt;
+&lt;Rot3 &lt;Q xyzw=[0.311278226675481, -0.268239443185542, 0.364213742491314, 0.835764211065387]&gt;&gt;
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1810,7 +1821,7 @@ space operations analogous to <code class="docutils literal notranslate"><span c
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1bc1ca25"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=dde23db5"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=4e2eecee"></script>

@@ -766,6 +766,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1Factor.html">Class sym::Factor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1FixedSizeOptimizer.html">Class sym::FixedSizeOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1GncOptimizer.html">Class sym::GncOptimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuFactor.html">Class sym::ImuFactor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/class/classsym_1_1ImuPreintegrator.html">Class sym::ImuPreintegrator</a></li>
@@ -788,6 +789,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/dump__graph_8h.html">File dump_graph.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/eigen__sparse__solver_8h.html">File eigen_sparse_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/factor_8h.html">File factor.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/fixed__size__optimizer_8h.html">File fixed_size_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/gnc__optimizer_8h.html">File gnc_optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__factor_8h.html">File imu_factor.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/imu__preintegrator_8h.html">File imu_preintegrator.h</a></li>
@@ -852,6 +854,7 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
+<span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
 <span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
@@ -962,8 +965,9 @@
         <span class="n">config</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">CppConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate everything needed to optimize ``self`` in C++. This currently assumes there is</span>
-<span class="sd">        only one factor generated for the optimization problem.</span>
+<span class="sd">        Generate everything needed to optimize ``self`` in C++. This will typically only generate</span>
+<span class="sd">        one factor, but can be configured to generate multiple different factors by setting the</span>
+<span class="sd">        &quot;factor_name&quot; field of the residual blocks to be split into separate factors.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            output_dir: Directory in which to output the generated files.</span>
@@ -991,6 +995,37 @@
                 <span class="p">)</span>
             <span class="p">)</span></div>
 
+<div class="viewcode-block" id="OptimizationProblem.residual_blocks_per_factor"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.residual_blocks_per_factor">[docs]</a>    <span class="k">def</span> <span class="nf">residual_blocks_per_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a Values with the residual blocks split by factor name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">factor_blocks</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">residual_blocks</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">():</span>
+            <span class="n">factor_name</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">factor_name</span> <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">factor_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default_name</span>
+            <span class="k">if</span> <span class="n">factor_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">factor_blocks</span><span class="p">:</span>
+                <span class="n">factor_blocks</span><span class="p">[</span><span class="n">factor_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
+            <span class="n">factor_blocks</span><span class="p">[</span><span class="n">factor_name</span><span class="p">][</span><span class="n">block_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">block</span>
+        <span class="k">return</span> <span class="n">factor_blocks</span></div>
+
+<div class="viewcode-block" id="OptimizationProblem.compute_jacobians"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.compute_jacobians">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">compute_jacobians</span><span class="p">(</span>
+        <span class="n">keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="n">residual_blocks</span><span class="p">:</span> <span class="n">Values</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Functor that computes the jacobians of the residual with respect to a set of keys</span>
+
+<span class="sd">        The set of keys is not known when make_symbolic_factors is called, because we may want</span>
+<span class="sd">        to create a :class:`.numeric_factor.NumericFactor` which computes derivatives with</span>
+<span class="sd">        respect to different sets of optimized variables.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">jacobians</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">residual_block</span><span class="o">.</span><span class="n">compute_jacobians</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">],</span> <span class="n">residual_name</span><span class="o">=</span><span class="n">residual_name</span><span class="p">,</span> <span class="n">key_names</span><span class="o">=</span><span class="n">keys</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">residual_name</span><span class="p">,</span> <span class="n">residual_block</span> <span class="ow">in</span> <span class="n">residual_blocks</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span><span class="n">jacobians</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="OptimizationProblem.make_symbolic_factors"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.make_symbolic_factors">[docs]</a>    <span class="k">def</span> <span class="nf">make_symbolic_factors</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -1010,21 +1045,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inputs</span><span class="o">.</span><span class="n">dataclasses_to_values</span><span class="p">()</span>
 
-        <span class="k">def</span> <span class="nf">compute_jacobians</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Functor that computes the jacobians of the residual with respect to a set of keys</span>
-
-<span class="sd">            The set of keys is not known when make_symbolic_factors is called, because we may want</span>
-<span class="sd">            to create a :class:`.numeric_factor.NumericFactor` which computes derivatives with</span>
-<span class="sd">            respect to different sets of optimized variables.</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-            <span class="n">jacobians</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">residual_block</span><span class="o">.</span><span class="n">compute_jacobians</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">inputs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">],</span> <span class="n">residual_name</span><span class="o">=</span><span class="n">residual_key</span><span class="p">,</span> <span class="n">key_names</span><span class="o">=</span><span class="n">keys</span>
-                <span class="p">)</span>
-                <span class="k">for</span> <span class="n">residual_key</span><span class="p">,</span> <span class="n">residual_block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">residual_blocks</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
-            <span class="p">]</span>
-            <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span><span class="n">jacobians</span><span class="p">)</span>
+        <span class="c1"># Split blocks by factor</span>
+        <span class="n">factor_blocks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">residual_blocks_per_factor</span><span class="p">(</span><span class="n">default_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">Factor</span><span class="o">.</span><span class="n">from_inputs_and_residual</span><span class="p">(</span>
@@ -1035,11 +1057,18 @@
                         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items_recursive</span><span class="p">()</span>
                     <span class="p">}</span>
                 <span class="p">),</span>
-                <span class="n">residual</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">residuals</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()),</span>
+                <span class="n">residual</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span>
+                    <span class="n">ops</span><span class="o">.</span><span class="n">StorageOps</span><span class="o">.</span><span class="n">to_storage</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">block</span><span class="o">.</span><span class="n">residual</span> <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">residual_blocks</span><span class="o">.</span><span class="n">values_recursive</span><span class="p">()]</span>
+                    <span class="p">)</span>
+                <span class="p">),</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-                <span class="n">custom_jacobian_func</span><span class="o">=</span><span class="n">compute_jacobians</span><span class="p">,</span>
+                <span class="n">custom_jacobian_func</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">compute_jacobians</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">residual_blocks</span><span class="o">=</span><span class="n">residual_blocks</span>
+                <span class="p">),</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">residual_blocks</span> <span class="ow">in</span> <span class="n">factor_blocks</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">]</span></div>
 
 <div class="viewcode-block" id="OptimizationProblem.make_numeric_factors"><a class="viewcode-back" href="../../../api/symforce.opt.optimization_problem.html#symforce.opt.optimization_problem.OptimizationProblem.make_numeric_factors">[docs]</a>    <span class="k">def</span> <span class="nf">make_numeric_factors</span><span class="p">(</span>
@@ -1130,7 +1159,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=1bc1ca25"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=dde23db5"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>
