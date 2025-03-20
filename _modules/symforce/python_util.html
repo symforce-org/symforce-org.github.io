@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
 
-    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>symforce.python_util - SymForce</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=387cc868" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
     <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=1ddbf0f8" />
     
     
@@ -98,19 +98,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -151,7 +138,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -858,22 +845,22 @@
 <span class="sd">General python utilities.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">asyncio</span>
-<span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
-<div class="viewcode-block" id="remove_if_exists"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.remove_if_exists">[docs]</a><span class="k">def</span> <span class="nf">remove_if_exists</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="remove_if_exists"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.remove_if_exists">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_if_exists</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Delete a file or directory if it exists.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -888,7 +875,7 @@
         <span class="n">path</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="execute_subprocess"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.execute_subprocess">[docs]</a><span class="k">async</span> <span class="k">def</span> <span class="nf">execute_subprocess</span><span class="p">(</span>
+<div class="viewcode-block" id="execute_subprocess"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.execute_subprocess">[docs]</a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute_subprocess</span><span class="p">(</span>
     <span class="n">cmd</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
     <span class="n">stdin_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">log_stdout</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -938,14 +925,14 @@
     <span class="k">return</span> <span class="n">stdout_decoded</span></div>
 
 
-<div class="viewcode-block" id="camelcase_to_snakecase"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.camelcase_to_snakecase">[docs]</a><span class="k">def</span> <span class="nf">camelcase_to_snakecase</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="camelcase_to_snakecase"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.camelcase_to_snakecase">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">camelcase_to_snakecase</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert CamelCase -&gt; snake_case.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?&lt;!^)(?=[A-Z][a-z])&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="snakecase_to_camelcase"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.snakecase_to_camelcase">[docs]</a><span class="k">def</span> <span class="nf">snakecase_to_camelcase</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="snakecase_to_camelcase"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.snakecase_to_camelcase">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">snakecase_to_camelcase</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert snake_case -&gt; CamelCase</span>
 
@@ -958,14 +945,14 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="camelcase_to_screaming_snakecase"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.camelcase_to_screaming_snakecase">[docs]</a><span class="k">def</span> <span class="nf">camelcase_to_screaming_snakecase</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="camelcase_to_screaming_snakecase"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.camelcase_to_screaming_snakecase">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">camelcase_to_screaming_snakecase</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert CamelCase -&gt; SCREAMING_SNAKE_CASE</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">camelcase_to_snakecase</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="str_replace_all"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.str_replace_all">[docs]</a><span class="k">def</span> <span class="nf">str_replace_all</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">replacements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="str_replace_all"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.str_replace_all">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">str_replace_all</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">replacements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Call ``str.replace(old, new)`` for every pair (old, new) in replacements</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -974,7 +961,7 @@
     <span class="k">return</span> <span class="n">s</span></div>
 
 
-<div class="viewcode-block" id="str_removeprefix"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.str_removeprefix">[docs]</a><span class="k">def</span> <span class="nf">str_removeprefix</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="str_removeprefix"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.str_removeprefix">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">str_removeprefix</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Backport of ``str.removeprefix``, from Python3.9</span>
 
@@ -989,7 +976,7 @@
         <span class="k">return</span> <span class="n">s</span></div>
 
 
-<div class="viewcode-block" id="str_removesuffix"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.str_removesuffix">[docs]</a><span class="k">def</span> <span class="nf">str_removesuffix</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="str_removesuffix"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.str_removesuffix">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">str_removesuffix</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Backport of ``str.removesuffix``, from Python3.9</span>
 
@@ -1004,7 +991,7 @@
         <span class="k">return</span> <span class="n">s</span></div>
 
 
-<div class="viewcode-block" id="dots_and_brackets_to_underscores"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.dots_and_brackets_to_underscores">[docs]</a><span class="k">def</span> <span class="nf">dots_and_brackets_to_underscores</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="dots_and_brackets_to_underscores"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.dots_and_brackets_to_underscores">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">dots_and_brackets_to_underscores</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts all ``.`` and ``[]`` in the given string to underscores such that the resulting</span>
 <span class="sd">    string is a valid/readable variable name.</span>
@@ -1019,7 +1006,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="files_in_dir"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.files_in_dir">[docs]</a><span class="k">def</span> <span class="nf">files_in_dir</span><span class="p">(</span><span class="n">dirname</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">relative</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="files_in_dir"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.files_in_dir">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">files_in_dir</span><span class="p">(</span><span class="n">dirname</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">relative</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return a list of files in the given directory.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1032,7 +1019,7 @@
                 <span class="k">yield</span> <span class="n">abspath</span></div>
 
 
-<div class="viewcode-block" id="id_generator"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.id_generator">[docs]</a><span class="k">def</span> <span class="nf">id_generator</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">chars</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="id_generator"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.id_generator">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">id_generator</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">chars</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate a random string within a character set - for example ``&quot;6U1S75&quot;``.</span>
 
@@ -1041,7 +1028,7 @@
     <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">chars</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="getattr_recursive"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.getattr_recursive">[docs]</a><span class="k">def</span> <span class="nf">getattr_recursive</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="getattr_recursive"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.getattr_recursive">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">getattr_recursive</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recursively calls getattr on obj with the attributes in attrs and returns the output.</span>
 
@@ -1058,15 +1045,15 @@
     <span class="k">return</span> <span class="n">getattr_recursive</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">attrs</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">attrs</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span> <span class="k">else</span> <span class="n">obj</span></div>
 
 
-<div class="viewcode-block" id="InvalidKeyError"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.InvalidKeyError">[docs]</a><span class="k">class</span> <span class="nc">InvalidKeyError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+<div class="viewcode-block" id="InvalidKeyError"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.InvalidKeyError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">InvalidKeyError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="InvalidPythonIdentifierError"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.InvalidPythonIdentifierError">[docs]</a><span class="k">class</span> <span class="nc">InvalidPythonIdentifierError</span><span class="p">(</span><span class="n">InvalidKeyError</span><span class="p">):</span>
+<div class="viewcode-block" id="InvalidPythonIdentifierError"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.InvalidPythonIdentifierError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">InvalidPythonIdentifierError</span><span class="p">(</span><span class="n">InvalidKeyError</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="base_and_indices"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.base_and_indices">[docs]</a><span class="k">def</span> <span class="nf">base_and_indices</span><span class="p">(</span><span class="n">indexed_array</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<div class="viewcode-block" id="base_and_indices"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.base_and_indices">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">base_and_indices</span><span class="p">(</span><span class="n">indexed_array</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decomposes indexed_array into ``(base, indices)`` in the sense that,</span>
 <span class="sd">    ``&quot;arr[1][2]&quot; -&gt; (&quot;arr&quot;, [1, 2])``. ``base`` is the initial substring of ``indexed_array``</span>
@@ -1100,7 +1087,7 @@
     <span class="k">return</span> <span class="n">base</span><span class="p">,</span> <span class="n">indices</span></div>
 
 
-<div class="viewcode-block" id="plural"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.plural">[docs]</a><span class="k">def</span> <span class="nf">plural</span><span class="p">(</span><span class="n">singular</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">plural</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="plural"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.plural">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plural</span><span class="p">(</span><span class="n">singular</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">plural</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the singular or plural form of a word based on count</span>
 
@@ -1112,7 +1099,7 @@
         <span class="k">return</span> <span class="n">plural</span> <span class="ow">or</span> <span class="p">(</span><span class="n">singular</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_func_from_maybe_bound_function"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.get_func_from_maybe_bound_function">[docs]</a><span class="k">def</span> <span class="nf">get_func_from_maybe_bound_function</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="get_func_from_maybe_bound_function"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.get_func_from_maybe_bound_function">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_func_from_maybe_bound_function</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the original function, from a function possibly bound by ``functools.partial``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1122,7 +1109,7 @@
         <span class="k">return</span> <span class="n">func</span></div>
 
 
-<div class="viewcode-block" id="get_class_for_method"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.get_class_for_method">[docs]</a><span class="k">def</span> <span class="nf">get_class_for_method</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span>
+<div class="viewcode-block" id="get_class_for_method"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.get_class_for_method">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_class_for_method</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the class from an instance method ``func``</span>
 
@@ -1149,14 +1136,14 @@
     <span class="k">return</span> <span class="n">func</span><span class="o">.</span><span class="vm">__objclass__</span>  <span class="c1"># type: ignore[attr-defined]</span></div>
 
 
-<div class="viewcode-block" id="AttrDict"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.AttrDict">[docs]</a><span class="k">class</span> <span class="nc">AttrDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="AttrDict"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.AttrDict">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AttrDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simple attr-dict, i.e. a dictionary whose keys are also accessible directly as fields</span>
 
 <span class="sd">    Based on http://stackoverflow.com/a/14620633/53997</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="bp">self</span>
 
@@ -1165,11 +1152,56 @@
         <span class="c1"># since it isn&#39;t quite able to figure out how __dict__ works.</span>
         <span class="c1"># Note that this code has no effect at runtime because T.TYPE_CHECKING evaluates to False,</span>
         <span class="c1"># so this code never runs and these methods are not defined.</span>
-        <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
             <span class="k">pass</span>
 
-        <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">pass</span></div>
+
+
+<span class="n">_astral_paths</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_find_astral_bin</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the ruff or uv binary</span>
+
+<span class="sd">    `find_ruff_bin`/`find_uv_bin` do not work in all environments, for example it does not work on</span>
+<span class="sd">    debian when things are installed in `/usr/local/bin` and `sysconfig` only returns `/usr/bin`.</span>
+<span class="sd">    Adding `shutil.which` should cover most cases, but not all, the better solution would require</span>
+<span class="sd">    `ruff`/`uv` putting the binary in `data` like `clang-format` does</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;ruff&quot;</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">ruff.__main__</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_ruff_bin</span>
+
+        <span class="n">finder</span> <span class="o">=</span> <span class="n">find_ruff_bin</span>
+    <span class="k">elif</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;uv&quot;</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">uv</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_uv_bin</span>
+
+        <span class="n">finder</span> <span class="o">=</span> <span class="n">find_uv_bin</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown binary name </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">finder</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">ex</span>
+
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<div class="viewcode-block" id="find_ruff_bin"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.find_ruff_bin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_ruff_bin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;ruff&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_astral_paths</span><span class="p">:</span>
+        <span class="n">_astral_paths</span><span class="p">[</span><span class="s2">&quot;ruff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_find_astral_bin</span><span class="p">(</span><span class="s2">&quot;ruff&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_astral_paths</span><span class="p">[</span><span class="s2">&quot;ruff&quot;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="find_uv_bin"><a class="viewcode-back" href="../../api/symforce.python_util.html#symforce.python_util.find_uv_bin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_uv_bin</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">&quot;uv&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_astral_paths</span><span class="p">:</span>
+        <span class="n">_astral_paths</span><span class="p">[</span><span class="s2">&quot;uv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_find_astral_bin</span><span class="p">(</span><span class="s2">&quot;uv&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_astral_paths</span><span class="p">[</span><span class="s2">&quot;uv&quot;</span><span class="p">]</span></div>
 </pre></div>
         </article>
       </div>
@@ -1202,10 +1234,10 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=2c89c979"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=9377a9e1"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=c89b5d42"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

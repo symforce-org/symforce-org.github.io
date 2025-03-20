@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>symforce.codegen.codegen_util - SymForce</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=1ddbf0f8" />
     
     
@@ -98,19 +98,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -151,7 +138,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -858,27 +845,27 @@
 <span class="sd">Shared helper code between codegen of all languages.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">dataclasses</span>
-<span class="kn">import</span> <span class="nn">importlib.abc</span>
-<span class="kn">import</span> <span class="nn">importlib.util</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.abc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.util</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span>
 
-<span class="kn">import</span> <span class="nn">symforce</span>
-<span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">_sympy_count_ops</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing_util</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">codegen_config</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">format_util</span>
-<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">IndexEntry</span>
-<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">symforce</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">symforce.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">_sympy_count_ops</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">ops</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing_util</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen</span><span class="w"> </span><span class="kn">import</span> <span class="n">codegen_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_util</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.values</span><span class="w"> </span><span class="kn">import</span> <span class="n">IndexEntry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.values</span><span class="w"> </span><span class="kn">import</span> <span class="n">Values</span>
 
 <span class="n">NUMPY_DTYPE_FROM_SCALAR_TYPE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;double&quot;</span><span class="p">:</span> <span class="s2">&quot;numpy.float64&quot;</span><span class="p">,</span> <span class="s2">&quot;float&quot;</span><span class="p">:</span> <span class="s2">&quot;numpy.float32&quot;</span><span class="p">}</span>
 <span class="c1"># Type representing generated code (list of lhs and rhs terms)</span>
@@ -887,18 +874,18 @@
 <span class="n">T_terms_printed</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
 
 
-<div class="viewcode-block" id="DenseAndSparseOutputTerms"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.DenseAndSparseOutputTerms">[docs]</a><span class="k">class</span> <span class="nc">DenseAndSparseOutputTerms</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="DenseAndSparseOutputTerms"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.DenseAndSparseOutputTerms">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DenseAndSparseOutputTerms</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">dense</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Expr</span><span class="p">]]</span>
     <span class="n">sparse</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Expr</span><span class="p">]]</span></div>
 
 
-<div class="viewcode-block" id="OutputWithTerms"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.OutputWithTerms">[docs]</a><span class="k">class</span> <span class="nc">OutputWithTerms</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="OutputWithTerms"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.OutputWithTerms">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OutputWithTerms</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="nb">type</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span>
     <span class="n">terms</span><span class="p">:</span> <span class="n">T_terms_printed</span></div>
 
 
-<div class="viewcode-block" id="PrintCodeResult"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.PrintCodeResult">[docs]</a><span class="k">class</span> <span class="nc">PrintCodeResult</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
+<div class="viewcode-block" id="PrintCodeResult"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.PrintCodeResult">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PrintCodeResult</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">intermediate_terms</span><span class="p">:</span> <span class="n">T_terms_printed</span>
     <span class="n">dense_terms</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">OutputWithTerms</span><span class="p">]</span>
     <span class="n">sparse_terms</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">OutputWithTerms</span><span class="p">]</span>
@@ -906,7 +893,7 @@
 
 
 <div class="viewcode-block" id="CSCFormat"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.CSCFormat">[docs]</a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
-<span class="k">class</span> <span class="nc">CSCFormat</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CSCFormat</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A matrix written in Compressed Sparse Column format.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -919,7 +906,7 @@
     <span class="n">nonzero_elements</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]</span>  <span class="c1"># nonzero entries written in column-major order</span>
 
 <div class="viewcode-block" id="CSCFormat.from_matrix"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.CSCFormat.from_matrix">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_matrix</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CSCFormat</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_matrix</span><span class="p">(</span><span class="n">sparse_matrix</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CSCFormat</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a dictionary with the metadata required to represent a matrix as a sparse matrix</span>
 <span class="sd">        in CSC form.</span>
@@ -952,7 +939,7 @@
             <span class="n">nonzero_elements</span><span class="o">=</span><span class="n">nonzero_elements</span><span class="p">,</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="CSCFormat.to_matrix"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.CSCFormat.to_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="CSCFormat.to_matrix"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.CSCFormat.to_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a dense matrix representing this CSC sparse matrix.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -964,7 +951,7 @@
         <span class="k">return</span> <span class="n">dense_matrix</span></div></div>
 
 
-<div class="viewcode-block" id="print_code"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.print_code">[docs]</a><span class="k">def</span> <span class="nf">print_code</span><span class="p">(</span>
+<div class="viewcode-block" id="print_code"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.print_code">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">print_code</span><span class="p">(</span>
     <span class="n">inputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span>
     <span class="n">outputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span>
     <span class="n">sparse_mat_data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CSCFormat</span><span class="p">],</span>
@@ -1030,7 +1017,7 @@
     <span class="n">dense_outputs_formatted</span> <span class="o">=</span> <span class="n">simpify_nested_lists</span><span class="p">(</span><span class="n">dense_outputs_formatted</span><span class="p">)</span>
     <span class="n">sparse_outputs_formatted</span> <span class="o">=</span> <span class="n">simpify_nested_lists</span><span class="p">(</span><span class="n">sparse_outputs_formatted</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">count_ops</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">count_ops</span><span class="p">(</span><span class="n">expr</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="n">op_count</span> <span class="o">=</span> <span class="n">_sympy_count_ops</span><span class="o">.</span><span class="n">count_ops</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op_count</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">op_count</span>
@@ -1077,7 +1064,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="perform_cse"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.perform_cse">[docs]</a><span class="k">def</span> <span class="nf">perform_cse</span><span class="p">(</span>
+<div class="viewcode-block" id="perform_cse"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.perform_cse">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">perform_cse</span><span class="p">(</span>
     <span class="n">output_exprs</span><span class="p">:</span> <span class="n">DenseAndSparseOutputTerms</span><span class="p">,</span>
     <span class="n">cse_optimizations</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span>
         <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;basic&quot;</span><span class="p">],</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">]]]</span>
@@ -1099,7 +1086,7 @@
         <span class="n">x</span> <span class="k">for</span> <span class="n">storage</span> <span class="ow">in</span> <span class="p">(</span><span class="n">output_exprs</span><span class="o">.</span><span class="n">dense</span> <span class="o">+</span> <span class="n">output_exprs</span><span class="o">.</span><span class="n">sparse</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">storage</span>
     <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">tmp_symbols</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tmp_symbols</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">count</span><span class="p">():</span>
             <span class="k">yield</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;_tmp</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -1126,7 +1113,7 @@
     <span class="k">return</span> <span class="n">temps</span><span class="p">,</span> <span class="n">simplified_outputs</span></div>
 
 
-<div class="viewcode-block" id="format_symbols"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.format_symbols">[docs]</a><span class="k">def</span> <span class="nf">format_symbols</span><span class="p">(</span>
+<div class="viewcode-block" id="format_symbols"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.format_symbols">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">format_symbols</span><span class="p">(</span>
     <span class="n">inputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span>
     <span class="n">dense_outputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span>
     <span class="n">sparse_outputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span>
@@ -1183,7 +1170,7 @@
     <span class="k">return</span> <span class="n">intermediate_terms_formatted</span><span class="p">,</span> <span class="n">dense_output_terms_formatted</span><span class="p">,</span> <span class="n">sparse_output_terms_formatted</span></div>
 
 
-<div class="viewcode-block" id="get_formatted_list"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_formatted_list">[docs]</a><span class="k">def</span> <span class="nf">get_formatted_list</span><span class="p">(</span>
+<div class="viewcode-block" id="get_formatted_list"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_formatted_list">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_formatted_list</span><span class="p">(</span>
     <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">format_as_inputs</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">DataBuffer</span><span class="p">]]],</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1303,7 +1290,7 @@
     <span class="k">return</span> <span class="n">flattened_formatted_symbolic_values</span><span class="p">,</span> <span class="n">flattened_original_values</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_scalar_keys_recursive</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_scalar_keys_recursive</span><span class="p">(</span>
     <span class="n">index_value</span><span class="p">:</span> <span class="n">IndexEntry</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">codegen_config</span><span class="o">.</span><span class="n">CodegenConfig</span><span class="p">,</span> <span class="n">use_data</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1367,7 +1354,7 @@
     <span class="k">return</span> <span class="n">vec</span>
 
 
-<div class="viewcode-block" id="get_formatted_sparse_list"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_formatted_sparse_list">[docs]</a><span class="k">def</span> <span class="nf">get_formatted_sparse_list</span><span class="p">(</span><span class="n">sparse_outputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]:</span>
+<div class="viewcode-block" id="get_formatted_sparse_list"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_formatted_sparse_list">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_formatted_sparse_list</span><span class="p">(</span><span class="n">sparse_outputs</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a nested list of symbols for use in generated functions for sparse matrices.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1381,7 +1368,7 @@
     <span class="k">return</span> <span class="n">symbolic_args</span></div>
 
 
-<span class="k">def</span> <span class="nf">_load_generated_package_internal</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_load_generated_package_internal</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dynamically load generated package (or module).</span>
 
@@ -1419,7 +1406,7 @@
     <span class="k">return</span> <span class="n">module</span><span class="p">,</span> <span class="n">added_module_names</span>
 
 
-<div class="viewcode-block" id="load_generated_package"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_package">[docs]</a><span class="k">def</span> <span class="nf">load_generated_package</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">evict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="load_generated_package"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_package">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_generated_package</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">evict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dynamically load generated package (or module).</span>
 
@@ -1475,7 +1462,7 @@
     <span class="k">return</span> <span class="n">module</span></div>
 
 
-<div class="viewcode-block" id="load_generated_function"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_function">[docs]</a><span class="k">def</span> <span class="nf">load_generated_function</span><span class="p">(</span>
+<div class="viewcode-block" id="load_generated_function"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_function">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_generated_function</span><span class="p">(</span>
     <span class="n">func_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path_to_package</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span> <span class="n">evict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1513,7 +1500,7 @@
     <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">func_module</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load_generated_lcmtype"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_lcmtype">[docs]</a><span class="k">def</span> <span class="nf">load_generated_lcmtype</span><span class="p">(</span>
+<div class="viewcode-block" id="load_generated_lcmtype"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.load_generated_lcmtype">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_generated_lcmtype</span><span class="p">(</span>
     <span class="n">package</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">type_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lcmtypes_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1539,7 +1526,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># We need to import the lcmtypes package first so that sys.path is set up correctly, since this</span>
     <span class="c1"># is a namespace package</span>
-    <span class="kn">import</span> <span class="nn">lcmtypes</span>  <span class="c1"># noqa: F401</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">lcmtypes</span>  <span class="c1"># noqa: F401</span>
 
     <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span>
         <span class="n">load_generated_package</span><span class="p">(</span>
@@ -1550,7 +1537,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_base_instance"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_base_instance">[docs]</a><span class="k">def</span> <span class="nf">get_base_instance</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="get_base_instance"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.get_base_instance">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_base_instance</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns an instance of the base element (e.g. Scalar, Values, Matrix, etc.) of an object.</span>
 <span class="sd">    If input is a list (incl. multidimensional lists), we return an instance of one of the base</span>
@@ -1563,12 +1550,12 @@
 
 
 <div class="viewcode-block" id="LcmBindingsDirs"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.LcmBindingsDirs">[docs]</a><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
-<span class="k">class</span> <span class="nc">LcmBindingsDirs</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LcmBindingsDirs</span><span class="p">:</span>
     <span class="n">python_types_dir</span><span class="p">:</span> <span class="n">Path</span>
     <span class="n">cpp_types_dir</span><span class="p">:</span> <span class="n">Path</span></div>
 
 
-<div class="viewcode-block" id="generate_lcm_types"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.generate_lcm_types">[docs]</a><span class="k">def</span> <span class="nf">generate_lcm_types</span><span class="p">(</span>
+<div class="viewcode-block" id="generate_lcm_types"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.generate_lcm_types">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">generate_lcm_types</span><span class="p">(</span>
     <span class="n">lcm_type_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span>
     <span class="n">lcm_files</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">lcm_output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1598,9 +1585,9 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">lcm_files</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="kn">from</span> <span class="nn">skymarshal</span> <span class="kn">import</span> <span class="n">skymarshal</span>
-    <span class="kn">from</span> <span class="nn">skymarshal.emit_cpp</span> <span class="kn">import</span> <span class="n">SkymarshalCpp</span>
-    <span class="kn">from</span> <span class="nn">skymarshal.emit_python</span> <span class="kn">import</span> <span class="n">SkymarshalPython</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">skymarshal</span><span class="w"> </span><span class="kn">import</span> <span class="n">skymarshal</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">skymarshal.emit_cpp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SkymarshalCpp</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">skymarshal.emit_python</span><span class="w"> </span><span class="kn">import</span> <span class="n">SkymarshalPython</span>
 
     <span class="n">skymarshal</span><span class="o">.</span><span class="n">main</span><span class="p">(</span>
         <span class="p">[</span><span class="n">SkymarshalPython</span><span class="p">,</span> <span class="n">SkymarshalCpp</span><span class="p">],</span>
@@ -1628,7 +1615,7 @@
     <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="flat_symbols_from_values"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.flat_symbols_from_values">[docs]</a><span class="k">def</span> <span class="nf">flat_symbols_from_values</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+<div class="viewcode-block" id="flat_symbols_from_values"><a class="viewcode-back" href="../../../api/symforce.codegen.codegen_util.html#symforce.codegen.codegen_util.flat_symbols_from_values">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">flat_symbols_from_values</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a flat list of unique symbols in the object for codegen</span>
 <span class="sd">    Note that this *does not* respect storage ordering</span>
@@ -1671,10 +1658,10 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2c89c979"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9377a9e1"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=c89b5d42"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

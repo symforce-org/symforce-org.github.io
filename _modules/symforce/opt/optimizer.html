@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>symforce.opt.optimizer - SymForce</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=1ddbf0f8" />
     
     
@@ -98,19 +98,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -151,7 +138,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -854,32 +841,32 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._index_entry_t</span> <span class="kn">import</span> <span class="n">index_entry_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._levenberg_marquardt_solver_failure_reason_t</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lcmtypes.sym._index_entry_t</span><span class="w"> </span><span class="kn">import</span> <span class="n">index_entry_t</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lcmtypes.sym._levenberg_marquardt_solver_failure_reason_t</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._optimization_iteration_t</span> <span class="kn">import</span> <span class="n">optimization_iteration_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._optimization_status_t</span> <span class="kn">import</span> <span class="n">optimization_status_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._sparse_matrix_structure_t</span> <span class="kn">import</span> <span class="n">sparse_matrix_structure_t</span>
-<span class="kn">from</span> <span class="nn">lcmtypes.sym._values_t</span> <span class="kn">import</span> <span class="n">values_t</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lcmtypes.sym._optimization_iteration_t</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimization_iteration_t</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lcmtypes.sym._optimization_status_t</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimization_status_t</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lcmtypes.sym._sparse_matrix_structure_t</span><span class="w"> </span><span class="kn">import</span> <span class="n">sparse_matrix_structure_t</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lcmtypes.sym._values_t</span><span class="w"> </span><span class="kn">import</span> <span class="n">values_t</span>
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">cc_sym</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.opt.factor</span> <span class="kn">import</span> <span class="n">Factor</span>
-<span class="kn">from</span> <span class="nn">symforce.opt.numeric_factor</span> <span class="kn">import</span> <span class="n">NumericFactor</span>
-<span class="kn">from</span> <span class="nn">symforce.opt.optimizer_params</span> <span class="kn">import</span> <span class="n">OptimizerParams</span>
-<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">cc_sym</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.opt.factor</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.opt.numeric_factor</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumericFactor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.opt.optimizer_params</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptimizerParams</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.values</span><span class="w"> </span><span class="kn">import</span> <span class="n">Values</span>
 
 
-<div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer">[docs]</a><span class="k">class</span> <span class="nc">Optimizer</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Optimizer</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A nonlinear least-squares optimizer</span>
 
@@ -941,7 +928,7 @@
     <span class="n">FailureReason</span> <span class="o">=</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span>
 
 <div class="viewcode-block" id="Optimizer.Result"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Result">[docs]</a>    <span class="nd">@dataclass</span>
-    <span class="k">class</span> <span class="nc">Result</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The result of an optimization, with additional stats and debug information</span>
 
@@ -991,44 +978,44 @@
         <span class="n">_stats</span><span class="p">:</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">OptimizationStats</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">optimization_iteration_t</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">iterations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">optimization_iteration_t</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">iterations</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">best_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">best_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">best_index</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">optimization_status_t</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">optimization_status_t</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">status</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">failure_reason</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">failure_reason</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">FailureReason</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">failure_reason</span><span class="p">)</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">best_linearization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">]:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">best_linearization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">best_linearization</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">jacobian_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">jacobian_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">jacobian_sparsity</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">linear_solver_ordering</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">linear_solver_ordering</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">linear_solver_ordering</span>
 
         <span class="nd">@cached_property</span>
-        <span class="k">def</span> <span class="nf">cholesky_factor_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">cholesky_factor_sparsity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sparse_matrix_structure_t</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stats</span><span class="o">.</span><span class="n">cholesky_factor_sparsity</span>
 
-<div class="viewcode-block" id="Optimizer.Result.error"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Result.error">[docs]</a>        <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer.Result.error"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.Result.error">[docs]</a>        <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            The lowest error achieved by the optimization (the error at optimized_values)</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">best_index</span><span class="p">]</span><span class="o">.</span><span class="n">new_error</span></div></div>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">factors</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Factor</span><span class="p">,</span> <span class="n">NumericFactor</span><span class="p">]],</span>
         <span class="n">optimized_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1118,7 +1105,7 @@
             <span class="p">[</span><span class="n">factor</span><span class="o">.</span><span class="n">cc_factor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">)</span> <span class="k">for</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">numeric_factors</span><span class="p">],</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Add unoptimized keys into the keys map</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">keys_recursive</span><span class="p">()):</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">:</span>
@@ -1129,7 +1116,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">_cc_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Values</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cc_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Values</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a cc_sym.Values from the given Python Values</span>
 
@@ -1146,7 +1133,7 @@
 
         <span class="k">return</span> <span class="n">cc_values</span>
 
-<div class="viewcode-block" id="Optimizer.compute_all_covariances"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_all_covariances">[docs]</a>    <span class="k">def</span> <span class="nf">compute_all_covariances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<div class="viewcode-block" id="Optimizer.compute_all_covariances"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_all_covariances">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute_all_covariances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the covariance matrix (J^T@J)^-1 for all optimized keys about a given linearization point</span>
 
@@ -1161,7 +1148,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_py_keys_from_cc_keys_map</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cc_covariance_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
 
-<div class="viewcode-block" id="Optimizer.compute_covariances"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_covariances">[docs]</a>    <span class="k">def</span> <span class="nf">compute_covariances</span><span class="p">(</span>
+<div class="viewcode-block" id="Optimizer.compute_covariances"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_covariances">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute_covariances</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="n">keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1190,7 +1177,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_py_keys_from_cc_keys_map</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cc_covariance_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
 
-<div class="viewcode-block" id="Optimizer.compute_full_covariance"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_full_covariance">[docs]</a>    <span class="k">def</span> <span class="nf">compute_full_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer.compute_full_covariance"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.compute_full_covariance">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compute_full_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimized_value</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the full problem covariance at the given linearization</span>
 
@@ -1204,7 +1191,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">compute_full_covariance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="n">optimized_value</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Optimizer.optimize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_guess</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer.optimize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.optimize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_guess</span><span class="p">:</span> <span class="n">Values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optimizer</span><span class="o">.</span><span class="n">Result</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Optimize from the given initial guess, and return the optimized Values and stats</span>
 
@@ -1225,7 +1212,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">cc_values</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&quot;ERROR: Division by zero - check your use of epsilon!&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">ex</span>
+            <span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&quot;ERROR: Division by zero - check your use of epsilon!&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">ex</span>
 
         <span class="n">optimized_values</span> <span class="o">=</span> <span class="n">Values</span><span class="p">(</span>
             <span class="o">**</span><span class="p">{</span>
@@ -1238,13 +1225,13 @@
             <span class="n">initial_values</span><span class="o">=</span><span class="n">initial_guess</span><span class="p">,</span> <span class="n">optimized_values</span><span class="o">=</span><span class="n">optimized_values</span><span class="p">,</span> <span class="n">_stats</span><span class="o">=</span><span class="n">stats</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Optimizer.linearize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearize">[docs]</a>    <span class="k">def</span> <span class="nf">linearize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer.linearize"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">linearize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Values</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cc_sym</span><span class="o">.</span><span class="n">Linearization</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute and return the linearization at the given Values</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">linearize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_values</span><span class="p">(</span><span class="n">values</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Optimizer.load_iteration_values"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.load_iteration_values">[docs]</a>    <span class="k">def</span> <span class="nf">load_iteration_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values_msg</span><span class="p">:</span> <span class="n">values_t</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer.load_iteration_values"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.load_iteration_values">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_iteration_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values_msg</span><span class="p">:</span> <span class="n">values_t</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Values</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load a ``values_t`` message into a Python :class:`Values &lt;symforce.values.values.Values&gt;`</span>
 <span class="sd">        by first creating a C++ Values, then converting back to the python key names.</span>
@@ -1259,7 +1246,7 @@
 
         <span class="k">return</span> <span class="n">py_values</span></div>
 
-<div class="viewcode-block" id="Optimizer.linearization_index"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index">[docs]</a>    <span class="k">def</span> <span class="nf">linearization_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">index_entry_t</span><span class="p">]:</span>
+<div class="viewcode-block" id="Optimizer.linearization_index"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">linearization_index</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">index_entry_t</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the index mapping keys to their positions in the linearized state vector.  Useful for</span>
 <span class="sd">        extracting blocks from the problem jacobian, hessian, or RHS</span>
@@ -1269,7 +1256,7 @@
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cc_optimizer</span><span class="o">.</span><span class="n">linearization_index</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">index</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_cc_keys_map</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimized_keys</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="Optimizer.linearization_index_entry"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index_entry">[docs]</a>    <span class="k">def</span> <span class="nf">linearization_index_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">index_entry_t</span><span class="p">:</span>
+<div class="viewcode-block" id="Optimizer.linearization_index_entry"><a class="viewcode-back" href="../../../api/symforce.opt.optimizer.html#symforce.opt.optimizer.Optimizer.linearization_index_entry">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">linearization_index_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">index_entry_t</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the index entry for a given key in the linearized state vector.  Useful for extracting</span>
 <span class="sd">        blocks from the problem jacobian, hessian, or RHS</span>
@@ -1312,10 +1299,10 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2c89c979"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9377a9e1"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=c89b5d42"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

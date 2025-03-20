@@ -13,12 +13,12 @@
 <meta name="description" content="SymForce SymForce SymForce is a fast symbolic computation and code generation library for robotics applications like computer vision, state estimation, motion planning, and controls. It combines th..." />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Development Guide" href="development.html" />
 
-    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
+    <link rel="shortcut icon" href="_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>SymForce</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=387cc868" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=1ddbf0f8" />
     
     
@@ -107,19 +107,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -160,7 +147,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -930,7 +917,7 @@
 </pre></div>
 </div>
 <p>Verify the installation in Python:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">symforce.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -949,7 +936,7 @@
 <section id="explore-the-math">
 <h3>Explore the math<a class="headerlink" href="#explore-the-math" title="Permalink to this heading">¶</a></h3>
 <p>Import the SymForce symbolic API, which contains the augmented SymPy API, as well as geometry and camera types:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">symforce.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">symforce.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 </pre></div>
 </div>
 <p>Create a symbolic 2D pose and landmark location. Using symbolic variables lets us explore and build up the math in a pure form.</p>
@@ -1016,15 +1003,15 @@ atan_2(-R_{im} L_0 + R_{re} L_1 + R_{im} t_0 + R_{re} t_1, R_{re} L_0 + R_{im} L
 <h3>Build an optimization problem<a class="headerlink" href="#build-an-optimization-problem" title="Permalink to this heading">¶</a></h3>
 <p>We will model this problem as a factor graph and solve it with nonlinear least-squares.</p>
 <p>First, we need to tell SymForce to use a nonzero epsilon to prevent singularities.  This isn’t necessary when playing around with symbolic expressions like we were above, but it’s important now that we want to numerically evaluate some results.  For more information, check out the <a class="reference external" href="https://symforce.org/tutorials/epsilon_tutorial.html">Epsilon Tutorial</a> - for now, all you need to do is this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">symforce</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">symforce</span>
 <span class="n">symforce</span><span class="o">.</span><span class="n">set_epsilon_to_symbol</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This needs to be done before other parts of symforce are imported - if you’re following along in a
 notebook you should add this at the top and restart the kernel.</p>
 <p>Now that epsilon is set up, we will instantiate numerical <a class="reference external" href="https://symforce.org/api/symforce.values.values.html?highlight=values#module-symforce.values.values"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a> for the problem, including an initial guess for our unknown poses (just set them to identity).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">symforce.values</span> <span class="kn">import</span> <span class="n">Values</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.values</span><span class="w"> </span><span class="kn">import</span> <span class="n">Values</span>
 
 <span class="n">num_poses</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">num_landmarks</span> <span class="o">=</span> <span class="mi">3</span>
@@ -1039,7 +1026,7 @@ notebook you should add this at the top and restart the kernel.</p>
 </pre></div>
 </div>
 <p>Next, we can set up the factors connecting our variables.  The residual function comprises of two terms - one for the bearing measurements and one for the odometry measurements. Let’s formalize the math we just defined for the bearing measurements into a symbolic residual function:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bearing_residual</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bearing_residual</span><span class="p">(</span>
     <span class="n">pose</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">landmark</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V2</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">V1</span><span class="p">:</span>
     <span class="n">t_body</span> <span class="o">=</span> <span class="n">pose</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="o">*</span> <span class="n">landmark</span>
@@ -1049,14 +1036,14 @@ notebook you should add this at the top and restart the kernel.</p>
 </div>
 <p>This function takes in a pose and landmark variable and returns the error between the predicted bearing angle and a measured value. Note that we call <code class="docutils literal notranslate"><span class="pre">sf.wrap_angle</span></code> on the angle difference to prevent wraparound effects.</p>
 <p>The residual for distance traveled is even simpler:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">odometry_residual</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">odometry_residual</span><span class="p">(</span>
     <span class="n">pose_a</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">pose_b</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">,</span> <span class="n">dist</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">V1</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">V1</span><span class="p">((</span><span class="n">pose_b</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">pose_a</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span> <span class="o">-</span> <span class="n">dist</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now we can create <a class="reference external" href="https://symforce.org/api/symforce.opt.factor.html?highlight=factor#module-symforce.opt.factor"><code class="docutils literal notranslate"><span class="pre">Factor</span></code></a> objects from the residual functions and a set of keys. The keys are named strings for the function arguments, which will be accessed by name from a <a class="reference external" href="https://symforce.org/api/symforce.values.values.html"><code class="docutils literal notranslate"><span class="pre">Values</span></code></a> class we later instantiate with numerical quantities.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">symforce.opt.factor</span> <span class="kn">import</span> <span class="n">Factor</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">symforce.opt.factor</span><span class="w"> </span><span class="kn">import</span> <span class="n">Factor</span>
 
 <span class="n">factors</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -1085,7 +1072,7 @@ notebook you should add this at the top and restart the kernel.</p>
 landmark positions in the world are known. We create an
 <a class="reference external" href="https://symforce.org/api/symforce.opt.optimizer.html?highlight=optimizer#module-symforce.opt.optimizer"><code class="docutils literal notranslate"><span class="pre">Optimizer</span></code></a>
 with these factors and tell it to only optimize the pose keys (the rest are held constant):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">symforce.opt.optimizer</span> <span class="kn">import</span> <span class="n">Optimizer</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">symforce.opt.optimizer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optimizer</span>
 
 <span class="n">optimizer</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="p">(</span>
     <span class="n">factors</span><span class="o">=</span><span class="n">factors</span><span class="p">,</span>
@@ -1106,7 +1093,7 @@ with these factors and tell it to only optimize the pose keys (the rest are held
 </div>
 <p>Let’s visualize what the optimizer did. The orange circles represent the fixed landmarks, the blue
 circles represent the robot, and the dotted lines represent the bearing measurements.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">symforce.examples.robot_2d_localization.plotting</span> <span class="kn">import</span> <span class="n">plot_solution</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">symforce.examples.robot_2d_localization.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_solution</span>
 <span class="n">plot_solution</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1121,7 +1108,7 @@ circles represent the robot, and the dotted lines represent the bearing measurem
 </pre></div>
 </div>
 <p>The autogenerated Python runtime class <a class="reference external" href="https://symforce.org/api-gen-py/sym.pose3.html?highlight=pose3#module-sym.pose3"><code class="docutils literal notranslate"><span class="pre">sym.Pose3</span></code></a> lives in the <code class="docutils literal notranslate"><span class="pre">sym</span></code> package:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sym</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sym</span>
 <span class="n">sym</span><span class="o">.</span><span class="n">Pose3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1138,7 +1125,7 @@ circles represent the robot, and the dotted lines represent the bearing measurem
 <h3>Generate runtime C++ code<a class="headerlink" href="#generate-runtime-c-code" title="Permalink to this heading">¶</a></h3>
 <p>Let’s look under the hood to understand how that optimization worked. For each factor, SymForce introspects the form of the symbolic function, passes through symbolic inputs to build an output expression, automatically computes tangent-space jacobians of those output expressions w.r.t. the optimized variables, and generates fast runtime code for them.</p>
 <p>The <a class="reference external" href="https://symforce.org/api/symforce.codegen.codegen.html?highlight=codegen#module-symforce.codegen.codegen"><code class="docutils literal notranslate"><span class="pre">Codegen</span></code></a> class is the central tool for generating runtime code from symbolic expressions. In this case, we pass it the bearing residual function and configure it to generate C++ code:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">symforce.codegen</span> <span class="kn">import</span> <span class="n">Codegen</span><span class="p">,</span> <span class="n">CppConfig</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen</span><span class="w"> </span><span class="kn">import</span> <span class="n">Codegen</span><span class="p">,</span> <span class="n">CppConfig</span>
 
 <span class="n">codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">bearing_residual</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">())</span>
 </pre></div>
@@ -1373,17 +1360,18 @@ conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> <
 </pre></div>
 </div>
 <p>You should then <a class="reference internal" href="#verify-your-installation">verify your installation</a>.</p>
-<p><em><strong>Note:</strong></em> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> will not install pinned versions of SymForce’s dependencies, it’ll install any compatible versions.  It also won’t install all packages required to run all of the SymForce tests and build all of the targets (e.g. building the docs or running the linters).  If you want all packages required for that, you should <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.[dev]</span></code> instead (or one of the other groups of extra requirements in our <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>).  If you additionally want pinned versions of our dependencies, which are the exact versions guaranteed by CI to pass all of our tests, you can install them from <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">dev_requirements.txt</span></code>.</p>
+<p><em><strong>Note:</strong></em> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> will not install pinned versions of SymForce’s dependencies, it’ll install any compatible versions.  It also won’t install all packages required to run all of the SymForce tests and build all of the targets (e.g. building the docs or running the linters).  If you want all packages required for that, you should <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.[dev]</span></code> instead (or one of the other groups of extra requirements in our <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>).  If you additionally want pinned versions of our dependencies, which are the exact versions guaranteed by CI to pass all of our tests, you can install them from <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements_dev_py3&lt;version&gt;.txt</span></code>.</p>
 <p><em>Note: Editable installs as root with the system python on Ubuntu (and other Debian derivatives) are broken on <code class="docutils literal notranslate"><span class="pre">setuptools&lt;64.0.0</span></code>.  This is a <a class="reference external" href="https://ffy00.github.io/blog/02-python-debian-and-the-install-locations/">bug in Debian</a>, not something in SymForce that we can fix.  If this is your situation, either use a virtual environment, upgrade setuptools to a version <code class="docutils literal notranslate"><span class="pre">&gt;=64.0.0</span></code>, or use a different installation method.</em></p>
 </section>
 <section id="build-with-cmake">
 <h3>Build with CMake<a class="headerlink" href="#build-with-cmake" title="Permalink to this heading">¶</a></h3>
 <p>If you’ll be modifying the C++ parts of SymForce, you should build with CMake directly instead - this method will not install
 SymForce into your Python environment, so you’ll need to add it to your PYTHONPATH separately.</p>
-<p>Install python requirements:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>dev_requirements.txt
+<p>Install dependencies required to build and run SymForce:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements_build.txt
 </pre></div>
 </div>
+<p><em><strong>Note:</strong></em> <code class="docutils literal notranslate"><span class="pre">requirements_build</span></code> contains only packages required to build and run symforce, but not everything recommended to develop symforce, like to run the SymForce tests and linters.  For that, install the full pinned requirements using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements_dev_py3&lt;version&gt;.txt</span></code> for your Python version.</p>
 <p>Build SymForce (requires C++14 or later):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build
 <span class="nb">cd</span><span class="w"> </span>build
@@ -1403,10 +1391,10 @@ make<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>n
 </section>
 <section id="verify-your-installation">
 <h3>Verify your installation<a class="headerlink" href="#verify-your-installation" title="Permalink to this heading">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">symforce</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">symforce</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span>
 <span class="go">&#39;symengine&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">cc_sym</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">cc_sym</span>
 </pre></div>
 </div>
 <p>If you see <code class="docutils literal notranslate"><span class="pre">'sympy'</span></code> here instead of <code class="docutils literal notranslate"><span class="pre">'symengine'</span></code>, or can’t import <code class="docutils literal notranslate"><span class="pre">cc_sym</span></code>, your installation is probably broken and you should submit an <a class="reference external" href="https://github.com/symforce-org/symforce/issues">issue</a>.</p>
@@ -1565,10 +1553,10 @@ make<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>n
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=2c89c979"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=9377a9e1"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=c89b5d42"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

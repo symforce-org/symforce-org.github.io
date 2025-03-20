@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>symforce.geo.pose3 - SymForce</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=387cc868" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=302659d7" />
     <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=1ddbf0f8" />
     
     
@@ -98,19 +98,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -151,7 +138,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -854,20 +841,20 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">symforce.internal.symbolic</span> <span class="k">as</span> <span class="nn">sf</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">ops</span>
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.ops.interfaces</span> <span class="kn">import</span> <span class="n">LieGroup</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">symforce.internal.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">ops</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.ops.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">LieGroup</span>
 
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Matrix33</span>
-<span class="kn">from</span> <span class="nn">.matrix</span> <span class="kn">import</span> <span class="n">Vector3</span>
-<span class="kn">from</span> <span class="nn">.rot3</span> <span class="kn">import</span> <span class="n">Rot3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix33</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vector3</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.rot3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rot3</span>
 
 
-<div class="viewcode-block" id="Pose3"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3">[docs]</a><span class="k">class</span> <span class="nc">Pose3</span><span class="p">(</span><span class="n">LieGroup</span><span class="p">):</span>
+<div class="viewcode-block" id="Pose3"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Pose3</span><span class="p">(</span><span class="n">LieGroup</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Group of three-dimensional rigid body transformations - SO(3) x R3.</span>
 
@@ -895,7 +882,7 @@
 
     <span class="n">Pose3T</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;Pose3T&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;Pose3&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Rot3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Vector3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Rot3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">t</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Vector3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from elements in SO3 and R3.</span>
 
@@ -911,7 +898,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;t must be type Vector3 or None, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="si">=}</span><span class="s2"> instead&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Pose3.rotation"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.rotation">[docs]</a>    <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
+<div class="viewcode-block" id="Pose3.rotation"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.rotation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Accessor for the rotation component</span>
 
@@ -919,7 +906,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span></div>
 
-<div class="viewcode-block" id="Pose3.position"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.position">[docs]</a>    <span class="k">def</span> <span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>
+<div class="viewcode-block" id="Pose3.position"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.position">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Accessor for the position component</span>
 
@@ -931,20 +918,20 @@
     <span class="c1"># Storage concept - see symforce.ops.storage_ops</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">{}</span><span class="s2"> R=</span><span class="si">{}</span><span class="s2">, t=(</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="Pose3.storage_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span> <span class="o">+</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Pose3.to_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.to_storage">[docs]</a>    <span class="k">def</span> <span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="Pose3.to_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Pose3.from_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">],</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">],</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">R</span><span class="o">=</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="mi">0</span> <span class="p">:</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()]),</span>
@@ -952,7 +939,7 @@
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pose3.symbolic"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.R&quot;</span><span class="p">),</span> <span class="n">t</span><span class="o">=</span><span class="n">Vector3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.t&quot;</span><span class="p">))</span></div>
 
     <span class="c1"># -------------------------------------------------------------------------</span>
@@ -960,14 +947,14 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Pose3.identity"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.identity">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">Rot3</span><span class="o">.</span><span class="n">identity</span><span class="p">(),</span> <span class="n">t</span><span class="o">=</span><span class="n">Vector3</span><span class="o">.</span><span class="n">zero</span><span class="p">())</span></div>
 
-<div class="viewcode-block" id="Pose3.compose"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
+<div class="viewcode-block" id="Pose3.compose"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">t</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.inverse"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
+<div class="viewcode-block" id="Pose3.inverse"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.inverse">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
         <span class="n">so3_inv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">R</span><span class="o">=</span><span class="n">so3_inv</span><span class="p">,</span> <span class="n">t</span><span class="o">=-</span><span class="p">(</span><span class="n">so3_inv</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">))</span></div>
 
@@ -976,11 +963,11 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Pose3.tangent_dim"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.tangent_dim">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">6</span></div>
 
 <div class="viewcode-block" id="Pose3.from_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_tangent</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">],</span> <span class="n">v</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
         <span class="n">R_tangent</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
@@ -989,11 +976,11 @@
         <span class="n">R</span> <span class="o">=</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">R_tangent</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">t_tangent_vector</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.to_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.to_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+<div class="viewcode-block" id="Pose3.to_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
         <span class="n">R_tangent</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">R_tangent</span><span class="o">.</span><span class="n">col_join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Pose3.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.storage_D_tangent">[docs]</a>    <span class="k">def</span> <span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Pose3.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.storage_D_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Note: generated from ``symforce/notebooks/storage_D_tangent.ipynb``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1003,7 +990,7 @@
             <span class="p">[[</span><span class="n">storage_D_tangent_R</span><span class="p">,</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)],</span> <span class="p">[</span><span class="n">Matrix</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">storage_D_tangent_t</span><span class="p">]]</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.tangent_D_storage">[docs]</a>    <span class="k">def</span> <span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Pose3.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.tangent_D_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Note: generated from ``symforce/notebooks/tangent_D_storage.ipynb``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1017,7 +1004,7 @@
     <span class="c1"># the Lie group as the product manifold of SO3 x R3 while leaving compose as normal</span>
     <span class="c1"># Pose3 composition.</span>
 
-<div class="viewcode-block" id="Pose3.retract"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.retract">[docs]</a>    <span class="k">def</span> <span class="nf">retract</span><span class="p">(</span>
+<div class="viewcode-block" id="Pose3.retract"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1034,7 +1021,7 @@
             <span class="n">t</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">vec</span><span class="p">[</span><span class="mi">3</span><span class="p">:],</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">),</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.local_coordinates"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.local_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">local_coordinates</span><span class="p">(</span>
+<div class="viewcode-block" id="Pose3.local_coordinates"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1056,14 +1043,14 @@
     <span class="c1"># -------------------------------------------------------------------------</span>
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3T</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
-<div class="viewcode-block" id="Pose3.__mul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.__mul__">[docs]</a>    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">]:</span>
+<div class="viewcode-block" id="Pose3.__mul__"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.__mul__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3T</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose3T</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Left-multiply with a compatible quantity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1074,7 +1061,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported type: &quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">right</span><span class="p">)</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.to_homogenous_matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.to_homogenous_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_homogenous_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="Pose3.to_homogenous_matrix"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.Pose3.to_homogenous_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_homogenous_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        4x4 matrix representing this pose transform.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1112,10 +1099,10 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=2c89c979"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9377a9e1"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=c89b5d42"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>

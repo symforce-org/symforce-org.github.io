@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
-    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.05.06 -->
+    <link rel="shortcut icon" href="../../../../../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
         <title>symforce.codegen.backends.cuda.cuda_config - SymForce</title>
-      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=387cc868" />
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?v=302659d7" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/css/custom.css?v=1ddbf0f8" />
     
     
@@ -98,19 +98,6 @@
       <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
     </svg>
   </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
   <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
     <title>Auto light/dark, in light mode</title>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -151,7 +138,7 @@
       <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
       <path d="M13.5 6.5l4 4" />
       <path d="M20 21l2 -2l-2 -2" />
-      <path d="M17 17l-2 2l2 2" /
+      <path d="M17 17l-2 2l2 2" />
     </svg>
   </symbol>
   <symbol id="svg-eye" viewBox="0 0 24 24">
@@ -853,22 +840,22 @@
 <span class="c1"># SymForce - Copyright 2022, Skydio, Inc.</span>
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">field</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">sympy</span>
-<span class="kn">from</span> <span class="nn">sympy.printing.codeprinter</span> <span class="kn">import</span> <span class="n">CodePrinter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sympy.printing.codeprinter</span><span class="w"> </span><span class="kn">import</span> <span class="n">CodePrinter</span>
 
-<span class="kn">from</span> <span class="nn">symforce</span> <span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen.backends.cuda</span> <span class="kn">import</span> <span class="n">cuda_code_printer</span>
-<span class="kn">from</span> <span class="nn">symforce.codegen.codegen_config</span> <span class="kn">import</span> <span class="n">CodegenConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.backends.cuda</span><span class="w"> </span><span class="kn">import</span> <span class="n">cuda_code_printer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.codegen_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">CodegenConfig</span>
 
 <span class="n">CURRENT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span>
 
 
 <div class="viewcode-block" id="CudaConfig"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">CudaConfig</span><span class="p">(</span><span class="n">CodegenConfig</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CudaConfig</span><span class="p">(</span><span class="n">CodegenConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Code generation config for the CUDA backend.</span>
 
@@ -915,14 +902,14 @@
     <span class="n">builtin_vector_variables</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">set</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CudaConfig.backend_name"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.backend_name">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">backend_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">backend_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;cuda&quot;</span></div>
 
 <div class="viewcode-block" id="CudaConfig.template_dir"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.template_dir">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">template_dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">template_dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">CURRENT_DIR</span> <span class="o">/</span> <span class="s2">&quot;templates&quot;</span></div>
 
-<div class="viewcode-block" id="CudaConfig.templates_to_render"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.templates_to_render">[docs]</a>    <span class="k">def</span> <span class="nf">templates_to_render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generated_file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<div class="viewcode-block" id="CudaConfig.templates_to_render"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.templates_to_render">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">templates_to_render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generated_file_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inline</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[(</span><span class="s2">&quot;function/FUNCTION.h.jinja&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">generated_file_name</span><span class="si">}</span><span class="s2">.h&quot;</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -931,12 +918,12 @@
                 <span class="p">(</span><span class="s2">&quot;function/FUNCTION.cu.jinja&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">generated_file_name</span><span class="si">}</span><span class="s2">.cu&quot;</span><span class="p">),</span>
             <span class="p">]</span></div>
 
-<div class="viewcode-block" id="CudaConfig.printer"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.printer">[docs]</a>    <span class="k">def</span> <span class="nf">printer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodePrinter</span><span class="p">:</span>
+<div class="viewcode-block" id="CudaConfig.printer"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.printer">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">printer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CodePrinter</span><span class="p">:</span>
         <span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;override_methods&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">override_methods</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="n">cuda_code_printer</span><span class="o">.</span><span class="n">CudaCodePrinter</span><span class="p">(</span><span class="n">scalar_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="CudaConfig.format_matrix_accessor"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.format_matrix_accessor">[docs]</a>    <span class="k">def</span> <span class="nf">format_matrix_accessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="CudaConfig.format_matrix_accessor"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.format_matrix_accessor">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">format_matrix_accessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format accessor for matrix types.</span>
 
@@ -950,7 +937,7 @@
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">flat_index</span><span class="si">}</span><span class="s2">]&quot;</span></div>
 
 <div class="viewcode-block" id="CudaConfig.format_eigen_lcm_accessor"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cuda.cuda_config.html#symforce.codegen.backends.cuda.cuda_config.CudaConfig.format_eigen_lcm_accessor">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">format_eigen_lcm_accessor</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">format_eigen_lcm_accessor</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Format accessor for eigen_lcm types.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -987,10 +974,10 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=2c89c979"></script>
+</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=9377a9e1"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../../../_static/scripts/furo.js?v=4e2eecee"></script>
+    <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../../_static/copybutton.js?v=c89b5d42"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
