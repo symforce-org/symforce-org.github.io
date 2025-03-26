@@ -845,6 +845,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy.printing.c</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_math_macros</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy.printing.cxx</span><span class="w"> </span><span class="kn">import</span> <span class="n">CXX11CodePrinter</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">symforce.internal.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
@@ -996,7 +997,16 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">[static_cast&lt;size_t&gt;(</span><span class="si">{}</span><span class="s2">)]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">expr</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">j</span> <span class="o">+</span> <span class="n">expr</span><span class="o">.</span><span class="n">i</span> <span class="o">*</span> <span class="n">expr</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_SignNoZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">SymPySignNoZero</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;std::copysign(Scalar(1.0), </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_CopysignNoZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">SymPyCopysignNoZero</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">arg0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">arg1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;std::copysign(</span><span class="si">{</span><span class="n">arg0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">arg1</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 
 
 <div class="viewcode-block" id="ComplexCppCodePrinter"><a class="viewcode-back" href="../../../../../api/symforce.codegen.backends.cpp.cpp_code_printer.html#symforce.codegen.backends.cpp.cpp_code_printer.ComplexCppCodePrinter">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ComplexCppCodePrinter</span><span class="p">(</span><span class="n">CppCodePrinter</span><span class="p">):</span>
@@ -1049,7 +1059,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=9377a9e1"></script>
+</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c10d300b"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>

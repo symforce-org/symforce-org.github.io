@@ -846,6 +846,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy.printing.codeprinter</span><span class="w"> </span><span class="kn">import</span> <span class="n">CodePrinter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy.printing.pycode</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonCodePrinter</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">symforce.internal.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 <span class="n">_known_functions_torch</span> <span class="o">=</span> <span class="p">{</span>
@@ -877,6 +878,7 @@
     <span class="s2">&quot;Sqrt&quot;</span><span class="p">:</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tan&quot;</span><span class="p">:</span> <span class="s2">&quot;tan&quot;</span><span class="p">,</span>
     <span class="s2">&quot;tanh&quot;</span><span class="p">:</span> <span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;CopysignNoZero&quot;</span><span class="p">:</span> <span class="s2">&quot;copysign&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="n">_known_constants_math</span> <span class="o">=</span> <span class="p">{</span>
@@ -906,6 +908,10 @@
 <span class="sd">    This is more different from PythonCodePrinter than it is similar, so we go mostly from scratch</span>
 <span class="sd">    and call some methods from that printer where desired.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># NOTE(aaron): We need to override this from the value set by StrPrinter, so that we don&#39;t use</span>
+    <span class="c1"># expressions&#39; implementations of `_sympystr`, even though we don&#39;t make use of `_pytorch`.</span>
+    <span class="n">printmethod</span> <span class="o">=</span> <span class="s2">&quot;_pytorch&quot;</span>
 
     <span class="n">known_functions</span> <span class="o">=</span> <span class="n">_known_functions_torch</span>
     <span class="n">language</span> <span class="o">=</span> <span class="s2">&quot;Python&quot;</span>
@@ -1011,7 +1017,11 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_print_gamma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">gamma_functions</span><span class="o">.</span><span class="n">gamma</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="c1"># PyTorch does not have the gamma function, this is the best we can do</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;torch.lgamma(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">).exp()&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;torch.lgamma(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">).exp()&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_SignNoZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">SymPySignNoZero</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;torch.copysign(torch.tensor(1.0, **tensor_kwargs), </span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2">)&quot;</span></div>
 
 
 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_known_functions_torch</span><span class="p">:</span>
@@ -1051,7 +1061,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=9377a9e1"></script>
+</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c10d300b"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>

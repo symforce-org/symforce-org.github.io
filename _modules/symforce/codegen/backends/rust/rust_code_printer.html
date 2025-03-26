@@ -847,7 +847,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy.codegen.ast</span><span class="w"> </span><span class="kn">import</span> <span class="n">float32</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy.codegen.ast</span><span class="w"> </span><span class="kn">import</span> <span class="n">float64</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sympy.printing.rust</span><span class="w"> </span><span class="kn">import</span> <span class="n">RustCodePrinter</span> <span class="k">as</span> <span class="n">SympyRustCodePrinter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sympy.printing.rust</span><span class="w"> </span><span class="kn">import</span> <span class="n">known_functions</span> <span class="k">as</span> <span class="n">sympy_known_functions</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">symforce.internal.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 
 
@@ -868,6 +870,15 @@
         <span class="n">override_methods</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="n">sympy</span><span class="o">.</span><span class="n">Function</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">settings</span> <span class="ow">or</span> <span class="p">{}))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">known_functions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">sympy_known_functions</span><span class="p">,</span> <span class="n">CopysignNoZero</span><span class="o">=</span><span class="s2">&quot;copysign&quot;</span><span class="p">)</span>
+
+        <span class="c1"># This is bugged, before https://github.com/sympy/sympy/pull/27736</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">known_functions</span><span class="p">[</span><span class="s2">&quot;sign&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">settings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">userfuncs</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;user_functions&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">known_functions</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">userfuncs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">scalar_type</span> <span class="o">=</span> <span class="n">scalar_type</span><span class="o">.</span><span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">override_methods</span> <span class="o">=</span> <span class="n">override_methods</span> <span class="ow">or</span> <span class="p">{}</span>
@@ -981,7 +992,14 @@
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">scalar_type</span> <span class="ow">is</span> <span class="n">float64</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;core::f64::consts::E&quot;</span>
 
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scalar type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar_type</span><span class="si">}</span><span class="s2"> not supported&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scalar type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar_type</span><span class="si">}</span><span class="s2"> not supported&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sympy</span><span class="o">.</span><span class="n">sign</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;(if (</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2"> == 0.0) </span><span class="se">{{</span><span class="s2">0.0</span><span class="se">}}</span><span class="s2"> else </span><span class="se">{{</span><span class="s2">(</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2">).signum()</span><span class="se">}}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_SignNoZero</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">SymPySignNoZero</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">.signum()&quot;</span></div>
 </pre></div>
         </article>
       </div>
@@ -1014,7 +1032,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=9377a9e1"></script>
+</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c10d300b"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/scripts/furo.js?v=5fa4622c"></script>

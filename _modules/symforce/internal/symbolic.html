@@ -841,6 +841,8 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">The (symforce-internal) core symbolic API</span>
 
@@ -893,11 +895,11 @@
 <span class="c1"># module depends on are modified after importing</span>
 <span class="n">symforce</span><span class="o">.</span><span class="n">_have_imported_symbolic</span> <span class="o">=</span> <span class="kc">True</span>
 
+<span class="c1"># Import sympy, for methods that convert to sympy types or call sympy functions below</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_sympy_py</span>
+
 <span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
     <span class="n">sympy</span> <span class="o">=</span> <span class="n">symforce</span><span class="o">.</span><span class="n">_find_symengine</span><span class="p">()</span>
-
-    <span class="c1"># Import sympy, for methods that convert to sympy types or call sympy functions below</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_sympy_py</span>
 
     <span class="c1"># isort: split</span>
 
@@ -1287,20 +1289,6 @@
     <span class="k">return</span> <span class="n">wrap_angle</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sign_no_zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.sign_no_zero">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">sign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns -1 if x is negative, 1 if x is positive, and 1 if x is zero.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Min</span><span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span></div>
-
-
-<div class="viewcode-block" id="copysign_no_zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.copysign_no_zero">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">copysign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a value with the magnitude of x and sign of y. If y is zero, returns positive x.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign_no_zero</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="argmax_onehot"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.argmax_onehot">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">argmax_onehot</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">tolerance</span><span class="p">:</span> <span class="n">Scalar</span> <span class="o">=</span> <span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Scalar</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Returns a list ``l`` such that ``l[i] = 1.0`` if ``i`` is the smallest index such that</span>
@@ -1392,6 +1380,167 @@
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;set_eval_on_sympify has no effect when not using symengine&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># --------------------------------------------------------------------------------</span>
+<span class="c1"># Custom functions sign_no_zero and copysign_no_zero</span>
+<span class="c1"># --------------------------------------------------------------------------------</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SignNoZero</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="c1"># NOTE(aaron): This doesn&#39;t implement nice simplifications like</span>
+        <span class="c1">#</span>
+        <span class="c1">#     x * sign_no_zero(y) -&gt; copysign_no_zero(x, y) if x &gt; 0</span>
+        <span class="c1">#</span>
+        <span class="c1"># We can&#39;t implement those on a Function afaik.  We should implement pre-CSE</span>
+        <span class="c1"># optimizations that do this</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sign_no_zero takes one argument, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">is_positive</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">One</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">is_negative</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">NegativeOne</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">is_zero</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">One</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># --------------------------------------------------------------------------------</span>
+    <span class="c1"># Override print functions for SymPy printers</span>
+    <span class="c1">#</span>
+    <span class="c1"># For SymForce-only printers, like PyTorch, we don&#39;t need to override here.  We do this so that</span>
+    <span class="c1"># printing these works if you use the actual SymPy printers (like</span>
+    <span class="c1"># sympy.printing.pycode.PythonCodePrinter) for something, in addition to the SymForce subclasses</span>
+    <span class="c1"># (like symforce.codegen.backends.python.python_code_printer.PythonCodePrinter)</span>
+    <span class="c1"># --------------------------------------------------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sympystr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">printing</span><span class="o">.</span><span class="n">StrPrinter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;sign_no_zero(</span><span class="si">{</span><span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pretty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print_Function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="o">=</span><span class="s2">&quot;sign_no_zero&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_latex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_hprint_Function</span><span class="p">(</span><span class="s2">&quot;sign_no_zero&quot;</span><span class="p">)</span>
+        <span class="n">arg</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">can_fold_brackets</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_settings</span><span class="p">[</span>
+            <span class="s2">&quot;fold_func_brackets&quot;</span>
+        <span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">printer</span><span class="o">.</span><span class="n">_needs_function_brackets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">can_fold_brackets</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}{</span><span class="n">arg</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="sa">rf</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">{{</span><span class="s2">\left(</span><span class="si">{</span><span class="n">arg</span><span class="si">}</span><span class="s2"> \right)</span><span class="se">}}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pythoncode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_module_format</span><span class="p">(</span><span class="s2">&quot;math.copysign&quot;</span><span class="p">)</span>
+        <span class="n">arg0</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">(1, </span><span class="si">{</span><span class="n">arg0</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_eval_evalf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">Min</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">_eval_evalf</span><span class="p">(</span><span class="n">prec</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fdiff</span><span class="p">(</span><span class="n">argindex</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">argindex</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span>
+
+
+<span class="n">SymPySignNoZero</span> <span class="o">=</span> <span class="n">SignNoZero</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CopysignNoZero</span><span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">eval</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;copysign_no_zero takes two arguments, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">is_zero</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">is_positive</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">is_positive</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">is_zero</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">x</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">is_negative</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">is_negative</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">is_negative</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">is_positive</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">is_zero</span><span class="p">):</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">x</span>
+        <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">is_positive</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">is_negative</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">x</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># --------------------------------------------------------------------------------</span>
+    <span class="c1"># Override print functions for SymPy printers</span>
+    <span class="c1">#</span>
+    <span class="c1"># For SymForce-only printers, like PyTorch, we don&#39;t need to override here.  We do this so that</span>
+    <span class="c1"># printing these works if you use the actual SymPy printers (like</span>
+    <span class="c1"># sympy.printing.pycode.PythonCodePrinter) for something, in addition to the SymForce subclasses</span>
+    <span class="c1"># (like symforce.codegen.backends.python.python_code_printer.PythonCodePrinter)</span>
+    <span class="c1"># --------------------------------------------------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sympystr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">printing</span><span class="o">.</span><span class="n">StrPrinter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="n">arg0</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">arg1</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;copysign_no_zero(</span><span class="si">{</span><span class="n">arg0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">arg1</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pretty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print_Function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func_name</span><span class="o">=</span><span class="s2">&quot;copysign_no_zero&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_latex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_hprint_Function</span><span class="p">(</span><span class="s2">&quot;copysign_no_zero&quot;</span><span class="p">)</span>
+        <span class="n">arg0</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">arg1</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">rf</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="se">{{</span><span class="s2">\left(</span><span class="si">{</span><span class="n">arg0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">arg1</span><span class="si">}</span><span class="s2"> \right)</span><span class="se">}}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pythoncode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">printer</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_module_format</span><span class="p">(</span><span class="s2">&quot;math.copysign&quot;</span><span class="p">)</span>
+        <span class="n">arg0</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">arg1</span> <span class="o">=</span> <span class="n">printer</span><span class="o">.</span><span class="n">_print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">arg0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">arg1</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_eval_evalf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">_sympy_py</span><span class="o">.</span><span class="n">Abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">SymPySignNoZero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span><span class="o">.</span><span class="n">_eval_evalf</span><span class="p">(</span><span class="n">prec</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">fdiff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argindex</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">argindex</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SymPySignNoZero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="n">SymPySignNoZero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">argindex</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_sympy_py</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span>
+
+
+<span class="n">SymPyCopysignNoZero</span> <span class="o">=</span> <span class="n">CopysignNoZero</span>
+
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span> <span class="ow">and</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;symengine&quot;</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">SignNoZero</span>
+    <span class="k">del</span> <span class="n">CopysignNoZero</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">symengine</span><span class="w"> </span><span class="kn">import</span> <span class="n">CopysignNoZero</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">symengine</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignNoZero</span>
+<span class="k">elif</span> <span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">symforce</span><span class="o">.</span><span class="n">InvalidSymbolicApiError</span><span class="p">(</span><span class="n">sympy</span><span class="o">.</span><span class="n">__package__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="sign_no_zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.sign_no_zero">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">sign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Expr</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns -1 if x is negative, 1 if x is positive, and 1 if x is zero.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">SignNoZero</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="copysign_no_zero"><a class="viewcode-back" href="../../../api/symforce.symbolic.html#symforce.symbolic.copysign_no_zero">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">copysign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Scalar</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a value with the magnitude of x and sign of y</span>
+
+<span class="sd">    If y is zero, returns positive x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">CopysignNoZero</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
 
 
 <span class="c1"># --------------------------------------------------------------------------------</span>
@@ -1659,7 +1808,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9377a9e1"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c10d300b"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

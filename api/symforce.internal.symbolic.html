@@ -7,10 +7,8 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="api/symforce.internal.symbolic.html" />
 <meta property="og:site_name" content="symforce" />
-<meta property="og:description" content="The (symforce-internal) core symbolic API This represents the core functions that comprise SymForce’s unified version of the SymPy API, without additional imports that would cause import cycles. Th..." />
 <meta property="og:image" content="https://symforce.org/docs/static/images/symforce_banner.png" />
 <meta property="og:image:alt" content="symforce" />
-<meta name="description" content="The (symforce-internal) core symbolic API This represents the core functions that comprise SymForce’s unified version of the SymPy API, without additional imports that would cause import cycles. Th..." />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="symforce.ops package" href="symforce.ops.html" /><link rel="prev" title="symforce.internal package" href="symforce.internal.html" />
 
     <link rel="shortcut icon" href="../_static/favicon.ico"/><!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
@@ -852,21 +850,6 @@
         <article role="main" id="furo-main-content">
           <section id="module-symforce.internal.symbolic">
 <span id="symforce-internal-symbolic-module"></span><h1>symforce.internal.symbolic module<a class="headerlink" href="#module-symforce.internal.symbolic" title="Permalink to this heading">¶</a></h1>
-<p>The (symforce-internal) core symbolic API</p>
-<p>This represents the core functions that comprise SymForce’s unified version of the SymPy API,
-without additional imports that would cause import cycles.  This means this module is safe to be
-imported from those modules within SymForce.  Users should instead import <a class="reference internal" href="symforce.symbolic.html#module-symforce.symbolic" title="symforce.symbolic"><code class="xref py py-mod docutils literal notranslate"><span class="pre">symforce.symbolic</span></code></a>,
-which includes the entire SymForce symbolic API.</p>
-<p>This combines functions available from various sources:</p>
-<ul class="simple">
-<li><p>Many functions we expose from the SymPy (and SymEngine) API</p></li>
-<li><p>Additional functions defined here to override those provided by SymPy or SymEngine, or provide a
-uniform interface between the two.  See <a class="reference external" href="https://symforce.org/api/symforce.symbolic.html">https://symforce.org/api/symforce.symbolic.html</a> for
-information on these</p></li>
-<li><p>Logic functions defined in <a class="reference internal" href="symforce.logic.html#module-symforce.logic" title="symforce.logic"><code class="xref py py-mod docutils literal notranslate"><span class="pre">symforce.logic</span></code></a>, see the documentation for that module</p></li>
-</ul>
-<p>It typically isn’t necessary to actually access the symbolic API being used internally, but that is
-available as well as <code class="xref py py-mod docutils literal notranslate"><span class="pre">symforce.symbolic.sympy</span></code>.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.internal.symbolic.create_named_scope">
 <span class="sig-name descname"><span class="pre">create_named_scope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scopes_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#create_named_scope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.create_named_scope" title="Permalink to this definition">¶</a></dt>
@@ -928,7 +911,7 @@ add scopes to symbol names for namespacing.</p>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – </p></li>
 <li><p><strong>commutative</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – </p></li>
 <li><p><strong>real</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – </p></li>
-<li><p><strong>positive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>positive</strong> (<em>T.Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -986,37 +969,6 @@ distance between two angles.</p>
 <dd><p>Return the difference x - y, but wrapped into [-pi, pi); i.e. the angle <cite>diff</cite> closest to 0
 such that x = y + diff (mod 2pi).</p>
 <p>See also: <a class="reference internal" href="#symforce.internal.symbolic.wrap_angle" title="symforce.internal.symbolic.wrap_angle"><code class="xref py py-func docutils literal notranslate"><span class="pre">wrap_angle()</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
-<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.internal.symbolic.sign_no_zero">
-<span class="sig-name descname"><span class="pre">sign_no_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#sign_no_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.sign_no_zero" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns -1 if x is negative, 1 if x is positive, and 1 if x is zero.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="symforce.internal.symbolic.copysign_no_zero">
-<span class="sig-name descname"><span class="pre">copysign_no_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#copysign_no_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.copysign_no_zero" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a value with the magnitude of x and sign of y. If y is zero, returns positive x.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1164,6 +1116,50 @@ Disabling eval results in more slightly ops, but greatly speeds up codegen time.
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.internal.symbolic.SymPySignNoZero">
+<span class="sig-name descname"><span class="pre">SymPySignNoZero</span></span><a class="headerlink" href="#symforce.internal.symbolic.SymPySignNoZero" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">SignNoZero</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.internal.symbolic.SymPyCopysignNoZero">
+<span class="sig-name descname"><span class="pre">SymPyCopysignNoZero</span></span><a class="headerlink" href="#symforce.internal.symbolic.SymPyCopysignNoZero" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">CopysignNoZero</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.internal.symbolic.sign_no_zero">
+<span class="sig-name descname"><span class="pre">sign_no_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#sign_no_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.sign_no_zero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns -1 if x is negative, 1 if x is positive, and 1 if x is zero.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Expr" title="symengine.lib.symengine_wrapper.Expr"><em>Expr</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="symforce.internal.symbolic.copysign_no_zero">
+<span class="sig-name descname"><span class="pre">copysign_no_zero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#copysign_no_zero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.copysign_no_zero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a value with the magnitude of x and sign of y</p>
+<p>If y is zero, returns positive x.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
+<li><p><strong>y</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.internal.symbolic.simplify">
 <span class="sig-name descname"><span class="pre">simplify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/internal/symbolic.html#simplify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.internal.symbolic.simplify" title="Permalink to this definition">¶</a></dt>
@@ -1298,8 +1294,6 @@ Disabling eval results in more slightly ops, but greatly speeds up codegen time.
 <li><a class="reference internal" href="#symforce.internal.symbolic.epsilon"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.wrap_angle"><code class="docutils literal notranslate"><span class="pre">wrap_angle()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.angle_diff"><code class="docutils literal notranslate"><span class="pre">angle_diff()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.internal.symbolic.sign_no_zero"><code class="docutils literal notranslate"><span class="pre">sign_no_zero()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.internal.symbolic.copysign_no_zero"><code class="docutils literal notranslate"><span class="pre">copysign_no_zero()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.argmax_onehot"><code class="docutils literal notranslate"><span class="pre">argmax_onehot()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.argmax"><code class="docutils literal notranslate"><span class="pre">argmax()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.atan2"><code class="docutils literal notranslate"><span class="pre">atan2()</span></code></a></li>
@@ -1307,6 +1301,10 @@ Disabling eval results in more slightly ops, but greatly speeds up codegen time.
 <li><a class="reference internal" href="#symforce.internal.symbolic.acos_safe"><code class="docutils literal notranslate"><span class="pre">acos_safe()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.clamp"><code class="docutils literal notranslate"><span class="pre">clamp()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.set_eval_on_sympify"><code class="docutils literal notranslate"><span class="pre">set_eval_on_sympify()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.internal.symbolic.SymPySignNoZero"><code class="docutils literal notranslate"><span class="pre">SymPySignNoZero</span></code></a></li>
+<li><a class="reference internal" href="#symforce.internal.symbolic.SymPyCopysignNoZero"><code class="docutils literal notranslate"><span class="pre">SymPyCopysignNoZero</span></code></a></li>
+<li><a class="reference internal" href="#symforce.internal.symbolic.sign_no_zero"><code class="docutils literal notranslate"><span class="pre">sign_no_zero()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.internal.symbolic.copysign_no_zero"><code class="docutils literal notranslate"><span class="pre">copysign_no_zero()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.simplify"><code class="docutils literal notranslate"><span class="pre">simplify()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.limit"><code class="docutils literal notranslate"><span class="pre">limit()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.internal.symbolic.integrate"><code class="docutils literal notranslate"><span class="pre">integrate()</span></code></a></li>
@@ -1322,7 +1320,7 @@ Disabling eval results in more slightly ops, but greatly speeds up codegen time.
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=9377a9e1"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c10d300b"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
