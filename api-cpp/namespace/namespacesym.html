@@ -4202,14 +4202,24 @@ NOTE(hayk): If we changed key storage to a sorted vector this could automaticall
 <span class="target" id="classsym_1_1Values_1afd9597aa0598a965f56ce80f33877876"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Cleanup</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><br /></dt>
 <dd><p>Repack the data array to get rid of empty space from removed keys.</p>
 <p>If regularly removing keys, it’s up to the user to call this appropriately to avoid storage growth. Returns the number of Scalar elements cleaned up from the data array.</p>
-<p>It will INVALIDATE all indices, offset increments, and pointers. Re-create an index with <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1a5aee2d876c754e9f5b9b08518e5f9a08"><span class="std std-ref">CreateIndex()</span></a>. </p>
+<p>It will INVALIDATE all indices, offset increments, and pointers. Re-create an index with <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1a8883c05a390f292f0edcd19fd5574ebb"><span class="std std-ref">CreateIndex()</span></a>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK3sym6Values11CreateIndexEb">
+<span class="target" id="classsym_1_1Values_1a8883c05a390f292f0edcd19fd5574ebb"></span><span class="n"><span class="pre">index_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CreateIndex</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">sort_by_offset</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
+<dd><p>Create an index for all keys in this <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values"><span class="std std-ref">Values</span></a>. This object can then be used for repeated efficient operations.</p>
+<p>If sort_by_offset is true, the index will be sorted by offset. Otherwise, the ordering is not specified.</p>
+<p>An index will be INVALIDATED if the following happens:</p>
+<p>1) <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1ac1e51309a3be394b82460dd7d05a268c"><span class="std std-ref">Remove()</span></a> is called with a contained key, or <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1a4facf3e89d5eeab1530b53ca95e42c7e"><span class="std std-ref">RemoveAll()</span></a> is called 2) <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1afd9597aa0598a965f56ce80f33877876"><span class="std std-ref">Cleanup()</span></a> is called to re-pack the data array</p>
+<p>NOTE(hayk): We could also add a simple UpdateIndex(&amp;index) method, since the offset is the only thing that needs to get updated after repacking. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK3sym6Values11CreateIndexERKNSt6vectorI3KeyEE">
 <span class="target" id="classsym_1_1Values_1a5aee2d876c754e9f5b9b08518e5f9a08"></span><span class="n"><span class="pre">index_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CreateIndex</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="namespacestd.html#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N3sym3KeyE" title="sym::Key"><span class="n"><span class="pre">Key</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">keys</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><br /></dt>
 <dd><p>Create an index from the given ordered subset of keys. This object can then be used for repeated efficient operations on that subset of keys.</p>
-<p>If you want an index of all the keys, call <code class="docutils literal notranslate"><span class="pre">values.CreateIndex(values.Keys())</span></code>.</p>
+<p>If you want an index of all the keys, call <code class="docutils literal notranslate"><span class="pre">values.CreateIndex(sort_by_offset)</span></code>.</p>
 <p>An index will be INVALIDATED if the following happens:</p>
 <p>1) <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1ac1e51309a3be394b82460dd7d05a268c"><span class="std std-ref">Remove()</span></a> is called with a contained key, or <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1a4facf3e89d5eeab1530b53ca95e42c7e"><span class="std std-ref">RemoveAll()</span></a> is called 2) <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values_1afd9597aa0598a965f56ce80f33877876"><span class="std std-ref">Cleanup()</span></a> is called to re-pack the data array</p>
 <p>NOTE(hayk): We could also add a simple UpdateIndex(&amp;index) method, since the offset is the only thing that needs to get updated after repacking. </p>
@@ -4374,7 +4384,7 @@ NOTE(hayk): If we changed key storage to a sorted vector this could automaticall
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c10d300b"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=cff083b6"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
