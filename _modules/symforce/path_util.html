@@ -842,6 +842,7 @@
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
@@ -904,14 +905,23 @@
     <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span></div>
 
 
-<div class="viewcode-block" id="symforce_data_root"><a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.symforce_data_root">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">symforce_data_root</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<div class="viewcode-block" id="symforce_data_root"><a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.symforce_data_root">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">symforce_data_root</span><span class="p">(</span><span class="n">test_file_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The root directory of the symforce project, for use accessing data that might need to be updated</span>
-<span class="sd">    (such as generated files).  Most of the time this is the same as :func:`symforce_root`, but when</span>
-<span class="sd">    the ``--update`` flag is passed to a test, this is guaranteed to point to the *resolved*</span>
-<span class="sd">    version, i.e. the actual symforce location on disk regardless of whether this path is a symlink.</span>
+<span class="sd">    (such as generated files).  Most of the time this is the same as :func:`symforce_root`, except</span>
+<span class="sd">    for two cases:</span>
+
+<span class="sd">    1) When running tests on wheels, this is the root of the copy of SymForce containing the test,</span>
+<span class="sd">       not the installed copy.  The generated files we&#39;re checking aren&#39;t in the wheel, they&#39;re in</span>
+<span class="sd">       the source tree.</span>
+<span class="sd">    2) When the ``--update`` flag is passed to a test, this is guaranteed to point to the *resolved*</span>
+<span class="sd">       version, i.e. the actual symforce location on disk regardless of whether this path is a</span>
+<span class="sd">       symlink.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.test_util.test_case_mixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">SymforceTestCaseMixin</span>
+
+    <span class="k">if</span> <span class="n">test_file_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;SYMFORCE_WHEEL_TESTS&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">test_file_path</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
 
     <span class="k">if</span> <span class="n">SymforceTestCaseMixin</span><span class="o">.</span><span class="n">should_update</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>
@@ -949,7 +959,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=cff083b6"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3063eab8"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

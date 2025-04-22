@@ -841,6 +841,7 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
@@ -899,6 +900,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;-v&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;--verbose&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="requires_source_build"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case.html#symforce.test_util.test_case.requires_source_build">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">requires_source_build</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator to mark a test as skipped for wheel installs (as opposed to from-source builds)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;SYMFORCE_WHEEL_TESTS&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">unittest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Skipping for wheel install&quot;</span><span class="p">)(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">func</span></div>
+
+
 <div class="viewcode-block" id="sympy_only"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case.html#symforce.test_util.test_case.sympy_only">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">sympy_only</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator to mark a test to only run on SymPy, and skip otherwise.</span>
@@ -921,7 +932,7 @@
 
 <div class="viewcode-block" id="expected_failure_on_sympy"><a class="viewcode-back" href="../../../api/symforce.test_util.test_case.html#symforce.test_util.test_case.expected_failure_on_sympy">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">expected_failure_on_sympy</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Decorator to mark a test to be expected to fail only on SymPy..</span>
+<span class="sd">    Decorator to mark a test to be expected to fail only on SymPy</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">symforce</span><span class="o">.</span><span class="n">get_symbolic_api</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;sympy&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">unittest</span><span class="o">.</span><span class="n">expectedFailure</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -970,7 +981,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=cff083b6"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3063eab8"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
