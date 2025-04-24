@@ -786,7 +786,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/linearizer_8h.html">File linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optional_8h.html">File optional.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
@@ -843,7 +842,6 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
 
@@ -1020,8 +1018,6 @@
         <span class="n">factors</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Factor</span><span class="p">,</span> <span class="n">NumericFactor</span><span class="p">]],</span>
         <span class="n">optimized_keys</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">params</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">OptimizerParams</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">debug_stats</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">include_jacobians</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">optimized_keys</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># This will be filled with the optimized keys of the numeric factors</span>
@@ -1066,22 +1062,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">OptimizerParams</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
-
-        <span class="k">if</span> <span class="n">debug_stats</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">debug_stats</span> <span class="o">=</span> <span class="n">debug_stats</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;debug_stats argument is deprecated, use params.debug_stats&quot;</span><span class="p">,</span>
-                <span class="ne">FutureWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-            <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">include_jacobians</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">include_jacobians</span> <span class="o">=</span> <span class="n">include_jacobians</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;include_jacobians argument is deprecated, use params.include_jacobians&quot;</span><span class="p">,</span>
-                <span class="ne">FutureWarning</span><span class="p">,</span>
-                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-            <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -1299,7 +1279,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3063eab8"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=be6624e3"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

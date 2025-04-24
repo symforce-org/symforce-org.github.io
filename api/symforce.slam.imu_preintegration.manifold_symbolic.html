@@ -793,7 +793,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearizer_8h.html">File linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optional_8h.html">File optional.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
@@ -858,12 +857,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pose_i</strong> (<a class="reference internal" href="symforce.geo.pose3.html#symforce.geo.pose3.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Pose at time step i (world_T_body)</p></li>
-<li><p><strong>vel_i</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Velocity at time step i (world frame)</p></li>
-<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated estimate for pose_i.R.inverse() * pose_j.R</p></li>
-<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</p></li>
-<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated estimate for position change (before velocity and gravity</p></li>
-<li><p><strong>gravity</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Acceleration due to gravity (in the same frame as pose_x and vel_x), i.e., the
+<li><p><strong>pose_i</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Pose at time step i (world_T_body)</p></li>
+<li><p><strong>vel_i</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Velocity at time step i (world frame)</p></li>
+<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated estimate for pose_i.R.inverse() * pose_j.R</p></li>
+<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</p></li>
+<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated estimate for position change (before velocity and gravity</p></li>
+<li><p><strong>gravity</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Acceleration due to gravity (in the same frame as pose_x and vel_x), i.e., the
 vector which when added to the accelerometer measurements gives the true acceleration
 (up to bias and noise) of the IMU.</p></li>
 <li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The time between timestep i and j: t_j - t_i</p></li>
@@ -873,7 +872,7 @@ vector which when added to the accelerometer measurements gives the true acceler
 <dd class="field-even"><p><strong>T.Tuple[sf.Pose3, sf.V3]</strong> – pose_j, vel_j</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.geo.pose3.html#symforce.geo.pose3.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -892,30 +891,30 @@ Time step j is the time after the last IMU measurement of the interval.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pose_i</strong> (<a class="reference internal" href="symforce.geo.pose3.html#symforce.geo.pose3.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Pose at time step i (world_T_body)</p></li>
-<li><p><strong>vel_i</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Velocity at time step i (world frame)</p></li>
-<li><p><strong>pose_j</strong> (<a class="reference internal" href="symforce.geo.pose3.html#symforce.geo.pose3.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Pose at time step j (world_T_body)</p></li>
-<li><p><strong>vel_j</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Velocity at time step j (world frame)</p></li>
-<li><p><strong>accel_bias_i</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The accelerometer bias between timesteps i and j</p></li>
-<li><p><strong>gyro_bias_i</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The gyroscope bias between timesteps i and j</p></li>
-<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated estimate for pose_i.R.inverse() * pose_j.R</p></li>
-<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</p></li>
-<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – <p>Preintegrated estimate for position change (before velocity and gravity corrections) in
+<li><p><strong>pose_i</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Pose at time step i (world_T_body)</p></li>
+<li><p><strong>vel_i</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Velocity at time step i (world frame)</p></li>
+<li><p><strong>pose_j</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Pose3" title="symforce.geo.pose3.Pose3"><em>Pose3</em></a>) – Pose at time step j (world_T_body)</p></li>
+<li><p><strong>vel_j</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Velocity at time step j (world frame)</p></li>
+<li><p><strong>accel_bias_i</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The accelerometer bias between timesteps i and j</p></li>
+<li><p><strong>gyro_bias_i</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The gyroscope bias between timesteps i and j</p></li>
+<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated estimate for pose_i.R.inverse() * pose_j.R</p></li>
+<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated estimate for vel_j - vel_i in the body frame at timestep i</p></li>
+<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – <p>Preintegrated estimate for position change (before velocity and gravity corrections) in
 the body frame at timestep i:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R_i</span><span class="o">^</span><span class="n">T</span> <span class="p">(</span><span class="n">p_j</span> <span class="o">-</span> <span class="n">p_i</span> <span class="o">-</span> <span class="n">v_i</span> <span class="n">Delta</span> <span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span> <span class="n">g</span> <span class="n">Delta</span> <span class="n">t</span><span class="o">^</span><span class="mi">2</span><span class="p">),</span>
 <span class="n">where</span> <span class="n">R_i</span> <span class="o">=</span> <span class="n">pose_i</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">p_i</span> <span class="o">=</span> <span class="n">pose_i</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">p_j</span> <span class="o">=</span> <span class="n">pose_j</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="ow">and</span> <span class="n">v_i</span> <span class="o">=</span> <span class="n">vel_i</span>
 </pre></div>
 </div>
 </p></li>
-<li><p><strong>sqrt_info</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>) – sqrt info matrix of DR(‘s tangent space), Dv, Dp</p></li>
-<li><p><strong>DR_D_gyro_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of DR w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
-<li><p><strong>Dv_D_accel_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. accel_bias evaluated at accel_bias_hat</p></li>
-<li><p><strong>Dv_D_gyro_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
-<li><p><strong>Dp_D_accel_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. accel_bias evaluated at accel_bias_hat</p></li>
-<li><p><strong>Dp_D_gyro_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
-<li><p><strong>accel_bias_hat</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The accelerometer bias used during preintegration</p></li>
-<li><p><strong>gyro_bias_hat</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The gyroscope bias used during preintegration</p></li>
-<li><p><strong>gravity</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Acceleration due to gravity (in the same frame as pose_x and vel_x), i.e., the
+<li><p><strong>sqrt_info</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>) – sqrt info matrix of DR(‘s tangent space), Dv, Dp</p></li>
+<li><p><strong>DR_D_gyro_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of DR w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
+<li><p><strong>Dv_D_accel_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. accel_bias evaluated at accel_bias_hat</p></li>
+<li><p><strong>Dv_D_gyro_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
+<li><p><strong>Dp_D_accel_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. accel_bias evaluated at accel_bias_hat</p></li>
+<li><p><strong>Dp_D_gyro_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. gyro_bias evaluated at gyro_bias_hat</p></li>
+<li><p><strong>accel_bias_hat</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The accelerometer bias used during preintegration</p></li>
+<li><p><strong>gyro_bias_hat</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The gyroscope bias used during preintegration</p></li>
+<li><p><strong>gravity</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Acceleration due to gravity (in the same frame as pose_x and vel_x), i.e., the
 vector which when added to the accelerometer measurements gives the true acceleration
 (up to bias and noise) of the IMU.</p></li>
 <li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The time between timestep i and j: t_j - t_i</p></li>
@@ -923,7 +922,7 @@ vector which when added to the accelerometer measurements gives the true acceler
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix91" title="symforce.geo.matrix.Matrix91"><em>Matrix91</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix91" title="symforce.geo.matrix.Matrix91"><em>Matrix91</em></a></p>
 </dd>
 </dl>
 <dl class="simple">
@@ -940,9 +939,9 @@ gyroscope measurement, and the accelerometer measurement.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated DR of the previous state</p></li>
-<li><p><strong>corrected_gyro</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – gyroscope measurment corrected for IMU bias</p></li>
-<li><p><strong>corrected_accel</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – accelerometer measurement corrected for IMU bias</p></li>
+<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated DR of the previous state</p></li>
+<li><p><strong>corrected_gyro</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – gyroscope measurment corrected for IMU bias</p></li>
+<li><p><strong>corrected_accel</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – accelerometer measurement corrected for IMU bias</p></li>
 <li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Time difference between the previous time step and the new time step</p></li>
 <li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – epsilon for numerical stability</p></li>
 </ul>
@@ -951,7 +950,7 @@ gyroscope measurement, and the accelerometer measurement.</p>
 <dd class="field-even"><p><strong>T.Tuple[sf.M99, sf.M93, sf.M93]</strong> – new_state_D_old_state, new_state_D_gyro_measurement, new_state_D_accel_measurement</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix93" title="symforce.geo.matrix.Matrix93"><em>Matrix93</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix93" title="symforce.geo.matrix.Matrix93"><em>Matrix93</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix93" title="symforce.geo.matrix.Matrix93"><em>Matrix93</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix93" title="symforce.geo.matrix.Matrix93"><em>Matrix93</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -969,21 +968,21 @@ derivatives w.r.t. to bias should all be 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated change in orientation</p></li>
-<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated change in velocity</p></li>
-<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated change in position</p></li>
-<li><p><strong>covariance</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>) – Covariance [DR, Dv, Dp] in local coordinates of mean</p></li>
-<li><p><strong>DR_D_gyro_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of DR w.r.t. gyro_bias</p></li>
-<li><p><strong>Dv_D_accel_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. accel_bias</p></li>
-<li><p><strong>Dv_D_gyro_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. gyro_bias</p></li>
-<li><p><strong>Dp_D_accel_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. accel_bias</p></li>
-<li><p><strong>Dp_D_gyro_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. gyro_bias</p></li>
-<li><p><strong>accel_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Initial guess for the accelerometer measurement bias</p></li>
-<li><p><strong>gyro_bias</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Initial guess for the gyroscope measurement bias</p></li>
-<li><p><strong>accel_cov_diagonal</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The diagonal of the covariance of the accelerometer measurement</p></li>
-<li><p><strong>gyro_cov_diagonal</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The diagonal of the covariance of the gyroscope measurement</p></li>
-<li><p><strong>accel_measurement</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The accelerometer measurement</p></li>
-<li><p><strong>gyro_measurement</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The gyroscope measurement</p></li>
+<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – Preintegrated change in orientation</p></li>
+<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated change in velocity</p></li>
+<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Preintegrated change in position</p></li>
+<li><p><strong>covariance</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>) – Covariance [DR, Dv, Dp] in local coordinates of mean</p></li>
+<li><p><strong>DR_D_gyro_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of DR w.r.t. gyro_bias</p></li>
+<li><p><strong>Dv_D_accel_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. accel_bias</p></li>
+<li><p><strong>Dv_D_gyro_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dv w.r.t. gyro_bias</p></li>
+<li><p><strong>Dp_D_accel_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. accel_bias</p></li>
+<li><p><strong>Dp_D_gyro_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>) – Derivative of Dp w.r.t. gyro_bias</p></li>
+<li><p><strong>accel_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Initial guess for the accelerometer measurement bias</p></li>
+<li><p><strong>gyro_bias</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – Initial guess for the gyroscope measurement bias</p></li>
+<li><p><strong>accel_cov_diagonal</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The diagonal of the covariance of the accelerometer measurement</p></li>
+<li><p><strong>gyro_cov_diagonal</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The diagonal of the covariance of the gyroscope measurement</p></li>
+<li><p><strong>accel_measurement</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The accelerometer measurement</p></li>
+<li><p><strong>gyro_measurement</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – The gyroscope measurement</p></li>
 <li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The time between the new measurements and the last</p></li>
 <li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – epsilon for numerical stability</p></li>
 <li><p><strong>use_handwritten_derivatives</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – </p></li>
@@ -1001,7 +1000,7 @@ new_Dp_D_accel_bias
 new_Dp_D_gyro_bias,</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix99" title="symforce.geo.matrix.Matrix99"><em>Matrix99</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix33" title="symforce.geo.matrix.Matrix33"><em>Matrix33</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1017,17 +1016,17 @@ new preintegrated state.</p>
 </dd>
 <dt class="field-even">Parameters<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – </p></li>
-<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
-<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
-<li><p><strong>accel</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
-<li><p><strong>gyro</strong> (<a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
+<li><p><strong>DR</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>) – </p></li>
+<li><p><strong>Dv</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
+<li><p><strong>Dp</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
+<li><p><strong>accel</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
+<li><p><strong>gyro</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p></li>
 <li><p><strong>dt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
 <li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.geo.rot3.html#symforce.geo.rot3.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference internal" href="symforce.geo.matrix.html#symforce.geo.matrix.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>, <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1106,7 +1105,7 @@ new preintegrated state.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3063eab8"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=be6624e3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

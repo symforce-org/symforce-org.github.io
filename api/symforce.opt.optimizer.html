@@ -793,7 +793,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/linearizer_8h.html">File linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/optional_8h.html">File optional.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__cholesky__solver_8h.html">File sparse_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-cpp/file/sparse__schur__solver_8h.html">File sparse_schur_solver.h</a></li>
@@ -852,7 +851,7 @@
 <span id="symforce-opt-optimizer-module"></span><h1>symforce.opt.optimizer module<a class="headerlink" href="#module-symforce.opt.optimizer" title="Permalink to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.optimizer.Optimizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_jacobians</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Optimizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">factors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimized_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/optimizer.html#Optimizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.optimizer.Optimizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A nonlinear least-squares optimizer</p>
 <p>Typical usage is to construct an Optimizer from a set of factors and keys to optimize, and then
@@ -898,7 +897,7 @@ optimization results will be identical.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>factors</strong> (<em>T.Iterable</em><em>[</em><em>T.Union</em><em>[</em><a class="reference internal" href="symforce.cc_sym.html#cc_sym.Factor" title="cc_sym.Factor"><em>Factor</em></a><em>, </em><a class="reference internal" href="symforce.opt.numeric_factor.html#symforce.opt.numeric_factor.NumericFactor" title="symforce.opt.numeric_factor.NumericFactor"><em>NumericFactor</em></a><em>]</em><em>]</em>) – A sequence of either Factor or NumericFactor objects representing the
+<li><p><strong>factors</strong> (<em>T.Iterable</em><em>[</em><em>T.Union</em><em>[</em><a class="reference internal" href="symforce.opt.factor.html#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><em>Factor</em></a><em>, </em><a class="reference internal" href="symforce.opt.numeric_factor.html#symforce.opt.numeric_factor.NumericFactor" title="symforce.opt.numeric_factor.NumericFactor"><em>NumericFactor</em></a><em>]</em><em>]</em>) – A sequence of either Factor or NumericFactor objects representing the
 residuals in the problem. If (symbolic) Factors are passed, they are convered to
 NumericFactors by generating linearization functions of the residual with respect to the
 keys in <code class="docutils literal notranslate"><span class="pre">optimized_keys</span></code>.</p></li>
@@ -906,8 +905,6 @@ keys in <code class="docutils literal notranslate"><span class="pre">optimized_k
 passed to the optimizer.</p></li>
 <li><p><strong>params</strong> (<em>T.Optional</em><em>[</em><a class="reference internal" href="symforce.opt.optimizer_params.html#symforce.opt.optimizer_params.OptimizerParams" title="symforce.opt.optimizer_params.OptimizerParams"><em>OptimizerParams</em></a><em>]</em>) – Params for the optimizer.  Defaults are in <cite>OptimizerParams</cite>, except that <cite>verbose</cite>
 is <cite>True</cite> by default.</p></li>
-<li><p><strong>debug_stats</strong> (<em>T.Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>]</em>) – </p></li>
-<li><p><strong>include_jacobians</strong> (<em>T.Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -1342,7 +1339,7 @@ blocks from the problem jacobian, hessian, or RHS</p>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3063eab8"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=be6624e3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
