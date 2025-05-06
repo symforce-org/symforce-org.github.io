@@ -605,7 +605,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -851,7 +850,7 @@
 <span id="symforce-jacobian-helpers-module"></span><h1>symforce.jacobian_helpers module<a class="headerlink" href="#module-symforce.jacobian_helpers" title="Permalink to this heading">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.jacobian_helpers.tangent_jacobians">
-<span class="sig-name descname"><span class="pre">tangent_jacobians</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/jacobian_helpers.html#tangent_jacobians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.jacobian_helpers.tangent_jacobians" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_jacobians</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/jacobian_helpers.html#tangent_jacobians"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.jacobian_helpers.tangent_jacobians" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute jacobians of expr, a Lie Group element which is a function of the Lie Group elements in
 args.  Jacobians are derivatives in the tangent space of expr with respect to changes in the
 tangent space of the arg, as opposed to jacobians of the storage of either which could be
@@ -863,6 +862,7 @@ trivially computed with <a class="reference internal" href="symforce.geo.matrix.
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>expr</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) – The final expression that should be differentiated</p></li>
 <li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) – Sequence of variables (can be Lie Group elements) to differentiate with respect to</p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -877,7 +877,7 @@ dimension of <code class="docutils literal notranslate"><span class="pre">arg</s
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.jacobian_helpers.tangent_jacobians_first_order">
-<span class="sig-name descname"><span class="pre">tangent_jacobians_first_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/jacobian_helpers.html#tangent_jacobians_first_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.jacobian_helpers.tangent_jacobians_first_order" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_jacobians_first_order</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/jacobian_helpers.html#tangent_jacobians_first_order"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.jacobian_helpers.tangent_jacobians_first_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>An implementation of <a class="reference internal" href="#symforce.jacobian_helpers.tangent_jacobians" title="symforce.jacobian_helpers.tangent_jacobians"><code class="xref py py-func docutils literal notranslate"><span class="pre">tangent_jacobians()</span></code></a> using first-order simplifications of retract
 and local_coordinates.</p>
 <p>The interface is the same as for <a class="reference internal" href="#symforce.jacobian_helpers.tangent_jacobians" title="symforce.jacobian_helpers.tangent_jacobians"><code class="xref py py-func docutils literal notranslate"><span class="pre">tangent_jacobians()</span></code></a>.</p>
@@ -899,6 +899,7 @@ after cse.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>expr</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) – </p></li>
 <li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -909,7 +910,7 @@ after cse.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="symforce.jacobian_helpers.tangent_jacobians_chain_rule">
-<span class="sig-name descname"><span class="pre">tangent_jacobians_chain_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/jacobian_helpers.html#tangent_jacobians_chain_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.jacobian_helpers.tangent_jacobians_chain_rule" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_jacobians_chain_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/jacobian_helpers.html#tangent_jacobians_chain_rule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.jacobian_helpers.tangent_jacobians_chain_rule" title="Permalink to this definition">¶</a></dt>
 <dd><p>An implementation of <a class="reference internal" href="#symforce.jacobian_helpers.tangent_jacobians" title="symforce.jacobian_helpers.tangent_jacobians"><code class="xref py py-func docutils literal notranslate"><span class="pre">tangent_jacobians()</span></code></a> using the symbolic chain rule with
 <code class="docutils literal notranslate"><span class="pre">tangent_D_storage</span></code> and <code class="docutils literal notranslate"><span class="pre">storage_D_tangent</span></code>.</p>
 <p>The interface is the same as for <a class="reference internal" href="#symforce.jacobian_helpers.tangent_jacobians" title="symforce.jacobian_helpers.tangent_jacobians"><code class="xref py py-func docutils literal notranslate"><span class="pre">tangent_jacobians()</span></code></a>.</p>
@@ -929,6 +930,7 @@ ops after cse.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>expr</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) – </p></li>
 <li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a><em>]</em>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1009,7 +1011,7 @@ ops after cse.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=7835836e"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

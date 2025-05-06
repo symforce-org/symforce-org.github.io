@@ -598,7 +598,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -853,6 +852,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create func spec arguments for group ops on the given class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">identity</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span>
         <span class="n">func</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">)),</span>
@@ -887,44 +887,58 @@
     <span class="p">]</span></div>
 
 
+<div class="viewcode-block" id="make_manifold_ops_funcs"><a class="viewcode-back" href="../../../api/symforce.codegen.ops_codegen_util.html#symforce.codegen.ops_codegen_util.make_manifold_ops_funcs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_manifold_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Codegen</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create func spec arguments for manifold ops on the given class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tangent_vec</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">))))</span>
+
+    <span class="n">retract</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">,</span>
+        <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tangent_vec</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">local_coordinates</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">,</span>
+        <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">interpolate</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">interpolate</span><span class="p">,</span>
+        <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">retract</span><span class="p">,</span> <span class="n">local_coordinates</span><span class="p">,</span> <span class="n">interpolate</span><span class="p">]</span></div>
+
+
 <div class="viewcode-block" id="make_lie_group_ops_funcs"><a class="viewcode-back" href="../../../api/symforce.codegen.ops_codegen_util.html#symforce.codegen.ops_codegen_util.make_lie_group_ops_funcs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_lie_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Codegen</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create func spec arguments for lie group ops on the given class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tangent_vec</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">))))</span>
-    <span class="k">return</span> <span class="p">[</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;from_tangent&quot;</span><span class="p">,</span>
-            <span class="n">func</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)),</span>
-            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">tangent_vec</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">,</span>
-            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">,</span>
-            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tangent_vec</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">,</span>
-            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">interpolate</span><span class="p">,</span>
-            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-            <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">interpolate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
-        <span class="p">),</span>
-    <span class="p">]</span></div>
+
+    <span class="n">from_tangent</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;from_tangent&quot;</span><span class="p">,</span>
+        <span class="n">func</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)),</span>
+        <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">tangent_vec</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">to_tangent</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">,</span>
+        <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">from_tangent</span><span class="p">,</span> <span class="n">to_tangent</span><span class="p">]</span></div>
 </pre></div>
         </article>
       </div>
@@ -957,7 +971,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7835836e"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

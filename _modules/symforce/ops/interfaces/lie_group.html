@@ -598,7 +598,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -913,7 +912,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LieGroup.jacobian"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.jacobian">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
+<div class="viewcode-block" id="LieGroup.jacobian"><a class="viewcode-back" href="../../../../api/symforce.ops.interfaces.lie_group.html#symforce.ops.interfaces.lie_group.LieGroup.jacobian">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">jacobian</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">LieGroupT</span><span class="p">,</span> <span class="n">X</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geo</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the jacobian of this LieGroup element with respect to the input X, where X is</span>
 <span class="sd">        anything that supports LieGroupOps</span>
@@ -929,7 +930,7 @@
 <span class="sd">        Returns: the jacobian matrix of shape MxN, where M is the dimension of the tangent (or</span>
 <span class="sd">            storage) space of self and N is the dimension of the tangent (or storage) space of X.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">tangent_space</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div></div>
 
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..impl.class_lie_group_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassLieGroupOps</span>
@@ -967,7 +968,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=7835836e"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

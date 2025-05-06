@@ -607,7 +607,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -2815,7 +2814,7 @@ Tangent space perturbation that conceptually represents “b - self” if self i
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.LieGroup.jacobian">
-<span class="sig-name descname"><span class="pre">jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tangent_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.LieGroup.jacobian" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tangent_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/ops/interfaces/lie_group.html#LieGroup.jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.LieGroup.jacobian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the jacobian of this LieGroup element with respect to the input X, where X is
 anything that supports LieGroupOps</p>
 <p>If tangent_space is True, the jacobian is computed in the local coordinates of the tangent
@@ -2836,6 +2835,7 @@ spaces of self and X.</p>
 <li><p><strong>self</strong> (<em>LieGroupT</em>) – </p></li>
 <li><p><strong>X</strong> (<em>T.Any</em>) – </p></li>
 <li><p><strong>tangent_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<em>T.Scalar</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -3598,20 +3598,26 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.storage_D_tangent">
-<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.tangent_D_storage">
-<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -3837,7 +3843,7 @@ class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Matrix.jacobian">
-<span class="sig-name descname"><span class="pre">jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tangent_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.jacobian" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tangent_space</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/matrix.html#Matrix.jacobian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Matrix.jacobian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the jacobian with respect to the tangent space of X if <code class="docutils literal notranslate"><span class="pre">tangent_space</span> <span class="pre">=</span> <span class="pre">True</span></code>,
 otherwise returns the jacobian with respect to the storage elements of X.</p>
 <p>Note that the jacobian is always 2D, even if self or X are matrices - it will be M x N,
@@ -3847,6 +3853,7 @@ where M is the size of self and N is the size of X</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) – </p></li>
 <li><p><strong>tangent_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -7498,22 +7505,28 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.storage_D_tangent">
-<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose2.tangent_D_storage">
-<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose2.html#Pose2.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose2.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -7795,11 +7808,14 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.storage_D_tangent">
-<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Pose3T</em>) – </p></li>
+<li><p><strong>epsilon</strong> (<em>T.Scalar</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.symbolic.Matrix">Matrix</a></p>
@@ -7809,11 +7825,14 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Pose3.tangent_D_storage">
-<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/pose3.html#Pose3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Pose3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>self</strong> (<em>Pose3T</em>) – </p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> (<em>Pose3T</em>) – </p></li>
+<li><p><strong>epsilon</strong> (<em>sf.Scalar</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix" title="symforce.symbolic.Matrix">Matrix</a></p>
@@ -8323,22 +8342,28 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.storage_D_tangent">
-<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot2.tangent_D_storage">
-<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot2.html#Rot2.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot2.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix12" title="symforce.geo.matrix.Matrix12"><em>Matrix12</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix12" title="symforce.geo.matrix.Matrix12"><em>Matrix12</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -8604,22 +8629,28 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.storage_D_tangent">
-<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/storage_D_tangent.ipynb</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix43" title="symforce.geo.matrix.Matrix43"><em>Matrix43</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix43" title="symforce.geo.matrix.Matrix43"><em>Matrix43</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Rot3.tangent_D_storage">
-<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/rot3.html#Rot3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Rot3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Note: generated from <code class="docutils literal notranslate"><span class="pre">symforce/notebooks/tangent_D_storage.ipynb</span></code></p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix34" title="symforce.geo.matrix.Matrix34"><em>Matrix34</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix34" title="symforce.geo.matrix.Matrix34"><em>Matrix34</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -8817,32 +8848,44 @@ are expected to be normalized.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unit3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rot3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Unit3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.LieGroup" title="symforce.ops.interfaces.lie_group.LieGroup"><code class="xref py py-class docutils literal notranslate"><span class="pre">LieGroup</span></code></a></p>
-<p>Direction in R^3, represented as a <a class="reference internal" href="#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a> that transforms
-[0, 0, 1] to the desired direction.</p>
-<p>The storage is therefore a quaternion and the tangent space is 2 dimensional.
-Most operations are implemented using operations from <a class="reference internal" href="#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Rot3</span></code></a>.</p>
-<p>Note: an alternative implementation could directly store a unit vector and define its boxplus
-manifold as described in Appendix B.2 of [Hertzberg 2013]. This can be done by finding the
-Householder reflector of x and use it to transform the exponential map of delta, which is a
-small perturbation in the tangent space (R^2). Namely:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="p">[</span><span class="o">+</span><span class="p">]</span> <span class="n">delta</span> <span class="o">=</span> <span class="n">Rx</span> <span class="o">*</span> <span class="n">Exp</span><span class="p">(</span><span class="n">delta</span><span class="p">),</span> <span class="n">where</span>
-<span class="n">Exp</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="n">sinc</span><span class="p">(</span><span class="o">||</span><span class="n">delta</span><span class="o">||</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta</span><span class="p">,</span> <span class="n">cos</span><span class="p">(</span><span class="o">||</span><span class="n">delta</span><span class="o">||</span><span class="p">)],</span> <span class="ow">and</span>
-<span class="n">Rx</span> <span class="o">=</span> <span class="p">(</span><span class="n">I</span> <span class="o">-</span> <span class="mi">2</span> <span class="n">vv</span><span class="o">^</span><span class="n">T</span> <span class="o">/</span> <span class="p">(</span><span class="n">v</span><span class="o">^</span><span class="n">Tv</span><span class="p">))</span><span class="n">X</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">e_z</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">X</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">matrix</span> <span class="n">negating</span> <span class="mi">2</span><span class="n">nd</span> <span class="n">vector</span> <span class="n">component</span>
-<span class="o">=</span> <span class="n">I</span>                     <span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">e_z</span>
-</pre></div>
-</div>
+<p>Direction in R^3 represented as a unit vector on the S^2 sphere manifold.</p>
+<p>Storage is three dimensional, and tangent space is two dimensional. Due to the nature of the
+manifold, the unit X vector is handled as a singularity.</p>
+<p>The implementation of the retract and local_coordinates functions are based on Appendix B.2 :</p>
 <p>[Hertzberg 2013] Integrating Generic Sensor Fusion Algorithms with Sound State Representations
 through Encapsulation of Manifolds</p>
+<p>The retract operation performs a perturbation to the desired unit X vector, which is then rotated to
+desired position along the actual stored unit vector through a Householder-reflection + relection
+across the XZ plane.</p>
+<blockquote>
+<div><p>x.retract(delta) = x [+] delta = Rx * Exp(delta), where
+Exp(delta) = [cos(||delta||), sinc(||delta||) * delta], and
+Rx = (I - 2 vv^T / (v^Tv))X, v = x - e_x != 0, X is a matrix negating 2nd vector component</p>
+<blockquote>
+<div><p>= diag(1, -1, -1)       , x = e_x</p>
+</div></blockquote>
+</div></blockquote>
+<p>See: <cite>unit3_visualization.ipynb</cite> for a visualization of the Unit3 manifold.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>rot3</strong> (<em>T.Optional</em><em>[</em><a class="reference internal" href="#symforce.symbolic.Rot3" title="symforce.symbolic.Rot3"><em>Rot3</em></a><em>]</em>) – </p>
+<dd class="field-odd"><p><strong>x</strong> (<em>Vector3</em>) – </p>
 </dd>
 </dl>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.symbolic.Unit3.E_X">
+<span class="sig-name descname"><span class="pre">E_X</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[1]</span> <span class="pre">[0]</span> <span class="pre">[0]</span> </em><a class="headerlink" href="#symforce.symbolic.Unit3.E_X" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.E_Z">
 <span class="sig-name descname"><span class="pre">E_Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[0]</span> <span class="pre">[0]</span> <span class="pre">[1]</span> </em><a class="headerlink" href="#symforce.symbolic.Unit3.E_Z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="symforce.symbolic.Unit3.FLIP_Y">
+<span class="sig-name descname"><span class="pre">FLIP_Y</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">0]</span> <span class="pre">[0,</span> <span class="pre">-1,</span> <span class="pre">0]</span> <span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">1]</span> </em><a class="headerlink" href="#symforce.symbolic.Unit3.FLIP_Y" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -8980,30 +9023,66 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.storage_D_tangent">
-<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">storage_D_tangent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.storage_D_tangent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.storage_D_tangent" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix42" title="symforce.geo.matrix.Matrix42"><em>Matrix42</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix32" title="symforce.geo.matrix.Matrix32"><em>Matrix32</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.tangent_D_storage">
-<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">tangent_D_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.tangent_D_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.tangent_D_storage" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix24" title="symforce.geo.matrix.Matrix24"><em>Matrix24</em></a></p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix23" title="symforce.geo.matrix.Matrix23"><em>Matrix23</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="symforce.symbolic.Unit3.to_rotation">
-<span class="sig-name descname"><span class="pre">to_rotation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_rotation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.to_rotation" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Rot3" title="symforce.geo.rot3.Rot3"><em>Rot3</em></a></p>
+<dt class="sig sig-object py" id="symforce.symbolic.Unit3.retract">
+<span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.retract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.retract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a tangent space perturbation vec to self. Often used in optimization
+to update nonlinear values from an update step in the tangent space.</p>
+<p>Implementation is simply <cite>compose(self, from_tangent(vec))</cite>.
+Conceptually represents “self + vec” if self is a vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delta</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.geo.unit3.Unit3"><em>Unit3</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.symbolic.Unit3.local_coordinates">
+<span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.local_coordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.local_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes a tangent space perturbation around self to produce b. Often used in optimization
+to minimize the distance between two group elements.</p>
+<p>Implementation is simply <cite>to_tangent(between(self, b))</cite>.
+Tangent space perturbation that conceptually represents “b - self” if self is a vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vector</strong> (<a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.geo.unit3.Unit3"><em>Unit3</em></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -9011,9 +9090,25 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 <dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.to_unit_vector">
 <span class="sig-name descname"><span class="pre">to_unit_vector</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.to_unit_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.to_unit_vector" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Returns a <a class="reference internal" href="#symforce.symbolic.Vector3" title="symforce.symbolic.Vector3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector3</span></code></a> version of the unit direction.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.symbolic.Unit3.basis">
+<span class="sig-name descname"><span class="pre">basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.basis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.basis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <a class="reference internal" href="#symforce.symbolic.Matrix32" title="symforce.symbolic.Matrix32"><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix32</span></code></a> with the basis vectors of the tangent space (in R^3) at the
+current Unit3 direction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Matrix32" title="symforce.geo.matrix.Matrix32"><em>Matrix32</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -9022,7 +9117,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.from_vector">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.from_vector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a <a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.symbolic.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a> that points along the direction of vector <code class="docutils literal notranslate"><span class="pre">a</span></code></p>
-<p><code class="docutils literal notranslate"><span class="pre">a</span></code> does not have to be a unit vector.</p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span></code> will be normalized.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -9037,13 +9132,45 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="symforce.symbolic.Unit3.from_unit_vector">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_unit_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.from_unit_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.from_unit_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.symbolic.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a> that points along the direction of vector <code class="docutils literal notranslate"><span class="pre">a</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">a</span></code> is expected to be a unit vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>a</strong> (<a class="reference internal" href="#symforce.symbolic.Matrix31" title="symforce.geo.matrix.Matrix31"><em>Matrix31</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.geo.unit3.Unit3"><em>Unit3</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="symforce.symbolic.Unit3.random">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.random" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a random element of <a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.symbolic.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a>, by generating a random rotation first and then
-rotating <code class="docutils literal notranslate"><span class="pre">e_z</span></code> to get a random direction.</p>
+<dd><p>Generate a random <a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.symbolic.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a> direction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.geo.unit3.Unit3"><em>Unit3</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="symforce.symbolic.Unit3.random_from_uniform_samples">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">random_from_uniform_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/geo/unit3.html#Unit3.random_from_uniform_samples"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.Unit3.random_from_uniform_samples" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a random <a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.symbolic.Unit3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Unit3</span></code></a> direction from two variables uniformly sampled in [0, 1].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u1</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
+<li><p><strong>u2</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
+<li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.Unit3" title="symforce.geo.unit3.Unit3"><em>Unit3</em></a></p>
@@ -9056,7 +9183,7 @@ rotating <code class="docutils literal notranslate"><span class="pre">e_z</span>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.ATANCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ATANCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/atan_camera_cal.html#ATANCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.ATANCameraCal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>ATAN camera with 5 parameters [fx, fy, cx, cy, omega].</p>
 <p>(fx, fy) representing focal length, (cx, cy) representing principal point,
 and omega representing the distortion parameter.</p>
@@ -9094,7 +9221,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.atan_camera_cal.html#symforce.cam.atan_camera_cal.ATANCameraCal" title="symforce.cam.atan_camera_cal.ATANCameraCal"><em>ATANCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.ATANCameraCal" title="symforce.cam.atan_camera_cal.ATANCameraCal"><em>ATANCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -9169,7 +9296,7 @@ projection of 3D points into the image frame) are in the image frame and thus va
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>calibration</strong> (<a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><em>CameraCal</em></a>) – </p></li>
+<li><p><strong>calibration</strong> (<a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><em>CameraCal</em></a>) – </p></li>
 <li><p><strong>image_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
 </ul>
 </dd>
@@ -9488,7 +9615,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.DoubleSphereCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoubleSphereCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/double_sphere_camera_cal.html#DoubleSphereCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.DoubleSphereCameraCal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Camera model where a point is consecutively projected onto two unit spheres
 with centers shifted by <code class="docutils literal notranslate"><span class="pre">xi</span></code>, then projected into the image plane using the
 pinhole model shifted by <code class="docutils literal notranslate"><span class="pre">alpha</span> <span class="pre">/</span> <span class="pre">(1</span> <span class="pre">-</span> <span class="pre">alpha)</span></code>.</p>
@@ -9534,7 +9661,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.double_sphere_camera_cal.html#symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal" title="symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal"><em>DoubleSphereCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.DoubleSphereCameraCal" title="symforce.cam.double_sphere_camera_cal.DoubleSphereCameraCal"><em>DoubleSphereCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -9612,7 +9739,7 @@ the dimension of each value.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.EquirectangularCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">EquirectangularCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/equirectangular_camera_cal.html#EquirectangularCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.EquirectangularCameraCal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Equirectangular camera model with parameters [fx, fy, cx, cy].</p>
 <p>(fx, fy) representing focal length; (cx, cy) representing principal point.</p>
 <dl class="field-list simple">
@@ -9680,7 +9807,7 @@ the dimension of each value.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.LinearCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LinearCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/linear_camera_cal.html#LinearCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.LinearCameraCal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Standard pinhole camera w/ four parameters [fx, fy, cx, cy].</p>
 <p>(fx, fy) representing focal length; (cx, cy) representing principal point.</p>
 <dl class="field-list simple">
@@ -9800,7 +9927,7 @@ the dimension of each value.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.OrthographicCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OrthographicCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/orthographic_camera_cal.html#OrthographicCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.OrthographicCameraCal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Orthographic camera model with four parameters [fx, fy, cx, cy].</p>
 <p>It would be possible to define orthographic cameras with only two parameters [fx, fy] but we
 keep the [cx, cy] parameters for consistency with the CameraCal interface.</p>
@@ -9851,7 +9978,7 @@ positive z-coordinates are considered valid.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.PolynomialCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PolynomialCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_undistorted_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_fov</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2.0943951023931953</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/polynomial_camera_cal.html#PolynomialCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PolynomialCameraCal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Polynomial camera model in the style of OpenCV</p>
 <p>Distortion is a multiplicative factor applied to the image plane coordinates in the camera
 frame. Mapping between distorted image plane coordinates and image coordinates is done using
@@ -9900,7 +10027,7 @@ image plane coordinates:</p>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal"><em>PolynomialCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.PolynomialCameraCal" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal"><em>PolynomialCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -9995,7 +10122,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dd class="field-odd"><p><strong>vec</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal"><em>PolynomialCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.PolynomialCameraCal" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal"><em>PolynomialCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -10013,7 +10140,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.polynomial_camera_cal.html#symforce.cam.polynomial_camera_cal.PolynomialCameraCal" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal"><em>PolynomialCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.PolynomialCameraCal" title="symforce.cam.polynomial_camera_cal.PolynomialCameraCal"><em>PolynomialCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -10023,7 +10150,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.PosedCamera">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PosedCamera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/posed_camera.html#PosedCamera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.PosedCamera" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera.html#symforce.cam.camera.Camera" title="symforce.cam.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.Camera" title="symforce.cam.camera.Camera"><code class="xref py py-class docutils literal notranslate"><span class="pre">Camera</span></code></a></p>
 <p>Camera with a given pose, camera calibration, and an optionally specified image size.</p>
 <p>If the image size is specified, we use it to check whether pixels (either given or computed by
 projection of 3D points into the image frame) are in the image frame and thus valid/invalid.</p>
@@ -10100,7 +10227,7 @@ of the given pixel. The point is positioned at a given range along the ray.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pixel</strong> (<a class="reference internal" href="#symforce.symbolic.Matrix21" title="symforce.geo.matrix.Matrix21"><em>Matrix21</em></a>) – Pixel in the source camera</p></li>
 <li><p><strong>inverse_range</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – Inverse distance along the ray to the global point</p></li>
-<li><p><strong>target_cam</strong> (<a class="reference internal" href="symforce.cam.posed_camera.html#symforce.cam.posed_camera.PosedCamera" title="symforce.cam.posed_camera.PosedCamera"><em>PosedCamera</em></a>) – Camera to project global point into</p></li>
+<li><p><strong>target_cam</strong> (<a class="reference internal" href="#symforce.symbolic.PosedCamera" title="symforce.cam.posed_camera.PosedCamera"><em>PosedCamera</em></a>) – Camera to project global point into</p></li>
 <li><p><strong>epsilon</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
@@ -10144,7 +10271,7 @@ of the given pixel. The point is positioned at a given range along the ray.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.symbolic.SphericalCameraCal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SphericalCameraCal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">focal_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">principal_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distortion_coeffs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0,</span> <span class="pre">0.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">critical_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.141592653589793</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/cam/spherical_camera_cal.html#SphericalCameraCal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.symbolic.SphericalCameraCal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="symforce.cam.camera_cal.html#symforce.cam.camera_cal.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#symforce.symbolic.CameraCal" title="symforce.cam.camera_cal.CameraCal"><code class="xref py py-class docutils literal notranslate"><span class="pre">CameraCal</span></code></a></p>
 <p>Kannala-Brandt camera model, where radial distortion is modeled relative to the 3D angle theta
 off the optical axis as opposed to radius within the image plane (i.e. ATANCamera)</p>
 <p>I.e. the radius in the image plane as a function of the angle theta from the camera z-axis is
@@ -10207,7 +10334,7 @@ two tangential distortion params similar to the Brown-Conrady model.</p>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal" title="symforce.cam.spherical_camera_cal.SphericalCameraCal"><em>SphericalCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.SphericalCameraCal" title="symforce.cam.spherical_camera_cal.SphericalCameraCal"><em>SphericalCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -10256,7 +10383,7 @@ This is used purely for plumbing, it is NOT like a tangent space.</p>
 <dd class="field-odd"><p><strong>vec</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal" title="symforce.cam.spherical_camera_cal.SphericalCameraCal"><em>SphericalCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.SphericalCameraCal" title="symforce.cam.spherical_camera_cal.SphericalCameraCal"><em>SphericalCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -10274,7 +10401,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="symforce.cam.spherical_camera_cal.html#symforce.cam.spherical_camera_cal.SphericalCameraCal" title="symforce.cam.spherical_camera_cal.SphericalCameraCal"><em>SphericalCameraCal</em></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#symforce.symbolic.SphericalCameraCal" title="symforce.cam.spherical_camera_cal.SphericalCameraCal"><em>SphericalCameraCal</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -11369,7 +11496,9 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 </ul>
 </li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3"><code class="docutils literal notranslate"><span class="pre">Unit3</span></code></a><ul>
+<li><a class="reference internal" href="#symforce.symbolic.Unit3.E_X"><code class="docutils literal notranslate"><span class="pre">E_X</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.E_Z"><code class="docutils literal notranslate"><span class="pre">E_Z</span></code></a></li>
+<li><a class="reference internal" href="#symforce.symbolic.Unit3.FLIP_Y"><code class="docutils literal notranslate"><span class="pre">FLIP_Y</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.storage_dim"><code class="docutils literal notranslate"><span class="pre">storage_dim()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.to_storage"><code class="docutils literal notranslate"><span class="pre">to_storage()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.from_storage"><code class="docutils literal notranslate"><span class="pre">from_storage()</span></code></a></li>
@@ -11382,10 +11511,14 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.to_tangent"><code class="docutils literal notranslate"><span class="pre">to_tangent()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.storage_D_tangent"><code class="docutils literal notranslate"><span class="pre">storage_D_tangent()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.tangent_D_storage"><code class="docutils literal notranslate"><span class="pre">tangent_D_storage()</span></code></a></li>
-<li><a class="reference internal" href="#symforce.symbolic.Unit3.to_rotation"><code class="docutils literal notranslate"><span class="pre">to_rotation()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.symbolic.Unit3.retract"><code class="docutils literal notranslate"><span class="pre">retract()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.symbolic.Unit3.local_coordinates"><code class="docutils literal notranslate"><span class="pre">local_coordinates()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.to_unit_vector"><code class="docutils literal notranslate"><span class="pre">to_unit_vector()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.symbolic.Unit3.basis"><code class="docutils literal notranslate"><span class="pre">basis()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.from_vector"><code class="docutils literal notranslate"><span class="pre">from_vector()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.symbolic.Unit3.from_unit_vector"><code class="docutils literal notranslate"><span class="pre">from_unit_vector()</span></code></a></li>
 <li><a class="reference internal" href="#symforce.symbolic.Unit3.random"><code class="docutils literal notranslate"><span class="pre">random()</span></code></a></li>
+<li><a class="reference internal" href="#symforce.symbolic.Unit3.random_from_uniform_samples"><code class="docutils literal notranslate"><span class="pre">random_from_uniform_samples()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#symforce.symbolic.ATANCameraCal"><code class="docutils literal notranslate"><span class="pre">ATANCameraCal</span></code></a><ul>
@@ -11500,7 +11633,7 @@ to <a class="reference internal" href="#symforce.symbolic.Symbol" title="symforc
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=7835836e"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

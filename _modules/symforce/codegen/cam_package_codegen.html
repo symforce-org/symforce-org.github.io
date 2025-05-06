@@ -598,7 +598,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -860,6 +859,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen</span><span class="w"> </span><span class="kn">import</span> <span class="n">template_util</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.ops_codegen_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_group_ops_funcs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.ops_codegen_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_lie_group_ops_funcs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.ops_codegen_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_manifold_ops_funcs</span>
 
 
 <div class="viewcode-block" id="pixel_from_camera_point_with_jacobians"><a class="viewcode-back" href="../../../api/symforce.codegen.cam_package_codegen.html#symforce.codegen.cam_package_codegen.pixel_from_camera_point_with_jacobians">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point_with_jacobians</span><span class="p">(</span>
@@ -876,8 +876,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
-    <span class="n">pixel_D_cal</span> <span class="o">=</span> <span class="n">pixel</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
-    <span class="n">pixel_D_point</span> <span class="o">=</span> <span class="n">pixel</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+    <span class="n">pixel_D_cal</span> <span class="o">=</span> <span class="n">pixel</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">pixel_D_point</span> <span class="o">=</span> <span class="n">pixel</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">is_valid</span><span class="p">,</span> <span class="n">pixel_D_cal</span><span class="p">,</span> <span class="n">pixel_D_point</span></div>
 
 
@@ -894,8 +894,8 @@
 <span class="sd">        point_D_pixel: Derivation of point with respect to pixel</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">point</span><span class="p">,</span> <span class="n">is_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
-    <span class="n">point_D_cal</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
-    <span class="n">point_D_pixel</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span>
+    <span class="n">point_D_cal</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
+    <span class="n">point_D_pixel</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">point</span><span class="p">,</span> <span class="n">is_valid</span><span class="p">,</span> <span class="n">point_D_cal</span><span class="p">,</span> <span class="n">point_D_pixel</span></div>
 
 
@@ -989,6 +989,13 @@
 
     <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_lie_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;LieGroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_manifold_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;LieGroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_lie_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_manifold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_camera_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;CameraOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -1262,7 +1269,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7835836e"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

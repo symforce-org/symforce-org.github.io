@@ -598,7 +598,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -842,69 +841,75 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">symforce.internal.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.ops.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">LieGroup</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix24</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix42</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix23</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix32</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Matrix33</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vector2</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.matrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vector3</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.rot3</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rot3</span>
 
 
 <div class="viewcode-block" id="Unit3"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Unit3</span><span class="p">(</span><span class="n">LieGroup</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Direction in R^3, represented as a :class:`Rot3 &lt;symforce.geo.rot3.Rot3&gt;` that transforms</span>
-<span class="sd">    [0, 0, 1] to the desired direction.</span>
+<span class="sd">    Direction in R^3 represented as a unit vector on the S^2 sphere manifold.</span>
 
-<span class="sd">    The storage is therefore a quaternion and the tangent space is 2 dimensional.</span>
-<span class="sd">    Most operations are implemented using operations from :class:`Rot3 &lt;symforce.geo.rot3.Rot3&gt;`.</span>
+<span class="sd">    Storage is three dimensional, and tangent space is two dimensional. Due to the nature of the</span>
+<span class="sd">    manifold, the unit X vector is handled as a singularity.</span>
 
-<span class="sd">    Note: an alternative implementation could directly store a unit vector and define its boxplus</span>
-<span class="sd">    manifold as described in Appendix B.2 of [Hertzberg 2013]. This can be done by finding the</span>
-<span class="sd">    Householder reflector of x and use it to transform the exponential map of delta, which is a</span>
-<span class="sd">    small perturbation in the tangent space (R^2). Namely::</span>
-
-<span class="sd">        x.retract(delta) = x [+] delta = Rx * Exp(delta), where</span>
-<span class="sd">        Exp(delta) = [sinc(||delta||) * delta, cos(||delta||)], and</span>
-<span class="sd">        Rx = (I - 2 vv^T / (v^Tv))X, v = x - e_z != 0, X is a matrix negating 2nd vector component</span>
-<span class="sd">        = I                     , x = e_z</span>
+<span class="sd">    The implementation of the retract and local_coordinates functions are based on Appendix B.2 :</span>
 
 <span class="sd">    [Hertzberg 2013] Integrating Generic Sensor Fusion Algorithms with Sound State Representations</span>
 <span class="sd">    through Encapsulation of Manifolds</span>
+
+<span class="sd">    The retract operation performs a perturbation to the desired unit X vector, which is then rotated to</span>
+<span class="sd">    desired position along the actual stored unit vector through a Householder-reflection + relection</span>
+<span class="sd">    across the XZ plane.</span>
+
+<span class="sd">        x.retract(delta) = x [+] delta = Rx * Exp(delta), where</span>
+<span class="sd">        Exp(delta) = [cos(||delta||), sinc(||delta||) * delta], and</span>
+<span class="sd">        Rx = (I - 2 vv^T / (v^Tv))X, v = x - e_x != 0, X is a matrix negating 2nd vector component</span>
+<span class="sd">           = diag(1, -1, -1)       , x = e_x</span>
+
+<span class="sd">    See: `unit3_visualization.ipynb` for a visualization of the Unit3 manifold.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">E_X</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">unit_x</span><span class="p">()</span>
     <span class="n">E_Z</span> <span class="o">=</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">unit_z</span><span class="p">()</span>
+    <span class="n">FLIP_Y</span> <span class="o">=</span> <span class="n">Matrix33</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rot3</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Rot3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Construct from a :class:`Rot3 &lt;symforce.geo.rot3.Rot3&gt;`, or identity if none provided.</span>
+<span class="sd">        Construct from a normalized :class:`Vector3 &lt;symforce.geo.matrix.Vector3&gt;`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rot3</span> <span class="o">=</span> <span class="n">rot3</span> <span class="k">if</span> <span class="n">rot3</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rot3</span><span class="p">,</span> <span class="n">Rot3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">)</span>
 
     <span class="c1"># -------------------------------------------------------------------------</span>
     <span class="c1"># Storage concept - see symforce.ops.storage_ops</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">xyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_unit_vector</span><span class="p">()</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;Unit3 xyz=[</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">]&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Unit3 xyz=[</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">]&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
 
 <div class="viewcode-block" id="Unit3.storage_dim"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.storage_dim">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">storage_dim</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Unit3.to_storage"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot3</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Unit3.from_storage"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Vector3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">vec</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Unit3.symbolic"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.symbolic">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">symbolic</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Rot3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Vector3</span><span class="o">.</span><span class="n">symbolic</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
 
     <span class="c1"># -------------------------------------------------------------------------</span>
     <span class="c1"># Group concept - see symforce.ops.group_ops</span>
@@ -912,13 +917,13 @@
 
 <div class="viewcode-block" id="Unit3.identity"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.identity">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Rot3</span><span class="o">.</span><span class="n">identity</span><span class="p">())</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Unit3 does not have an identity element&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Unit3.compose"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Unit3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Unit3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rot3</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">rot3</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Unit3 does not have a composition operation&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Unit3.inverse"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.inverse">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Unit3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rot3</span><span class="o">.</span><span class="n">inverse</span><span class="p">())</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Unit3 does not have an inverse operation&quot;</span><span class="p">)</span></div>
 
     <span class="c1"># -------------------------------------------------------------------------</span>
     <span class="c1"># Lie group implementation</span>
@@ -930,46 +935,140 @@
 
 <div class="viewcode-block" id="Unit3.from_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">([</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sf</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">Zero</span><span class="p">],</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">))</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Unit3.to_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot3</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span></div>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Unit3.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.storage_D_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix42</span><span class="p">:</span>
-        <span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot3</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">Matrix42</span><span class="p">,</span> <span class="n">Matrix</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">D</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">D</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]))</span></div>
+<div class="viewcode-block" id="Unit3.storage_D_tangent"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.storage_D_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">storage_D_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Matrix32</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Matrix32</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Rx</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">:])</span></div>
 
-<div class="viewcode-block" id="Unit3.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.tangent_D_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Matrix24</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">Matrix24</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Unit3.tangent_D_storage"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.tangent_D_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_D_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Matrix23</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Matrix23</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+
+    <span class="c1"># -------------------------------------------------------------------------</span>
+    <span class="c1"># Tangent space methods</span>
+    <span class="c1"># -------------------------------------------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_Rx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Matrix33</span><span class="p">:</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">E_X</span>
+
+        <span class="c1"># Calculate standard rotation matrix, that will be used in most</span>
+        <span class="c1"># locations across the spherical manifold.</span>
+        <span class="n">v_safe</span> <span class="o">=</span> <span class="n">v</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sign_no_zero</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">*</span> <span class="n">Vector3</span><span class="o">.</span><span class="n">unit_z</span><span class="p">()</span>
+        <span class="n">Rx_0</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Matrix33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">v_safe</span> <span class="o">*</span> <span class="n">v_safe</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">/</span> <span class="n">v_safe</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FLIP_Y</span>
+
+        <span class="c1"># If the vector is close to the singularity, we need to use a slightly different calculation.</span>
+        <span class="c1"># This calculation is specifically meant to address situations where the internal storage</span>
+        <span class="c1"># is :</span>
+        <span class="c1">#  - Closely aligned to the singularity direction.</span>
+        <span class="c1">#  - Slightly off of the spherical manifold. (i.e. storage is not a perfect unit vector)</span>
+        <span class="n">v_singularity</span> <span class="o">=</span> <span class="n">Vector3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">v_safe</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">v_safe</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">Rx_1</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">Matrix33</span><span class="o">.</span><span class="n">eye</span><span class="p">()</span>
+            <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">v_singularity</span> <span class="o">*</span> <span class="n">v_singularity</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">/</span> <span class="n">v_singularity</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">()</span>
+        <span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">FLIP_Y</span>
+
+        <span class="c1"># We are close to the singularity if the angle between self.x and E_X is close to 0.</span>
+        <span class="c1"># is_close = 0 -- if self.x is pointing in the positive X direction, and the distance</span>
+        <span class="c1">#                 from the X axis is small.</span>
+        <span class="c1"># is_close = 1 -- if self.x is pointing at all in the negative X direction, or if the</span>
+        <span class="c1">#                 distance from the X axis is larger than 10 * epsilon.</span>
+        <span class="n">is_close</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">less</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">squared_norm</span><span class="p">(),</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sign_no_zero</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+        <span class="c1"># Use Rx_0 for most Unit3 directions. Use Rx_1 if we are close to the singularity.</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">is_close</span><span class="p">)</span> <span class="o">*</span> <span class="n">Rx_0</span> <span class="o">+</span> <span class="n">is_close</span> <span class="o">*</span> <span class="n">Rx_1</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_exp</span><span class="p">(</span><span class="n">delta</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>
+        <span class="n">delta_vector</span> <span class="o">=</span> <span class="n">Vector2</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">sinc_safe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">:</span>
+            <span class="n">x_safe</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sign_no_zero</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_safe</span><span class="p">)</span> <span class="o">/</span> <span class="n">x_safe</span>
+
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">delta_vector</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Vector3</span><span class="p">(</span>
+            <span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">norm</span><span class="p">),</span>
+            <span class="n">sinc_safe</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_vector</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">sinc_safe</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_vector</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_logarithm</span><span class="p">(</span><span class="n">vector</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Vector2</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">vector</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">w_safe</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">vector</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">w_safe</span><span class="p">)</span> <span class="o">/</span> <span class="n">sf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">w_safe</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Unit3.retract"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">],</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_unit_vector</span><span class="p">(</span><span class="n">Vector3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Rx</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_exp</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Unit3.local_coordinates"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span> <span class="n">Unit3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logarithm</span><span class="p">(</span>
+            <span class="n">Vector3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_Rx</span><span class="p">(</span><span class="n">epsilon</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span> <span class="o">*</span> <span class="n">vector</span><span class="o">.</span><span class="n">to_unit_vector</span><span class="p">()),</span> <span class="n">epsilon</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">()</span></div>
 
     <span class="c1"># -------------------------------------------------------------------------</span>
     <span class="c1"># Helper methods</span>
     <span class="c1"># -------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Unit3.to_rotation"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.to_rotation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot3</span></div>
-
 <div class="viewcode-block" id="Unit3.to_unit_vector"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.to_unit_vector">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_unit_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">E_Z</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a :class:`Vector3` version of the unit direction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span></div>
+
+<div class="viewcode-block" id="Unit3.basis"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.basis">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Matrix32</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a :class:`Matrix32` with the basis vectors of the tangent space (in R^3) at the</span>
+<span class="sd">        current Unit3 direction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage_D_tangent</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Unit3.from_vector"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.from_vector">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_vector</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a :class:`Unit3` that points along the direction of vector ``a``</span>
 
-<span class="sd">        ``a`` does not have to be a unit vector.</span>
+<span class="sd">        ``a`` will be normalized.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">normalized</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">Rot3</span><span class="o">.</span><span class="n">from_two_unit_vectors</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">E_Z</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">normalized</span><span class="p">(</span><span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Unit3.from_unit_vector"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.from_unit_vector">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_unit_vector</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="n">Vector3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a :class:`Unit3` that points along the direction of vector ``a``</span>
+
+<span class="sd">        ``a`` is expected to be a unit vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Unit3.random"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.random">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">random</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">())</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generate a random element of :class:`Unit3`, by generating a random rotation first and then</span>
-<span class="sd">        rotating ``e_z`` to get a random direction.</span>
+<span class="sd">        Generate a random :class:`Unit3` direction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_vector</span><span class="p">(</span><span class="n">Rot3</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">E_Z</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div></div>
+        <span class="n">u1</span><span class="p">,</span> <span class="n">u2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,))</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">random_from_uniform_samples</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Unit3.random_from_uniform_samples"><a class="viewcode-back" href="../../../api/symforce.geo.unit3.html#symforce.geo.unit3.Unit3.random_from_uniform_samples">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">random_from_uniform_samples</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">u1</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">u2</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a random :class:`Unit3` direction from two variables uniformly sampled in [0, 1].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">u1</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">u2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_vector</span><span class="p">(</span>
+            <span class="n">Vector3</span><span class="p">([</span><span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)]),</span>
+            <span class="n">epsilon</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
 </pre></div>
         </article>
       </div>
@@ -1002,7 +1101,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7835836e"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

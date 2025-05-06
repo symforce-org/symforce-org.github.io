@@ -598,7 +598,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -840,6 +839,8 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">GroupOps</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">.storage_ops_test_mixin</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageOpsTestMixin</span>
@@ -850,6 +851,9 @@
 <span class="sd">    Test helper for the GroupOps concept. Inherit a test case from this.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># Are identity, inverse, compose, and between defined?</span>
+    <span class="n">VALID_GROUP</span> <span class="o">=</span> <span class="kc">True</span>
+
 <div class="viewcode-block" id="GroupOpsTestMixin.test_group_ops"><a class="viewcode-back" href="../../../api/symforce.test_util.group_ops_test_mixin.html#symforce.test_util.group_ops_test_mixin.GroupOpsTestMixin.test_group_ops">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_group_ops</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Tests:</span>
@@ -859,6 +863,13 @@
 <span class="sd">        - compose</span>
 <span class="sd">        - between</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO(chet): If a type is not a group, this entire `GroupOpsTestMixin` should not be</span>
+        <span class="c1">#             being run. However, until Lie Groups and Manifolds are separated, this</span>
+        <span class="c1">#             inheritance is necessary. If this Lie Group / Manifold split happens in</span>
+        <span class="c1">#             the future, the `VALID_GROUP` check can be removed.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_GROUP</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">unittest</span><span class="o">.</span><span class="n">SkipTest</span><span class="p">(</span><span class="s2">&quot;This test only applies to valid group elements.&quot;</span><span class="p">)</span>
+
         <span class="c1"># Create an identity and non-identity element</span>
         <span class="n">element</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">element</span><span class="p">()</span>
         <span class="n">identity</span> <span class="o">=</span> <span class="n">GroupOps</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
@@ -915,7 +926,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7835836e"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

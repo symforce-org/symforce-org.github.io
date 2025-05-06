@@ -598,7 +598,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -859,6 +858,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen</span><span class="w"> </span><span class="kn">import</span> <span class="n">template_util</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.ops_codegen_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_group_ops_funcs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.ops_codegen_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_lie_group_ops_funcs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen.ops_codegen_util</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_manifold_ops_funcs</span>
 
 
 <div class="viewcode-block" id="geo_class_common_data"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_package_codegen.html#symforce.codegen.geo_package_codegen.geo_class_common_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">geo_class_common_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">CodegenConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
@@ -871,14 +871,25 @@
 
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;GroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="c1"># Group + Lie Group Functions</span>
+    <span class="k">if</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">sf</span><span class="o">.</span><span class="n">GROUP_GEO_TYPES</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_lie_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;GroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_lie_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;LieGroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_lie_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_lie_group_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="c1"># Manifold Functions</span>
+    <span class="c1"># Note(chet): Currently all geo types are valid manifolds.</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_manifold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">make_manifold_ops_funcs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;specs&quot;</span><span class="p">][</span><span class="s2">&quot;LieGroupOps&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
 
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;doc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_lie_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;from_tangent&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">data</span></div>
 
@@ -1009,6 +1020,20 @@
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">position</span><span class="p">,</span> <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="n">pose_type</span><span class="p">],</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
         <span class="p">]</span>
 
+    <span class="n">unit3_functions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">to_unit_vector</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">random_from_uniform_samples</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="c1"># TODO(chet): because the generated C++ config has normalization default option for class</span>
+    <span class="c1"># initialization, these functions are custom written. For Python config, the normalization</span>
+    <span class="c1"># default does not exist and so generating these functions automatically is not-redundant.</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">PythonConfig</span><span class="p">):</span>
+        <span class="n">unit3_functions</span> <span class="o">+=</span> <span class="p">[</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">from_vector</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">from_unit_vector</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+        <span class="p">]</span>
+
     <span class="k">return</span> <span class="p">{</span>
         <span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="p">:</span> <span class="p">[</span>
             <span class="n">codegen_mul</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector2</span><span class="p">),</span>
@@ -1036,11 +1061,7 @@
             <span class="p">),</span>
             <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="o">.</span><span class="n">to_homogenous_matrix</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
         <span class="p">],</span>
-        <span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="p">:</span> <span class="p">[</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">from_vector</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">to_unit_vector</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-            <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="o">.</span><span class="n">to_rotation</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
-        <span class="p">],</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="p">:</span> <span class="n">unit3_functions</span><span class="p">,</span>
     <span class="p">}</span>
 
 
@@ -1073,7 +1094,7 @@
             <span class="n">data</span><span class="p">[</span><span class="s2">&quot;custom_generated_methods&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">custom_generated_methods</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="p">{})</span>
             <span class="k">if</span> <span class="bp">cls</span> <span class="o">==</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose2</span><span class="p">:</span>
                 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;imported_classes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot2</span><span class="p">]</span>
-            <span class="k">elif</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="p">{</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">Unit3</span><span class="p">}:</span>
+            <span class="k">elif</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="p">{</span><span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">}:</span>
                 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;imported_classes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">]</span>
 
             <span class="k">for</span> <span class="n">base_dir</span><span class="p">,</span> <span class="n">relative_path</span> <span class="ow">in</span> <span class="p">(</span>
@@ -1111,7 +1132,11 @@
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;geo_package_python_test.py&quot;</span><span class="p">,):</span>
             <span class="n">templates</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
                 <span class="n">template_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;tests&quot;</span><span class="p">,</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;.jinja&quot;</span><span class="p">),</span>
-                <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span> <span class="n">all_types</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">GEO_TYPES</span><span class="p">),</span>
+                <span class="n">data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">Codegen</span><span class="o">.</span><span class="n">common_data</span><span class="p">(),</span>
+                    <span class="n">all_types</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">GEO_TYPES</span><span class="p">,</span>
+                    <span class="n">group_geo_types</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">GROUP_GEO_TYPES</span><span class="p">,</span>
+                <span class="p">),</span>
                 <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">render_template_config</span><span class="p">,</span>
                 <span class="n">output_path</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;tests&quot;</span> <span class="o">/</span> <span class="n">name</span><span class="p">,</span>
             <span class="p">)</span>
@@ -1174,6 +1199,11 @@
                     <span class="n">cpp_geo_types</span><span class="o">=</span><span class="p">[</span>
                         <span class="sa">f</span><span class="s2">&quot;sym::</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">scalar</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
                         <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">sf</span><span class="o">.</span><span class="n">GEO_TYPES</span>
+                        <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;scalar_types&quot;</span><span class="p">]</span>
+                    <span class="p">],</span>
+                    <span class="n">cpp_group_geo_types</span><span class="o">=</span><span class="p">[</span>
+                        <span class="sa">f</span><span class="s2">&quot;sym::</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">scalar</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
+                        <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">sf</span><span class="o">.</span><span class="n">GROUP_GEO_TYPES</span>
                         <span class="k">for</span> <span class="n">scalar</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;scalar_types&quot;</span><span class="p">]</span>
                     <span class="p">],</span>
                     <span class="n">cpp_matrix_types</span><span class="o">=</span><span class="p">[</span>
@@ -1243,7 +1273,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7835836e"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -607,7 +607,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -1359,7 +1358,7 @@ conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> <
 </pre></div>
 </div>
 <p>You should then <a class="reference internal" href="#verify-your-installation">verify your installation</a>.</p>
-<p><em><strong>Note:</strong></em> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> will not install pinned versions of SymForce’s dependencies, it’ll install any compatible versions.  It also won’t install all packages required to run all of the SymForce tests and build all of the targets (e.g. building the docs or running the linters).  If you want all packages required for that, you should <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.[dev]</span></code> instead (or one of the other groups of extra requirements in our <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>).  If you additionally want pinned versions of our dependencies, which are the exact versions guaranteed by CI to pass all of our tests, you can install them from <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements_dev_py3&lt;version&gt;.txt</span></code>.</p>
+<p><em><strong>Note:</strong></em> <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code> will not install pinned versions of SymForce’s dependencies, it’ll install any compatible versions.  It also won’t install all packages required to run all of the SymForce tests and build all of the targets (e.g. building the docs or running the linters).  If you want all packages required for that, you should <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.[dev]</span></code> instead (or one of the other groups of extra requirements in our <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>).  If you additionally want pinned versions of our dependencies, which are the exact versions guaranteed by CI to pass all of our tests, you can install them from <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements/dev_py3&lt;version&gt;.txt</span></code>.</p>
 <p><em>Note: Editable installs as root with the system python on Ubuntu (and other Debian derivatives) are broken on <code class="docutils literal notranslate"><span class="pre">setuptools&lt;64.0.0</span></code>.  This is a <a class="reference external" href="https://ffy00.github.io/blog/02-python-debian-and-the-install-locations/">bug in Debian</a>, not something in SymForce that we can fix.  If this is your situation, either use a virtual environment, upgrade setuptools to a version <code class="docutils literal notranslate"><span class="pre">&gt;=64.0.0</span></code>, or use a different installation method.</em></p>
 </section>
 <section id="build-with-cmake">
@@ -1367,10 +1366,10 @@ conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> <
 <p>If you’ll be modifying the C++ parts of SymForce, you should build with CMake directly instead - this method will not install
 SymForce into your Python environment, so you’ll need to add it to your PYTHONPATH separately.</p>
 <p>Install dependencies required to build and run SymForce:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements_build.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements/build_py3&lt;version&gt;.txt
 </pre></div>
 </div>
-<p><em><strong>Note:</strong></em> <code class="docutils literal notranslate"><span class="pre">requirements_build</span></code> contains only packages required to build and run symforce, but not everything recommended to develop symforce, like to run the SymForce tests and linters.  For that, install the full pinned requirements using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements_dev_py3&lt;version&gt;.txt</span></code> for your Python version.</p>
+<p><em><strong>Note:</strong></em> <code class="docutils literal notranslate"><span class="pre">requirements/build_py3&lt;version&gt;.txt</span></code> contains only packages required to build and run symforce, but not everything recommended to develop symforce, like to run the SymForce tests and linters.  For that, install the full pinned requirements using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements/dev_py3&lt;version&gt;.txt</span></code> for your Python version.</p>
 <p>Build SymForce (requires C++14 or later):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build
 <span class="nb">cd</span><span class="w"> </span>build
@@ -1552,7 +1551,7 @@ make<span class="w"> </span>-j<span class="w"> </span><span class="k">$(</span>n
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=7835836e"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

@@ -607,7 +607,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -943,6 +942,9 @@ Tests live in <code class="docutils literal notranslate"><span class="pre">test<
 </section>
 <section id="building-wheels">
 <h2>Building wheels<a class="headerlink" href="#building-wheels" title="Permalink to this heading">¶</a></h2>
+<p>Wheels are built automatically for pushes to the main branch, by the <code class="docutils literal notranslate"><span class="pre">build_wheels</span></code> GitHub
+Actions workflow.  Previous runs of this workflow will have the built wheels available as an
+artifact.  The workflow can also be run manually on a branch.</p>
 <p>You should be able to build Python wheels of symforce the standard ways.  We recommend using
 <code class="docutils literal notranslate"><span class="pre">build</span></code>, i.e. running <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">build</span> <span class="pre">--wheel</span></code> from the <code class="docutils literal notranslate"><span class="pre">symforce</span></code> directory.  By default,
 this will build a wheel that includes local dependencies on the <code class="docutils literal notranslate"><span class="pre">skymarshal</span></code> and <code class="docutils literal notranslate"><span class="pre">symforce-sym</span></code>
@@ -950,11 +952,6 @@ packages (which are separate Python packages from <code class="docutils literal 
 typically want to set the environment variable <code class="docutils literal notranslate"><span class="pre">SYMFORCE_REWRITE_LOCAL_DEPENDENCIES</span></code> to the
 release version when building, and also run <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">build</span> <span class="pre">--wheel</span> <span class="pre">third_party/skymarshal</span></code> and
 <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">build</span> <span class="pre">--wheel</span> <span class="pre">gen/python</span></code> to build wheels for those packages separately.</p>
-<p>For SymForce releases, all of this is handled by the <code class="docutils literal notranslate"><span class="pre">build_wheels</span></code> GitHub Actions workflow.  This
-workflow is currently run manually on a commit, and produces a <code class="docutils literal notranslate"><span class="pre">symforce-wheels.zip</span></code> artifact with
-wheels (and sdists) for distribution (e.g. on PyPI).  It doesn’t upload them to PyPI - to do that
-(after verifying that the built wheels work as expected) you should download and unzip the archive,
-and upload to PyPI with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">twine</span> <span class="pre">upload</span> <span class="pre">[--repository</span> <span class="pre">testpypi]</span> <span class="pre">--verbose</span> <span class="pre">*</span></code>.</p>
 </section>
 <section id="adding-new-types">
 <h2>Adding new types<a class="headerlink" href="#adding-new-types" title="Permalink to this heading">¶</a></h2>
@@ -1055,7 +1052,7 @@ cases in <code class="docutils literal notranslate"><span class="pre">test/symfo
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=7835836e"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>

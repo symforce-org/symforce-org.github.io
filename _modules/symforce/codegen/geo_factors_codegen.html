@@ -598,7 +598,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot2_8h.html">File between_factor_rot2.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__rot3_8h.html">File between_factor_rot3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__spherical__camera__cal_8h.html">File between_factor_spherical_camera_cal.h</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/between__factor__unit3_8h.html">File between_factor_unit3.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/camera_8h.html">File camera.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8cc.html">File group_ops.cc</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-gen-cpp/file/double__sphere__camera__cal_2group__ops_8h.html">File group_ops.h</a></li>
@@ -925,17 +924,22 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
         <span class="n">tangent_dim</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
-        <span class="n">between_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
-            <span class="n">func</span><span class="o">=</span><span class="n">between_factor</span><span class="p">,</span>
-            <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">tangent_dim</span><span class="p">,</span> <span class="n">tangent_dim</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
-            <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">],</span>
-            <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
-            <span class="n">docstring</span><span class="o">=</span><span class="n">get_between_factor_docstring</span><span class="p">(</span><span class="s2">&quot;a_T_b&quot;</span><span class="p">),</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;between_factor_</span><span class="si">{</span><span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
-        <span class="p">)</span>
-        <span class="n">between_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">between_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
+                <span class="n">func</span><span class="o">=</span><span class="n">between_factor</span><span class="p">,</span>
+                <span class="n">input_types</span><span class="o">=</span><span class="p">[</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">(</span><span class="n">tangent_dim</span><span class="p">,</span> <span class="n">tangent_dim</span><span class="p">),</span> <span class="n">sf</span><span class="o">.</span><span class="n">Symbol</span><span class="p">],</span>
+                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">],</span>
+                <span class="n">config</span><span class="o">=</span><span class="n">CppConfig</span><span class="p">(),</span>
+                <span class="n">docstring</span><span class="o">=</span><span class="n">get_between_factor_docstring</span><span class="p">(</span><span class="s2">&quot;a_T_b&quot;</span><span class="p">),</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">with_linearization</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;between_factor_</span><span class="si">{</span><span class="n">python_util</span><span class="o">.</span><span class="n">camelcase_to_snakecase</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">which_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">between_codegen</span><span class="o">.</span><span class="n">generate_function</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">skip_directory_nesting</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+            <span class="c1"># Skip classes that don&#39;t implement standard group operations.</span>
+            <span class="k">pass</span>
 
         <span class="n">prior_codegen</span> <span class="o">=</span> <span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
             <span class="n">func</span><span class="o">=</span><span class="n">prior_factor</span><span class="p">,</span>
@@ -1091,7 +1095,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=be6624e3"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=7835836e"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
