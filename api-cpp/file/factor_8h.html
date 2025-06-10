@@ -1108,6 +1108,15 @@
 </div>
  This version handles a variety of functors that take in individual input arguments rather than a <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values"><span class="std std-ref">Values</span></a> object - the last two arguments to <code class="docutils literal notranslate"><span class="pre">func</span></code> should be outputs for the residual and jacobian; arguments before that should be inputs to <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p>
 <p>If generating this factor from a single Python function, you probably want to use the <a class="reference internal" href="#classsym_1_1Factor_1a58d20ccc813cd45b0b4edc6b6065e934"><span class="std std-ref">Factor::Hessian</span></a> constructor instead (it’ll likely result in faster linearization). If you really want to generate a factor and use this constructor, <code class="docutils literal notranslate"><span class="pre">func</span></code> can be generated easily by creating a Codegen object from a Python function which returns the residual, then calling with_linearization with linearization_mode=STACKED_JACOBIAN</p>
+<p>Supported types of output arguments for the residual and jacobian:</p>
+<p><ul class="simple">
+<li><p>pointer to Eigen::SparseMatrix for matrices, VectorX&lt;Scalar&gt; for vectors</p></li>
+<li><p>pointer to MatrixX&lt;Scalar&gt; for matrices, VectorX&lt;Scalar&gt; for vectors</p></li>
+<li><p>pointer to Eigen::Matrix (or vector) with fixed size</p></li>
+<li><p>Eigen::Map&lt;Eigen::Matrix&gt; (or vector) with fixed size</p></li>
+</ul>
+</p>
+<p>Types must match across arguments - for example, you can’t mix a fixed-size residual with a dynamic-size jacobian.</p>
 <p>See <code class="docutils literal notranslate"><span class="pre">symforce_factor_test.cc</span></code> for many examples.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1125,6 +1134,16 @@
 <dd><p>Create from a functor that computes the full linearization, but takes in individual input arguments rather than a <a class="reference internal" href="../class/classsym_1_1Values.html#classsym_1_1Values"><span class="std std-ref">Values</span></a> object. The last four arguments to <code class="docutils literal notranslate"><span class="pre">func</span></code> should be outputs for the residual, jacobian, hessian, and rhs; arguments before that should be inputs to <code class="docutils literal notranslate"><span class="pre">func</span></code>.</p>
 <p>This should be used in cases where computing J^T J using a matrix multiplication is slower than evaluating J^T J symbolically; for instance, if the jacobian is sparse or J^T J has structure so that CSE is very effective.</p>
 <p><code class="docutils literal notranslate"><span class="pre">func</span></code> can be generated easily by creating a Codegen object from a Python function which returns the residual, then calling with_linearization with linearization_mode=FULL_LINEARIZATION (the default)</p>
+<p>Supported types of output arguments for the residual, jacobian, hessian, and rhs:</p>
+<p><ul class="simple">
+<li><p>pointer to Eigen::SparseMatrix for matrices, VectorX&lt;Scalar&gt; for vectors</p></li>
+<li><p>pointer to Eigen::SparseMatrix for matrices, fixed size vectors</p></li>
+<li><p>pointer to Eigen::Matrix (or vector) with dynamic size</p></li>
+<li><p>pointer to Eigen::Matrix (or vector) with fixed size</p></li>
+<li><p>Eigen::Map&lt;Eigen::Matrix&gt; (or vector) with fixed size</p></li>
+</ul>
+</p>
+<p>Types must match across arguments - for example, you can’t mix a sparse Jacobian with a dense Hessian.</p>
 <p>See <code class="docutils literal notranslate"><span class="pre">symforce_factor_test.cc</span></code> for many examples.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1287,7 +1306,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=7835836e"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=70f08908"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

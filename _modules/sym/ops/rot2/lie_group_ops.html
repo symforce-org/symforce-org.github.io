@@ -883,7 +883,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
         <span class="c1"># type: (sym.Rot2, float) -&gt; numpy.ndarray</span>
 
-        <span class="c1"># Total ops: 5</span>
+        <span class="c1"># Total ops: 3</span>
 
         <span class="c1"># Input arrays</span>
         <span class="n">_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">data</span>
@@ -892,9 +892,7 @@
 
         <span class="c1"># Output terms</span>
         <span class="n">_res</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span>
-            <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="p">((</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.retract"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.rot2.lie_group_ops.html#sym.ops.rot2.lie_group_ops.LieGroupOps.retract">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -928,7 +926,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
         <span class="c1"># type: (sym.Rot2, sym.Rot2, float) -&gt; numpy.ndarray</span>
 
-        <span class="c1"># Total ops: 11</span>
+        <span class="c1"># Total ops: 9</span>
 
         <span class="c1"># Input arrays</span>
         <span class="n">_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">data</span>
@@ -939,17 +937,14 @@
 
         <span class="c1"># Output terms</span>
         <span class="n">_res</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span>
-            <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">_tmp0</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="p">((</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">_tmp0</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_tmp0</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">),</span>
-        <span class="p">)</span>
+        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_tmp0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">_tmp0</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.interpolate"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.rot2.lie_group_ops.html#sym.ops.rot2.lie_group_ops.LieGroupOps.interpolate">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
         <span class="c1"># type: (sym.Rot2, sym.Rot2, float, float) -&gt; sym.Rot2</span>
 
-        <span class="c1"># Total ops: 20</span>
+        <span class="c1"># Total ops: 18</span>
 
         <span class="c1"># Input arrays</span>
         <span class="n">_a</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">data</span>
@@ -958,8 +953,7 @@
         <span class="c1"># Intermediate terms (4)</span>
         <span class="n">_tmp0</span> <span class="o">=</span> <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">_tmp1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span>
-            <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="n">_tmp0</span> <span class="o">+</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="p">((</span><span class="mf">0.0</span> <span class="k">if</span> <span class="n">_tmp0</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">_tmp0</span><span class="p">))</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">),</span>
+            <span class="n">_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">_b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">_tmp0</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">_tmp0</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="n">_tmp2</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_tmp1</span><span class="p">)</span>
         <span class="n">_tmp3</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">_tmp1</span><span class="p">)</span>
@@ -1001,7 +995,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=7835836e"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=70f08908"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
