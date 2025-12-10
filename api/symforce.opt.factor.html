@@ -851,7 +851,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="symforce.opt.factor.Factor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">residual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_jacobian_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/symforce/opt/factor.html#Factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#symforce.opt.factor.Factor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A class used to represent symbolic factors as used in a factor graph. The factor is typically
 constructed from either a function or from a symbolic expression using
 <a class="reference internal" href="#symforce.opt.factor.Factor.from_inputs_and_residual" title="symforce.opt.factor.Factor.from_inputs_and_residual"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_inputs_and_residual()</span></code></a>. A linearization function can be generated from the
@@ -859,13 +859,13 @@ factor using <a class="reference internal" href="#symforce.opt.factor.Factor.gen
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>keys</strong> (<em>T.Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – The set of variables that are inputs to the factor. These should be in order of
+<li><p><strong>keys</strong> (<em>T.Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – The set of variables that are inputs to the factor. These should be in order of
 the residual function arguments.</p></li>
 <li><p><strong>residual</strong> (<em>T.Callable</em><em>[</em><em>...</em><em>, </em><em>sf.Matrix</em><em>]</em>) – The residual function for the factor. When passed symbolic inputs, this should
 return a symbolic expression for the residual.</p></li>
 <li><p><strong>config</strong> (<em>T.Optional</em><em>[</em><a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>codegen_config.CodegenConfig</em></a><em>]</em>) – The language the numeric factor will be generated in. Defaults to Python, which
 does not require any compilation.</p></li>
-<li><p><strong>custom_jacobian_func</strong> (<em>T.Optional</em><em>[</em><em>T.Callable</em><em>[</em><em>[</em><em>T.Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em><em>, </em><em>sf.Matrix</em><em>]</em><em>]</em>) – A functor that computes the jacobian, typically unnecessary unless
+<li><p><strong>custom_jacobian_func</strong> (<em>T.Optional</em><em>[</em><em>T.Callable</em><em>[</em><em>[</em><em>T.Iterable</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em><em>]</em><em>, </em><em>sf.Matrix</em><em>]</em><em>]</em>) – A functor that computes the jacobian, typically unnecessary unless
 you want to override the jacobian computed by SymForce, e.g. to stop derivatives
 with respect to certain variables or directions, or because the jacobian can be
 analytically simplified in a way that SymForce won’t do automatically. If not
@@ -899,7 +899,7 @@ symbolic expressions composed from the symbolic variables in the inputs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – The set of variables that are inputs to the factor. These should be in order of
+<li><p><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – The set of variables that are inputs to the factor. These should be in order of
 input <a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values" title="symforce.values.values.Values"><code class="xref py py-class docutils literal notranslate"><span class="pre">Values</span></code></a> entries (computed using
 <a class="reference internal" href="symforce.values.values.html#symforce.values.values.Values.keys_recursive" title="symforce.values.values.Values.keys_recursive"><code class="xref py py-func docutils literal notranslate"><span class="pre">inputs.keys_recursive()</span></code></a>), and
 are the keys used in the overall optimization problem.</p></li>
@@ -907,14 +907,14 @@ are the keys used in the overall optimization problem.</p></li>
 <li><p><strong>residual</strong> (<a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a>) – An expression representing the residual of the factor.</p></li>
 <li><p><strong>config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.CodegenConfig" title="symforce.codegen.codegen_config.CodegenConfig"><em>CodegenConfig</em></a><em> | </em><em>None</em>) – The language the numeric factor will be generated in. Defaults to Python, which
 does not require any compilation.</p></li>
-<li><p><strong>custom_jacobian_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.13)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em><em>]</em><em>, </em><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em>] </em><em>| </em><em>None</em>) – A functor that computes the jacobian, typically unnecessary unless
+<li><p><strong>custom_jacobian_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.14)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em><em>]</em><em>, </em><a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.Matrix" title="symforce.geo.matrix.Matrix"><em>Matrix</em></a><em>] </em><em>| </em><em>None</em>) – A functor that computes the jacobian, typically unnecessary unless
 you want to override the jacobian computed by SymForce, e.g. to stop derivatives
 with respect to certain variables or directions, or because the jacobian can be
 analytically simplified in a way that SymForce won’t do automatically. If not
 provided, the jacobian will be computed automatically.  If provided, this should be
 a function that takes the set of optimized keys, and returns the jacobian of the
 residual with respect to those keys.</p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>) – Any other arguments to be passed to the codegen object used to generate the
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>) – Any other arguments to be passed to the codegen object used to generate the
 numeric factor. See <a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.Codegen" title="symforce.codegen.codegen.Codegen"><code class="xref py py-class docutils literal notranslate"><span class="pre">Codegen</span></code></a> for details.</p></li>
 </ul>
 </dd>
@@ -932,10 +932,10 @@ Factor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>optimized_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Keys which we compute the linearization of the residual with respect to.</p></li>
-<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.13)"><em>PathLike</em></a><em> | </em><em>None</em>) – Where the generated linearization function will be output.</p></li>
-<li><p><strong>namespace</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – Namespace of the generated linearization function.</p></li>
-<li><p><strong>sparse_linearization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether the generated linearization function should use sparse
+<li><p><strong>optimized_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – Keys which we compute the linearization of the residual with respect to.</p></li>
+<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.14)"><em>PathLike</em></a><em> | </em><em>None</em>) – Where the generated linearization function will be output.</p></li>
+<li><p><strong>namespace</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>) – Namespace of the generated linearization function.</p></li>
+<li><p><strong>sparse_linearization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Whether the generated linearization function should use sparse
 matrices for the jacobian and hessian approximation</p></li>
 </ul>
 </dd>
@@ -946,7 +946,7 @@ matrices for the jacobian and hessian approximation</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><em>Any</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -959,10 +959,10 @@ linearization function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>optimized_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Keys which we compute the linearization of the residual with respect to.</p></li>
-<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.13)"><em>PathLike</em></a><em> | </em><em>None</em>) – Where the generated linearization function will be output</p></li>
-<li><p><strong>namespace</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><em>None</em>) – Namespace of the generated linearization function</p></li>
-<li><p><strong>sparse_linearization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether the generated linearization function should use sparse
+<li><p><strong>optimized_keys</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – Keys which we compute the linearization of the residual with respect to.</p></li>
+<li><p><strong>output_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.14)"><em>PathLike</em></a><em> | </em><em>None</em>) – Where the generated linearization function will be output</p></li>
+<li><p><strong>namespace</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><em>None</em>) – Namespace of the generated linearization function</p></li>
+<li><p><strong>sparse_linearization</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Whether the generated linearization function should use sparse
 matrices for the jacobian and hessian approximation</p></li>
 </ul>
 </dd>
@@ -981,8 +981,8 @@ matrices for the jacobian and hessian approximation</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>factors</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><a class="reference internal" href="#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><em>Factor</em></a><em>]</em>) – List of factors to visualize, including all mentioned keys</p></li>
-<li><p><strong>outfile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.13)"><em>PathLike</em></a><em> | </em><em>None</em>) – Output file, if given. Format is parsed from the extension.</p></li>
+<li><p><strong>factors</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><em>Sequence</em></a><em>[</em><a class="reference internal" href="#symforce.opt.factor.Factor" title="symforce.opt.factor.Factor"><em>Factor</em></a><em>]</em>) – List of factors to visualize, including all mentioned keys</p></li>
+<li><p><strong>outfile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/os.html#os.PathLike" title="(in Python v3.14)"><em>PathLike</em></a><em> | </em><em>None</em>) – Output file, if given. Format is parsed from the extension.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1071,7 +1071,7 @@ matrices for the jacobian and hessian approximation</p></li>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=e89efa3f"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=729c4bb7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

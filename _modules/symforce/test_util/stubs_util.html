@@ -839,19 +839,44 @@
 <span class="c1"># This source code is under the Apache 2.0 license found in the LICENSE file.</span>
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pybind11_stubgen</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Class</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Docstring</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Identifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Import</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidExpression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">QualifiedName</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResolvedType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pybind11_stubgen.structs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Value</span>
 
 
 <div class="viewcode-block" id="FixMissingImports"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.FixMissingImports">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FixMissingImports</span><span class="p">(</span><span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixMissingImports</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_add_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">QualifiedName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">QualifiedName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">Identifier</span><span class="p">(</span><span class="s2">&quot;lcmtypes&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__extra_imports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">Import</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">Identifier</span><span class="p">(</span><span class="s2">&quot;lcmtypes&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__extra_imports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Import</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
             <span class="k">return</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_add_import</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_add_import</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># NOTE(aaron): Fixed in https://github.com/sizmailov/pybind11-stubgen/pull/263</span>
+<div class="viewcode-block" id="FixMissingImports.parse_annotation_str"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.FixMissingImports.parse_annotation_str">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">parse_annotation_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedType</span> <span class="o">|</span> <span class="n">InvalidExpression</span> <span class="o">|</span> <span class="n">Value</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_annotation_str</span><span class="p">(</span><span class="n">annotation_str</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">handle_annotation</span><span class="p">(</span><span class="n">annotation</span><span class="p">:</span> <span class="n">ResolvedType</span> <span class="o">|</span> <span class="n">InvalidExpression</span> <span class="o">|</span> <span class="n">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="n">ResolvedType</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_import</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">annotation</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">annotation</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+                        <span class="n">handle_annotation</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="n">handle_annotation</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
 
 
 <div class="viewcode-block" id="patch_lcmtype_imports"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.patch_lcmtype_imports">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">patch_lcmtype_imports</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -859,10 +884,45 @@
     <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">FixMissingImports</span> <span class="o">=</span> <span class="n">FixMissingImports</span>  <span class="c1"># type: ignore[misc]</span></div>
 
 
+<div class="viewcode-block" id="patch_current_module_prefix"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.patch_current_module_prefix">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">patch_current_module_prefix</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fix use of the current module in nested types</span>
+
+<span class="sd">    Could upstream</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse_annotation_str</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixCurrentModulePrefixInTypeNames</span><span class="p">,</span>
+        <span class="n">annotation_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedType</span> <span class="o">|</span> <span class="n">InvalidExpression</span> <span class="o">|</span> <span class="n">Value</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span>  <span class="c1"># type: ignore[safe-super]</span>
+            <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixCurrentModulePrefixInTypeNames</span><span class="p">,</span> <span class="bp">self</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">parse_annotation_str</span><span class="p">(</span><span class="n">annotation_str</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">handle_annotation</span><span class="p">(</span><span class="n">annotation</span><span class="p">:</span> <span class="n">ResolvedType</span> <span class="o">|</span> <span class="n">InvalidExpression</span> <span class="o">|</span> <span class="n">Value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="n">ResolvedType</span><span class="p">):</span>
+                <span class="n">annotation</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_strip_current_module</span><span class="p">(</span><span class="n">annotation</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">annotation</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">annotation</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+                        <span class="n">handle_annotation</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+        <span class="n">handle_annotation</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixCurrentModulePrefixInTypeNames</span><span class="o">.</span><span class="n">parse_annotation_str</span> <span class="o">=</span> <span class="p">(</span>  <span class="c1"># type: ignore[method-assign]</span>
+        <span class="n">parse_annotation_str</span>
+    <span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="patch_handle_docstring"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.patch_handle_docstring">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">patch_handle_docstring</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Patch BaseParser.handle_docstring to always strip empty lines from the start or end of</span>
+<span class="sd">    docstrings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">handle_docstring</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">IParser</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">QualifiedName</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">Docstring</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">IParser</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">QualifiedName</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Docstring</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
                 <span class="bp">self</span><span class="p">,</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">ExtractSignaturesFromPybind11Docstrings</span>
@@ -873,29 +933,6 @@
     <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">BaseParser</span><span class="o">.</span><span class="n">handle_docstring</span> <span class="o">=</span> <span class="n">handle_docstring</span>  <span class="c1"># type: ignore[method-assign]</span></div>
 
 
-<div class="viewcode-block" id="patch_remove_parameters"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.patch_remove_parameters">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">patch_remove_parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">handle_class</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixNumpyArrayRemoveParameters</span><span class="p">,</span>
-        <span class="n">path</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">QualifiedName</span><span class="p">,</span>
-        <span class="n">class_</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">Class</span><span class="p">]:</span>
-        <span class="n">maybe_class</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span>  <span class="c1"># type: ignore[safe-super]</span>
-            <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixNumpyArrayRemoveParameters</span><span class="p">,</span> <span class="bp">self</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">handle_class</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">class_</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">maybe_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">maybe_class</span>
-
-        <span class="n">methods</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">maybe_class</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
-                <span class="n">methods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
-        <span class="n">maybe_class</span><span class="o">.</span><span class="n">methods</span> <span class="o">=</span> <span class="n">methods</span>
-
-        <span class="k">return</span> <span class="n">maybe_class</span>
-
-    <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixNumpyArrayRemoveParameters</span><span class="o">.</span><span class="n">handle_class</span> <span class="o">=</span> <span class="n">handle_class</span>  <span class="c1"># type: ignore[method-assign,assignment]</span></div>
-
-
 <div class="viewcode-block" id="patch_fix_missing_none_hash_field_annotation"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.patch_fix_missing_none_hash_field_annotation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">patch_fix_missing_none_hash_field_annotation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    See https://github.com/sizmailov/pybind11-stubgen/pull/236</span>
@@ -903,9 +940,9 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">handle_field</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixMissingNoneHashFieldAnnotation</span><span class="p">,</span>
-        <span class="n">path</span><span class="p">:</span> <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">QualifiedName</span><span class="p">,</span>
+        <span class="n">path</span><span class="p">:</span> <span class="n">QualifiedName</span><span class="p">,</span>
         <span class="n">field</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">structs</span><span class="o">.</span><span class="n">Field</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Field</span><span class="p">]:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span>  <span class="c1"># type: ignore[safe-super]</span>
             <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixMissingNoneHashFieldAnnotation</span><span class="p">,</span> <span class="bp">self</span>
         <span class="p">)</span><span class="o">.</span><span class="n">handle_field</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
@@ -916,6 +953,83 @@
         <span class="k">return</span> <span class="n">result</span>
 
     <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixMissingNoneHashFieldAnnotation</span><span class="o">.</span><span class="n">handle_field</span> <span class="o">=</span> <span class="n">handle_field</span>  <span class="c1"># type: ignore[method-assign]</span></div>
+
+
+<div class="viewcode-block" id="patch_numpy_annotations"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.patch_numpy_annotations">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">patch_numpy_annotations</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">FixTypingTypeNames</span><span class="p">(</span><span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixTypingTypeNames</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_parse_annotation_str</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">result</span><span class="p">:</span> <span class="n">ResolvedType</span> <span class="o">|</span> <span class="n">InvalidExpression</span> <span class="o">|</span> <span class="n">Value</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedType</span> <span class="o">|</span> <span class="n">InvalidExpression</span> <span class="o">|</span> <span class="n">Value</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ResolvedType</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">result</span>
+
+            <span class="n">result</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_parse_annotation_str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;typing&quot;</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__typing_extensions_names</span><span class="p">:</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">QualifiedName</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;typing_extensions.</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+
+            <span class="n">word</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__typing_names</span><span class="p">:</span>
+                <span class="n">package</span> <span class="o">=</span> <span class="s2">&quot;typing&quot;</span>
+                <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__typing_extensions_names</span><span class="p">:</span>
+                    <span class="n">package</span> <span class="o">=</span> <span class="s2">&quot;typing_extensions&quot;</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">QualifiedName</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}{</span><span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">word</span> <span class="o">==</span> <span class="s2">&quot;function&quot;</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">QualifiedName</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;typing.Callable&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;object&quot;</span><span class="p">,</span> <span class="s2">&quot;handle&quot;</span><span class="p">}</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">QualifiedName</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;typing.Any&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+    <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixTypingTypeNames</span> <span class="o">=</span> <span class="n">FixTypingTypeNames</span>  <span class="c1"># type: ignore[misc]</span>
+    <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">FixTypingTypeNames</span> <span class="o">=</span> <span class="n">FixTypingTypeNames</span>  <span class="c1"># type: ignore[misc]</span></div>
+
+
+<div class="viewcode-block" id="FixNumpyArrayRemoveParameters"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.FixNumpyArrayRemoveParameters">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FixNumpyArrayRemoveParameters</span><span class="p">(</span><span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">IParser</span><span class="p">):</span>
+    <span class="n">__ndarray_name</span> <span class="o">=</span> <span class="n">QualifiedName</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;numpy.typing.ArrayLike&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FixNumpyArrayRemoveParameters.handle_class"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.FixNumpyArrayRemoveParameters.handle_class">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle_class</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">QualifiedName</span><span class="p">,</span> <span class="n">class_</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Class</span><span class="p">]:</span>
+        <span class="n">maybe_class</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">handle_class</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">class_</span><span class="p">)</span>  <span class="c1"># type: ignore[safe-super]</span>
+        <span class="k">if</span> <span class="n">maybe_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">maybe_class</span>
+
+        <span class="n">methods</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">maybe_class</span><span class="o">.</span><span class="n">methods</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+                <span class="n">methods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+        <span class="n">maybe_class</span><span class="o">.</span><span class="n">methods</span> <span class="o">=</span> <span class="n">methods</span>
+
+        <span class="k">return</span> <span class="n">maybe_class</span></div>
+
+<div class="viewcode-block" id="FixNumpyArrayRemoveParameters.parse_annotation_str"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.FixNumpyArrayRemoveParameters.parse_annotation_str">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">parse_annotation_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotation_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResolvedType</span> <span class="o">|</span> <span class="n">InvalidExpression</span> <span class="o">|</span> <span class="n">Value</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">parse_annotation_str</span><span class="p">(</span><span class="n">annotation_str</span><span class="p">)</span>  <span class="c1"># type: ignore[safe-super]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">ResolvedType</span><span class="p">)</span> <span class="ow">and</span> <span class="n">result</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">QualifiedName</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span>
+            <span class="s2">&quot;typing.Annotated&quot;</span>
+        <span class="p">):</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">parameters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+                <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ResolvedType</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ndarray_name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+
+<div class="viewcode-block" id="patch_remove_parameters"><a class="viewcode-back" href="../../../api/symforce.test_util.stubs_util.html#symforce.test_util.stubs_util.patch_remove_parameters">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">patch_remove_parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fix NumpyArrayRemoveParameters to work with pybind 3.x and deduplicate overloads</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">mixins</span><span class="o">.</span><span class="n">fix</span><span class="o">.</span><span class="n">FixNumpyArrayRemoveParameters</span> <span class="o">=</span> <span class="n">FixNumpyArrayRemoveParameters</span>  <span class="c1"># type: ignore[misc,assignment]</span>
+    <span class="n">pybind11_stubgen</span><span class="o">.</span><span class="n">FixNumpyArrayRemoveParameters</span> <span class="o">=</span> <span class="n">FixNumpyArrayRemoveParameters</span>  <span class="c1"># type: ignore[misc,assignment]</span></div>
 </pre></div>
         </article>
       </div>
@@ -948,7 +1062,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=e89efa3f"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=729c4bb7"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

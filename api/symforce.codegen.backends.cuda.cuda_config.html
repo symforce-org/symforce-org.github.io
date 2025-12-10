@@ -856,16 +856,16 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>doc_comment_line_prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Prefix applied to each line in a docstring</p></li>
-<li><p><strong>line_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Maximum allowed line length in docstrings; used for formatting docstrings.</p></li>
-<li><p><strong>use_eigen_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Use eigen_lcm types for vectors instead of lists</p></li>
+<li><p><strong>doc_comment_line_prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Prefix applied to each line in a docstring</p></li>
+<li><p><strong>line_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Maximum allowed line length in docstrings; used for formatting docstrings.</p></li>
+<li><p><strong>use_eigen_types</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Use eigen_lcm types for vectors instead of lists</p></li>
 <li><p><strong>autoformat</strong> – Run a code formatter on the generated code</p></li>
 <li><p><strong>custom_preamble</strong> – An optional string to be prepended on the front of the rendered template</p></li>
-<li><p><strong>cse_optimizations</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><em>Literal</em></a><em>[</em><em>'basic'</em><em>] </em><em>| </em><em>~typing.Sequence</em><em>[</em><em>~typing.Tuple</em><em>[</em><em>~typing.Callable</em><em>, </em><em>~typing.Callable</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Optimizations argument to pass to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cse" title="symforce.symbolic.cse"><code class="xref py py-func docutils literal notranslate"><span class="pre">sf.cse</span></code></a></p></li>
+<li><p><strong>cse_optimizations</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><em>Literal</em></a><em>[</em><em>'basic'</em><em>] </em><em>| </em><em>~typing.Sequence</em><em>[</em><em>~typing.Tuple</em><em>[</em><em>~typing.Callable</em><em>, </em><em>~typing.Callable</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Optimizations argument to pass to <a class="reference internal" href="symforce.symbolic.html#symforce.symbolic.cse" title="symforce.symbolic.cse"><code class="xref py py-func docutils literal notranslate"><span class="pre">sf.cse</span></code></a></p></li>
 <li><p><strong>zero_epsilon_behavior</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.ZeroEpsilonBehavior" title="symforce.codegen.codegen_config.ZeroEpsilonBehavior"><em>ZeroEpsilonBehavior</em></a>) – What should codegen do if a default epsilon is not set?</p></li>
-<li><p><strong>normalize_results</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Should function outputs be explicitly projected onto the manifold before
+<li><p><strong>normalize_results</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Should function outputs be explicitly projected onto the manifold before
 returning?</p></li>
-<li><p><strong>override_methods</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.sympy.org/latest/modules/core.html#sympy.core.function.Function" title="(in SymPy v1.14.0)"><em>Function</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Add special function overrides in dictionary with symforce function keys
+<li><p><strong>override_methods</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.sympy.org/latest/modules/core.html#sympy.core.function.Function" title="(in SymPy v1.14.0)"><em>Function</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Add special function overrides in dictionary with symforce function keys
 (e.g. <code class="docutils literal notranslate"><span class="pre">sympy.sin</span></code>) and a string for the new method (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;fast_math::sin_lut&quot;</span></code>),
 note that this bypasses the default namespace (so std:: won’t be added in front
 automatically). Note that the keys here need to be sympy keys, not symengine (e.g.
@@ -876,14 +876,14 @@ different way, e.g. replacing <code class="docutils literal notranslate"><span c
 substituting a function with a different function, which will break derivatives and
 certain simplifications, e.g. you should not use this to replace <code class="docutils literal notranslate"><span class="pre">sin</span></code> with <code class="docutils literal notranslate"><span class="pre">cos</span></code>
 or <code class="docutils literal notranslate"><span class="pre">sin</span></code> with <code class="docutils literal notranslate"><span class="pre">my_lib::cos</span></code>.</p></li>
-<li><p><strong>extra_imports</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Add extra imports to the file if you use custom overrides for some functions
+<li><p><strong>extra_imports</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Add extra imports to the file if you use custom overrides for some functions
 (e.g. add fast_math.h). Note that these are only added on a call to
 <a class="reference internal" href="symforce.codegen.codegen.html#symforce.codegen.codegen.Codegen.generate_function" title="symforce.codegen.codegen.Codegen.generate_function"><code class="xref py py-meth docutils literal notranslate"><span class="pre">generate_function</span></code></a>, i.e.
 you can’t define custom functions in e.g. the geo package using this</p></li>
 <li><p><strong>scalar_type</strong> (<a class="reference internal" href="symforce.codegen.backends.cuda.cuda_code_printer.html#symforce.codegen.backends.cuda.cuda_code_printer.ScalarType" title="symforce.codegen.backends.cuda.cuda_code_printer.ScalarType"><em>ScalarType</em></a>) – The scalar type to use (float or double)</p></li>
-<li><p><strong>inline</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether to generate inline functions (in the header) or a separate <code class="docutils literal notranslate"><span class="pre">.cu</span></code> file
+<li><p><strong>inline</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a>) – Whether to generate inline functions (in the header) or a separate <code class="docutils literal notranslate"><span class="pre">.cu</span></code> file
 containing the function definition</p></li>
-<li><p><strong>builtin_vector_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Set" title="(in Python v3.13)"><em>Set</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Names of inputs and outputs that should use CUDA’s
+<li><p><strong>builtin_vector_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Set" title="(in Python v3.14)"><em>Set</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – Names of inputs and outputs that should use CUDA’s
 <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#built-in-vector-types">builtin vector types</a>
 instead of pointers to scalars</p></li>
 <li><p><strong>render_template_config</strong> (<a class="reference internal" href="symforce.codegen.codegen_config.html#symforce.codegen.codegen_config.RenderTemplateConfig" title="symforce.codegen.codegen_config.RenderTemplateConfig"><em>RenderTemplateConfig</em></a>) – </p></li>
@@ -892,27 +892,27 @@ instead of pointers to scalars</p></li>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.doc_comment_line_prefix">
-<span class="sig-name descname"><span class="pre">doc_comment_line_prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span> <span class="pre">*</span> <span class="pre">'</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.doc_comment_line_prefix" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">doc_comment_line_prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'</span> <span class="pre">*</span> <span class="pre">'</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.doc_comment_line_prefix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.line_length">
-<span class="sig-name descname"><span class="pre">line_length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.line_length" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">line_length</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.line_length" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.use_eigen_types">
-<span class="sig-name descname"><span class="pre">use_eigen_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.use_eigen_types" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">use_eigen_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.use_eigen_types" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.override_methods">
-<span class="sig-name descname"><span class="pre">override_methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.13)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.sympy.org/latest/modules/core.html#sympy.core.function.Function" title="(in SymPy v1.14.0)"><span class="pre">Function</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.override_methods" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">override_methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.sympy.org/latest/modules/core.html#sympy.core.function.Function" title="(in SymPy v1.14.0)"><span class="pre">Function</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.override_methods" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.extra_imports">
-<span class="sig-name descname"><span class="pre">extra_imports</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.extra_imports" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extra_imports</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.extra_imports" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -922,12 +922,12 @@ instead of pointers to scalars</p></li>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.inline">
-<span class="sig-name descname"><span class="pre">inline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.inline" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">inline</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.inline" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="symforce.codegen.backends.cuda.cuda_config.CudaConfig.builtin_vector_variables">
-<span class="sig-name descname"><span class="pre">builtin_vector_variables</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Set" title="(in Python v3.13)"><span class="pre">Set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.builtin_vector_variables" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">builtin_vector_variables</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Set" title="(in Python v3.14)"><span class="pre">Set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#symforce.codegen.backends.cuda.cuda_config.CudaConfig.builtin_vector_variables" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -937,7 +937,7 @@ instead of pointers to scalars</p></li>
 and will be used to namespace by backend in generated code.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -948,7 +948,7 @@ and will be used to namespace by backend in generated code.</p>
 <dd><p>Directory for jinja templates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><em>Path</em></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><em>Path</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -960,10 +960,10 @@ and will be used to namespace by backend in generated code.</p>
 render and the relative output paths where they should go.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>generated_file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – </p>
+<dd class="field-odd"><p><strong>generated_file_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – </p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.13)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>]]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.14)"><em>Tuple</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -987,14 +987,14 @@ render and the relative output paths where they should go.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – </p></li>
-<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – </p></li>
-<li><p><strong>j</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – </p></li>
-<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – </p></li>
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – </p></li>
+<li><p><strong>j</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – </p></li>
+<li><p><strong>shape</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.14)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1006,12 +1006,12 @@ render and the relative output paths where they should go.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – </p></li>
-<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – </p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – </p></li>
+<li><p><strong>i</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1104,7 +1104,7 @@ render and the relative output paths where they should go.</p>
       
     </aside>
   </div>
-</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=e89efa3f"></script>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=729c4bb7"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/scripts/furo.js?v=5fa4622c"></script>

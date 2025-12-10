@@ -860,13 +860,13 @@
 point, generates a linear approximation to the residual function.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Factor.all_keys">
-<span class="sig-name descname"><span class="pre">all_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Factor.all_keys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">all_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Factor.all_keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all keys required to evaluate this factor.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Factor.is_sparse">
-<span class="sig-name descname"><span class="pre">is_sparse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Factor.is_sparse" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_sparse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Factor.is_sparse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does this factor use a sparse jacobian/hessian matrix?</p>
 </dd></dl>
 
@@ -875,7 +875,7 @@ point, generates a linear approximation to the residual function.</p>
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">jacobian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cc_sym.Factor.jacobian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic">
-<li><p>jacobian(jacobian_func: Callable[[cc_sym.Values, list[lcmtypes.sym._index_entry_t.index_entry_t]], tuple], keys: list[cc_sym.Key], sparse: bool = False) -&gt; cc_sym.Factor</p>
+<li><p>jacobian(jacobian_func: collections.abc.Callable[[cc_sym.Values, collections.abc.Sequence[lcmtypes.sym._index_entry_t.index_entry_t]], tuple], keys: collections.abc.Sequence[cc_sym.Key], sparse: bool = False) -&gt; cc_sym.Factor</p>
 <blockquote>
 <div><p>Create from a function that computes the jacobian. The hessian will be computed using the
 Gauss Newton approximation:</p>
@@ -892,7 +892,7 @@ sparse: Create a sparse factor if True, dense factor if false. Defaults to dense
 </dl>
 </div></blockquote>
 </li>
-<li><p>jacobian(jacobian_func: Callable[[cc_sym.Values, list[lcmtypes.sym._index_entry_t.index_entry_t]], tuple], keys_to_func: list[cc_sym.Key], keys_to_optimize: list[cc_sym.Key], sparse: bool = False) -&gt; cc_sym.Factor</p>
+<li><p>jacobian(jacobian_func: collections.abc.Callable[[cc_sym.Values, collections.abc.Sequence[lcmtypes.sym._index_entry_t.index_entry_t]], tuple], keys_to_func: collections.abc.Sequence[cc_sym.Key], keys_to_optimize: collections.abc.Sequence[cc_sym.Key], sparse: bool = False) -&gt; cc_sym.Factor</p>
 <blockquote>
 <div><p>Create from a function that computes the jacobian. The hessian will be computed using the
 Gauss Newton approximation:</p>
@@ -917,7 +917,7 @@ sparse: Create a sparse factor if True, dense factor if false. Defaults to dense
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Factor.linearize">
-<span class="sig-name descname"><span class="pre">linearize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a></span></span><a class="headerlink" href="#cc_sym.Factor.linearize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">linearize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a></span></span><a class="headerlink" href="#cc_sym.Factor.linearize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate the factor at the given linearization point and output just the numerical values of the residual and jacobian.</p>
 </dd></dl>
 
@@ -931,7 +931,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Factor.optimized_keys">
-<span class="sig-name descname"><span class="pre">optimized_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Factor.optimized_keys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">optimized_keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Factor.optimized_keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the optimized keys for this factor.</p>
 </dd></dl>
 
@@ -944,12 +944,12 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 <p>Class to on-manifold preintegrate IMU measurements for usage in a SymForce optimization problem.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.ImuPreintegrator.covariance">
-<span class="sig-name descname"><span class="pre">covariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.ImuPreintegrator" title="cc_sym.ImuPreintegrator"><span class="pre">cc_sym.ImuPreintegrator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">9</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">9</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.ImuPreintegrator.covariance" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">covariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.ImuPreintegrator" title="cc_sym.ImuPreintegrator"><span class="pre">cc_sym.ImuPreintegrator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[9,</span> <span class="pre">9]'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.ImuPreintegrator.covariance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.ImuPreintegrator.integrate_measurement">
-<span class="sig-name descname"><span class="pre">integrate_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.ImuPreintegrator" title="cc_sym.ImuPreintegrator"><span class="pre">cc_sym.ImuPreintegrator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured_accel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured_gyro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_cov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_cov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.220446049250313e-15</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.ImuPreintegrator.integrate_measurement" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">integrate_measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.ImuPreintegrator" title="cc_sym.ImuPreintegrator"><span class="pre">cc_sym.ImuPreintegrator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured_accel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured_gyro</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accel_cov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gyro_cov</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><span class="pre">SupportsFloat</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><span class="pre">SupportsFloat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.220446049250313e-15</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.ImuPreintegrator.integrate_measurement" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -992,7 +992,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Key.lexical_less_than">
-<span class="sig-name descname"><span class="pre">lexical_less_than</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Key.lexical_less_than" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">lexical_less_than</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Key.lexical_less_than" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return true if a is LESS than b, in dictionary order of the tuple (letter, sub, super).</p>
 </dd></dl>
 
@@ -1010,19 +1010,19 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Key.with_letter">
-<span class="sig-name descname"><span class="pre">with_letter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">letter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></span><a class="headerlink" href="#cc_sym.Key.with_letter" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">with_letter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">letter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></span><a class="headerlink" href="#cc_sym.Key.with_letter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new key with a modified letter from an existing one.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Key.with_sub">
-<span class="sig-name descname"><span class="pre">with_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></span><a class="headerlink" href="#cc_sym.Key.with_sub" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">with_sub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></span><a class="headerlink" href="#cc_sym.Key.with_sub" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new key with a modified subscript from an existing one.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Key.with_super">
-<span class="sig-name descname"><span class="pre">with_super</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">super</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></span><a class="headerlink" href="#cc_sym.Key.with_super" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">with_super</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">super</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></span><a class="headerlink" href="#cc_sym.Key.with_super" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new key with a modified superscript from an existing one.</p>
 </dd></dl>
 
@@ -1035,7 +1035,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 <p>Class for storing a problem linearization evaluated at a Values (i.e. a residual, jacobian, hessian, and rhs).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Linearization.error">
-<span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.error" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -1045,7 +1045,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Linearization.is_initialized">
-<span class="sig-name descname"><span class="pre">is_initialized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.is_initialized" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">is_initialized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.is_initialized" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns whether the linearization is currently valid for the corresponding values. Accessing any of the members when this is false could result in unexpected behavior.</p>
 </dd></dl>
 
@@ -1056,12 +1056,12 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Linearization.linear_delta_error">
-<span class="sig-name descname"><span class="pre">linear_delta_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damping_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.linear_delta_error" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">linear_delta_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[m,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damping_vector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[m,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.linear_delta_error" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Linearization.reset">
-<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.reset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set to invalid.</p>
 </dd></dl>
 
@@ -1077,7 +1077,7 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Linearization.set_initialized">
-<span class="sig-name descname"><span class="pre">set_initialized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initialized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.set_initialized" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_initialized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">initialized</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Linearization.set_initialized" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1148,14 +1148,14 @@ contains the numerical values of the residual, jacobian, hessian, and right-hand
 <p>Class for optimizing a nonlinear least-squares problem specified as a list of Factors. For efficient use, create once and call Optimize() multiple times with different initial guesses, as long as the factors remain constant and the structure of the Values is identical.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.compute_all_covariances">
-<span class="sig-name descname"><span class="pre">compute_all_covariances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linearization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.compute_all_covariances" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compute_all_covariances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linearization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[m,</span> <span class="pre">n]'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.compute_all_covariances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get covariances for each optimized key at the given linearization</p>
 <p>May not be called before either optimize or linearize has been called.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.compute_covariances">
-<span class="sig-name descname"><span class="pre">compute_covariances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linearization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.compute_covariances" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compute_covariances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linearization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)"><span class="pre">collections.abc.Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[m,</span> <span class="pre">n]'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.compute_covariances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get covariances for the given subset of keys at the given linearization</p>
 <p>This version is potentially much more efficient than computing the covariances for all
 keys in the problem.</p>
@@ -1170,7 +1170,7 @@ most efficient if the hessian is of the following form, with C block diagonal:</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.compute_full_covariance">
-<span class="sig-name descname"><span class="pre">compute_full_covariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linearization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">n</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.compute_full_covariance" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compute_full_covariance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">linearization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Linearization" title="cc_sym.Linearization"><span class="pre">cc_sym.Linearization</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[m,</span> <span class="pre">n]'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.compute_full_covariance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the full problem covariance at the given linearization</p>
 <p>Unlike compute_covariance and compute_all_covariances, this includes the off-diagonal
 blocks, i.e. the cross-covariances between different keys.</p>
@@ -1181,19 +1181,19 @@ which can be accessed via linearization_index().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.factors">
-<span class="sig-name descname"><span class="pre">factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.factors" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">factors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.factors" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the factors.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.keys">
-<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.keys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Optimizer.keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the optimized keys.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.linearization_index">
-<span class="sig-name descname"><span class="pre">linearization_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="headerlink" href="#cc_sym.Optimizer.linearization_index" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">linearization_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="headerlink" href="#cc_sym.Optimizer.linearization_index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1212,7 +1212,7 @@ which can be accessed via linearization_index().</p>
 <span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cc_sym.Optimizer.optimize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic">
-<li><p>optimize(self: cc_sym.Optimizer, values: cc_sym.Values, num_iterations: int = -1, populate_best_linearization: bool = False) -&gt; cc_sym.OptimizationStats</p>
+<li><p>optimize(self: cc_sym.Optimizer, values: cc_sym.Values, num_iterations: typing.SupportsInt = -1, populate_best_linearization: bool = False) -&gt; cc_sym.OptimizationStats</p>
 <blockquote>
 <div><p>Optimize the given values in-place</p>
 <dl>
@@ -1224,7 +1224,7 @@ which can be accessed via linearization_index().</p>
 </dl>
 </div></blockquote>
 </li>
-<li><p>optimize(self: cc_sym.Optimizer, values: cc_sym.Values, num_iterations: int, populate_best_linearization: bool, stats: cc_sym.OptimizationStats) -&gt; None</p>
+<li><p>optimize(self: cc_sym.Optimizer, values: cc_sym.Values, num_iterations: typing.SupportsInt, populate_best_linearization: bool, stats: cc_sym.OptimizationStats) -&gt; None</p>
 <blockquote>
 <div><p>Optimize the given values in-place</p>
 <p>This overload takes the stats as an argument, and stores into there.  This allows users to
@@ -1238,7 +1238,7 @@ important.  If passed, stats must not be None.</p>
 </dl>
 </div></blockquote>
 </li>
-<li><p>optimize(self: cc_sym.Optimizer, values: cc_sym.Values, num_iterations: int, stats: cc_sym.OptimizationStats) -&gt; None</p>
+<li><p>optimize(self: cc_sym.Optimizer, values: cc_sym.Values, num_iterations: typing.SupportsInt, stats: cc_sym.OptimizationStats) -&gt; None</p>
 <blockquote>
 <div><p>Optimize the given values in-place</p>
 <p>This overload takes the stats as an argument, and stores into there.  This allows users to
@@ -1268,7 +1268,7 @@ important.  If passed, stats must not be None.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Optimizer.update_params">
-<span class="sig-name descname"><span class="pre">update_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._optimizer_params_t.optimizer_params_t</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Optimizer.update_params" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Optimizer" title="cc_sym.Optimizer"><span class="pre">cc_sym.Optimizer</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._optimizer_params_t.optimizer_params_t</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Optimizer.update_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update the optimizer params.</p>
 </dd></dl>
 
@@ -1321,7 +1321,7 @@ important.  If passed, stats must not be None.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.PreintegratedImuMeasurements.Delta.roll_forward_state">
-<span class="sig-name descname"><span class="pre">roll_forward_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.PreintegratedImuMeasurements.Delta" title="cc_sym.PreintegratedImuMeasurements.Delta"><span class="pre">cc_sym.PreintegratedImuMeasurements.Delta</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sym.Pose3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">sym.Pose3</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.PreintegratedImuMeasurements.Delta.roll_forward_state" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">roll_forward_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.PreintegratedImuMeasurements.Delta" title="cc_sym.PreintegratedImuMeasurements.Delta"><span class="pre">cc_sym.PreintegratedImuMeasurements.Delta</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pose_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">sym.Pose3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vel_i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gravity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">sym.Pose3</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.PreintegratedImuMeasurements.Delta.roll_forward_state" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1363,7 +1363,7 @@ important.  If passed, stats must not be None.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.PreintegratedImuMeasurements.get_bias_corrected_delta">
-<span class="sig-name descname"><span class="pre">get_bias_corrected_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.PreintegratedImuMeasurements" title="cc_sym.PreintegratedImuMeasurements"><span class="pre">cc_sym.PreintegratedImuMeasurements</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_accel_bias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_gyro_bias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.PreintegratedImuMeasurements.Delta" title="cc_sym.PreintegratedImuMeasurements.Delta"><span class="pre">cc_sym.PreintegratedImuMeasurements.Delta</span></a></span></span><a class="headerlink" href="#cc_sym.PreintegratedImuMeasurements.get_bias_corrected_delta" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_bias_corrected_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.PreintegratedImuMeasurements" title="cc_sym.PreintegratedImuMeasurements"><span class="pre">cc_sym.PreintegratedImuMeasurements</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_accel_bias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_gyro_bias</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Annotated" title="(in Python v3.14)"><span class="pre">Annotated</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.typing.ArrayLike</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.float64</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'[3,</span> <span class="pre">1]'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.PreintegratedImuMeasurements.Delta" title="cc_sym.PreintegratedImuMeasurements.Delta"><span class="pre">cc_sym.PreintegratedImuMeasurements.Delta</span></a></span></span><a class="headerlink" href="#cc_sym.PreintegratedImuMeasurements.get_bias_corrected_delta" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1402,7 +1402,7 @@ LieGroupOps concepts, which are the core operating mechanisms in this class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.cleanup">
-<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#cc_sym.Values.cleanup" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#cc_sym.Values.cleanup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Repack the data array to get rid of empty space from removed keys. If regularly removing
 keys, it’s up to the user to call this appropriately to avoid storage growth. Returns the
 number of Scalar elements cleaned up from the data array.</p>
@@ -1430,7 +1430,7 @@ not specified.</p>
 </dl>
 </div></blockquote>
 </li>
-<li><p>create_index(self: cc_sym.Values, keys: list[cc_sym.Key]) -&gt; lcmtypes.sym._index_t.index_t</p>
+<li><p>create_index(self: cc_sym.Values, keys: collections.abc.Sequence[cc_sym.Key]) -&gt; lcmtypes.sym._index_t.index_t</p>
 <blockquote>
 <div><p>Create an index from the given ordered subset of keys. This object can then be used
 for repeated efficient operations on that subset of keys.</p>
@@ -1449,37 +1449,37 @@ for repeated efficient operations on that subset of keys.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.data">
-<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.data" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raw data buffer.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.empty">
-<span class="sig-name descname"><span class="pre">empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Values.empty" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">empty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Values.empty" title="Permalink to this definition">¶</a></dt>
 <dd><p>Has zero keys.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.get_lcm_type">
-<span class="sig-name descname"><span class="pre">get_lcm_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lcmtypes.sym._values_t.values_t</span></span></span><a class="headerlink" href="#cc_sym.Values.get_lcm_type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">get_lcm_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_keys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lcmtypes.sym._values_t.values_t</span></span></span><a class="headerlink" href="#cc_sym.Values.get_lcm_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Serialize to LCM.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.has">
-<span class="sig-name descname"><span class="pre">has</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Values.has" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">has</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Values.has" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return whether the key exists.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.items">
-<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">lcmtypes.sym._index_entry_t.index_entry_t</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.items" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">lcmtypes.sym._index_entry_t.index_entry_t</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.items" title="Permalink to this definition">¶</a></dt>
 <dd><p>Expose map type to allow iteration.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.keys">
-<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_by_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.keys" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_by_offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.keys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all keys.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1490,28 +1490,44 @@ for repeated efficient operations on that subset of keys.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.local_coordinates">
-<span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">others</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._index_t.index_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><span class="pre">numpy.ndarray</span></a><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">[</span></span><span class="pre">m</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cc_sym.Values.local_coordinates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Express this Values in the local coordinate of others Values, i.e., this ominus others</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>others</strong> – The other Values that the local coordinate is relative to</p></li>
-<li><p><strong>index</strong> – Ordered list of keys to include (MUST be valid for both this and others Values)</p></li>
-<li><p><strong>epsilon</strong> – Small constant to avoid singularities (do not use zero)</p></li>
-</ul>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">local_coordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cc_sym.Values.local_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic">
+<li><p>local_coordinates(self: cc_sym.Values, others: cc_sym.Values, keys: collections.abc.Sequence[cc_sym.Key], epsilon: typing.SupportsFloat, tangent_dimension: typing.SupportsInt | None = None) -&gt; typing.Annotated[numpy.typing.NDArray[numpy.float64], “[m, 1]”]</p>
+<blockquote>
+<div><p>Compute the tangent space delta needed to transform this into others.
+Args:</p>
+<blockquote>
+<div><p>others: The other Values that the local coordinate is relative to
+keys: Keys (in order) for the resulting tangent space delta
+epsilon: Small constant to avoid singularities (do not use zero)
+tangent_dimension: Total tangent dimension; None to infer</p>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p>local_coordinates(self: cc_sym.Values, arg0: cc_sym.Values, arg1: lcmtypes.sym._index_t.index_t, arg2: typing.SupportsFloat) -&gt; typing.Annotated[numpy.typing.NDArray[numpy.float64], “[m, 1]”]</p>
+<blockquote>
+<div><p>Compute the tangent space delta needed to transform this into others.
+Args:</p>
+<blockquote>
+<div><p>others: The other Values that the local coordinate is relative to
+index: Ordered list of keys to include (valid for both Values)
+epsilon: Small constant to avoid singularities (do not use zero)</p>
+</div></blockquote>
+</div></blockquote>
+</li>
+</ol>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.num_entries">
-<span class="sig-name descname"><span class="pre">num_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#cc_sym.Values.num_entries" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">num_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#cc_sym.Values.num_entries" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of keys.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.remove">
-<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Values.remove" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Key" title="cc_sym.Key"><span class="pre">cc_sym.Key</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#cc_sym.Values.remove" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the given key. Only removes the index entry, does not change the data array.
 Returns true if removed, false if already not present.</p>
 <p>Call cleanup() to re-pack the data array.</p>
@@ -1519,13 +1535,13 @@ Returns true if removed, false if already not present.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.remove_all">
-<span class="sig-name descname"><span class="pre">remove_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Values.remove_all" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">remove_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Values.remove_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all keys and empty out the storage.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.retract">
-<span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._index_t.index_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Values.retract" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">retract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._index_t.index_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)"><span class="pre">collections.abc.Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><span class="pre">SupportsFloat</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><span class="pre">SupportsFloat</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Values.retract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a retraction from an update vector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1543,11 +1559,11 @@ Returns true if removed, false if already not present.</p>
 <span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cc_sym.Values.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: float) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.SupportsFloat) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="2">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: float) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.SupportsFloat) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="3">
@@ -1647,651 +1663,651 @@ Returns true if removed, false if already not present.</p>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="27">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="28">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="29">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="30">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="31">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="32">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="33">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="34">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="35">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="36">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="37">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="38">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="39">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="40">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="41">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="42">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="43">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="44">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="45">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="46">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="47">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="48">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="49">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="50">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="51">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="52">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="53">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="54">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="55">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="56">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="57">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 9]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 9]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="58">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 9]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 9]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="59">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[9, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="60">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[9, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[9, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="61">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="62">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="63">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="64">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="65">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="66">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="67">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="68">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="69">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="70">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="71">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="72">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="73">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="74">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="75">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="76">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="77">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="78">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="79">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="80">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="81">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="82">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="83">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="84">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="85">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="86">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="87">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 8]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 8]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="88">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 8]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 8]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="89">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[8, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="90">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[8, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[8, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="91">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="92">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="93">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="94">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="95">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="96">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="97">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="98">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="99">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="100">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="101">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="102">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="103">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="104">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="105">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="106">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="107">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="108">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="109">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="110">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="111">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="112">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="113">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 7]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 7]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="114">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 7]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 7]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="115">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[7, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="116">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[7, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[7, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="117">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="118">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="119">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="120">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="121">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="122">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="123">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="124">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="125">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="126">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="127">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="128">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="129">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="130">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="131">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="132">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="133">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="134">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="135">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 6]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 6]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="136">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 6]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 6]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="137">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[6, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="138">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[6, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[6, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="139">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="140">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="141">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="142">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="143">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="144">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="145">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="146">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="147">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="148">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="149">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="150">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="151">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="152">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="153">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 5]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 5]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="154">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 5]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 5]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="155">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[5, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="156">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[5, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[5, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="157">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="158">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="159">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="160">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="161">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="162">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="163">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="164">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="165">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="166">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="167">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 4]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 4]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="168">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 4]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 4]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="169">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[4, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="170">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[4, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[4, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="171">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="172">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="173">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="174">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="175">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="176">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="177">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 3]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 3]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="178">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 3]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 3]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="179">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[3, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="180">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[3, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[3, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="181">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="182">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="183">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 2]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 2]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="184">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 2]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 2]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="185">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[2, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="186">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[2, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[2, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 <ol class="arabic simple" start="187">
-<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: numpy.ndarray[numpy.float64[1, 1]]) -&gt; bool</p></li>
+<li><p>set(self: cc_sym.Values, key: cc_sym.Key, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 1]”]) -&gt; bool</p></li>
 </ol>
 <p>Add or update a value by key. Returns true if added, false if updated.</p>
 <ol class="arabic simple" start="188">
-<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: numpy.ndarray[numpy.float64[1, 1]]) -&gt; None</p></li>
+<li><p>set(self: cc_sym.Values, key: lcmtypes.sym._index_entry_t.index_entry_t, value: typing.Annotated[numpy.typing.ArrayLike, numpy.float64, “[1, 1]”]) -&gt; None</p></li>
 </ol>
 <p>Update a value by index entry with no map lookup (compared to Set(key)). This does NOT add new values and assumes the key exists already.</p>
 </dd></dl>
@@ -2312,7 +2328,7 @@ Returns true if removed, false if already not present.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cc_sym.Values.update_or_set">
-<span class="sig-name descname"><span class="pre">update_or_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._index_t.index_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Values.update_or_set" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">update_or_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._index_t.index_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.Values.update_or_set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update or add keys to this Values base on other Values of different structure.
 index MUST be valid for other.</p>
 <p>NOTE(alvin): it is less efficient than the Update methods below if index objects are created and cached. This method performs map lookup for each key of the index</p>
@@ -2328,13 +2344,13 @@ index MUST be valid for other.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cc_sym.optimize">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._optimizer_params_t.optimizer_params_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.220446049250313e-15</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.OptimizationStats" title="cc_sym.OptimizationStats"><span class="pre">cc_sym.OptimizationStats</span></a></span></span><a class="headerlink" href="#cc_sym.optimize" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">lcmtypes.sym._optimizer_params_t.optimizer_params_t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.14)"><span class="pre">collections.abc.Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#cc_sym.Factor" title="cc_sym.Factor"><span class="pre">cc_sym.Factor</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#cc_sym.Values" title="cc_sym.Values"><span class="pre">cc_sym.Values</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><span class="pre">SupportsFloat</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.220446049250313e-15</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#cc_sym.OptimizationStats" title="cc_sym.OptimizationStats"><span class="pre">cc_sym.OptimizationStats</span></a></span></span><a class="headerlink" href="#cc_sym.optimize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Simple wrapper to make optimization one function call.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cc_sym.set_log_level">
-<span class="sig-name descname"><span class="pre">set_log_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.set_log_level" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_log_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#cc_sym.set_log_level" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -2501,7 +2517,7 @@ index MUST be valid for other.</p>
       
     </aside>
   </div>
-</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=e89efa3f"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=729c4bb7"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/scripts/furo.js?v=5fa4622c"></script>
