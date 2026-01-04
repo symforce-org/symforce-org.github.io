@@ -845,6 +845,8 @@
 <span class="c1"># Do NOT modify by hand.</span>
 <span class="c1"># -----------------------------------------------------------------------------</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
@@ -866,11 +868,14 @@
     <span class="c1"># This is because of an issue where mypy doesn&#39;t recognize attributes defined in __slots__</span>
     <span class="c1"># See https://github.com/python/mypy/issues/5941</span>
     <span class="k">if</span> <span class="n">T</span><span class="o">.</span><span class="n">TYPE_CHECKING</span><span class="p">:</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: T.List[float]</span>
+        <span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">focal_length</span><span class="p">,</span> <span class="n">principal_point</span><span class="p">):</span>
-        <span class="c1"># type: (T.Union[T.Sequence[float], numpy.ndarray], T.Union[T.Sequence[float], numpy.ndarray]) -&gt; None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">focal_length</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">principal_point</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">focal_length</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">focal_length</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">{(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)}:</span>
                 <span class="n">focal_length</span> <span class="o">=</span> <span class="n">focal_length</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
@@ -905,32 +910,30 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">focal_length</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">principal_point</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; str</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># CameraOps</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="LinearCameraCal.focal_length"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.focal_length">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">focal_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="LinearCameraCal.focal_length"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.focal_length">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">focal_length</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the focal length.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">CameraOps</span><span class="o">.</span><span class="n">focal_length</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.principal_point"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.principal_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">principal_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="LinearCameraCal.principal_point"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.principal_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">principal_point</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the principal point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">CameraOps</span><span class="o">.</span><span class="n">principal_point</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal, numpy.ndarray, float) -&gt; T.Tuple[numpy.ndarray, float]</span>
+<div class="viewcode-block" id="LinearCameraCal.pixel_from_camera_point"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.pixel_from_camera_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Project a 3D point in the camera frame into 2D pixel coordinates.</span>
 
@@ -941,8 +944,9 @@
 
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">CameraOps</span><span class="o">.</span><span class="n">pixel_from_camera_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.pixel_from_camera_point_with_jacobians"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.pixel_from_camera_point_with_jacobians">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point_with_jacobians</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal, numpy.ndarray, float) -&gt; T.Tuple[numpy.ndarray, float, numpy.ndarray, numpy.ndarray]</span>
+<div class="viewcode-block" id="LinearCameraCal.pixel_from_camera_point_with_jacobians"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.pixel_from_camera_point_with_jacobians">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point_with_jacobians</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Project a 3D point in the camera frame into 2D pixel coordinates.</span>
 
@@ -955,8 +959,9 @@
 
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">CameraOps</span><span class="o">.</span><span class="n">pixel_from_camera_point_with_jacobians</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">camera_ray_from_pixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal, numpy.ndarray, float) -&gt; T.Tuple[numpy.ndarray, float]</span>
+<div class="viewcode-block" id="LinearCameraCal.camera_ray_from_pixel"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.camera_ray_from_pixel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">camera_ray_from_pixel</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</span>
 
@@ -967,8 +972,9 @@
 
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">CameraOps</span><span class="o">.</span><span class="n">camera_ray_from_pixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.camera_ray_from_pixel_with_jacobians"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.camera_ray_from_pixel_with_jacobians">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">camera_ray_from_pixel_with_jacobians</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pixel</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal, numpy.ndarray, float) -&gt; T.Tuple[numpy.ndarray, float, numpy.ndarray, numpy.ndarray]</span>
+<div class="viewcode-block" id="LinearCameraCal.camera_ray_from_pixel_with_jacobians"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.camera_ray_from_pixel_with_jacobians">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">camera_ray_from_pixel_with_jacobians</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">,</span> <span class="n">pixel</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Backproject a 2D pixel coordinate into a 3D ray in the camera frame.</span>
 
@@ -986,17 +992,14 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="LinearCameraCal.storage_dim"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.storage_dim">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">():</span>
-        <span class="c1"># type: () -&gt; int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">4</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.to_storage"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; T.List[float]</span>
+<div class="viewcode-block" id="LinearCameraCal.to_storage"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LinearCameraCal.from_storage"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">):</span>
-        <span class="c1"># type: (T.Sequence[float]) -&gt; LinearCameraCal</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">LinearCameraCal</span><span class="p">:</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -1016,13 +1019,11 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="LinearCameraCal.tangent_dim"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.tangent_dim">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_dim</span><span class="p">():</span>
-        <span class="c1"># type: () -&gt; int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_dim</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">4</span></div>
 
 <div class="viewcode-block" id="LinearCameraCal.from_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; LinearCameraCal</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinearCameraCal</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1031,12 +1032,10 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.to_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (float) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="LinearCameraCal.to_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.retract"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; LinearCameraCal</span>
+<div class="viewcode-block" id="LinearCameraCal.retract"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinearCameraCal</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1045,19 +1044,18 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.local_coordinates"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal, float) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="LinearCameraCal.local_coordinates"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LinearCameraCal.interpolate"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.interpolate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (LinearCameraCal, float, float) -&gt; LinearCameraCal</span>
+<div class="viewcode-block" id="LinearCameraCal.interpolate"><a class="viewcode-back" href="../../api-gen-py/sym.linear_camera_cal.html#sym.linear_camera_cal.LinearCameraCal.interpolate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">LinearCameraCal</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LinearCameraCal</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># General Helpers</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="c1"># type: (T.Any) -&gt; bool</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">LinearCameraCal</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1094,7 +1092,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5299f325"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=44515417"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

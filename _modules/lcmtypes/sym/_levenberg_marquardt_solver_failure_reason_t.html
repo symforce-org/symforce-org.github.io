@@ -845,7 +845,8 @@
 <span class="c1"># From Source File: /home/runner/work/symforce/symforce/lcmtypes/symforce.lcm</span>
 <span class="c1"># fmt: off</span>
 <span class="c1"># isort: off</span>
-<span class="c1"># mypy: disallow-untyped-defs</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 
@@ -859,13 +860,11 @@
     <span class="n">LAMBDA_OUT_OF_BOUNDS</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">INITIAL_ERROR_NOT_FINITE</span> <span class="o">=</span> <span class="mi">2</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; str</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_skytype_meta</span><span class="p">():</span>
-        <span class="c1"># type: () -&gt; T.Dict[str, str]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_skytype_meta</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;enum&quot;</span><span class="p">,</span>
             <span class="n">package</span><span class="o">=</span><span class="s2">&quot;sym&quot;</span><span class="p">,</span>
@@ -873,25 +872,21 @@
         <span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_default</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; levenberg_marquardt_solver_failure_reason_t</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_default</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">:</span>
         <span class="c1"># Return the first enum case</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; bytes</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="n">buf</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">()</span>
         <span class="n">buf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_packed_fingerprint</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_encode_one</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">buf</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_encode_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">):</span>
-        <span class="c1"># type: (T.BinaryIO) -&gt; None</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_encode_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buf</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">BinaryIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">buf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">&#39;&gt;i&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="c1"># type: (T.Union[bytes, T.BinaryIO]) -&gt; levenberg_marquardt_solver_failure_reason_t</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">BinaryIO</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">:</span>
         <span class="c1"># NOTE(eric): This function can technically accept either a BinaryIO or</span>
         <span class="c1"># anything that supports the C++ Buffer Protocol,</span>
         <span class="c1"># which is unspecifiable in type hints.</span>
@@ -907,8 +902,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_decode_one</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_one</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">buf</span><span class="p">):</span>
-        <span class="c1"># type: (T.BinaryIO) -&gt; levenberg_marquardt_solver_failure_reason_t</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_one</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">buf</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">BinaryIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">&#39;&gt;i&#39;</span><span class="p">,</span> <span class="n">buf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">result</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -917,19 +911,18 @@
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_int</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">default</span><span class="p">):</span>
-        <span class="c1"># type: (int, levenberg_marquardt_solver_failure_reason_t) -&gt; levenberg_marquardt_solver_failure_reason_t</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_int</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">:</span>
         <span class="k">pass</span>
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_int</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># type: (int, None) -&gt; T.Optional[levenberg_marquardt_solver_failure_reason_t]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_int</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">]:</span>
         <span class="k">pass</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_int</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># type: (int, T.Optional[levenberg_marquardt_solver_failure_reason_t]) -&gt; T.Optional[levenberg_marquardt_solver_failure_reason_t]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_int</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">levenberg_marquardt_solver_failure_reason_t</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        An alternative to &quot;levenberg_marquardt_solver_failure_reason_t(value)&quot; which will return</span>
 <span class="sd">        the given default instead of raising a ValueError for unknown values.</span>
@@ -941,8 +934,7 @@
             <span class="k">return</span> <span class="n">default</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_hash_recursive</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parents</span><span class="p">):</span>
-        <span class="c1"># type: (T.List[T.Type]) -&gt; int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_hash_recursive</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parents</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">parents</span><span class="p">:</span>
             <span class="k">return</span> <span class="mi">0</span>
         <span class="n">tmphash</span> <span class="o">=</span> <span class="p">(</span><span class="mh">0xa6869f09f492d897</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xffffffffffffffff</span>
@@ -950,8 +942,7 @@
         <span class="k">return</span> <span class="n">tmphash</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_packed_fingerprint</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; bytes</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_packed_fingerprint</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s2">&quot;&gt;Q&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_hash_recursive</span><span class="p">([]))</span>
 </pre></div>
         </article>
@@ -985,7 +976,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=5299f325"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=44515417"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>

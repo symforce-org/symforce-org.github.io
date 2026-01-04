@@ -848,6 +848,8 @@
 
 <span class="c1"># ruff: noqa: PLR0915, F401, PLW0211, PLR0914</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
@@ -868,18 +870,16 @@
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; str</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># Handwritten methods included from &quot;custom_methods/rot3.py.jinja&quot;</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># type: (T.Union[T.Sequence[float], numpy.ndarray, None]) -&gt; None</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">q</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">q</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># type: T.List[float]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span> <span class="ow">in</span> <span class="p">{(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)}:</span>
@@ -897,8 +897,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Rot3.from_rotation_matrix"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_rotation_matrix">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation_matrix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_rotation_matrix</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        This implementation is based on Shepperd&#39;s method (1978)</span>
 <span class="sd">        https://arc.aiaa.org/doi/abs/10.2514/3.55767b?journalCode=jgc (this is paywalled)</span>
@@ -937,8 +936,7 @@
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="Rot3.random"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.random">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">random</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">random</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">random_from_uniform_samples</span><span class="p">(</span>
             <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">)</span></div>
@@ -947,8 +945,7 @@
     <span class="c1"># Custom generated methods</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Rot3.compose_with_point"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.compose_with_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose_with_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3, numpy.ndarray) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Rot3.compose_with_point"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.compose_with_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose_with_point</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Left-multiplication. Either rotation concatenation or point transform.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -998,8 +995,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
-<div class="viewcode-block" id="Rot3.to_tangent_norm"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_tangent_norm">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3, float) -&gt; float</span>
+<div class="viewcode-block" id="Rot3.to_tangent_norm"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_tangent_norm">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent_norm</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the norm of the tangent vector corresponding to this rotation</span>
 
@@ -1020,8 +1016,7 @@
         <span class="n">_res</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">_self</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">epsilon</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
-<div class="viewcode-block" id="Rot3.to_rotation_matrix"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_rotation_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Rot3.to_rotation_matrix"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_rotation_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_rotation_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts to a rotation matrix</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1058,8 +1053,7 @@
         <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="Rot3.random_from_uniform_samples"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.random_from_uniform_samples">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">random_from_uniform_samples</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="n">u2</span><span class="p">,</span> <span class="n">u3</span><span class="p">):</span>
-        <span class="c1"># type: (float, float, float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">random_from_uniform_samples</span><span class="p">(</span><span class="n">u1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">u2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">u3</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a random element of SO3 from three variables uniformly sampled in [0, 1].</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1083,8 +1077,7 @@
         <span class="n">_res</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tmp3</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">_tmp4</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot3.to_yaw_pitch_roll"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_yaw_pitch_roll">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_yaw_pitch_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Rot3.to_yaw_pitch_roll"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_yaw_pitch_roll">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_yaw_pitch_roll</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compute the yaw, pitch, and roll Euler angles in radians of this rotation</span>
 
@@ -1121,8 +1114,7 @@
         <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="Rot3.from_yaw_pitch_roll"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_yaw_pitch_roll">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_yaw_pitch_roll</span><span class="p">(</span><span class="n">yaw</span><span class="p">,</span> <span class="n">pitch</span><span class="p">,</span> <span class="n">roll</span><span class="p">):</span>
-        <span class="c1"># type: (float, float, float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_yaw_pitch_roll</span><span class="p">(</span><span class="n">yaw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">pitch</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">roll</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from yaw, pitch, and roll Euler angles in radians</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1155,8 +1147,7 @@
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.from_yaw"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_yaw">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_yaw</span><span class="p">(</span><span class="n">yaw</span><span class="p">):</span>
-        <span class="c1"># type: (float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_yaw</span><span class="p">(</span><span class="n">yaw</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct from yaw angle in radians&quot;&quot;&quot;</span>
 
         <span class="c1"># Total ops: 5</span>
@@ -1175,8 +1166,7 @@
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.from_pitch"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_pitch">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_pitch</span><span class="p">(</span><span class="n">pitch</span><span class="p">):</span>
-        <span class="c1"># type: (float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_pitch</span><span class="p">(</span><span class="n">pitch</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct from pitch angle in radians&quot;&quot;&quot;</span>
 
         <span class="c1"># Total ops: 5</span>
@@ -1195,8 +1185,7 @@
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.from_roll"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_roll">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_roll</span><span class="p">(</span><span class="n">roll</span><span class="p">):</span>
-        <span class="c1"># type: (float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_roll</span><span class="p">(</span><span class="n">roll</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Construct from roll angle in radians&quot;&quot;&quot;</span>
 
         <span class="c1"># Total ops: 5</span>
@@ -1215,8 +1204,7 @@
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.from_angle_axis"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_angle_axis">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_angle_axis</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">axis</span><span class="p">):</span>
-        <span class="c1"># type: (float, numpy.ndarray) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_angle_axis</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Construct from an angle in radians and a (normalized) axis as a 3-vector.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1246,8 +1234,7 @@
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.from_two_unit_vectors"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_two_unit_vectors">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_two_unit_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, numpy.ndarray, float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_two_unit_vectors</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a rotation that transforms a to b. Both inputs are three-vectors that</span>
 <span class="sd">        are expected to be normalized.</span>
@@ -1301,17 +1288,14 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Rot3.storage_dim"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.storage_dim">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">():</span>
-        <span class="c1"># type: () -&gt; int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">4</span></div>
 
-<div class="viewcode-block" id="Rot3.to_storage"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; T.List[float]</span>
+<div class="viewcode-block" id="Rot3.to_storage"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Rot3.from_storage"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">):</span>
-        <span class="c1"># type: (T.Sequence[float]) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -1331,20 +1315,16 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Rot3.identity"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.identity">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Rot3.inverse"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.inverse">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; Rot3</span>
+<div class="viewcode-block" id="Rot3.inverse"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.inverse">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot3.compose"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3) -&gt; Rot3</span>
+<div class="viewcode-block" id="Rot3.compose"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot3.between"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.between">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3) -&gt; Rot3</span>
+<div class="viewcode-block" id="Rot3.between"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.between">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
@@ -1352,13 +1332,11 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Rot3.tangent_dim"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.tangent_dim">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_dim</span><span class="p">():</span>
-        <span class="c1"># type: () -&gt; int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_dim</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">3</span></div>
 
 <div class="viewcode-block" id="Rot3.from_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1367,12 +1345,10 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot3.to_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (float) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Rot3.to_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot3.retract"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; Rot3</span>
+<div class="viewcode-block" id="Rot3.retract"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1381,37 +1357,31 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot3.local_coordinates"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3, float) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Rot3.local_coordinates"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Rot3.interpolate"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.interpolate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (Rot3, float, float) -&gt; Rot3</span>
+<div class="viewcode-block" id="Rot3.interpolate"><a class="viewcode-back" href="../../api-gen-py/sym.rot3.html#sym.rot3.Rot3.interpolate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># General Helpers</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="c1"># type: (T.Any) -&gt; bool</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Rot3</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-        <span class="c1"># type: (Rot3) -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Rot3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-        <span class="c1"># type: (numpy.ndarray) -&gt; numpy.ndarray</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="c1"># type: (T.Union[Rot3, numpy.ndarray]) -&gt; T.Union[Rot3, numpy.ndarray]</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Rot3</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;compose_with_point&quot;</span><span class="p">):</span>
@@ -1450,7 +1420,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5299f325"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=44515417"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

@@ -848,6 +848,8 @@
 
 <span class="c1"># ruff: noqa: PLR0915, F401, PLW0211, PLR0914</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
@@ -890,16 +892,18 @@
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; str</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&lt;</span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># Handwritten methods included from &quot;custom_methods/pose3.py.jinja&quot;</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># type: (T.Optional[Rot3], T.Union[T.Sequence[float], numpy.ndarray, None]) -&gt; None</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">R</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Rot3</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">t</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">rotation</span> <span class="o">=</span> <span class="n">R</span> <span class="k">if</span> <span class="n">R</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">Rot3</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]</span>
@@ -920,31 +924,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">rotation</span><span class="o">.</span><span class="n">to_storage</span><span class="p">()</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">R</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; Rot3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">R</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Accessor for the rotation component, equivalent to self.rotation()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; numpy.ndarray</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">t</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Accessor for the position component, equivalent to self.position()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Pose3.rotation"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.rotation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; Rot3</span>
+<div class="viewcode-block" id="Pose3.rotation"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.rotation">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rot3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">Rot3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rotation_storage</span><span class="p">()))</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># Custom generated methods</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="Pose3.rotation_storage"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.rotation_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">rotation_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Pose3.rotation_storage"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.rotation_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">rotation_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the rotational component of this pose.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -964,8 +964,7 @@
         <span class="n">_res</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">_self</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
-<div class="viewcode-block" id="Pose3.position"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.position">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Pose3.position"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.position">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">position</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the positional component of this pose.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -984,8 +983,7 @@
         <span class="n">_res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">_self</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
-<div class="viewcode-block" id="Pose3.compose_with_point"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.compose_with_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose_with_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3, numpy.ndarray) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Pose3.compose_with_point"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.compose_with_point">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose_with_point</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">,</span> <span class="n">right</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Left-multiply with a compatible quantity.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1038,8 +1036,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
-<div class="viewcode-block" id="Pose3.inverse_compose"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.inverse_compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse_compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3, numpy.ndarray) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Pose3.inverse_compose"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.inverse_compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse_compose</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns ``self.inverse() * point``</span>
 
@@ -1110,8 +1107,7 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">_res</span></div>
 
-<div class="viewcode-block" id="Pose3.to_homogenous_matrix"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.to_homogenous_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_homogenous_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Pose3.to_homogenous_matrix"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.to_homogenous_matrix">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_homogenous_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        4x4 matrix representing this pose transform.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1159,17 +1155,14 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Pose3.storage_dim"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.storage_dim">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">():</span>
-        <span class="c1"># type: () -&gt; int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">storage_dim</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">7</span></div>
 
-<div class="viewcode-block" id="Pose3.to_storage"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; T.List[float]</span>
+<div class="viewcode-block" id="Pose3.to_storage"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.to_storage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Pose3.from_storage"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.from_storage">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">):</span>
-        <span class="c1"># type: (T.Sequence[float]) -&gt; Pose3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_storage</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -1189,20 +1182,16 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Pose3.identity"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.identity">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; Pose3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">identity</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">identity</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Pose3.inverse"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.inverse">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; Pose3</span>
+<div class="viewcode-block" id="Pose3.inverse"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.inverse">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.compose"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3) -&gt; Pose3</span>
+<div class="viewcode-block" id="Pose3.compose"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.compose">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.between"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.between">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3) -&gt; Pose3</span>
+<div class="viewcode-block" id="Pose3.between"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.between">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">GroupOps</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
@@ -1210,13 +1199,11 @@
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="Pose3.tangent_dim"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.tangent_dim">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_dim</span><span class="p">():</span>
-        <span class="c1"># type: () -&gt; int</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tangent_dim</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">6</span></div>
 
 <div class="viewcode-block" id="Pose3.from_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.from_tangent">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; Pose3</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1225,12 +1212,10 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.to_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (float) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Pose3.to_tangent"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.to_tangent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">to_tangent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.retract"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; Pose3</span>
+<div class="viewcode-block" id="Pose3.retract"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.retract">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vec</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;Vector dimension (</span><span class="si">{}</span><span class="s2">) not equal to tangent space dimension (</span><span class="si">{}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1239,37 +1224,31 @@
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">retract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.local_coordinates"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3, float) -&gt; numpy.ndarray</span>
+<div class="viewcode-block" id="Pose3.local_coordinates"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.local_coordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">local_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Pose3.interpolate"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.interpolate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-        <span class="c1"># type: (Pose3, float, float) -&gt; Pose3</span>
+<div class="viewcode-block" id="Pose3.interpolate"><a class="viewcode-back" href="../../api-gen-py/sym.pose3.html#sym.pose3.Pose3.interpolate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># General Helpers</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="c1"># type: (T.Any) -&gt; bool</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Pose3</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">data</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-        <span class="c1"># type: (Pose3) -&gt; Pose3</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Pose3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Pose3</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
     <span class="nd">@T</span><span class="o">.</span><span class="n">overload</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-        <span class="c1"># type: (numpy.ndarray) -&gt; numpy.ndarray</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">pass</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="c1"># type: (T.Union[Pose3, numpy.ndarray]) -&gt; T.Union[Pose3, numpy.ndarray]</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Pose3</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;compose_with_point&quot;</span><span class="p">):</span>
@@ -1308,7 +1287,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5299f325"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=44515417"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

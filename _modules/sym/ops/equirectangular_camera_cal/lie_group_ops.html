@@ -847,6 +847,8 @@
 
 <span class="c1"># ruff: noqa: PLR0915, F401, PLW0211, PLR0914</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 
@@ -861,9 +863,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="LieGroupOps.from_tangent"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.equirectangular_camera_cal.lie_group_ops.html#sym.ops.equirectangular_camera_cal.lie_group_ops.LieGroupOps.from_tangent">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (numpy.ndarray, float) -&gt; sym.EquirectangularCameraCal</span>
-
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_tangent</span><span class="p">(</span><span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">:</span>
         <span class="c1"># Total ops: 0</span>
 
         <span class="c1"># Input arrays</span>
@@ -887,9 +887,7 @@
         <span class="k">return</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.to_tangent"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.equirectangular_camera_cal.lie_group_ops.html#sym.ops.equirectangular_camera_cal.lie_group_ops.LieGroupOps.to_tangent">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (sym.EquirectangularCameraCal, float) -&gt; numpy.ndarray</span>
-
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_tangent</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="c1"># Total ops: 0</span>
 
         <span class="c1"># Input arrays</span>
@@ -906,9 +904,9 @@
         <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.retract"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.equirectangular_camera_cal.lie_group_ops.html#sym.ops.equirectangular_camera_cal.lie_group_ops.LieGroupOps.retract">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">vec</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (sym.EquirectangularCameraCal, numpy.ndarray, float) -&gt; sym.EquirectangularCameraCal</span>
-
+    <span class="k">def</span><span class="w"> </span><span class="nf">retract</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">,</span> <span class="n">vec</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">:</span>
         <span class="c1"># Total ops: 4</span>
 
         <span class="c1"># Input arrays</span>
@@ -933,9 +931,9 @@
         <span class="k">return</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.local_coordinates"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.equirectangular_camera_cal.lie_group_ops.html#sym.ops.equirectangular_camera_cal.lie_group_ops.LieGroupOps.local_coordinates">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (sym.EquirectangularCameraCal, sym.EquirectangularCameraCal, float) -&gt; numpy.ndarray</span>
-
+    <span class="k">def</span><span class="w"> </span><span class="nf">local_coordinates</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="c1"># Total ops: 4</span>
 
         <span class="c1"># Input arrays</span>
@@ -953,9 +951,12 @@
         <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="LieGroupOps.interpolate"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.equirectangular_camera_cal.lie_group_ops.html#sym.ops.equirectangular_camera_cal.lie_group_ops.LieGroupOps.interpolate">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (sym.EquirectangularCameraCal, sym.EquirectangularCameraCal, float, float) -&gt; sym.EquirectangularCameraCal</span>
-
+    <span class="k">def</span><span class="w"> </span><span class="nf">interpolate</span><span class="p">(</span>
+        <span class="n">a</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">,</span>
+        <span class="n">b</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sym</span><span class="o">.</span><span class="n">EquirectangularCameraCal</span><span class="p">:</span>
         <span class="c1"># Total ops: 12</span>
 
         <span class="c1"># Input arrays</span>
@@ -1003,7 +1004,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=5299f325"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=44515417"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>

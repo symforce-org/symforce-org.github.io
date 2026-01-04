@@ -847,6 +847,8 @@
 
 <span class="c1"># ruff: noqa: PLR0915, F401, PLW0211, PLR0914</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 
@@ -861,8 +863,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CameraOps.focal_length"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.polynomial_camera_cal.camera_ops.html#sym.ops.polynomial_camera_cal.camera_ops.CameraOps.focal_length">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">focal_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (sym.PolynomialCameraCal) -&gt; numpy.ndarray</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">focal_length</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">PolynomialCameraCal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the focal length.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -881,8 +882,7 @@
         <span class="k">return</span> <span class="n">_focal_length</span></div>
 
 <div class="viewcode-block" id="CameraOps.principal_point"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.polynomial_camera_cal.camera_ops.html#sym.ops.polynomial_camera_cal.camera_ops.CameraOps.principal_point">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">principal_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: (sym.PolynomialCameraCal) -&gt; numpy.ndarray</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">principal_point</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">PolynomialCameraCal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the principal point.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -901,8 +901,9 @@
         <span class="k">return</span> <span class="n">_principal_point</span></div>
 
 <div class="viewcode-block" id="CameraOps.pixel_from_camera_point"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.polynomial_camera_cal.camera_ops.html#sym.ops.polynomial_camera_cal.camera_ops.CameraOps.pixel_from_camera_point">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (sym.PolynomialCameraCal, numpy.ndarray, float) -&gt; T.Tuple[numpy.ndarray, float]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">PolynomialCameraCal</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Project a 3D point in the camera frame into 2D pixel coordinates.</span>
 
@@ -950,8 +951,9 @@
         <span class="k">return</span> <span class="n">_pixel</span><span class="p">,</span> <span class="n">_is_valid</span></div>
 
 <div class="viewcode-block" id="CameraOps.pixel_from_camera_point_with_jacobians"><a class="viewcode-back" href="../../../../api-gen-py/sym.ops.polynomial_camera_cal.camera_ops.html#sym.ops.polynomial_camera_cal.camera_ops.CameraOps.pixel_from_camera_point_with_jacobians">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point_with_jacobians</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">):</span>
-        <span class="c1"># type: (sym.PolynomialCameraCal, numpy.ndarray, float) -&gt; T.Tuple[numpy.ndarray, float, numpy.ndarray, numpy.ndarray]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pixel_from_camera_point_with_jacobians</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">sym</span><span class="o">.</span><span class="n">PolynomialCameraCal</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Project a 3D point in the camera frame into 2D pixel coordinates.</span>
 
@@ -1084,7 +1086,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=5299f325"></script>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=44515417"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/scripts/furo.js?v=5fa4622c"></script>
