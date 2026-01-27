@@ -1008,11 +1008,8 @@
         <span class="n">_tmp7</span> <span class="o">=</span> <span class="n">_tmp3</span> <span class="o">*</span> <span class="n">_tmp6</span>
 
         <span class="c1"># Output terms</span>
-        <span class="n">_res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tmp1</span> <span class="o">*</span> <span class="n">_tmp7</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tmp5</span> <span class="o">*</span> <span class="n">_tmp7</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tmp2</span> <span class="o">*</span> <span class="n">_tmp6</span>
-        <span class="k">return</span> <span class="n">Unit3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
+        <span class="n">_res</span> <span class="o">=</span> <span class="n">Unit3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">([</span><span class="n">_tmp1</span> <span class="o">*</span> <span class="n">_tmp7</span><span class="p">,</span> <span class="n">_tmp5</span> <span class="o">*</span> <span class="n">_tmp7</span><span class="p">,</span> <span class="n">_tmp2</span> <span class="o">*</span> <span class="n">_tmp6</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="Unit3.from_vector"><a class="viewcode-back" href="../../api-gen-py/sym.unit3.html#sym.unit3.Unit3.from_vector">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_vector</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
@@ -1036,11 +1033,8 @@
         <span class="n">_tmp0</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">epsilon</span><span class="p">)</span>
 
         <span class="c1"># Output terms</span>
-        <span class="n">_res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tmp0</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tmp0</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">_tmp0</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Unit3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
+        <span class="n">_res</span> <span class="o">=</span> <span class="n">Unit3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">([</span><span class="n">_tmp0</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">_tmp0</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">_tmp0</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">_res</span></div>
 
 <div class="viewcode-block" id="Unit3.from_unit_vector"><a class="viewcode-back" href="../../api-gen-py/sym.unit3.html#sym.unit3.Unit3.from_unit_vector">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_unit_vector</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Unit3</span><span class="p">:</span>
@@ -1063,11 +1057,8 @@
         <span class="c1"># Intermediate terms (0)</span>
 
         <span class="c1"># Output terms</span>
-        <span class="n">_res</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">_res</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">Unit3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">(</span><span class="n">_res</span><span class="p">)</span></div>
+        <span class="n">_res</span> <span class="o">=</span> <span class="n">Unit3</span><span class="o">.</span><span class="n">from_storage</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+        <span class="k">return</span> <span class="n">_res</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
     <span class="c1"># StorageOps concept</span>
@@ -1160,7 +1151,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=68429909"></script>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d7c06f7c"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>

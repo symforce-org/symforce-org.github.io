@@ -1164,7 +1164,9 @@
         <span class="c1"># Form the output expressions as a Values object</span>
         <span class="n">outputs</span> <span class="o">=</span> <span class="n">Values</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">output_name</span><span class="p">,</span> <span class="n">output</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">output_names</span><span class="p">,</span> <span class="n">output_terms</span><span class="p">):</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">typing_util</span><span class="o">.</span><span class="n">scalar_like</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">output</span><span class="p">]</span>
+            <span class="p">):</span>
                 <span class="n">output</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
             <span class="n">outputs</span><span class="p">[</span><span class="n">output_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
 
@@ -1216,6 +1218,13 @@
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_symbolic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_symbolic</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;issubclass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">issubclass</span>
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_sequence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">is_value_or_nested_list_of_values</span><span class="p">(</span><span class="n">T</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">Values</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">is_value_or_nested_list_of_values</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span>
+            <span class="p">)</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;is_value_or_nested_list_of_values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_value_or_nested_list_of_values</span>
 
         <span class="k">def</span><span class="w"> </span><span class="nf">should_set_zero</span><span class="p">(</span><span class="n">mat</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">zero_initialization_sparsity_threshold</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1839,7 +1848,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=68429909"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=d7c06f7c"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
