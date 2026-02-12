@@ -788,6 +788,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/levenberg__marquardt__solver_8h.html">File levenberg_marquardt_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/linearization_8h.html">File linearization.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/linearizer_8h.html">File linearizer.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/marginalization_8h.html">File marginalization.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimization__stats_8h.html">File optimization_stats.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/optimizer_8h.html">File optimizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api-cpp/file/preintegrated__imu__measurements_8h.html">File preintegrated_imu_measurements.h</a></li>
@@ -892,7 +893,11 @@
 
 
 <div class="viewcode-block" id="between_factor"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.between_factor">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">between_factor</span><span class="p">(</span>
-    <span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">a_T_b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span>
+    <span class="n">b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span>
+    <span class="n">a_T_b</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span>
+    <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
     <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">a_T_b</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">sqrt_info</span><span class="o">.</span><span class="n">rows</span> <span class="o">==</span> <span class="n">sqrt_info</span><span class="o">.</span><span class="n">cols</span> <span class="o">==</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -909,7 +914,7 @@
 
 
 <div class="viewcode-block" id="prior_factor"><a class="viewcode-back" href="../../../api/symforce.codegen.geo_factors_codegen.html#symforce.codegen.geo_factors_codegen.prior_factor">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">prior_factor</span><span class="p">(</span>
-    <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Element</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
     <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="n">prior</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">sqrt_info</span><span class="o">.</span><span class="n">rows</span> <span class="o">==</span> <span class="n">sqrt_info</span><span class="o">.</span><span class="n">cols</span> <span class="o">==</span> <span class="n">ops</span><span class="o">.</span><span class="n">LieGroupOps</span><span class="o">.</span><span class="n">tangent_dim</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -985,7 +990,7 @@
         <span class="n">b</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
         <span class="n">a_t_b</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
         <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="p">,</span>
-        <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="c1"># NOTE(aaron): This is NOT the same as between_factor(a.t, b.t, a_t_b, sqrt_info, epsilon)</span>
         <span class="c1"># between_factor(a.t, b.t, a_t_b) would be penalizing the difference in the global frame</span>
@@ -1002,7 +1007,7 @@
         <span class="n">b</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
         <span class="n">translation_norm</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
         <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix11</span><span class="p">,</span>
-        <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Residual that penalizes the difference between translation_norm and (a.t - b.t).norm().</span>
@@ -1015,12 +1020,15 @@
         <span class="k">return</span> <span class="n">sqrt_info</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="p">([</span><span class="n">error</span><span class="p">])</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">prior_factor_pose3_rotation</span><span class="p">(</span>
-        <span class="n">value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">()</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">prior_factor</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">prior_factor_pose3_position</span><span class="p">(</span>
-        <span class="n">value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">value</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Pose3</span><span class="p">,</span>
+        <span class="n">prior</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Vector3</span><span class="p">,</span>
+        <span class="n">sqrt_info</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix33</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Scalar</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">epsilon</span><span class="p">(),</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">prior_factor</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">prior</span><span class="p">,</span> <span class="n">sqrt_info</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">)</span>
 
@@ -1100,7 +1108,7 @@
       
     </aside>
   </div>
-</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=d7c06f7c"></script>
+</div><script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=ca7fa2d3"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/scripts/furo.js?v=5fa4622c"></script>
