@@ -1092,99 +1092,6 @@
 
 
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">py</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">py.test</span><span class="w"> </span><span class="kn">import</span> <span class="n">skip</span><span class="p">,</span> <span class="n">raises</span>
-    <span class="n">USE_PYTEST</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s1">&#39;_running_pytest&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">USE_PYTEST</span> <span class="o">=</span> <span class="kc">False</span>
-
-<span class="k">if</span> <span class="ow">not</span> <span class="n">USE_PYTEST</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">raises</span><span class="p">(</span><span class="n">expectedException</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tests that ``code`` raises the exception ``expectedException``.</span>
-
-<span class="sd">        ``code`` may be a callable, such as a lambda expression or function</span>
-<span class="sd">        name.</span>
-
-<span class="sd">        If ``code`` is not given or None, ``raises`` will return a context</span>
-<span class="sd">        manager for use in ``with`` statements; the code to execute then</span>
-<span class="sd">        comes from the scope of the ``with``.</span>
-
-<span class="sd">        ``raises()`` does nothing if the callable raises the expected</span>
-<span class="sd">        exception, otherwise it raises an AssertionError.</span>
-
-<span class="sd">        Examples</span>
-<span class="sd">        ========</span>
-
-<span class="sd">        &gt;&gt;&gt; from symengine.pytest import raises</span>
-
-<span class="sd">        &gt;&gt;&gt; raises(ZeroDivisionError, lambda: 1/0)</span>
-<span class="sd">        &gt;&gt;&gt; raises(ZeroDivisionError, lambda: 1/2)</span>
-<span class="sd">        Traceback (most recent call last):</span>
-<span class="sd">        ...</span>
-<span class="sd">        AssertionError: DID NOT RAISE</span>
-
-<span class="sd">        &gt;&gt;&gt; with raises(ZeroDivisionError):</span>
-<span class="sd">        ...     n = 1/0</span>
-<span class="sd">        &gt;&gt;&gt; with raises(ZeroDivisionError):</span>
-<span class="sd">        ...     n = 1/2</span>
-<span class="sd">        Traceback (most recent call last):</span>
-<span class="sd">        ...</span>
-<span class="sd">        AssertionError: DID NOT RAISE</span>
-
-<span class="sd">        Note that you cannot test multiple statements via</span>
-<span class="sd">        ``with raises``:</span>
-
-<span class="sd">        &gt;&gt;&gt; with raises(ZeroDivisionError):</span>
-<span class="sd">        ...     n = 1/0    # will execute and raise, aborting the ``with``</span>
-<span class="sd">        ...     n = 9999/0 # never executed</span>
-
-<span class="sd">        This is just what ``with`` is supposed to do: abort the</span>
-<span class="sd">        contained statement sequence at the first exception and let</span>
-<span class="sd">        the context manager deal with the exception.</span>
-
-<span class="sd">        To test multiple statements, you&#39;ll need a separate ``with``</span>
-<span class="sd">        for each:</span>
-
-<span class="sd">        &gt;&gt;&gt; with raises(ZeroDivisionError):</span>
-<span class="sd">        ...     n = 1/0    # will execute and raise</span>
-<span class="sd">        &gt;&gt;&gt; with raises(ZeroDivisionError):</span>
-<span class="sd">        ...     n = 9999/0 # will also execute and raise</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">code</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">RaisesContext</span><span class="p">(</span><span class="n">expectedException</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">code</span><span class="p">()</span>
-            <span class="k">except</span> <span class="n">expectedException</span><span class="p">:</span>
-                <span class="k">return</span>
-            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;DID NOT RAISE&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">raises(xxx, &quot;code&quot;)</span><span class="se">\&#39;</span><span class="s1"> has been phased out; &#39;</span>
-                <span class="s1">&#39;change </span><span class="se">\&#39;</span><span class="s1">raises(xxx, &quot;expression&quot;)</span><span class="se">\&#39;</span><span class="s1"> &#39;</span>
-                <span class="s1">&#39;to </span><span class="se">\&#39;</span><span class="s1">raises(xxx, lambda: expression)</span><span class="se">\&#39;</span><span class="s1">, &#39;</span>
-                <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">raises(xxx, &quot;statement&quot;)</span><span class="se">\&#39;</span><span class="s1"> &#39;</span>
-                <span class="s1">&#39;to </span><span class="se">\&#39;</span><span class="s1">with raises(xxx): statement</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s1">&#39;raises() expects a callable for the 2nd argument.&#39;</span><span class="p">)</span>
-
-    <span class="k">class</span><span class="w"> </span><span class="nc">RaisesContext</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expectedException</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">expectedException</span> <span class="o">=</span> <span class="n">expectedException</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="k">return</span> <span class="kc">None</span>
-
-        <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">exc_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;DID NOT RAISE&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">exc_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">expectedException</span><span class="p">)</span>
-
-
 <span class="k">class</span><span class="w"> </span><span class="nc">NotIterable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Use this as mixin when creating a class which is not supposed to return</span>
@@ -1254,7 +1161,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=30c093af"></script>
+</div><script src="../../_static/documentation_options.js?v=97cfc741"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

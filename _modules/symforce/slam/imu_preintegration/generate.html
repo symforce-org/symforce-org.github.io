@@ -849,6 +849,7 @@
 <span class="c1"># ----------------------------------------------------------------------------</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">symforce.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">codegen</span>
@@ -942,13 +943,15 @@
     <span class="n">codegen_update_auto_derivative</span> <span class="o">=</span> <span class="n">codegen</span><span class="o">.</span><span class="n">Codegen</span><span class="o">.</span><span class="n">function</span><span class="p">(</span>
         <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">imu_manifold_preintegration_update</span><span class="p">,</span> <span class="n">use_handwritten_derivatives</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
         <span class="n">name</span><span class="o">=</span><span class="s2">&quot;imu_manifold_preintegration_update_auto_derivative&quot;</span><span class="p">,</span>
-        <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    Alternative to ImuManifoldPreintegrationUpdate that uses auto-derivatives. Exists only to</span>
-<span class="s2">    help verify correctness of ImuManifoldPreintegrationUpdate. Should have the same output.</span>
-<span class="s2">    Since this function is more expensive, there is no reason to use it instead.</span>
-<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">docstring</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Alternative to ImuManifoldPreintegrationUpdate that uses auto-derivatives. Exists only to</span>
+<span class="sd">            help verify correctness of ImuManifoldPreintegrationUpdate. Should have the same output.</span>
+<span class="sd">            Since this function is more expensive, there is no reason to use it instead.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="p">)</span>
         <span class="o">+</span> <span class="p">(</span>
-            <span class="n">imu_manifold_preintegration_update</span><span class="o">.</span><span class="vm">__doc__</span>
+            <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">imu_manifold_preintegration_update</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">imu_manifold_preintegration_update</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="k">else</span> <span class="s2">&quot;&quot;</span>
         <span class="p">),</span>
@@ -1032,7 +1035,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=30c093af"></script>
+</div><script src="../../../../_static/documentation_options.js?v=97cfc741"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

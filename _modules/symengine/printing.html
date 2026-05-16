@@ -843,14 +843,13 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for symengine.printing</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">symengine.lib.symengine_wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ccode</span><span class="p">,</span> <span class="n">sympify</span><span class="p">,</span> <span class="n">Basic</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">symengine.lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">symengine_wrapper</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">.lib.symengine_wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">ccode</span><span class="p">,</span> <span class="n">sympify</span><span class="p">,</span> <span class="n">Basic</span><span class="p">,</span> <span class="n">repr_latex</span> <span class="k">as</span> <span class="n">_repr_latex</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">CCodePrinter</span><span class="p">:</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">doprint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">assign_to</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">assign_to</span><span class="p">,</span> <span class="p">(</span><span class="n">Basic</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">str</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> cannot assign to object of type </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> cannot assign to object of type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">assign_to</span><span class="p">)))</span>
 
         <span class="n">expr</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
@@ -861,11 +860,11 @@
 
         <span class="n">assign_to</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">assign_to</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">expr</span><span class="o">.</span><span class="n">is_Matrix</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> = </span><span class="si">{}</span><span class="s2">;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">assign_to</span><span class="p">,</span> <span class="n">ccode</span><span class="p">(</span><span class="n">expr</span><span class="p">))</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">assign_to</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ccode</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span><span class="si">}</span><span class="s2">;&quot;</span>
 
         <span class="n">code_lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">element</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
-            <span class="n">code_line</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">[</span><span class="si">{}</span><span class="s1">] = </span><span class="si">{}</span><span class="s1">;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">assign_to</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span>
+            <span class="n">code_line</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">assign_to</span><span class="si">}</span><span class="s1">[</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">] = </span><span class="si">{</span><span class="n">element</span><span class="si">}</span><span class="s1">;&#39;</span>
             <span class="n">code_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">code_line</span><span class="p">)</span>
         <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">code_lines</span><span class="p">)</span>
 
@@ -876,9 +875,9 @@
     <span class="k">if</span> <span class="n">pretty_print</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">use_latex</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Only latex is supported for pretty printing&quot;</span><span class="p">)</span>
-        <span class="n">symengine_wrapper</span><span class="o">.</span><span class="n">repr_latex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">_repr_latex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">symengine_wrapper</span><span class="o">.</span><span class="n">repr_latex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span></div>
+        <span class="n">_repr_latex</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 </pre></div>
         </article>
@@ -912,7 +911,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=30c093af"></script>
+</div><script src="../../_static/documentation_options.js?v=97cfc741"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

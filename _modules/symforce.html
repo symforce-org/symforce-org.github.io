@@ -967,10 +967,6 @@
 
         <span class="k">return</span> <span class="n">symengine</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">importlib.abc</span>
-        <span class="kn">import</span><span class="w"> </span><span class="nn">importlib.util</span>
-
         <span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_util</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -991,22 +987,13 @@
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">ex</span>
         <span class="n">symengine_path</span> <span class="o">=</span> <span class="n">symengine_path_candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="c1"># Import symengine from the directory where we installed it.  See</span>
-        <span class="c1"># https://docs.python.org/3/library/importlib.html#importing-a-source-file-directly</span>
-        <span class="n">spec</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span><span class="s2">&quot;symengine&quot;</span><span class="p">,</span> <span class="n">symengine_path</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="n">symengine</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;symengine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">symengine</span>
+        <span class="c1"># Add the site-packages directory to sys.path so that symengine can be</span>
+        <span class="c1"># imported normally (and importlib.reload works correctly).</span>
+        <span class="n">site_packages_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">symengine_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">site_packages_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">site_packages_dir</span><span class="p">)</span>
 
-        <span class="c1"># For mypy: https://github.com/python/typeshed/issues/2793</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="n">importlib</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">symengine</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="c1"># If executing the module fails for any reason, it shouldn&#39;t be in `sys.modules`</span>
-            <span class="k">del</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s2">&quot;symengine&quot;</span><span class="p">]</span>
-            <span class="k">raise</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">symengine</span>
 
         <span class="k">return</span> <span class="n">symengine</span>
 
@@ -1257,7 +1244,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=30c093af"></script>
+</div><script src="../_static/documentation_options.js?v=97cfc741"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
