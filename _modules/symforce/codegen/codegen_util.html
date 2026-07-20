@@ -6,7 +6,7 @@
         <link rel="prefetch" href="../../../_static/images/symforce vertical dark.svg" as="image">
         <link rel="prefetch" href="../../../_static/images/symforce vertical.svg" as="image">
 
-    <link rel="shortcut icon" href="../../../_static/favicon.ico"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"><!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
         <title>symforce.codegen.codegen_util - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
@@ -858,7 +858,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib.abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib.util</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span>
@@ -867,6 +869,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">symforce.symbolic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">_sympy_count_ops</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">ops</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">path_util</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing</span> <span class="k">as</span> <span class="n">T</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">typing_util</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">symforce.codegen</span><span class="w"> </span><span class="kn">import</span> <span class="n">codegen_config</span>
@@ -1616,6 +1619,7 @@
     <span class="n">lcm_type_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">,</span>
     <span class="n">lcm_files</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">lcm_output_dir</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dep_hash_files</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="o">.</span><span class="n">Openable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LcmBindingsDirs</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates the language-specific type files for all symforce generated &quot;.lcm&quot; files.</span>
@@ -1623,6 +1627,8 @@
 <span class="sd">    Args:</span>
 <span class="sd">        lcm_type_dir: Directory containing symforce-generated .lcm files</span>
 <span class="sd">        lcm_files: List of .lcm files to process</span>
+<span class="sd">        dep_hash_files: skymarshal --hash-info-out JSONs for cross-package types referenced by</span>
+<span class="sd">            the generated .lcm (e.g. eigen_lcm). Needed when referencing types outside lcm_type_dir.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lcm_type_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">lcm_type_dir</span><span class="p">)</span>
 
@@ -1646,9 +1652,22 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">skymarshal.emit_cpp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SkymarshalCpp</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">skymarshal.emit_python</span><span class="w"> </span><span class="kn">import</span> <span class="n">SkymarshalPython</span>
 
-    <span class="n">skymarshal</span><span class="o">.</span><span class="n">main</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">SkymarshalPython</span><span class="p">,</span> <span class="n">SkymarshalCpp</span><span class="p">],</span>
-        <span class="n">args</span><span class="o">=</span><span class="p">[</span>
+    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">hash_tmp_dir</span><span class="p">:</span>
+        <span class="n">dep_hash_paths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">dep_hash_files</span><span class="p">]</span> <span class="k">if</span> <span class="n">dep_hash_files</span> <span class="k">else</span> <span class="p">[]</span>
+
+        <span class="c1"># Generated lcm references eigen_lcm types we don&#39;t emit; supply their hashes when the</span>
+        <span class="c1"># sources are locatable so callers don&#39;t have to. (Under Bazel callers pass them instead.)</span>
+        <span class="n">eigen_lcm_dir</span> <span class="o">=</span> <span class="n">path_util</span><span class="o">.</span><span class="n">eigen_lcm_lcmtypes_dir</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">eigen_lcm_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">eigen_lcm_hashes</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hash_tmp_dir</span><span class="p">,</span> <span class="s2">&quot;eigen_lcm_hashes.json&quot;</span><span class="p">)</span>
+            <span class="n">skymarshal</span><span class="o">.</span><span class="n">main</span><span class="p">(</span>
+                <span class="p">[],</span>
+                <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eigen_lcm_dir</span><span class="p">),</span> <span class="s2">&quot;--hash-info-out&quot;</span><span class="p">,</span> <span class="n">eigen_lcm_hashes</span><span class="p">,</span> <span class="s2">&quot;--no-source-paths&quot;</span><span class="p">],</span>
+                <span class="n">print_generated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">dep_hash_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eigen_lcm_hashes</span><span class="p">)</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span>
             <span class="nb">str</span><span class="p">(</span><span class="n">lcm_type_dir</span><span class="p">),</span>
             <span class="s2">&quot;--python&quot;</span><span class="p">,</span>
             <span class="s2">&quot;--python-path&quot;</span><span class="p">,</span>
@@ -1662,9 +1681,16 @@
             <span class="s2">&quot;--cpp-include&quot;</span><span class="p">,</span>
             <span class="n">lcm_include_dir</span><span class="p">,</span>
             <span class="s2">&quot;--no-source-paths&quot;</span><span class="p">,</span>
-        <span class="p">],</span>
-        <span class="n">print_generated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">dep_hash_paths</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--hash-deps-info&quot;</span><span class="p">)</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dep_hash_paths</span><span class="p">)</span>
+
+        <span class="n">skymarshal</span><span class="o">.</span><span class="n">main</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">SkymarshalPython</span><span class="p">,</span> <span class="n">SkymarshalCpp</span><span class="p">],</span>
+            <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
+            <span class="n">print_generated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="c1"># Autoformat generated python files</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">python_types_dir</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.py&quot;</span><span class="p">):</span>
@@ -1720,8 +1746,8 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=97cfc741"></script>
-    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+</div><script src="../../../_static/documentation_options.js?v=27ffecdd"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>

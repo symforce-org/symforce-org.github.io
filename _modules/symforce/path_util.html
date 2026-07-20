@@ -6,7 +6,7 @@
         <link rel="prefetch" href="../../_static/images/symforce vertical dark.svg" as="image">
         <link rel="prefetch" href="../../_static/images/symforce vertical.svg" as="image">
 
-    <link rel="shortcut icon" href="../../_static/favicon.ico"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../../_static/favicon.ico"><!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
         <title>symforce.path_util - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=7bdb33bb" />
@@ -930,6 +930,32 @@
 
 
 
+<div class="viewcode-block" id="eigen_lcm_lcmtypes_dir">
+<a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.eigen_lcm_lcmtypes_dir">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eigen_lcm_lcmtypes_dir</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Directory of the eigen_lcm ``.lcm`` sources, or ``None`` if not found.</span>
+
+<span class="sd">    Codegen feeds these to skymarshal&#39;s recursive-hash precompute. Standalone builds keep them under</span>
+<span class="sd">    ``third_party/eigen_lcm``; Bazel sets ``SYMFORCE_EIGEN_LCM_LCMTYPES_DIR`` (absolute, or relative</span>
+<span class="sd">    to the runfiles tree) to point elsewhere.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">override</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SYMFORCE_EIGEN_LCM_LCMTYPES_DIR&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">override</span><span class="p">:</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">override</span><span class="p">)]</span>
+        <span class="n">runfiles_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;RUNFILES_DIR&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TEST_SRCDIR&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">runfiles_dir</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">override</span><span class="p">):</span>
+            <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">runfiles_dir</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;_main&quot;</span> <span class="o">/</span> <span class="n">override</span><span class="p">)</span>
+            <span class="n">candidates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">runfiles_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">override</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+                <span class="k">return</span> <span class="n">candidate</span>
+
+    <span class="n">candidate</span> <span class="o">=</span> <span class="n">symforce_root</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;third_party&quot;</span> <span class="o">/</span> <span class="s2">&quot;eigen_lcm&quot;</span> <span class="o">/</span> <span class="s2">&quot;lcmtypes&quot;</span>
+    <span class="k">return</span> <span class="n">candidate</span> <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span></div>
+
+
+
 <div class="viewcode-block" id="symforce_data_root">
 <a class="viewcode-back" href="../../api/symforce.path_util.html#symforce.path_util.symforce_data_root">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">symforce_data_root</span><span class="p">(</span><span class="n">test_file_path</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
@@ -987,8 +1013,8 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=97cfc741"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+</div><script src="../../_static/documentation_options.js?v=27ffecdd"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>

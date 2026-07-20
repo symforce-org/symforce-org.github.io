@@ -6,7 +6,7 @@
         <link rel="prefetch" href="../_static/images/symforce vertical dark.svg" as="image">
         <link rel="prefetch" href="../_static/images/symforce vertical.svg" as="image">
 
-    <link rel="shortcut icon" href="../_static/favicon.ico"><!-- Generated with Sphinx 7.4.7 and Furo 2025.12.19 -->
+    <link rel="shortcut icon" href="../_static/favicon.ico"><!-- Generated with Sphinx 8.1.3 and Furo 2025.12.19 -->
         <title>functools - SymForce</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
@@ -1081,14 +1081,14 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">reduce</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">_initial_missing</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    reduce(function, sequence[, initial]) -&gt; value</span>
+<span class="sd">    reduce(function, iterable[, initial]) -&gt; value</span>
 
-<span class="sd">    Apply a function of two arguments cumulatively to the items of a sequence,</span>
-<span class="sd">    from left to right, so as to reduce the sequence to a single value.</span>
-<span class="sd">    For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates</span>
+<span class="sd">    Apply a function of two arguments cumulatively to the items of a sequence</span>
+<span class="sd">    or iterable, from left to right, so as to reduce the iterable to a single</span>
+<span class="sd">    value.  For example, reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates</span>
 <span class="sd">    ((((1+2)+3)+4)+5).  If initial is present, it is placed before the items</span>
-<span class="sd">    of the sequence in the calculation, and serves as a default when the</span>
-<span class="sd">    sequence is empty.</span>
+<span class="sd">    of the iterable in the calculation, and serves as a default when the</span>
+<span class="sd">    iterable is empty.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
@@ -1097,7 +1097,8 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;reduce() of empty sequence with no initial value&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s2">&quot;reduce() of empty iterable with no initial value&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">initial</span>
 
@@ -1757,24 +1758,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span> <span class="o">=</span> <span class="n">singledispatch</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
 
-        <span class="c1"># bpo-45678: special-casing for classmethod/staticmethod in Python &lt;=3.9,</span>
-        <span class="c1"># as functools.update_wrapper doesn&#39;t work properly in singledispatchmethod.__get__</span>
-        <span class="c1"># if it is applied to an unbound classmethod/staticmethod</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="p">(</span><span class="nb">staticmethod</span><span class="p">,</span> <span class="nb">classmethod</span><span class="p">)):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_func</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__func__</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_func</span> <span class="o">=</span> <span class="n">func</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;generic_method.register(cls, func) -&gt; func</span>
 
 <span class="sd">        Registers a new implementation for the given *cls* on a *generic_method*.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># bpo-39679: in Python &lt;= 3.9, classmethods and staticmethods don&#39;t</span>
-        <span class="c1"># inherit __annotations__ of the wrapped function (fixed in 3.10+ as</span>
-        <span class="c1"># a side-effect of bpo-43682) but we need that for annotation-derived</span>
-        <span class="c1"># singledispatches. So we add that just-in-time here.</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="p">(</span><span class="nb">staticmethod</span><span class="p">,</span> <span class="nb">classmethod</span><span class="p">)):</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="vm">__annotations__</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__func__</span><span class="p">,</span> <span class="s1">&#39;__annotations__&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dispatcher</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1784,7 +1772,7 @@
 
         <span class="n">_method</span><span class="o">.</span><span class="n">__isabstractmethod__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isabstractmethod__</span>
         <span class="n">_method</span><span class="o">.</span><span class="n">register</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">register</span>
-        <span class="n">update_wrapper</span><span class="p">(</span><span class="n">_method</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrapped_func</span><span class="p">)</span>
+        <span class="n">update_wrapper</span><span class="p">(</span><span class="n">_method</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_method</span>
 
     <span class="nd">@property</span>
@@ -1879,8 +1867,8 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=97cfc741"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
+</div><script src="../_static/documentation_options.js?v=27ffecdd"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
