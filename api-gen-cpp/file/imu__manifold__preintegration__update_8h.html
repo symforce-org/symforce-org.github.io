@@ -771,6 +771,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classEigen_1_1SparseMatrixBase.html">Class Eigen::SparseMatrixBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classEigen_1_1VectorBlock.html">Class Eigen::VectorBlock</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classEigen_1_1WithFormat.html">Class Eigen::WithFormat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1BlockTridiagonalLdlt.html">Class sym::BlockTridiagonalLdlt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1DenseCholeskySolver.html">Class sym::DenseCholeskySolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/class/classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
@@ -793,6 +794,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../api-cpp/filelist.html">File list</a><input aria-label="Toggle navigation of File list" class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" role="switch" type="checkbox"/><label for="toctree-checkbox-52"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/block__tridiagonal__ldlt_8h.html">File block_tridiagonal_ldlt.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/dense__cholesky__solver_8h.html">File dense_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api-cpp/file/dump__graph_8h.html">File dump_graph.h</a></li>
@@ -876,7 +878,8 @@
 <dd><p>An internal helper function to update a set of preintegrated IMU measurements with a new pair of gyroscope and accelerometer measurements. Returns the updated preintegrated measurements.</p>
 <p>NOTE: If you are interested in this function, you should likely be using the <code class="docutils literal notranslate"><span class="pre">IntegrateMeasurement</span></code> method of the <code class="docutils literal notranslate"><span class="pre">PreintegratedImuMeasurements</span></code> class located in <code class="docutils literal notranslate"><span class="pre">symforce/slam/imu_preintegration/preintegrated_imu_measurements.h</span></code>.</p>
 <p>When integrating the first measurement, DR should be the identity, Dv, Dp, covariance, and the derivatives w.r.t. to bias should all be 0.</p>
-<p>Args: DR: Preintegrated change in orientation Dv: Preintegrated change in velocity Dp: Preintegrated change in position covariance: Covariance [DR, Dv, Dp] in local coordinates of mean DR_D_gyro_bias: Derivative of DR w.r.t. gyro_bias Dv_D_accel_bias: Derivative of Dv w.r.t. accel_bias Dv_D_gyro_bias: Derivative of Dv w.r.t. gyro_bias Dp_D_accel_bias: Derivative of Dp w.r.t. accel_bias Dp_D_gyro_bias: Derivative of Dp w.r.t. gyro_bias accel_bias: Initial guess for the accelerometer measurement bias gyro_bias: Initial guess for the gyroscope measurement bias accel_cov_diagonal: The diagonal of the covariance of the accelerometer measurement gyro_cov_diagonal: The diagonal of the covariance of the gyroscope measurement accel_measurement: The accelerometer measurement gyro_measurement: The gyroscope measurement dt: The time between the new measurements and the last epsilon: epsilon for numerical stability</p>
+<p>The measurement noise is modeled as continuous-time white noise acting over the whole step, and its contribution to the covariance is integrated in closed form over the step, holding the step’s starting rotation fixed (see :func:<code class="docutils literal notranslate"><span class="pre">step_noise_covariance</span></code>). The covariance of a window of measurements is therefore full rank even when the window consists of a single step. It is exact, and does not depend on how the window is divided into steps, for a non-rotating body; with an angular rate it is accurate to first order in the rotation per step.</p>
+<p>Args: DR: Preintegrated change in orientation Dv: Preintegrated change in velocity Dp: Preintegrated change in position covariance: Covariance [DR, Dv, Dp] in local coordinates of mean DR_D_gyro_bias: Derivative of DR w.r.t. gyro_bias Dv_D_accel_bias: Derivative of Dv w.r.t. accel_bias Dv_D_gyro_bias: Derivative of Dv w.r.t. gyro_bias Dp_D_accel_bias: Derivative of Dp w.r.t. accel_bias Dp_D_gyro_bias: Derivative of Dp w.r.t. gyro_bias accel_bias: Initial guess for the accelerometer measurement bias gyro_bias: Initial guess for the gyroscope measurement bias accel_cov_diagonal: The diagonal of the noise spectral density of the accelerometer measurement, i.e. the covariance of a measurement times the time it covers gyro_cov_diagonal: The diagonal of the noise spectral density of the gyroscope measurement, i.e. the covariance of a measurement times the time it covers accel_measurement: The accelerometer measurement gyro_measurement: The gyroscope measurement dt: The time between the new measurements and the last epsilon: epsilon for numerical stability</p>
 <p>Returns: T.Tuple[sf.Rot3, sf.V3, sf.V3, sf.M99, sf.M33, sf.M33, sf.M33, sf.M33, sf.M33]: new_DR, new_Dv, new_Dp, new_covariance, new_DR_D_gyro_bias, new_Dv_D_accel_bias, new_Dv_D_gyro_bias, new_Dp_D_accel_bias new_Dp_D_gyro_bias, </p>
 </dd></dl>
 
@@ -956,7 +959,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=6fef8393"></script>
+</div><script src="../../_static/documentation_options.js?v=fabf8ccb"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

@@ -764,6 +764,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classEigen_1_1SparseMatrixBase.html">Class Eigen::SparseMatrixBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classEigen_1_1VectorBlock.html">Class Eigen::VectorBlock</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classEigen_1_1WithFormat.html">Class Eigen::WithFormat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1BlockTridiagonalLdlt.html">Class sym::BlockTridiagonalLdlt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1DenseCholeskySolver.html">Class sym::DenseCholeskySolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/class/classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
@@ -786,6 +787,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../api-cpp/filelist.html">File list</a><input aria-label="Toggle navigation of File list" class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" role="switch" type="checkbox"/><label for="toctree-checkbox-52"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/block__tridiagonal__ldlt_8h.html">File block_tridiagonal_ldlt.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/dense__cholesky__solver_8h.html">File dense_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../../api-cpp/file/dump__graph_8h.html">File dump_graph.h</a></li>
@@ -1086,6 +1088,95 @@
 
 
 
+<div class="viewcode-block" id="step_noise_covariance">
+<a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.step_noise_covariance">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">step_noise_covariance</span><span class="p">(</span>
+    <span class="n">DR</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">Rot3</span><span class="p">,</span>
+    <span class="n">corrected_accel</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">accel_cov_diagonal</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">gyro_cov_diagonal</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">V3</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Scalar</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the covariance of the error that the gyroscope and accelerometer noise of a single</span>
+<span class="sd">    integration step adds to the new state (DR, Dv, Dp), in local coordinates of the new state.</span>
+
+<span class="sd">    The noise is modeled as continuous-time white noise with the given spectral densities, acting</span>
+<span class="sd">    over the whole step, while the integrator holds the measurements and the rotation DR of the</span>
+<span class="sd">    start of the step constant (see :func:`integrate_state`). The linearized error state</span>
+<span class="sd">    ``(dR, dv, dp)`` then evolves within the step as::</span>
+
+<span class="sd">        d/dt [dR, dv, dp] = F [dR, dv, dp] + G [gyro_noise, accel_noise]</span>
+
+<span class="sd">        F = [[0, 0, 0],      G = [[I, 0],      A = -R [corrected_accel]_x</span>
+<span class="sd">             [A, 0, 0],           [0, R],</span>
+<span class="sd">             [0, I, 0]]           [0, 0]]</span>
+
+<span class="sd">    where ``R`` is the rotation matrix of DR. ``F`` is nilpotent (``F^3 = 0``), so the state</span>
+<span class="sd">    transition matrix over a time ``s`` is exactly ``Phi(s) = I + F s + F^2 s^2 / 2``, and the</span>
+<span class="sd">    covariance of the noise integrated over the step is, exactly::</span>
+
+<span class="sd">        Q = int_0^dt Phi(dt - tau) G Sigma G^T Phi(dt - tau)^T dtau</span>
+<span class="sd">          = sum_{i, j in 0..2} F^i (G Sigma G^T) (F^T)^j dt^(i + j + 1) / (i! j! (i + j + 1))</span>
+
+<span class="sd">    Written out by blocks, with ``Sg = diag(gyro_cov_diagonal)`` and</span>
+<span class="sd">    ``Sa = R diag(accel_cov_diagonal) R^T``::</span>
+
+<span class="sd">        Q_RR = Sg dt</span>
+<span class="sd">        Q_vR = A Sg dt^2 / 2</span>
+<span class="sd">        Q_pR = A Sg dt^3 / 6</span>
+<span class="sd">        Q_vv = Sa dt       + A Sg A^T dt^3 / 3</span>
+<span class="sd">        Q_pv = Sa dt^2 / 2 + A Sg A^T dt^4 / 8</span>
+<span class="sd">        Q_pp = Sa dt^3 / 3 + A Sg A^T dt^5 / 20</span>
+
+<span class="sd">    The ``Sa`` terms are the familiar covariance of doubly integrated white noise, which is</span>
+<span class="sd">    positive definite for any ``dt &gt; 0``. The ``A Sg`` terms are the rotation noise accumulated</span>
+<span class="sd">    during the step leaking into the velocity and position through the integrated acceleration.</span>
+
+<span class="sd">    This is exact for a non-rotating body. Holding DR fixed within the step drops the</span>
+<span class="sd">    ``-[omega]_x dR`` term of the rotation-error dynamics (and the right Jacobian ``J_r(omega dt)``</span>
+<span class="sd">    the discrete model applied to the gyro noise), so with an angular rate ``omega`` the step</span>
+<span class="sd">    covariance is accurate to first order in ``|omega| dt``. Likewise, the covariance of a window</span>
+<span class="sd">    does not depend on how it is divided into steps when the body does not rotate, and depends on</span>
+<span class="sd">    it only to that order otherwise.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        DR: Preintegrated DR at the start of the step</span>
+<span class="sd">        corrected_accel: Accelerometer measurement corrected for IMU bias</span>
+<span class="sd">        accel_cov_diagonal: Diagonal of the accelerometer noise spectral density</span>
+<span class="sd">        gyro_cov_diagonal: Diagonal of the gyroscope noise spectral density</span>
+<span class="sd">        dt: Duration of the step</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        sf.M99: The noise covariance to add to the propagated covariance of the new state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">DR</span><span class="o">.</span><span class="n">to_rotation_matrix</span><span class="p">()</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="o">-</span><span class="n">R</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">skew_symmetric</span><span class="p">(</span><span class="n">corrected_accel</span><span class="p">)</span>
+
+    <span class="n">gyro_cov</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">gyro_cov_diagonal</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">())</span>
+    <span class="n">rotated_accel_cov</span> <span class="o">=</span> <span class="n">R</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M33</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">accel_cov_diagonal</span><span class="o">.</span><span class="n">to_flat_list</span><span class="p">())</span> <span class="o">*</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">A_gyro_cov</span> <span class="o">=</span> <span class="n">A</span> <span class="o">*</span> <span class="n">gyro_cov</span>
+    <span class="n">A_gyro_cov_AT</span> <span class="o">=</span> <span class="n">A_gyro_cov</span> <span class="o">*</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">Q_RR</span> <span class="o">=</span> <span class="n">gyro_cov</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">Q_vR</span> <span class="o">=</span> <span class="n">A_gyro_cov</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">Q_pR</span> <span class="o">=</span> <span class="n">A_gyro_cov</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
+    <span class="n">Q_vv</span> <span class="o">=</span> <span class="n">rotated_accel_cov</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">A_gyro_cov_AT</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">Q_pv</span> <span class="o">=</span> <span class="n">rotated_accel_cov</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">A_gyro_cov_AT</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span><span class="o">**</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">Q_pp</span> <span class="o">=</span> <span class="n">rotated_accel_cov</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">A_gyro_cov_AT</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span><span class="o">**</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">M99</span><span class="p">(</span>
+        <span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">block_matrix</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="p">[</span><span class="n">Q_RR</span><span class="p">,</span> <span class="n">Q_vR</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">Q_pR</span><span class="o">.</span><span class="n">T</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">Q_vR</span><span class="p">,</span> <span class="n">Q_vv</span><span class="p">,</span> <span class="n">Q_pv</span><span class="o">.</span><span class="n">T</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">Q_pR</span><span class="p">,</span> <span class="n">Q_pv</span><span class="p">,</span> <span class="n">Q_pp</span><span class="p">],</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="imu_manifold_preintegration_update">
 <a class="viewcode-back" href="../../../../api/symforce.slam.imu_preintegration.manifold_symbolic.html#symforce.slam.imu_preintegration.manifold_symbolic.imu_manifold_preintegration_update">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">imu_manifold_preintegration_update</span><span class="p">(</span>  <span class="c1"># noqa: PLR0913, PLR0917</span>
@@ -1124,6 +1215,13 @@
 <span class="sd">    When integrating the first measurement, DR should be the identity, Dv, Dp, covariance, and the</span>
 <span class="sd">    derivatives w.r.t. to bias should all be 0.</span>
 
+<span class="sd">    The measurement noise is modeled as continuous-time white noise acting over the whole step,</span>
+<span class="sd">    and its contribution to the covariance is integrated in closed form over the step, holding</span>
+<span class="sd">    the step&#39;s starting rotation fixed (see :func:`step_noise_covariance`). The covariance of a</span>
+<span class="sd">    window of measurements is therefore full rank even when the window consists of a single step.</span>
+<span class="sd">    It is exact, and does not depend on how the window is divided into steps, for a non-rotating</span>
+<span class="sd">    body; with an angular rate it is accurate to first order in the rotation per step.</span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        DR: Preintegrated change in orientation</span>
 <span class="sd">        Dv: Preintegrated change in velocity</span>
@@ -1136,8 +1234,10 @@
 <span class="sd">        Dp_D_gyro_bias: Derivative of Dp w.r.t. gyro_bias</span>
 <span class="sd">        accel_bias: Initial guess for the accelerometer measurement bias</span>
 <span class="sd">        gyro_bias: Initial guess for the gyroscope measurement bias</span>
-<span class="sd">        accel_cov_diagonal: The diagonal of the covariance of the accelerometer measurement</span>
-<span class="sd">        gyro_cov_diagonal: The diagonal of the covariance of the gyroscope measurement</span>
+<span class="sd">        accel_cov_diagonal: The diagonal of the noise spectral density of the accelerometer</span>
+<span class="sd">            measurement, i.e. the covariance of a measurement times the time it covers</span>
+<span class="sd">        gyro_cov_diagonal: The diagonal of the noise spectral density of the gyroscope</span>
+<span class="sd">            measurement, i.e. the covariance of a measurement times the time it covers</span>
 <span class="sd">        accel_measurement: The accelerometer measurement</span>
 <span class="sd">        gyro_measurement: The gyroscope measurement</span>
 <span class="sd">        dt: The time between the new measurements and the last</span>
@@ -1202,9 +1302,13 @@
 
     <span class="n">covariance</span> <span class="o">=</span> <span class="n">covariance</span><span class="o">.</span><span class="n">symmetric_copy</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">Triangle</span><span class="o">.</span><span class="n">LOWER</span><span class="p">)</span>
 
+    <span class="c1"># The noise of the step is modeled as white noise acting over the whole step, rather than as a</span>
+    <span class="c1"># perturbation of the held measurement, so its covariance is not expressible through</span>
+    <span class="c1"># new_state_D_gyro and new_state_D_accel; see step_noise_covariance for the derivation.</span>
     <span class="n">new_covariance</span> <span class="o">=</span> <span class="n">new_state_D_state</span> <span class="o">*</span> <span class="n">covariance</span> <span class="o">*</span> <span class="n">new_state_D_state</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">new_covariance</span> <span class="o">+=</span> <span class="n">new_state_D_gyro</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">gyro_cov_diagonal</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">new_state_D_gyro</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">new_covariance</span> <span class="o">+=</span> <span class="n">new_state_D_accel</span> <span class="o">*</span> <span class="n">sf</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">accel_cov_diagonal</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span> <span class="o">*</span> <span class="n">new_state_D_accel</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">new_covariance</span> <span class="o">+=</span> <span class="n">step_noise_covariance</span><span class="p">(</span>
+        <span class="n">DR</span><span class="p">,</span> <span class="n">corrected_accel</span><span class="p">,</span> <span class="n">accel_cov_diagonal</span><span class="p">,</span> <span class="n">gyro_cov_diagonal</span><span class="p">,</span> <span class="n">dt</span>
+    <span class="p">)</span>
 
     <span class="n">new_covariance</span> <span class="o">=</span> <span class="n">new_covariance</span><span class="o">.</span><span class="n">symmetric_copy</span><span class="p">(</span><span class="n">sf</span><span class="o">.</span><span class="n">Matrix</span><span class="o">.</span><span class="n">Triangle</span><span class="o">.</span><span class="n">LOWER</span><span class="p">)</span>
 
@@ -1291,7 +1395,7 @@
       
     </aside>
   </div>
-</div><script src="../../../../_static/documentation_options.js?v=6fef8393"></script>
+</div><script src="../../../../_static/documentation_options.js?v=fabf8ccb"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/scripts/furo.js?v=46bd48cc"></script>

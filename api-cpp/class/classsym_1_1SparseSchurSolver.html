@@ -771,6 +771,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classEigen_1_1SparseMatrixBase.html">Class Eigen::SparseMatrixBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classEigen_1_1VectorBlock.html">Class Eigen::VectorBlock</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classEigen_1_1WithFormat.html">Class Eigen::WithFormat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classsym_1_1BlockTridiagonalLdlt.html">Class sym::BlockTridiagonalLdlt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1DenseCholeskySolver.html">Class sym::DenseCholeskySolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
@@ -793,6 +794,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../filelist.html">File list</a><input aria-label="Toggle navigation of File list" class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" role="switch" type="checkbox"/><label for="toctree-checkbox-52"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../file/block__tridiagonal__ldlt_8h.html">File block_tridiagonal_ldlt.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../file/dense__cholesky__solver_8h.html">File dense_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../file/dump__graph_8h.html">File dump_graph.h</a></li>
@@ -874,27 +876,33 @@
     <span class="p">(</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span>  <span class="n">C</span> <span class="p">)</span>
 </pre></div>
 </div>
- with C in <code class="docutils literal notranslate"><span class="pre">R^{C_dim</span> <span class="pre">x</span> <span class="pre">C_dim}</span></code> block diagonal.</p>
+</p>
+<p>with C in <code class="docutils literal notranslate"><span class="pre">R^{C_dim</span> <span class="pre">x</span> <span class="pre">C_dim}</span></code> block diagonal.</p>
 <p>The full problem is A x = b, which we can break down the same way as <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="n">B</span>    <span class="n">E</span> <span class="p">)</span> <span class="p">(</span> <span class="n">y</span> <span class="p">)</span> <span class="o">=</span> <span class="p">(</span> <span class="n">v</span> <span class="p">)</span>
 <span class="p">(</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span>  <span class="n">C</span> <span class="p">)</span> <span class="p">(</span> <span class="n">z</span> <span class="p">)</span>   <span class="p">(</span> <span class="n">w</span> <span class="p">)</span>
 </pre></div>
 </div>
- We then have two equations: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="n">y</span> <span class="o">+</span> <span class="n">E</span> <span class="n">z</span> <span class="o">=</span> <span class="n">v</span>
+</p>
+<p>We then have two equations: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="n">y</span> <span class="o">+</span> <span class="n">E</span> <span class="n">z</span> <span class="o">=</span> <span class="n">v</span>
 <span class="n">E</span><span class="o">^</span><span class="n">T</span> <span class="n">y</span> <span class="o">+</span> <span class="n">C</span> <span class="n">z</span> <span class="o">=</span> <span class="n">w</span>
 </pre></div>
 </div>
- C is block diagonal and therefore easy to invert, so we can write <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span> <span class="n">y</span><span class="p">)</span>
+</p>
+<p>C is block diagonal and therefore easy to invert, so we can write <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
- Plugging this into the first equation, we can eliminate z: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="n">y</span> <span class="o">+</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span>
+</p>
+<p>Plugging this into the first equation, we can eliminate z: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="n">y</span> <span class="o">+</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span>
 <span class="o">=&gt;</span> <span class="n">B</span> <span class="n">y</span> <span class="o">+</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="n">w</span> <span class="o">-</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span>
 <span class="o">=&gt;</span> <span class="p">(</span><span class="n">B</span> <span class="o">-</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="n">E</span><span class="o">^</span><span class="n">T</span><span class="p">)</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="n">w</span>
 </pre></div>
 </div>
- Defining the Schur complement <code class="docutils literal notranslate"><span class="pre">S</span> <span class="pre">=</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">E</span> <span class="pre">C^{-1}</span> <span class="pre">E^T</span></code>, we have <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">S</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="n">w</span>
+</p>
+<p>Defining the Schur complement <code class="docutils literal notranslate"><span class="pre">S</span> <span class="pre">=</span> <span class="pre">B</span> <span class="pre">-</span> <span class="pre">E</span> <span class="pre">C^{-1}</span> <span class="pre">E^T</span></code>, we have <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">S</span> <span class="n">y</span> <span class="o">=</span> <span class="n">v</span> <span class="o">-</span> <span class="n">E</span> <span class="n">C</span><span class="o">^</span><span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="n">w</span>
 </pre></div>
 </div>
- So, we can form S and use the above equation to solve for y. Once we have y, we can use the equation for z above to solve for z, and we’re done.</p>
+</p>
+<p>So, we can form S and use the above equation to solve for y. Once we have y, we can use the equation for z above to solve for z, and we’re done.</p>
 <p>See <a class="reference external" href="http://ceres-solver.org/nnls_solving.html#dense-schur-sparse-schur">http://ceres-solver.org/nnls_solving.html#dense-schur-sparse-schur</a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
@@ -927,8 +935,13 @@
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N3sym17SparseSchurSolver17SparseSchurSolverEv">
+<span class="target" id="classsym_1_1SparseSchurSolver_1aa3b03ebd564a1e0d9eb41d4ad20f4c02"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SparseSchurSolver</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3sym17SparseSchurSolver17SparseSchurSolverEv" title="Link to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N3sym17SparseSchurSolver17SparseSchurSolverERKN17SMatrixSolverType8OrderingE">
-<span class="target" id="classsym_1_1SparseSchurSolver_1a1ae26aeb7097313870eef17747393292"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SparseSchurSolver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver17SMatrixSolverTypeE" title="sym::SparseSchurSolver::SMatrixSolverType"><span class="n"><span class="pre">SMatrixSolverType</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Ordering</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ordering</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../file/eigen__type__ops_8h.html#_CPPv45Eigen" title="Eigen"><span class="n"><span class="pre">Eigen</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">MetisOrdering</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver17SMatrixSolverTypeE" title="sym::SparseSchurSolver::SMatrixSolverType"><span class="n"><span class="pre">SMatrixSolverType</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">StorageIndex</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">(</span></span><span class="p"><span class="pre">)</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3sym17SparseSchurSolver17SparseSchurSolverERKN17SMatrixSolverType8OrderingE" title="Link to this definition">¶</a><br /></dt>
+<span class="target" id="classsym_1_1SparseSchurSolver_1a48fd4e3f9d54a2d5d145326c84f82bf3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">SparseSchurSolver</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver17SMatrixSolverTypeE" title="sym::SparseSchurSolver::SMatrixSolverType"><span class="n"><span class="pre">SMatrixSolverType</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Ordering</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">ordering</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3sym17SparseSchurSolver17SparseSchurSolverERKN17SMatrixSolverType8OrderingE" title="Link to this definition">¶</a><br /></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -1023,6 +1036,7 @@
 <li><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver17SMatrixSolverTypeE"><code class="docutils literal notranslate"><span class="pre">SMatrixSolverType</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver7MatrixXE"><code class="docutils literal notranslate"><span class="pre">MatrixX</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver7VectorXE"><code class="docutils literal notranslate"><span class="pre">VectorX</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver17SparseSchurSolverEv"><code class="docutils literal notranslate"><span class="pre">SparseSchurSolver()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver17SparseSchurSolverERKN17SMatrixSolverType8OrderingE"><code class="docutils literal notranslate"><span class="pre">SparseSchurSolver()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK3sym17SparseSchurSolver13IsInitializedEv"><code class="docutils literal notranslate"><span class="pre">IsInitialized()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N3sym17SparseSchurSolver23ComputeSymbolicSparsityERK10MatrixTypei"><code class="docutils literal notranslate"><span class="pre">ComputeSymbolicSparsity()</span></code></a></li>
@@ -1042,7 +1056,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=6fef8393"></script>
+</div><script src="../../_static/documentation_options.js?v=fabf8ccb"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

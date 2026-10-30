@@ -771,6 +771,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classEigen_1_1SparseMatrixBase.html">Class Eigen::SparseMatrixBase</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classEigen_1_1VectorBlock.html">Class Eigen::VectorBlock</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classEigen_1_1WithFormat.html">Class Eigen::WithFormat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classsym_1_1BlockTridiagonalLdlt.html">Class sym::BlockTridiagonalLdlt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1DenseCholeskySolver.html">Class sym::DenseCholeskySolver</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1DenseLinearizer.html">Class sym::DenseLinearizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classsym_1_1EigenSparseSolver.html">Class sym::EigenSparseSolver</a></li>
@@ -793,6 +794,7 @@
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../filelist.html">File list</a><input aria-label="Toggle navigation of File list" class="toctree-checkbox" id="toctree-checkbox-52" name="toctree-checkbox-52" role="switch" type="checkbox"/><label for="toctree-checkbox-52"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../file/assert_8h.html">File assert.h</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../file/block__tridiagonal__ldlt_8h.html">File block_tridiagonal_ldlt.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../file/dense__cholesky__solver_8h.html">File dense_cholesky_solver.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../file/dense__linearizer_8h.html">File dense_linearizer.h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../file/dump__graph_8h.html">File dump_graph.h</a></li>
@@ -901,7 +903,8 @@
 <span class="target" id="classsym_1_1ImuPreintegrator_1a35c76b17d4fed17a8370d018768cac8d"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IntegrateMeasurement</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3sym16ImuPreintegrator7Vector3E" title="sym::ImuPreintegrator::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">measured_accel</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3sym16ImuPreintegrator7Vector3E" title="sym::ImuPreintegrator::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">measured_gyro</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3sym16ImuPreintegrator7Vector3E" title="sym::ImuPreintegrator::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">accel_cov</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N3sym16ImuPreintegrator7Vector3E" title="sym::ImuPreintegrator::Vector3"><span class="n"><span class="pre">Vector3</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">gyro_cov</span></span>, <a class="reference internal" href="#_CPPv4I0EN3sym16ImuPreintegratorE" title="sym::ImuPreintegrator::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">dt</span></span>, <a class="reference internal" href="#_CPPv4I0EN3sym16ImuPreintegratorE" title="sym::ImuPreintegrator::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">epsilon</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="../../api-gen-cpp/namespace/namespacesym.html#_CPPv4I0EN3sym15kDefaultEpsilonE" title="sym::kDefaultEpsilon"><span class="n"><span class="pre">kDefaultEpsilon</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN3sym16ImuPreintegratorE" title="sym::ImuPreintegrator::Scalar"><span class="n"><span class="pre">Scalar</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N3sym16ImuPreintegrator20IntegrateMeasurementERK7Vector3RK7Vector3RK7Vector3RK7Vector36Scalar6Scalar" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Integrate a new measurement.</p>
 <p>
-Postcondition:</p>
+The measurement noise is modeled as white noise acting over the whole time span dt, and its effect on the covariance is integrated in closed form over the span, holding the rotation at the start of the span fixed. The covariance is therefore positive definite after a single measurement. It is exact, and independent of how a window is divided into measurements, for a non-rotating body; with an angular rate omega it is accurate to first order in |omega| dt.</p>
+<p>Postcondition:</p>
 <p>If the orientation, velocity, and position were R0, v0, and p0 at the start of the first integrated IMU measurements, and Rf, vf, and pf are the corresponding values at the end of the measurement described by the arguments, DT is the total time covered by the integrated measurements, and g is the vector of acceleration due to gravity, then<ul class="simple">
 <li><p>pim.DR -&gt; R0.inverse() * Rf</p></li>
 <li><p>pim.Dv -&gt; R0.inverse() * (vf - v0 - g * DT)</p></li>
@@ -919,8 +922,8 @@ Postcondition:</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>measured_accel</strong> – the next accelerometer measurement after the last integrated measurement </p></li>
 <li><p><strong>measured_gyro</strong> – the next gyroscope measurement after the last integrated measurement </p></li>
-<li><p><strong>accel_cov</strong> – the covariance of the accelerometer measurement (represented by its diagonal entries) <code class="docutils literal notranslate"><span class="pre">[(meters</span> <span class="pre">/</span> <span class="pre">time^2)^2</span> <span class="pre">*</span> <span class="pre">time]</span></code></p></li>
-<li><p><strong>gyro_cov</strong> – the covariance of the gyroscope measurement (represented by its diagonal entries) <code class="docutils literal notranslate"><span class="pre">[(radians</span> <span class="pre">/</span> <span class="pre">time)^2</span> <span class="pre">*</span> <span class="pre">time]</span></code></p></li>
+<li><p><strong>accel_cov</strong> – the noise spectral density of the accelerometer measurement (represented by its diagonal entries) <code class="docutils literal notranslate"><span class="pre">[(meters</span> <span class="pre">/</span> <span class="pre">time^2)^2</span> <span class="pre">*</span> <span class="pre">time]</span></code>, i.e. the covariance of the measurement times dt </p></li>
+<li><p><strong>gyro_cov</strong> – the noise spectral density of the gyroscope measurement (represented by its diagonal entries) <code class="docutils literal notranslate"><span class="pre">[(radians</span> <span class="pre">/</span> <span class="pre">time)^2</span> <span class="pre">*</span> <span class="pre">time]</span></code>, i.e. the covariance of the measurement times dt </p></li>
 <li><p><strong>dt</strong> – the time span over which these measurements were made</p></li>
 </ul>
 </dd>
@@ -1019,7 +1022,7 @@ Postcondition:</p>
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=6fef8393"></script>
+</div><script src="../../_static/documentation_options.js?v=fabf8ccb"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
